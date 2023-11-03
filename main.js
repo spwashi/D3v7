@@ -1,14 +1,14 @@
 var width = 400, height = 300
 
 var nodes = [
-	{name: 'A'},
-	{name: 'B'},
-	{name: 'C'},
-	{name: 'D'},
-	{name: 'E'},
-	{name: 'F'},
-	{name: 'G'},
-	{name: 'H'},
+	{name: 'A', x: 0, y: 0},
+	{name: 'B', x: 0, y: 0},
+	{name: 'C', x: 0, y: 0},
+	{name: 'D', x: 0, y: 0},
+	{name: 'E', x: 0, y: 0},
+	{name: 'F', x: 0, y: 0},
+	{name: 'G', x: 0, y: 0},
+	{name: 'H', x: 0, y: 0},
 ]
 
 var links = [
@@ -69,7 +69,7 @@ function updateLinks() {
 function updateNodes() {
 	const dataSelection = d3.select('.nodes')
 		.selectAll('g')
-		.data(nodes, d => d)
+		.data(nodes, d => d.name)
 	;
 	dataSelection
 		.join(
@@ -81,9 +81,13 @@ function updateNodes() {
 					.attr('r', 10)
 					.attr('cx', d => d.x)
 					.attr('cy', d => d.y)
-			.call(drag)
+					.call(drag)
 			,
-			update => update,
+			update => update
+				.select('circle')
+				.attr('cx', d => d.x)
+				.attr('cy', d => d.y)
+			,
 			remove => remove.remove()
 		);
 
