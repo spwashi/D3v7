@@ -73,28 +73,41 @@ function updateNodes() {
 	;
 	dataSelection
 		.join(
-			enter => 
-				enter.append('g')
+			enter => {
+				const g = 
+					enter.append('g')
 					.classed('node', true)
-					.attr('id', d => d.name)	
+					.attr('id', d => d.name);
+
+				g
 					.append('circle')
 					.attr('r', 10)
 					.attr('cx', d => d.x)
 					.attr('cy', d => d.y)
-					.call(drag)
-			,
-			update => update
-				.select('circle')
-				.attr('cx', d => d.x)
-				.attr('cy', d => d.y)
-			,
+					.call(drag);
+				g
+					.append('text')
+					.text(d => d.name)
+					.attr('x', d => d.x)
+					.attr('y', d => d.y)
+				return g;
+			},
+			update => {
+				update
+					.select('circle')
+					.attr('cx', d => d.x)
+					.attr('cy', d => d.y)
+				update
+					.select('text')
+					.attr('x', d => d.x)
+					.attr('y', d => d.y)
+				return update;
+			},
 			remove => remove.remove()
 		);
-
 }
 
 function ticked() {
 	updateLinks();
 	updateNodes();
 }
-
