@@ -25,6 +25,7 @@ function makeStarterNodes(count) {
 	}
 	return nodes;
 }
+
 function makeStarterLinks(nodes) {
 	const links = [];
 	for (let node of nodes) {
