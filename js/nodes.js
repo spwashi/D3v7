@@ -3,11 +3,14 @@ const getNodeColor = d => colors[(d.index || 0) % colors.length];
 
 const nodesManager = {
 	init:
-		function makeStarterNodes(count) {
+		function makeStarterNodes() {
+			const count = NODE_COUNT;
 			const nodes = [];
 			for (let i = 0; i <= count; i++) {
 				nodes.push({
 					name: i,
+					id: i,
+					idx: i,
 					x: X_START_POS,
 					y: Y_START_POS,
 					r: ((i || 1) % 13) * NODE_RADIUS_MULT
@@ -19,7 +22,7 @@ const nodesManager = {
 		function updateNodes(drag) {
 			const dataSelection = d3.select('.nodes')
 				.selectAll('g')
-				.data(nodes, d => d.name)
+				.data(nodes, d => d.id)
 			;
 			dataSelection
 				.join(

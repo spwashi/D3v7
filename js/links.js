@@ -2,8 +2,14 @@ const linksManager = {
 	init:
 		function makeStarterLinks(nodes) {
 			const links = [];
+			let prev;
 			for (let node of nodes) {
-				links.push({source: 0, target: node.name});	
+				links.push({
+					source: prev?.name || 0,
+					target: node.name,
+					strength: 1
+				});	
+				prev = node;
 			}
 
 			return links;
@@ -14,6 +20,7 @@ const linksManager = {
 				.selectAll('line')
 				.data(links)
 				.join('line')
+				.attr('stroke-width', d => (d.strength || 1) * 10)
 				.attr('x1', function(d) {
 					return d.source.x
 				})
