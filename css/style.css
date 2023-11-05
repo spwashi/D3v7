@@ -27,3 +27,10 @@ text {
 	fill: #ccc;
 	stroke: #ccc;
 }
+#controls {
+	position: absolute;
+}
+#controls button{
+	padding: 2rem;
+	font-size: 2rem;
+}

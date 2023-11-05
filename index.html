@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <head>
 	<title>D3 page</title>
-	<script src = "https://d3js.org/d3.v7.min.js"></script>
-	<link href="css/style.css" rel="stylesheet" />
-	<script src="js/parameters.js" type="application/javascript"></script>
-	<script src="js/nodes.js" type="application/javascript"></script>
-	<script src="js/links.js" type="application/javascript"></script>
-	<script src="js/drag.js" type="application/javascript"></script>
-	<script src="js/simulation.js" type="application/javascript"></script>
+	
+	<!-- vendor -->
+		<script src = "https://d3js.org/d3.v7.min.js"></script>
+	
+	<!-- simulation scripts -->
+		<script src="js/parameters.js" type="application/javascript"></script>
+		<!-- -->
+			<script src="js/nodes.js" type="application/javascript"></script>
+			<script src="js/links.js" type="application/javascript"></script>
+		<!-- -->	
+			<script src="js/drag.js" type="application/javascript"></script>
+			<script defer src="js/simulation.js" type="application/javascript"></script>
+			<script defer src="js/controls.js" type="application/javascript"></script>
+	
+	<!-- stylesheets -->
+		<link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
 	<main>
 		<div id="content">
-		  <svg width="400" height="300">
+		  <svg id="simulation">
 		    <g class="links"></g>
 		    <g class="nodes"></g>
 		  </svg>
+		</div>
+		<div id="controls">
+			<button class="tick">tick</button>
+			<button class="start">start</button>
+			<button class="stop">stop</button>
 		</div>
 	</main>
 </body>

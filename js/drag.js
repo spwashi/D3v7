@@ -14,8 +14,8 @@ function initDragBehavior() {
 		node.fy = e.y;
 	}
 	function dragEnded(e, node){
-		node.fx = undefined;
-		node.fy = undefined;
+		// node.fx = undefined;
+		// node.fy = undefined;
 	}
 
 	return drag;

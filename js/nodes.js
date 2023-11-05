@@ -32,7 +32,7 @@ const nodesManager = {
 						g
 							.append('circle')
 							.attr('fill', getNodeColor)
-							.attr('r', d => d.r || 1)
+							.attr('r', d => (d.r || 1) * NODE_RADIUS_MULT)
 							.attr('cx', d => d.x || 0)
 							.attr('cy', d => d.y || 0)
 							.call(drag);
