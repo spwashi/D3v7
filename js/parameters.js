@@ -1,33 +1,22 @@
-let width 		= window.innerWidth * .75;
-let height 		= window.innerHeight * .75;
-let X_START_POS 	= -500;
-let Y_START_POS 	= -1800;
-let NODE_COUNT 		= 130;
-let NODE_RADIUS_MULT  	= 3;
-let CHARGE_STRENGTH 	= -1;
-let CENTER_STRENGTH 	= 1;
-let CENTER_POS 		= [width/2, height/2];
-
 window.spwashi = window.spwashi || {};
 window.spwashi.parameters = 
 	{
-		width,
-		height,
+		width: window.innerWidth * .75,
+		height: window.innerHeight * .75,
 		startPos: {
-			x: X_START_POS,
-			y: Y_START_POS,
+			x: -500,
+			y: -1800,
 		},
 		nodes: {
-			count:
-				NODE_COUNT,
-			radiusMultiplier:
-				NODE_RADIUS_MULT,
+			count: 130,
+			radiusMultiplier: 3,
 		},
 		forces: {
-			charge: CHARGE_STRENGTH,
+			charge: -1,
+			center: 1,
 			centerPos: {
-				x: width/2,
-				y: width/2,
+				x: window.innerWidth * .75 / 2,
+				y: window.innerHeight * .75 / 2,
 			}
 		},
 	};
@@ -37,3 +26,17 @@ if (fromLocalStorage) {
 	fromLocalStorage = JSON.parse(fromLocalStorage);
 	window.spwashi.parameters = fromLocalStorage;
 }
+
+
+let width 		= window.spwashi.parameters.width;
+let height 		= window.spwashi.parameters.height;
+let X_START_POS 	= window.spwashi.parameters.startPos.x;
+let Y_START_POS 	= window.spwashi.parameters.startPos.y;
+let NODE_COUNT 		= window.spwashi.parameters.nodes.count;
+let NODE_RADIUS_MULT  	= window.spwashi.parameters.nodes.radiusMultiplier;
+let CHARGE_STRENGTH 	= window.spwashi.parameters.forces.charge;
+let CENTER_STRENGTH 	= window.spwashi.parameters.forces.center;
+let CENTER_POS 		= [
+	window.spwashi.parameters.forces.centerPos.x,
+	window.spwashi.parameters.forces.centerPos.y,
+];
