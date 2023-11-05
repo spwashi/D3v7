@@ -1,5 +1,5 @@
-const width 		= screen.width * .75;
-const height 		= screen.height * .75;
+const width 		= window.innerWidth * .75;
+const height 		= window.innerHeight * .75;
 const X_START_POS 	= -500;
 const Y_START_POS 	= -1800;
 const NODE_COUNT 	= 13;
