@@ -3,10 +3,11 @@ const links 		= linksManager.init(nodes);
 const updateLinks 	= linksManager.update;
 const updateNodes 	= nodesManager.update;
 const drag 		= initDragBehavior();
-
+const zoom 		= initZoomBehavior();
+initZoomBehavior
 function tick() {
 	updateLinks();
-	updateNodes(drag);
+	updateNodes(drag, zoom);
 }
 
 const svg = 

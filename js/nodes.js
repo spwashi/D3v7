@@ -13,17 +13,18 @@ const nodesManager = {
 					idx: i,
 					x: X_START_POS,
 					y: Y_START_POS,
-					r: ((i || 1)) * NODE_RADIUS_MULT
+					r: 12 * NODE_RADIUS_MULT
 				});
 			}
 			return nodes;
 		},
 	update: 
-		function updateNodes(drag) {
+		function updateNodes(drag, zoom) {
 			const dataSelection = d3.select('.nodes')
 				.selectAll('g')
 				.data(nodes, d => d.id)
 			;
+
 			dataSelection
 				.join(
 					enter => {
@@ -38,7 +39,8 @@ const nodesManager = {
 							.attr('r', d => (d.r || 1))
 							.attr('cx', d => d.x || 0)
 							.attr('cy', d => d.y || 0)
-							.call(drag);
+							.call(drag)
+							.call(zoom)
 						g
 							.append('text')
 							.text(d => d.name)
@@ -51,9 +53,11 @@ const nodesManager = {
 						update
 							.select('circle')
 							.attr('cx', d => d.x || 0)
+							.attr('r', d => (d.r || 1))
 							.attr('cy', d => d.y || 0)
 						update
 							.select('text')
+							.text(d => d.name)
 							.attr('x', d => d.x || 0)
 							.attr('y', d => d.y || 0)
 						return update;
