@@ -13,7 +13,7 @@ const nodesManager = {
 					idx: i,
 					x: X_START_POS,
 					y: Y_START_POS,
-					r: ((i || 1) % 13) * NODE_RADIUS_MULT
+					r: ((i || 1)) * NODE_RADIUS_MULT
 				});
 			}
 			return nodes;

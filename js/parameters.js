@@ -1,19 +1,24 @@
 window.spwashi = window.spwashi || {};
-window.spwashi.parameterKey = 'simulation.parameters#2';
+window.spwashi.parameterKey = 'simulation.parameters#3';
+const pw = window.innerWidth * .75;
+const ph = window.innerHeight * .75;
 window.spwashi.parameters = 
 	{
-		width: window.innerWidth * .75,
-		height: window.innerHeight * .75,
+		width: pw,
+		height: ph,
 		startPos: {
-			x: -500,
-			y: -1800,
+			x: pw / 2,
+			y: ph / 2,
+		},
+		links: {
+			strength: .1
 		},
 		nodes: {
-			count: 130,
+			count: 13,
 			radiusMultiplier: 3,
 		},
 		forces: {
-			charge: -1,
+			charge: -100,
 			center: 1,
 			centerPos: {
 				x: window.innerWidth * .75 / 2,
@@ -41,3 +46,4 @@ let CENTER_POS 		= [
 	window.spwashi.parameters.forces.centerPos.x,
 	window.spwashi.parameters.forces.centerPos.y,
 ];
+let LINK_STRENGTH 	= window.spwashi.parameters.links.strength;

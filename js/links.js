@@ -7,7 +7,7 @@ const linksManager = {
 				links.push({
 					source: prev?.name || 0,
 					target: node.name,
-					strength: 1
+					strength: LINK_STRENGTH
 				});	
 				prev = node;
 			}
@@ -20,7 +20,7 @@ const linksManager = {
 				.selectAll('line')
 				.data(links)
 				.join('line')
-				.attr('stroke-width', d => (d.strength || 1) * 10)
+				.attr('stroke-width', d => (d.strength || 1) * 1)
 				.attr('x1', function(d) {
 					return d.source.x
 				})
