@@ -42,7 +42,7 @@
 	for (let key in items) {
 		let label = document.createElement('LABEL');
 		let span = document.createElement('SPAN');
-		span.innerText = key;
+		span.innerText = key.replace('window-spwashi-parameters', '').split('-').join(' ');
 		let input = document.createElement('INPUT');
 		input.id = key;
 		input.value = items[key];
