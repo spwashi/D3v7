@@ -10,7 +10,7 @@ const nodesManager = {
 					name: i,
 					x: X_START_POS,
 					y: Y_START_POS,
-					r: i % 13
+					r: ((i || 1) % 13) * NODE_RADIUS_MULT
 				});
 			}
 			return nodes;
@@ -32,14 +32,14 @@ const nodesManager = {
 						g
 							.append('circle')
 							.attr('fill', getNodeColor)
-							.attr('r', d => (d.r || 1) * NODE_RADIUS_MULT)
+							.attr('r', d => (d.r || 1))
 							.attr('cx', d => d.x || 0)
 							.attr('cy', d => d.y || 0)
 							.call(drag);
 						g
 							.append('text')
 							.text(d => d.name)
-							.attr('font-size', d => d.r || 10)
+							.attr('font-size', d => (d.r || 10) * NODE_RADIUS_MULT)
 							.attr('x', d => d.x || 0)
 							.attr('y', d => d.y || 0)
 						return g;

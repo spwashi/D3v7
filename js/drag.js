@@ -14,6 +14,7 @@ function initDragBehavior() {
 		node.fy = e.y;
 	}
 	function dragEnded(e, node){
+		window.spwashi.tick();
 		// node.fx = undefined;
 		// node.fy = undefined;
 	}

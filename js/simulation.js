@@ -16,11 +16,13 @@ const svg =
 
 const simulation = d3.forceSimulation();
 simulation.nodes(nodes);
+simulation.alphaTarget(0.1);
 simulation.on('tick', tick);
 simulation.force('link', d3.forceLink().links(links));
+simulation.force('collide', d3.forceCollide(d => d.r))
 simulation.force('charge', d3.forceManyBody().strength(CHARGE_STRENGTH));
 simulation.force('center', d3.forceCenter(...CENTER_POS).strength(CENTER_STRENGTH));
-setTimeout(() => simulation.stop(), 1);
+// setTimeout(() => simulation.stop(), 1);
 
 window.spwashi = window.spwashi || {};
 window.spwashi.simulation = simulation;
