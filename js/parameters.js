@@ -1,4 +1,5 @@
 window.spwashi = window.spwashi || {};
+window.spwashi.parameterKey = 'simulation.parameters#2';
 window.spwashi.parameters = 
 	{
 		width: window.innerWidth * .75,
@@ -21,7 +22,7 @@ window.spwashi.parameters =
 		},
 	};
 
-let fromLocalStorage = window.localStorage.getItem('simulation.parameters#1');
+let fromLocalStorage = window.localStorage.getItem(window.spwashi.parameterKey);
 if (fromLocalStorage) {
 	fromLocalStorage = JSON.parse(fromLocalStorage);
 	window.spwashi.parameters = fromLocalStorage;
