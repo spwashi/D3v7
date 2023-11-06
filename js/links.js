@@ -5,8 +5,8 @@ const linksManager = {
 			let prev;
 			for (let node of nodes) {
 				links.push({
-					source: prev?.name || 0,
-					target: node.name,
+					source: prev?.id || 0,
+					target: node.id,
 					strength: LINK_STRENGTH
 				});	
 				prev = node;
@@ -15,7 +15,7 @@ const linksManager = {
 			return links;
 		},
 	update: 
-		function updateLinks() {
+		function updateLinks(links) {
 			const u = d3.select('.links')
 				.selectAll('line')
 				.data(links)

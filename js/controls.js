@@ -20,6 +20,11 @@
 	stopButton.onclick = () => {
 		forceSimulation.stop();
 	};
+	
+	const reinitButton = document.querySelector('#controls .reinit');
+	reinitButton.onclick = () => {
+		window.spwashi.reinit();
+	};
 }
 {
 	let items = {};
