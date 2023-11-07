@@ -1,6 +1,9 @@
 window.spwashi = window.spwashi || {};
 const searchParameters = new URLSearchParams(window.location.search);
 window.spwashi.version = searchParameters.get('version');
+if (searchParameters.has('reset')) {
+	window.localStorage.clear();
+}
 window.spwashi.superpower = {};
 window.spwashi.superpower.name = searchParameters.get('superpower');
 window.spwashi.superpower.weight = parseInt(searchParameters.get('weight') || 1);
