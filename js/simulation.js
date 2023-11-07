@@ -1,7 +1,6 @@
 const simulation 	= d3.forceSimulation();
 const updateLinks 	= linksManager.update;
 const updateNodes 	= nodesManager.update;
-const drag 		= initDragBehavior();
 const zoom 		= initZoomBehavior();
 
 const svg = 
@@ -29,7 +28,7 @@ window.spwashi.reinit =
 		window.spwashi.tick = 
 			() => {
 				simulation.alphaTarget(0.1);
-				simulation.alpha(1);
+				simulation.alpha(.5);
 				simulation.tick(1);
 				window.spwashi.internalTicker();
 			};
@@ -37,7 +36,7 @@ window.spwashi.reinit =
 		window.spwashi.internalTicker =
 			() => {
 				updateLinks(links);
-				updateNodes(nodes, drag, zoom);
+				updateNodes(nodes, zoom);
 			};
 
 		simulation.on('tick', window.spwashi.internalTicker);
