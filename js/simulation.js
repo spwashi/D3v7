@@ -1,12 +1,11 @@
 const simulation 	= d3.forceSimulation();
 const updateLinks 	= linksManager.update;
 const updateNodes 	= nodesManager.update;
-const zoom 		= initZoomBehavior();
 
 const svg = 
 	d3.select("svg#simulation")
-		.attr('width', width)
-		.attr('height', height)
+		.attr('width', window.spwashi.parameters.width)
+		.attr('height', window.spwashi.parameters.height)
 
 let reinitCounter = 0;
 const nodeContainer = [];

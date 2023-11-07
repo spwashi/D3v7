@@ -1,5 +1,7 @@
 :root {
-	--node-color-0:  #ffffff;
+	--html-background: #ffffff;
+	--body-background: #555555;
+	--node-color-0:  red;
 	--node-color-1:  #eeeeee;
 	--node-color-2:  #dddddd;
 	--node-color-3:  #cccccc;
@@ -28,6 +30,7 @@ body {
 	outline: thick solid #ccc;
 	margin: 0;
 	padding: 0;
+	background: var(--body-background);
 }
 main {
 	display: flex;

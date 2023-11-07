@@ -74,6 +74,5 @@
 		const params = window.spwashi.parameters;
 		const paramsString = JSON.stringify(params);
 		window.localStorage.setItem(window.spwashi.parameterKey, paramsString)
-		alert(paramsString);
 	}
 }
