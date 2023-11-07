@@ -3,9 +3,9 @@ const getNodeColor = d => colors[(d.index || 0) % colors.length];
 
 const nodesManager = {
 	init:
-		function makeStarterNodes(nodes, temp) {
-			const count = NODE_COUNT;
-			for (let i = 0; i <= count + temp; i++) {
+		function makeStarterNodes(nodes, reinitCounter, ) {
+			const count = NODE_COUNT + nodes.length;
+			for (let i = nodes.length; i <= count; i++) {
 				nodes.push({
 					name: 'node',
 					id: i,
@@ -17,12 +17,14 @@ const nodesManager = {
 			}
 			return nodes;
 		},
+	
 	update: 
 		function updateNodes(nodes, drag, zoom) {
-			const dataSelection = d3.select('.nodes')
-				.selectAll('g')
-				.data(nodes, d => d.id)
-			;
+			const dataSelection = 
+				d3.select('.nodes')
+					.selectAll('g')
+					.data(nodes, d => d.id);
+
 			const enterJoin = enter => {
 				const g = 
 					enter.append('g')
@@ -45,6 +47,7 @@ const nodesManager = {
 					.attr('y', d => d.y || 0)
 				return g;
 			}
+
 			const updateJoin = update => {
 				update
 					.select('circle')
@@ -58,6 +61,7 @@ const nodesManager = {
 					.attr('y', d => d.y || 0)
 				return update;
 			} 
+
 			const removeJoin = remove => remove.remove();
 
 			dataSelection .join(enterJoin, updateJoin, removeJoin);

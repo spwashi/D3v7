@@ -1,7 +1,7 @@
 const linksManager = {
 	init:
-		function makeStarterLinks(nodes) {
-			const links = [];
+		function makeStarterLinks(linkContainer, nodes, reinitCounter) {
+			const links = linkContainer;
 			let prev;
 			for (let node of nodes) {
 				links.push({
