@@ -82,3 +82,9 @@ text {
 	font-family: monospace;
 	color: white;
 }
+
+#query-parameters .value{
+	position: absolute;
+	top: 0;
+	left: 0;
+}

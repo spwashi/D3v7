@@ -13,10 +13,16 @@ const colors = [
 	'var(--node-color-11)',
 	'var(--node-color-12)',
 ];
-const getNodeColor = d => {
-	const color = colors[(d.colorindex || 0) % (colors.length )];
-	return color;
-}
+const images = [
+	'images/01.webp',
+	'images/02.webp',
+];
+const getNodeColor = d => colors[(d.colorindex || 0) % (colors.length )];
+const getImageHref = d => {
+	const href = images[(d.colorindex || 0) % (images.length)];
+	return href;
+};
+
 const getNodeStrokeColor = d => colors[((d.colorindex || 0) + 5) % colors.length];
 
 const getNodeKey = node => window.spwashi.parameterKey + '@node.id[' + node.id + ']';
@@ -30,22 +36,22 @@ const readNodePosition = node => {
 }
 const drag =
 	d3.drag()
-		.on('start', dragStarted)
-		.on('drag', dragging)
-		.on('end', dragEnded)
+		.on('start', (e, node) => {
+			node.x = e.x;
+			node.y = e.y;
+		})
+		.on('drag', (e, node) => {
+			node.fx = e.x;
+			node.fy = e.y;
+			console.log(node);
+		})
+		.on('end', (e, node) => {
+			window.spwashi.tick();
+			saveNodePosition(node);
+		})
 ;
 
-function dragStarted(e, node) {
-	node.x = e.x;
-	node.y = e.y;
-}
-function dragging(e, node){
-	node.fx = e.x;
-	node.fy = e.y;
-}
-function dragEnded(e, node){
-	window.spwashi.tick();
-}
+
 
 const zoom = 
 	d3.zoom().on('zoom', (e, d) => {
@@ -53,17 +59,25 @@ const zoom =
 		// d.r = Math.min(d.r * e.transform.k, 50); 
 	});
 
-
+function normalize(node) {
+	node.image.r = isNaN(node.image.r) ? node.r : Math.max(20, node.image.r);
+	node.image.offsetX = node.image.offsetX || 0;
+	node.image.offsetY = node.image.offsetY || -node.image.r / 2;
+	return node;
+}
 
 
 const nodesManager = {
 	init:
 		function makeStarterNodes(nodes, reinitCounter) {
 			const count = NODE_COUNT + nodes.length;
-			for (let i = nodes.length; i <= count; i++) {
+			const len = nodes.length;
+			for (let i = len; i < count; i++) {
 				let node = {
 					name: 'node',
 					colorindex: i % 13,
+					image: {
+					},
 					id: i,
 					idx: i,
 					x: X_START_POS,
@@ -71,7 +85,7 @@ const nodesManager = {
 					r: 10 * NODE_RADIUS_MULT
 				}
 				const readNode = readNodePosition(node);
-				node = {...node, ...readNode}
+				node = normalize({...node, ...readNode});
 				nodes.push(node);
 			}
 			return nodes.sort((a, b) => b.r - a.r);
@@ -100,21 +114,23 @@ const nodesManager = {
 					.call(zoom)
 					.on('click', (e, d) => {
 						if (event.defaultPrevented) return;
-						if (e.shiftKey) {
-							switch (window.spwashi.superpower.name) {
-								case 'grow': {
-									d.r += window.spwashi.superpower.weight;
-									break;
-								}
-								case 'shrink': {
-									d.r -= window.spwashi.superpower.weight;
-									break;
-								}
-								case 'changecolor': {
-									if (isNaN(d.colorindex)) d.colorindex = 1;
-									d.colorindex += window.spwashi.superpower.weight;
-									break;
-								}
+						let weight = window.spwashi.superpower.weight;
+						if(e.shiftKey) {
+							weight *= -1;
+						}
+						switch (window.spwashi.superpower.name) {
+							case 'grow': {
+								d.r += weight;
+								break;
+							}
+							case 'shrink': {
+								d.r -= weight;
+								break;
+							}
+							case 'changecolor': {
+								if (isNaN(d.colorindex)) d.colorindex = 1;
+								d.colorindex += weight;
+								break;
 							}
 						}
 						saveNodePosition(d);
@@ -130,6 +146,52 @@ const nodesManager = {
 					.append('rect')
 					.attr('width', d => 2 * d.r)
 					.attr('height', d => 2 * d.r)
+				
+				g
+					.append('image')
+					.attr('href', getImageHref)
+					.attr('width', d => d.image.r || d.r)
+					.attr('preserveAspectRatio', d => 'xMidYMin slice')
+					.attr('height', d => d.image.r || d.r)
+					.attr('x', d => d.x - d.r / 2)
+					.attr('y', d => d.y - d.r / 2)
+					.call(d3.drag()
+						.on('start', (e, d) => {
+							d.image.fx = d.image.fx || d.x;
+							d.image.fy = d.image.fy || d.y;
+						})
+						.on('drag', (e, d) => {
+							d.image.offsetX += e.dx;
+							d.image.offsetY += e.dy;
+						}))
+					.on('click', (e, d) => {
+						if (event.defaultPrevented) return;
+						let weight = window.spwashi.superpower.weight;
+						if(e.shiftKey) {
+							weight *= -1;
+						}
+
+						switch (window.spwashi.superpower.name) {
+							case 'grow': {
+								d.image.r = d.image.r || d.r;
+								d.image.r += weight;
+								break;
+							}
+							case 'shrink': {
+								d.image.r = d.image.r || d.r;
+								d.image.r -= weight;
+								break;
+							}
+							case 'changecolor': {
+								if (isNaN(d.colorindex)) d.colorindex = 1;
+								d.colorindex += weight;
+								break;
+							}
+						}
+						saveNodePosition(d);
+					});
+
+
 
 				return g;
 			}
@@ -151,10 +213,20 @@ const nodesManager = {
 					.select('rect')
 					.attr('stroke-width', '1px')
 					.attr('fill', getNodeColor)
-				//	.attr('stroke', getNodeStrokeColor)
+					.attr('stroke', getNodeStrokeColor)
 					.attr('fill', 'none')
 					.attr('x', d => (d.x) - (d.r))
 					.attr('y', d => (d.y) - (d.r))
+					
+				update
+					.select('image')
+					.attr('href', getImageHref)
+					.attr('width', d => d.image.r)
+					.attr('height', d => d.image.r)
+					.attr('x', d => d.x + d.image.offsetX)
+					.attr('y', d => d.y + d.image.offsetY)
+
+					
 				return update;
 			} 
 

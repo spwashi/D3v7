@@ -25,6 +25,7 @@
 	reinitButton.onclick = () => {
 		window.spwashi.reinit();
 	};
+
 }
 {
 	let items = {};
@@ -75,4 +76,10 @@
 		const paramsString = JSON.stringify(params);
 		window.localStorage.setItem(window.spwashi.parameterKey, paramsString)
 	}
+}
+{
+	const element = document.querySelector('#query-parameters .value');
+	const text = [...new URLSearchParams(window.location.search)].map(entry => entry.join('=')).join('\n');
+	element.innerHTML = text;
+	element.rows = text.split('\n').length + 1;
 }
