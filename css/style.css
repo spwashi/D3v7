@@ -48,9 +48,8 @@ text {
 	user-select: none;
 	pointer-events: none;
 	text-anchor: middle;
-	font-family: "Helvetica Neue", Helvetica, sans-serif;
-	fill: #ccc;
-	stroke: #ccc;
+	font-family: monospace;
+	white-space: pre;
 }
 #controls {
 	position: absolute;
