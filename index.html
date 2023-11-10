@@ -14,8 +14,8 @@
 	<script defer src="js/nodes/nodes.js" type="application/javascript"></script>
 	<script defer src="js/links.js" type="application/javascript"></script>
 	<script defer src="js/interactions.js" type="application/javascript"></script>
-	<script defer src="js/simulation.js" type="application/javascript"></script>
 	<script defer src="js/controls.js" type="application/javascript"></script>
+	<script defer src="js/simulation.js" type="application/javascript"></script>
 	<script defer src="js/input.js" type="application/javascript"></script>
 	<link href="css/style.css" rel="stylesheet" />
 </head>
@@ -34,6 +34,27 @@
 			</label>
 		</div>
 		<aside>
+			<div id="controls">
+				<label>
+					<span>Data Buttons</span>
+					<div class="button-container">
+						<button class="generate-nodes">generate</button>
+						<button class="clear-saved-nodes">clear</button>
+						<button class="read-nodes">read</button>
+						<button class="save-nodes">save</button>
+						<button class="clear-fixed-positions">free</button>
+					</div>
+				</label>
+				<label>
+					<span>Simulation Buttons</span>
+					<div class="button-container">
+						<button class="stop">stop</button>
+						<button class="tick">tick</button>
+						<button class="start">start</button>
+						<button class="reinit">reinit</button>
+					</div>
+				</label>
+			</div>
 			<div id="show-node-inputs">
 				<label>
 					<span>Modify Simulation Data</span>
@@ -65,33 +86,22 @@
 			</div>
 			<form>
 				<label><span>version</span><input name="version" value="boon" /></label>
-				<label><span>superpower</span><input name="superpower" value="grow" /></label>
+				<label>
+					<span>superpower</span>
+					<select name="superpower" value="grow">
+						<option>shrink</option>
+						<option>changecolor</option>
+						<option>grow</option>
+					</select>
+				</label>
 				<label><span>weight</span><input name="weight" value="100" /></label>
+				<label><span>node count</span><input name="nodeCount" value="13" type="number" /></label>
+				<label><span>link strength</span><input name="linkstrength" value=".5" type="number" step=".1" /></label>
 				<button type="submit">Submit</button>
 			</form>
 			<div id="query-parameters">
 				<textarea class="value"></textarea>
 				<button class="go">go</button>
-			</div>
-			<div id="controls">
-				<label>
-					<span>Data Buttons</span>
-					<div class="button-container">
-						<button class="read-nodes">read</button>
-						<button class="save-nodes">save</button>
-						<button class="clear-fixed-positions">free</button>
-						<button class="clear-saved-nodes">clear</button>
-					</div>
-				</label>
-				<label>
-					<span>Simulation Buttons</span>
-					<div class="button-container">
-						<button class="stop">stop</button>
-						<button class="tick">tick</button>
-						<button class="start">start</button>
-						<button class="reinit">reinit</button>
-					</div>
-				</label>
 			</div>
 
 		</aside>

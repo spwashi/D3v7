@@ -1,8 +1,6 @@
 function makeImage(g) {
 	const rect = g.append('rect')
-	.attr('width', d => {
-		return d.image.r || d.r
-	})
+	.attr('width', d => { return d.image.r || d.r })
 	.attr('height', d => d.image.r || d.r)
 	.attr('x', d => d.x - d.r / 2)
 
@@ -10,16 +8,14 @@ function makeImage(g) {
 		.append('image')
 		.attr('href', getImageHref)
 		.attr('width', d => d.image.r || d.r)
-		.attr('preserveAspectRatio', d => 'xMidYMin slice')
 		.attr('height', d => d.image.r || d.r)
-		.attr('x', d => d.x - d.r / 2)
-		.attr('y', d => d.y - d.r / 2)
+		.attr('preserveAspectRatio', d => 'xMidYMin slice')
+		.attr('x', d => d.x - d.image.offsetX)
+		.attr('y', d => d.y - d.image.offsetY)
 		.attr('stroke', getNodeStrokeColor)
 		.attr('stroke-width', 2)
 		.call(d3.drag()
 			.on('start', (e, d) => {
-				d.image.fx = d.image.fx || d.x;
-				d.image.fy = d.image.fy || d.y;
 			})
 			.on('drag', (e, d) => {
 				d.image.offsetX += e.dx;
@@ -57,4 +53,19 @@ function makeImage(g) {
 			saveNodePosition(d);
 		});
 	return g;
+}
+
+function updateNodeImage(image) {
+	image
+		.select('rect')	
+		.attr('stroke', 'black')
+		.attr('x', d => d.x + d.image.offsetX)
+		.attr('y', d => d.y + d.image.offsetY)
+	image
+		.select('image')
+		.attr('href', window.spwashi.getNodeImageHref)
+		.attr('width', d => d.image.r)
+		.attr('height', d => d.image.r)
+		.attr('x', d => d.x + d.image.offsetX)
+		.attr('y', d => d.y + d.image.offsetY)
 }

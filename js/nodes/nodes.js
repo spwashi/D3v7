@@ -15,6 +15,7 @@ const getNodeId = (node, i) => {
 }
 
 window.spwashi.getNodeId = getNodeId;
+window.spwashi.getNodeImageHref = d => d.image.href || window.spwashi.images[(d.colorindex || 0) % (window.spwashi.images.length)];
 window.spwashi.getNode = (id) => window.spwashi.nodes.find(n => n.id === id);
 function getNodeRootId (node = {}, i = 0) {
 	if (node.id) return node.id
@@ -24,14 +25,18 @@ function getNodeRootId (node = {}, i = 0) {
 };
 function normalize(node,readNode, i) {
 	const template = {
-		image: { },
-		text: {},
-		r: 1 * NODE_RADIUS_MULT,
+		image: { 
+		},
+		text: {fontSize: 20},
+		r: 1 * window.spwashi.parameters.nodes.radiusMultiplier,
+		z: 0,
+		x: window.spwashi.parameters.startPos.x + i * 2,
+		y: window.spwashi.parameters.startPos.y,
 		colorindex: i % 13,
 	};
 	const fixedPos = {
-		fx: null && X_START_POS + i * 20,
-		fy: null && Y_START_POS +(node.identity?.length ? (node.identity?.length * 2) : 0),
+		fx: null && window.spwashi.parameters.startPos.x + i * 20,
+		fy: null && window.spwashi.parameters.startPos.y + (node.identity?.length ? (node.identity?.length * 2) : 0),
 	}
 	Object.assign(
 		node,
@@ -41,18 +46,13 @@ function normalize(node,readNode, i) {
 		{
 			name: node.identity || ('node:' + i),
 			idx: i,
-			x: X_START_POS + i * 2,
-			y: Y_START_POS,
-			z: 0,
-			r: 10 * NODE_RADIUS_MULT,
-			colorindex: i % 13,
 		}, 
 		{...node}
 	); 
 	node.r = Math.max(node.r, 10)
-	node.image.r = isNaN(node.image.r) ? node.r : Math.max(20, node.image.r);
-	node.image.offsetX = node.image.offsetX || 0;
-	node.image.offsetY = node.image.offsetY || -node.image.r / 2;
+	node.image.r = isNaN(node.image.r) ? node.r : Math.max(10, node.image.r);
+	node.image.offsetX = node.image.offsetX || -node.image.r * 2 ;
+	node.image.offsetY = node.image.offsetY || -node.image.r * 50 ;
 	return node;
 }
 
@@ -135,7 +135,7 @@ window.spwashi.nodesManager =  {
 					.attr('cy', d => d.y || 0)
 
 				updateNodeTextSvg(text);
-
+				updateNodeImage(image);
 				update
 					.select('rect')
 					.attr('stroke-width', '1px')
@@ -145,18 +145,7 @@ window.spwashi.nodesManager =  {
 					.attr('x', d => (d.x) - (d.r))
 					.attr('y', d => (d.y) - (d.r))
 					
-				image
-					.select('image')
-					.attr('href', d => getImageHref(d))
-					.attr('width', d => d.image.r)
-					.attr('height', d => d.image.r)
-					.attr('x', d => d.x + d.image.offsetX)
-					.attr('y', d => d.y + d.image.offsetY)
-				image
-					.select('rect')	
-					.attr('stroke', 'black')
-					.attr('x', d => d.x + d.image.offsetX)
-					.attr('y', d => d.y + d.image.offsetY)
+				
 
 
 					

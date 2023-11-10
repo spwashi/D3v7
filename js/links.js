@@ -1,6 +1,8 @@
 window.spwashi.linksManager = {
 	init:
 		function makeStarterLinks(linkContainer, nodes) {
+			const LINK_STRENGTH = window.spwashi.parameters.links.strength;
+
 			const links = linkContainer;
 			let prev;
 

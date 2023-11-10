@@ -1,4 +1,4 @@
-{
+function initializeForceSimulationControls() {
 	const forceSimulation = window.spwashi.simulation;
 	if (!forceSimulation) {
 		const error = 'no force simulation initialized';
@@ -34,8 +34,15 @@
 		});
 	}
 
+	const generateNodesButton = document.querySelector('#controls .generate-nodes');
+	generateNodesButton.onclick = () => {
+		const nodes = [...Array(window.spwashi.parameters.nodes.count)].map(n => ({}));
+		window.spwashi.nodes.push(...nodes);
+		window.spwashi.reinit();
+	}
+
 }
-{
+function initializeParameterContainers() {
 	const parameterNames = {
 		'links-strength': 'Default Link Strength',
 		'nodes-count': 'Number Of Nodes',
@@ -104,7 +111,8 @@
 			nodesInput.value = JSON.stringify(window.spwashi.getItem('parameters.nodes-input') || {nodes:[{r:30}]}, null, 2);
 			nodesInput.rows  = 5;
 		};
-	window.spwashi.refreshNodeInputs();
+
+
 	window.spwashi.readNodeInputs = () => {
 		const input = document.querySelector('#nodes-input')?.value;
 		if (!input) {
@@ -121,8 +129,41 @@
 		return nodes;
 	}
 	
+	window.spwashi.refreshNodeInputs();
 	window.spwashi.nodes.push(...window.spwashi.readNodeInputs());
+	window.spwashi.nodes.forEach((node, i) => {
+		const fx = window.spwashi.values.fx?.[i] || node.fx || undefined;
+		const fy = window.spwashi.values.fy?.[i] || node.fy || undefined;
+		const r = window.spwashi.values.r?.[i] || node.r || undefined;
+		const fontSize = window.spwashi.values.text.fontSize?.[i] || node.text.fontSize || undefined;
+		node.fx = fx;	
+		node.fy = fy;	
+		node.r = r;
+		node.text = node.text || {};
+		node.text.fontSize = fontSize;	
+		switch (node.kind?.split(' + ').reverse()[0]) {
+			case 'phrasal':
+				node.colorindex = 0;
+				node.fx = 500
+				node.r = 30;
+				break;
+			case 'binding':
+				if (node.kind.split(' + ').includes('operator')) {
+					node.r = 1;
+					break;
+				}
+				node.colorindex = 3;
+				node.r = 30;
+				node.fx = 100
+				break;
+			default: 
+				node.colorindex = 2;
+				node.r = 10;
+				break;
+		}
+	});
 	window.spwashi.reinit();
+
 	const _readNodeInputs = (append = true) => {
 		const nodes = window.spwashi.readNodeInputs();
 		if (!append) {
