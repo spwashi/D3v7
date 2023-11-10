@@ -64,7 +64,7 @@ main {
 #show-any-input { position: absolute; bottom: 0; left: 0; }
 #show-node-inputs + div { display: none; position: absolute; left: 0; top: calc(var(--form-checkbox-1-pos) + 50px); }
 #show-page-form + form { display: none; position: absolute; left: 0; top: calc(var(--form-checkbox-3-pos) + 50px); }
-#show-parameters + #parameters { display: none; position: absolute; left: 0; top: calc(var(--form-checkbox-2-pos) + 50px); height: 50vh; overflow: scroll; z-index: 1;}
+#show-parameters + #parameters { display: none; position: absolute; left: 20rem; top: 25%; height: 50vh; overflow: scroll; z-index: 1;}
 #show-any-input + aside { display: none; }
 #show-node-inputs:has(:checked) + div{ display: flex; }
 #show-page-form:has(:checked) + form { display: flex }

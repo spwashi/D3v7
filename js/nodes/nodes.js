@@ -18,7 +18,6 @@ window.spwashi.getNodeId = getNodeId;
 window.spwashi.getNodeImageHref = d => d.image.href || window.spwashi.images[(d.colorindex || 0) % (window.spwashi.images.length)];
 window.spwashi.getNode = (id) => window.spwashi.nodes.find(n => n.id === id);
 function getNodeRootId (node = {}, i = 0) {
-	if (node.id) return node.id
 	if (node.identity) return node.identity;
 	const indexedName = `node:[${i}]`;
 	return indexedName;
@@ -49,10 +48,10 @@ function normalize(node,readNode, i) {
 		}, 
 		{...node}
 	); 
-	node.r = Math.max(node.r, 10)
+	node.r = Math.max(node.r, 1)
 	node.image.r = isNaN(node.image.r) ? node.r : Math.max(10, node.image.r);
 	node.image.offsetX = node.image.offsetX || -node.image.r * 2 ;
-	node.image.offsetY = node.image.offsetY || -node.image.r * 50 ;
+	node.image.offsetY = node.image.offsetY || -node.image.r * 5 ;
 	return node;
 }
 
