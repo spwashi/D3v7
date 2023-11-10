@@ -58,6 +58,15 @@ main {
 #node-input-container {
 	color: white;
 }
+#show-any-input {
+	bottom: 0;
+}
+#show-any-input + aside {
+	display: none;
+}
+#show-any-input:has(:checked) + aside {
+	display: flex;
+}
 #show-parameters {
 	top: var(--form-checkbox-3-pos);
 }
@@ -119,7 +128,7 @@ text {
 	font-size: 2rem;
 	font-family: monospace;
 }
-#show-parameters, #show-page-form, #show-node-inputs {
+#show-parameters, #show-page-form, #show-node-inputs, #show-any-input {
 	position: absolute;
 	left: 0;
 	border: thin solid red;

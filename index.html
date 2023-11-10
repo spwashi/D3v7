@@ -27,65 +27,73 @@
 		    <g class="nodes"></g>
 		  </svg>
 		</div>
-		<div id="controls">
+		<div id="show-any-input">
 			<label>
-				<span>Simulation Buttons</span>
-				<div>
-					<button class="stop">stop</button>
-					<button class="tick">tick</button>
-					<button class="start">start</button>
-					<button class="reinit">reinit</button>
-				</div>
-			</label>
-			<label>
-				<span>Data Buttons</span>
-				<div>
-					<button class="read-nodes">read</button>
-					<button class="save-nodes">save</button>
-					<button class="clear-fixed-positions">free</button>
-					<button class="clear-saved-nodes">clear</button>
-				</div>
-			</label>
-		</div>
-		<div id="show-node-inputs">
-			<label>
-				<span>Show Simulation Data</span>
+				<span>Show Inputs</span>
 				<input type="checkbox" />
 			</label>
+		</div>
+		<aside>
+			<div id="controls">
+				<label>
+					<span>Simulation Buttons</span>
+					<div>
+						<button class="stop">stop</button>
+						<button class="tick">tick</button>
+						<button class="start">start</button>
+						<button class="reinit">reinit</button>
+					</div>
+				</label>
+				<label>
+					<span>Data Buttons</span>
+					<div>
+						<button class="read-nodes">read</button>
+						<button class="save-nodes">save</button>
+						<button class="clear-fixed-positions">free</button>
+						<button class="clear-saved-nodes">clear</button>
+					</div>
+				</label>
+			</div>
+			<div id="show-node-inputs">
+				<label>
+					<span>Show Simulation Data</span>
+					<input type="checkbox" />
+				</label>
 
-		</div>
-		<div id="node-input-container">
-			<label><span>Data Selector</span><textarea id="nodes-selector-fn"></textarea></label>
-			<label><span>Nodes Input</span><textarea id="nodes-input"></textarea></label>
-			<button class="add">add</button>
-			<button class="replace">replace</button>
-		</div>
-		<div id="show-parameters">
-			<label>
-				<span>Show Simulation Parameters</span>
-				<input type="checkbox" />
-			</label>
-		</div>
-		<div id="parameters">
-			<div class="input-container"></div>
-			<button class="go">go</button>
-		</div>
-		<div id="show-page-form">
-			<label>
-				<span>Show Page Parameters</span>
-				<input type="checkbox" />
-			</label>
-		</div>
-		<form>
-			<label><span>version</span><input name="version" value="boon" /></label>
-			<label><span>superpower</span><input name="superpower" value="grow" /></label>
-			<label><span>weight</span><input name="weight" value="100" /></label>
-			<button type="submit">Submit</button>
-		</form>
-		<div id="query-parameters">
-			<textarea class="value"></textarea>
-			<button class="go">go</button>
-		</div>
+			</div>
+			<div id="node-input-container">
+				<label><span>Data Selector</span><textarea id="nodes-selector-fn"></textarea></label>
+				<label><span>Nodes Input</span><textarea id="nodes-input"></textarea></label>
+				<button class="add">add</button>
+				<button class="replace">replace</button>
+			</div>
+			<div id="show-parameters">
+				<label>
+					<span>Show Simulation Parameters</span>
+					<input type="checkbox" />
+				</label>
+			</div>
+			<div id="parameters">
+				<div class="input-container"></div>
+				<button class="go">go</button>
+			</div>
+			<div id="show-page-form">
+				<label>
+					<span>Show Page Parameters</span>
+					<input type="checkbox" />
+				</label>
+			</div>
+			<form>
+				<label><span>version</span><input name="version" value="boon" /></label>
+				<label><span>superpower</span><input name="superpower" value="grow" /></label>
+				<label><span>weight</span><input name="weight" value="100" /></label>
+				<button type="submit">Submit</button>
+			</form>
+			<div id="query-parameters">
+				<textarea class="value"></textarea>
+				<button class="go">go</button>
+			</div>
+		</aside>
 	</main>
 	<script type="application/javascript">
 	
