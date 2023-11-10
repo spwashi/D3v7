@@ -102,7 +102,7 @@
 			document.querySelector('#nodes-selector-fn').value = (window.spwashi.getItem('parameters.nodes-input-map-fn-string') || 'data => data.nodes');
 			const nodesInput = document.querySelector('#nodes-input');
 			nodesInput.value = JSON.stringify(window.spwashi.getItem('parameters.nodes-input') || {nodes:[{r:30}]}, null, 2);
-			nodesInput.rows  = 10;
+			nodesInput.rows  = 5;
 		};
 	window.spwashi.refreshNodeInputs();
 	window.spwashi.readNodeInputs = () => {

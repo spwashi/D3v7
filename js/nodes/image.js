@@ -15,8 +15,7 @@ function makeImage(g) {
 		.attr('x', d => d.x - d.r / 2)
 		.attr('y', d => d.y - d.r / 2)
 		.attr('stroke', getNodeStrokeColor)
-		.attr('outline', d => 'thick solid ' + getNodeStrokeColor(d))
-		.attr('stroke-width', 20)
+		.attr('stroke-width', 2)
 		.call(d3.drag()
 			.on('start', (e, d) => {
 				d.image.fx = d.image.fx || d.x;

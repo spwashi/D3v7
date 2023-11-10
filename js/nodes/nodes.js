@@ -26,7 +26,7 @@ function normalize(node,readNode, i) {
 	const template = {
 		image: { },
 		text: {},
-		r: 10 * NODE_RADIUS_MULT,
+		r: 1 * NODE_RADIUS_MULT,
 		colorindex: i % 13,
 	};
 	const fixedPos = {
@@ -147,16 +147,15 @@ window.spwashi.nodesManager =  {
 					
 				image
 					.select('image')
-					.attr('href', getImageHref)
+					.attr('href', d => getImageHref(d))
 					.attr('width', d => d.image.r)
 					.attr('height', d => d.image.r)
 					.attr('x', d => d.x + d.image.offsetX)
 					.attr('y', d => d.y + d.image.offsetY)
 				image
 					.select('rect')	
-					.attr('x', d => d.x + d.image.offsetX)
 					.attr('stroke', 'black')
-					.attr('stroke-width', '20')
+					.attr('x', d => d.x + d.image.offsetX)
 					.attr('y', d => d.y + d.image.offsetY)
 
 
