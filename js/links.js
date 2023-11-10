@@ -1,13 +1,28 @@
-const linksManager = {
+window.spwashi.linksManager = {
 	init:
-		function makeStarterLinks(linkContainer, nodes, reinitCounter) {
+		function makeStarterLinks(linkContainer, nodes) {
 			const links = linkContainer;
 			let prev;
+
 			for (let node of nodes) {
-				links.push({
-					source: prev?.id || 0,
+				const {head, body, tail} = node;
+				let items = [head, body, tail].flat().map(i => i?.identity).filter(Boolean);
+				items.forEach(item => {
+					const source = (typeof item === "string" ? item : item.identity);
+					const sourceNode = window.spwashi.getNode(source);
+					if (!sourceNode) {
+						return;
+					}
+					const target = node.id;
+					links.push({source, target, strength: LINK_STRENGTH})
+				})
+			}
+
+			for (let node of nodes) {
+				prev?.id && links.push({
+					source: prev?.id,
 					target: node.id,
-					strength: LINK_STRENGTH
+					strength: LINK_STRENGTH * .3
 				});	
 				prev = node;
 			}

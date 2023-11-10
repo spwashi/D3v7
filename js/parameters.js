@@ -1,16 +1,36 @@
 window.spwashi = window.spwashi || {};
-const searchParameters = new URLSearchParams(window.location.search);
-window.spwashi.version = searchParameters.get('version');
-if (searchParameters.has('reset')) {
-	window.localStorage.clear();
-}
-window.spwashi.superpower = {};
-window.spwashi.superpower.name = searchParameters.get('superpower');
-window.spwashi.superpower.weight = parseInt(searchParameters.get('weight') || 1);
-window.spwashi.parameterKey = `simulation.parameters#${window.spwashi.version}`;
 
+
+window.spwashi.readParameters = 
+	(searchParameters) => {
+		[...searchParameters.entries()].forEach(([key,value]) => (document.querySelector('input[name='+key+']')||{}).value=value)
+		window.spwashi.version = searchParameters.get('version');
+		if (searchParameters.has('reset')) {
+			window.localStorage.clear();
+		}
+		window.spwashi.doFetchNodes = searchParameters.get('dofetch') === '1'
+		window.spwashi.superpower = {};
+		window.spwashi.superpower.name = searchParameters.get('superpower');
+		window.spwashi.superpower.weight = parseInt(searchParameters.get('weight') || 1);
+		window.spwashi.parameterKey = `simulation.parameters#${window.spwashi.version}`;
+	}
+window.spwashi.setItem =
+	(key, item, category = null) => {
+		window.localStorage.setItem(window.spwashi.parameterKey + '@' + key, JSON.stringify(item || null));
+	}
+window.spwashi.getItem =
+	(key, category = null) => {
+		const out = window.localStorage.getItem(window.spwashi.parameterKey + '@' + key)
+		if (out) return JSON.parse(out || '{}')
+		return undefined;
+	}
+
+window.spwashi.readParameters(new URLSearchParams(window.location.search));
+const getNodeKey = node => window.spwashi.parameterKey + '@node.id[' + node.id + ']';
 const pw = window.innerWidth * .75;
 const ph = window.innerHeight * .75;
+
+
 window.spwashi.parameters = {};
 window.spwashi.parameters.width = Math.min(pw, 1000);
 window.spwashi.parameters.height = Math.min(ph, 1000);
@@ -28,6 +48,7 @@ window.spwashi.parameters.forces.center = 1;
 window.spwashi.parameters.forces.centerPos = {};
 window.spwashi.parameters.forces.centerPos.x = window.spwashi.parameters.startPos.x;
 window.spwashi.parameters.forces.centerPos.y = window.spwashi.parameters.startPos.y;
+
 
 
 let fromLocalStorage = window.localStorage.getItem(window.spwashi.parameterKey);

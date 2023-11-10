@@ -14,6 +14,10 @@
 	--node-color-10: #333333;
 	--node-color-11: #111111;
 	--node-color-12: #000000;
+
+	--form-checkbox-1-pos: 100px;
+	--form-checkbox-2-pos: 300px;
+	--form-checkbox-3-pos: 500px;
 }
 
 html {
@@ -38,6 +42,59 @@ main {
 	justify-content: center;
 	align-items: center;
 }
+#node-input-container {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: calc(var(--form-checkbox-1-pos) + 70px);
+	left: 0;
+	z-index: 1;
+	background: #222;
+}
+#node-input-container button {
+	padding: .5rem;
+	margin: .5rem 0;
+}
+#node-input-container {
+	color: white;
+}
+#show-parameters {
+	top: var(--form-checkbox-3-pos);
+}
+#show-node-inputs {
+	top: var(--form-checkbox-1-pos);
+}
+#show-page-form {
+	top: var(--form-checkbox-2-pos);
+}
+#show-node-inputs + div {
+	display: none;
+}
+#show-node-inputs:has(:checked) + div{
+	display: flex;
+}
+
+#show-page-form + form {
+	display: none;
+}
+#show-page-form:has(:checked) + form {
+	display: flex
+}
+main form {
+	position: absolute;
+	top: calc(var(--form-checkbox-2-pos) + 40px);
+	left: 0;
+	flex-direction: column;
+	padding: 2rem 0;
+	background: #222;
+}
+main form label {
+	display: flex;
+	padding-bottom: .5rem;
+	flex-direction: column;
+	color: white;
+	font-weight: bold;
+}
 svg {
 	display: block;
 }
@@ -46,7 +103,6 @@ line {
 }
 text {
 	user-select: none;
-	pointer-events: none;
 	text-anchor: middle;
 	font-family: monospace;
 	white-space: pre;
@@ -55,14 +111,50 @@ text {
 	position: absolute;
 	bottom: 0;
 	right: 0;
-}
-#controls button{
-	padding: .5rem;
-	font-size: 2rem;
-}
-#parameters {
 	display: flex;
 	flex-direction: column;
+}
+#controls button {
+	padding: .5rem;
+	font-size: 2rem;
+	font-family: monospace;
+}
+#show-parameters, #show-page-form, #show-node-inputs {
+	position: absolute;
+	left: 0;
+	border: thin solid red;
+	background: rgba(0,90,90,1);
+	color: white;
+	font-weight: bold;
+}
+label {
+	width: 15rem;
+	text-align: center;
+	display: flex;
+	cursor: pointer;
+	flex-direction: column;
+}
+label span {
+	padding: 1rem;
+}
+label input[type=checkbox] {
+	cursor: pointer;
+	margin-bottom: 1rem;
+}
+#show-parameters + #parameters {
+	display: none;
+}
+#show-parameters:has(input:checked) + #parameters {
+	display: flex;
+}
+#parameters {
+	flex-direction: column;
+	position: absolute;
+	top: calc(var(--form-checkbox-3-pos) + 70px);
+	top: 0;
+	left: 18rem;
+	border: thick solid green;
+	background: rgba(30, 20, 20, .9);
 }
 #parameters label {
 	display: flex;
@@ -79,10 +171,11 @@ text {
 	background: rgba(255,255,255, .1);
 	font-weight: bold;
 	font-family: monospace;
-	color: white;
+	color: rgba(200, 200, 200, .7);
+	border: none;
 }
 
-#query-parameters .value{
+#query-parameters{
 	position: absolute;
 	top: 0;
 	left: 0;

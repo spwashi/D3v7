@@ -1,0 +1,14 @@
+{
+  "name": "simulation",
+  "version": "1.0.0",
+  "main": "index.html",
+  "repository": "git@github.com:spwashi/D3v7.git",
+  "author": "Sam Washington <sam@spwashi.com>",
+  "license": "MIT",
+  "scripts": {
+	  "serve:json": "json-server --watch input.json"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}
