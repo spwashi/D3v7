@@ -15,7 +15,10 @@ const getNodeId = (node, i) => {
 }
 
 window.spwashi.getNodeId = getNodeId;
-window.spwashi.getNodeImageHref = d => d.image.href || window.spwashi.images[(d.colorindex || 0) % (window.spwashi.images.length)];
+window.spwashi.getNodeImageHref = d => {
+	if (d.image.href === null) return null;
+	return d.image.href || window.spwashi.images[(d.colorindex || 0) % (window.spwashi.images.length)];
+}
 window.spwashi.getNode = (id) => window.spwashi.nodes.find(n => n.id === id);
 function getNodeRootId (node = {}, i = 0) {
 	if (node.identity) return node.identity;
@@ -50,8 +53,8 @@ function normalize(node,readNode, i) {
 	); 
 	node.r = Math.max(node.r, 1)
 	node.image.r = isNaN(node.image.r) ? node.r : Math.max(10, node.image.r);
-	node.image.offsetX = node.image.offsetX || -node.image.r * 2 ;
-	node.image.offsetY = node.image.offsetY || -node.image.r * 5 ;
+	node.image.offsetX = !isNaN(node.image.offsetX) ? node.image.offsetX : -node.image.r * 2 ;
+	node.image.offsetY = !isNaN(node.image.offsetY) ? node.image.offsetY : -node.image.r * 2 ;
 	return node;
 }
 
@@ -73,6 +76,107 @@ const removeAll =
 
 window.spwashi.nodesManager =  {
 	normalize: normalize,
+	processNode: (node, i) => {
+		if (!node.identity) return;
+		const fx = window.spwashi.values.fx?.[i] || node.fx || undefined;
+		const fy = window.spwashi.values.fy?.[i] || node.fy || undefined;
+		const r = window.spwashi.values.r?.[i] || node.r || window.spwashi.parameters.nodes.radiusMultiplier || undefined;
+		const fontSize = window.spwashi.values.text?.fontSize?.[i] || node.text?.fontSize || undefined;
+		node.fx = fx;	
+		node.fy = fy;	
+		node.r = r;
+		node.text = node.text || {};
+		node.text.fontSize = fontSize;	
+		node.image = node.image || {};
+		node.image.r = 100;
+		node.image.offsetX = 0;
+		node.image.offsetY = 0;
+		node.md5 = node.identity && md5(node.identity);
+		node.image.href = 'images/' + node.md5 + '.webp';
+		const edgeLeft  = 50;
+		const edgeRight = window.spwashi.parameters.width - 50;
+		const edgeBottom = window.spwashi.parameters.height - 50;
+		const discreteY = edgeBottom - 100;
+		const quantY    = [50, 50+edgeBottom/4, 50 + edgeBottom/2, 50+3*edgeBottom/4, edgeBottom];
+		const quantX    = [50, 50+edgeRight/4, 50 + edgeRight/2, 50+3*edgeRight/4, edgeRight];
+		switch (node.kind?.split(' + ')[0]) {
+			case 'container':
+				node.text.fontSize = 10;
+				node.fx = quantX[4];
+				node.y = 0;
+				node.colorindex = 3;
+				break;
+		}
+
+		
+		switch (node.kind?.trim().split(' + ').reverse()[0]) {
+			case 'conceptual':
+				// node.fy = 100;
+				break;
+			case 'essential':
+				// node.fy = 200;
+				break;
+			case 'structural':
+				// node.fy = 700;
+				break;
+			case 'locational':
+				// node.fy = 300;
+				break;
+			case 'nominal':
+				node.fx = quantX[2];
+				break;
+			case 'conceptual.open':
+				node.fy = quantY[0];
+				node.fx = edgeLeft;
+				break;
+			case 'conceptual.close':
+				node.fy = quantY[0];
+				node.fx = edgeRight;
+				break;
+			case 'locational.open':
+				node.fy = quantY[4];
+				node.fx = edgeLeft;
+				break;
+			case 'locational.close':
+				node.fy = quantY[4];
+				node.fx = edgeRight;
+				break;
+			case 'structural.open':
+				node.fy = quantY[2];
+				node.fx = edgeLeft;
+				break;
+			case 'structural.close':
+				node.fy = quantY[2];
+				node.fx = edgeRight;
+				break;
+			case 'essential.open':
+				node.fy = quantY[1];
+				node.fx = edgeLeft;
+				break;
+			case 'essential.close':
+				node.fy = quantY[1];
+				node.fx = edgeRight;
+				break;
+			case 'ordinal':
+				node.fx = quantX[3];
+
+				break;
+			case 'phrasal':
+				node.colorindex = 0;
+				node.fx = quantX[3];
+				break;
+			case 'binding':
+				if (node.kind.split(' + ').includes('operator')) {
+					break;
+				}
+				node.colorindex = 3;
+				node.fx = 100
+				break;
+			default: 
+				node.colorindex = node.colorindex || 2;
+				break;
+		}
+	},
 	saveNode: saveNodePosition,
 	init: function makeStarterNodes(nodes) {
 			const count = nodes.length;
@@ -93,28 +197,13 @@ window.spwashi.nodesManager =  {
 
 			const enterJoin = enter => {
 				const outerG 	= enter.append('g').classed('wrapper', true);
+				const image 	= outerG.append('g').classed('image', true);
 				const node 	= outerG.append('g').classed('node', true);
 				const text 	= outerG.append('text').classed('text', true)
-				const image 	= outerG.append('g').classed('image', true);
-				makeAll(node, {
-					filterImage: true,
-					filterCircle: false,
-					filterText: true,
-					filterRect: false,
-				})
-
-				makeAll(image, {
-					filterImage: false,
-					filterCircle: true,
-					filterText: true,
-					filterRect: true,
-				})
-				makeAll(text, {
-					filterImage: true,
-					filterCircle: true,
-					filterText: false,
-					filterRect: true,
-				})
+				makeImage(image);
+				makeCircle(node);
+				makeRect(node);
+				makeText(text);
 				return outerG;
 			}
 

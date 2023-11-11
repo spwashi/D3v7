@@ -3,7 +3,6 @@ window.spwashi.parameters = window.spwashi.parameters || {};
 
 window.spwashi.readParameters = 
 	(searchParameters) => {
-
 		[...searchParameters.entries()].forEach(([key,value]) => (document.querySelector('input[name='+key+']')||{}).value=value)
 		window.spwashi.version = searchParameters.get('version');
 
@@ -13,7 +12,6 @@ window.spwashi.readParameters =
 			fromLocalStorage = JSON.parse(fromLocalStorage);
 			window.spwashi.parameters = fromLocalStorage;
 		}
-
 		
 		if (searchParameters.has('reset')) {
 			window.localStorage.clear();
@@ -54,7 +52,6 @@ window.spwashi.readParameters =
 			window.spwashi.values.text.fontSize = searchParameters.get('fontSize').split(',').map(n => +n);
 		}
 
-
 		window.spwashi.doFetchNodes = searchParameters.get('dofetch') === '1'
 		window.spwashi.superpower = window.spwashi.superpower || {};
 		window.spwashi.superpower.name = searchParameters.get('superpower');
@@ -69,11 +66,11 @@ window.spwashi.getItem = (key, category = null) => {
 	return undefined;
 }
 const getNodeKey = node => window.spwashi.parameterKey + '@node.id[' + node.id + ']';
-const pw = window.innerWidth * .75;
-const ph = window.innerHeight * .75;
+const pw = window.innerWidth * .9;
+const ph = window.innerHeight * .9;
 
-window.spwashi.parameters.width = Math.min(pw, 1000);
-window.spwashi.parameters.height = Math.min(ph, 1000);
+window.spwashi.parameters.width = pw;
+window.spwashi.parameters.height = ph;
 window.spwashi.parameters.startPos = window.spwashi.parameters.startPos || {};
 window.spwashi.parameters.startPos.x = window.spwashi.parameters.startPos.x || window.spwashi.parameters.width / 2;
 window.spwashi.parameters.startPos.y = window.spwashi.parameters.startPos.y || window.spwashi.parameters.height / 2;
@@ -81,7 +78,7 @@ window.spwashi.parameters.links = window.spwashi.parameters.links || {};
 window.spwashi.parameters.links.strength = window.spwashi.parameters.links.strength || .1;
 window.spwashi.parameters.nodes = window.spwashi.parameters.nodes || {};
 window.spwashi.parameters.nodes.count = window.spwashi.parameters.nodes.count || 13;
-window.spwashi.parameters.nodes.radiusMultiplier = window.spwashi.parameters.nodes.radiusMultiplier || 3;
+window.spwashi.parameters.nodes.radiusMultiplier = window.spwashi.parameters.nodes.radiusMultiplier || 30;
 window.spwashi.parameters.forces = window.spwashi.parameters.forces || {};
 window.spwashi.parameters.forces.charge = window.spwashi.parameters.forces.charge || -100;
 window.spwashi.parameters.forces.center = window.spwashi.parameters.forces.center || 1;

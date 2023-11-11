@@ -106,7 +106,8 @@ function initializeParameterContainers() {
 
 	window.spwashi.refreshNodeInputs = 
 		(nodes) => {
-			document.querySelector('#nodes-selector-fn').value = (window.spwashi.getItem('parameters.nodes-input-map-fn-string') || 'data => data.nodes');
+			const nodesSelectorFn = (window.spwashi.getItem('parameters.nodes-input-map-fn-string') || 'data => data.nodes');
+			document.querySelector('#nodes-selector-fn').value = nodesSelectorFn;
 			const nodesInput = document.querySelector('#nodes-input');
 			nodesInput.value = JSON.stringify(window.spwashi.getItem('parameters.nodes-input') || {nodes:[{r:30}]}, null, 2);
 			nodesInput.rows  = 5;
@@ -136,105 +137,7 @@ function initializeParameterContainers() {
 	
 	window.spwashi.refreshNodeInputs();
 	window.spwashi.nodes.push(...window.spwashi.readNodeInputs());
-	window.spwashi.nodes.forEach((node, i) => {
-		const fx = window.spwashi.values.fx?.[i] || node.fx || undefined;
-		const fy = window.spwashi.values.fy?.[i] || node.fy || undefined;
-		const r = window.spwashi.values.r?.[i] || node.r || undefined;
-		const fontSize = window.spwashi.values.text?.fontSize?.[i] || node.text?.fontSize || undefined;
-		node.fx = fx;	
-		node.fy = fy;	
-		node.r = r;
-		node.text = node.text || {};
-		node.text.fontSize = fontSize;	
-		node.image = node.image || {};
-		// node.image.r = 50;
-		switch (node.kind?.split(' + ')[0]) {
-			case 'container':
-				node.r = 2;
-				node.text.fontSize = 10;
-				node.fx = 200;
-				node.y = 0;
-				node.colorindex = 3;
-				break;
-		}
-
-		const edgeLeft  = 50;
-		const edgeRight = window.spwashi.parameters.width - 50;
-		const quantX    = [50, 300, 500, 700, window.spwashi.parameters.height - 50]
-
-		switch (node.kind?.trim().split(' + ').reverse()[0]) {
-			case 'conceptual':
-				// node.fy = 100;
-				break;
-			case 'essential':
-				// node.fy = 200;
-				break;
-			case 'structural':
-				// node.fy = 700;
-				break;
-			case 'locational':
-				// node.fy = 300;
-				break;
-			case 'nominal':
-				node.fx = 700;
-				break;
-			case 'conceptual.open':
-				node.fy = quantX[0];
-				node.fx = edgeLeft;
-				break;
-			case 'conceptual.close':
-				node.fy = quantX[0];
-				node.fx = edgeRight;
-				break;
-			case 'locational.open':
-				node.fy = quantX[4];
-				node.fx = edgeLeft;
-				break;
-			case 'locational.close':
-				node.fy = quantX[4];
-				node.fx = edgeRight;
-				break;
-			case 'structural.open':
-				node.fy = quantX[2];
-				node.fx = edgeLeft;
-				break;
-			case 'structural.close':
-				node.fy = quantX[2];
-				node.fx = edgeRight;
-				break;
-			case 'essential.open':
-				node.fy = quantX[1];
-				node.fx = edgeLeft;
-				break;
-			case 'essential.close':
-				node.fy = quantX[1];
-				node.fx = edgeRight;
-				break;
-			case 'ordinal':
-				node.r = 2;
-				node.fx = edgeRight - 100;
-
-				break;
-			case 'phrasal':
-				node.colorindex = 0;
-				node.fx = 500
-				node.r = 10;
-				break;
-			case 'binding':
-				if (node.kind.split(' + ').includes('operator')) {
-					node.r = 1;
-					break;
-				}
-				node.colorindex = 3;
-				node.r = 30;
-				node.fx = 100
-				break;
-			default: 
-				node.colorindex = node.colorindex || 2;
-				node.r = node.r || 10;
-				break;
-		}
-	});
+	window.spwashi.nodes.forEach(window.spwashi.nodesManager.processNode);
 	window.spwashi.reinit();
 
 	const _readNodeInputs = (append = true) => {

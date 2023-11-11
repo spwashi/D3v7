@@ -10,8 +10,8 @@ function makeImage(g) {
 		.attr('width', d => d.image.r || d.r)
 		.attr('height', d => d.image.r || d.r)
 		.attr('preserveAspectRatio', d => 'xMidYMin slice')
-		.attr('x', d => d.x - d.image.offsetX)
-		.attr('y', d => d.y - d.image.offsetY)
+		.attr('x', d => d.x + d.image.offsetX)
+		.attr('y', d => d.y + d.image.offsetY)
 		.attr('stroke', getNodeStrokeColor)
 		.attr('stroke-width', 2)
 		.call(d3.drag()
@@ -25,7 +25,10 @@ function makeImage(g) {
 				saveNodePosition(d)
 			})
 		)
-
+		.on('error', (e, d) => {
+			d.image.href = null; // 'images/01.webp';
+			d.image.r = 0;
+		})
 		.on('click', (e, d) => {
 			if (event.defaultPrevented) return;
 			let weight = window.spwashi.superpower.weight;
@@ -59,13 +62,15 @@ function updateNodeImage(image) {
 	image
 		.select('rect')	
 		.attr('stroke', 'black')
-		.attr('x', d => d.x + d.image.offsetX)
-		.attr('y', d => d.y + d.image.offsetY)
+		.attr('x', d => d.x + d.image.offsetX - d.image.r/2)
+		.attr('y', d => d.y + d.image.offsetY - d.image.r/2)
+		.attr('width', d => d.image.r)
+		.attr('height', d => d.image.r)
 	image
 		.select('image')
 		.attr('href', window.spwashi.getNodeImageHref)
 		.attr('width', d => d.image.r)
 		.attr('height', d => d.image.r)
-		.attr('x', d => d.x + d.image.offsetX)
-		.attr('y', d => d.y + d.image.offsetY)
+		.attr('x', d => d.x + d.image.offsetX - d.image.r/2)
+		.attr('y', d => d.y + d.image.offsetY - d.image.r/2)
 }

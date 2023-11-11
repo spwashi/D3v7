@@ -32,6 +32,12 @@ function makeCircle(g) {
 				weight *= -1;
 			}
 			switch (window.spwashi.superpower.name) {
+				case 'alert':
+					if (!d.md5) return;
+					navigator.clipboard.writeText(d.md5).then(e => {
+						alert(d.md5);
+					});
+					break;
 				case 'grow': {
 					d.r += weight;
 					break;
