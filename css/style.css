@@ -86,9 +86,8 @@ main form label {
 svg {
 	display: block;
 }
-line {
-	stroke: #ccc;
-}
+line { stroke: #ccc; }
+.wordsonly :is(circle, rect, line) { fill: none; stroke: none; }
 text {
 	user-select: none;
 	text-anchor: middle;

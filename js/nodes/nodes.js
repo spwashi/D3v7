@@ -59,25 +59,18 @@ function normalize(node,readNode, i) {
 }
 
 
-const makeAll = 
-	(g, {filterImage = false, filterRect = false, filterCircle = false, filterText = false}) => [
-		!filterCircle && makeCircle,
-		!filterRect && makeRect,		
-		!filterImage && makeImage,
-		!filterText && makeText,
-	].filter(Boolean).forEach(fn => fn(g));
-const removeAll = 
-	(g, {filterImage = false, filterRect = false, filterCircle = false, filterText = false}) => [
-		!filterCircle && (update => update.select('circle').remove()),
-		!filterText && (update => update.select('text').remove()),
-		!filterRect && (update => update.select('rect').remove()),
-		!filterImage &&(update => update.select('image').remove()),
-	].filter(Boolean).forEach(fn => fn(g));
-
 window.spwashi.nodesManager =  {
 	normalize: normalize,
+	filterNode: node => {
+		return true;
+		return node.kind ==='nominal'
+	},
 	processNode: (node, i) => {
+		const readNode = readNodePosition(node);
+		if (readNode.fx || readNode.fy) return;
 		if (!node.identity) return;
+		if (node.kind === 'nominal') return;
+
 		const fx = window.spwashi.values.fx?.[i] || node.fx || undefined;
 		const fy = window.spwashi.values.fy?.[i] || node.fy || undefined;
 		const r = window.spwashi.values.r?.[i] || node.r || window.spwashi.parameters.nodes.radiusMultiplier || undefined;
@@ -93,6 +86,7 @@ window.spwashi.nodesManager =  {
 		node.image.offsetY = 0;
 		node.md5 = node.identity && md5(node.identity);
 		node.image.href = 'images/' + node.md5 + '.webp';
+
 		const edgeLeft  = 50;
 		const edgeRight = window.spwashi.parameters.width - 50;
 		const edgeBottom = window.spwashi.parameters.height - 50;
@@ -213,7 +207,6 @@ window.spwashi.nodesManager =  {
 				const text = outerG.select('text.text');
 
 				// removeAll(update, {filterImage: true});
-				// makeAll(update, {filterImage: true});
 
 				update
 					.select('circle')

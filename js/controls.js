@@ -136,7 +136,7 @@ function initializeParameterContainers() {
 	}
 	
 	window.spwashi.refreshNodeInputs();
-	window.spwashi.nodes.push(...window.spwashi.readNodeInputs());
+	window.spwashi.nodes.push(...window.spwashi.readNodeInputs().filter(window.spwashi.nodesManager.filterNode));
 	window.spwashi.nodes.forEach(window.spwashi.nodesManager.processNode);
 	window.spwashi.reinit();
 

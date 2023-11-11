@@ -1,6 +1,5 @@
 window.spwashi = window.spwashi || {};
 window.spwashi.parameters = window.spwashi.parameters || {};
-
 window.spwashi.readParameters = 
 	(searchParameters) => {
 		[...searchParameters.entries()].forEach(([key,value]) => (document.querySelector('input[name='+key+']')||{}).value=value)
@@ -12,7 +11,9 @@ window.spwashi.readParameters =
 			fromLocalStorage = JSON.parse(fromLocalStorage);
 			window.spwashi.parameters = fromLocalStorage;
 		}
-		
+		if (searchParameters.has('wordsonly')) {
+			document.body.classList.add('wordsonly')
+		}
 		if (searchParameters.has('reset')) {
 			window.localStorage.clear();
 		}
