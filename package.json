@@ -6,6 +6,7 @@
   "author": "Sam Washington <sam@spwashi.com>",
   "license": "MIT",
   "scripts": {
+    "serve": "serve -l 5050",
 	  "serve:json": "json-server --watch input.json"
   },
   "dependencies": {

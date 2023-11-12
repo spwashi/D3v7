@@ -53,8 +53,8 @@ function normalize(node,readNode, i) {
 	); 
 	node.r = Math.max(node.r, 1)
 	node.image.r = isNaN(node.image.r) ? node.r : Math.max(10, node.image.r);
-	node.image.offsetX = !isNaN(node.image.offsetX) ? node.image.offsetX : -node.image.r * 2 ;
-	node.image.offsetY = !isNaN(node.image.offsetY) ? node.image.offsetY : -node.image.r * 2 ;
+	node.image.offsetX = !isNaN(node.image.offsetX) ? node.image.offsetX : 0;
+	node.image.offsetY = !isNaN(node.image.offsetY) ? node.image.offsetY : node.r;
 	return node;
 }
 

@@ -18,15 +18,28 @@
 	<script defer src="js/controls.js" type="application/javascript"></script>
 	<script defer src="js/simulation.js" type="application/javascript"></script>
 	<script defer src="js/input.js" type="application/javascript"></script>
+	<script type="module">
+		import {parse} from "./vendor/spw/parser/parse.mjs";
+		import {CharacterCursor} from "./vendor/spw/core/node/cursor.mjs";
+		window.spwashi = window.spwashi || {};
+		window.spwashi.parse = (text) => {
+			const tokens = [];
+			const generator = parse(text, {asGenerator: true});
+			for(let value of generator) {
+				if (CharacterCursor.isCharacterCursor(value)) {
+					tokens.push(value.getToken());
+				}
+			}
+			return tokens;
+		};
+	</script>
 	<link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
 	<main>
-		<div id="content">
-		  <svg id="simulation">
-		    <g class="links"></g>
-		    <g class="nodes"></g>
-		  </svg>
+		<div id="spw-container">
+			<textarea autofocus placeholder="string to parse" id="spw-parse-field"></textarea>
+			<button id="parse-spw">parse</button>
 		</div>
 		<div id="show-any-input">
 			<label>
@@ -52,10 +65,10 @@
 				<label>
 					<span>Data Buttons</span>
 					<div class="button-container">
+						<button class="save-nodes">save</button>
 						<button class="generate-nodes">generate</button>
 						<button class="clear-saved-nodes">clear</button>
 						<button class="read-nodes">read</button>
-						<button class="save-nodes">save</button>
 						<button class="clear-fixed-positions">free</button>
 					</div>
 				</label>
@@ -105,5 +118,11 @@
 				<button class="go">go</button>
 			</div>
 		</aside>
+		<div id="content">
+			<svg id="simulation">
+			  <g class="links"></g>
+			  <g class="nodes"></g>
+			</svg>
+		</div>
 	</main>
 </body>

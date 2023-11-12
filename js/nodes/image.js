@@ -2,7 +2,8 @@ function makeImage(g) {
 	const rect = g.append('rect')
 	.attr('width', d => { return d.image.r || d.r })
 	.attr('height', d => d.image.r || d.r)
-	.attr('x', d => d.x - d.r / 2)
+	.attr('x', d => d.x + d.image.offsetX - d.image.r / 2)
+	.attr('y', d => d.y + d.image.offsetY - d.image.r / 2)
 
 	const image =  g
 		.append('image')

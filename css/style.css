@@ -171,3 +171,14 @@ label input[type=checkbox] {
 	top: 0;
 	left: 0;
 }
+#spw-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+textarea:placeholder-shown + #parse-spw {
+	display: none;
+}
+textarea #parse-spw {
+	display: block;
+}
