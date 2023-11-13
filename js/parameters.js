@@ -4,8 +4,8 @@ window.spwashi.readParameters =
 	(searchParameters) => {
 		[...searchParameters.entries()].forEach(([key,value]) => (document.querySelector('input[name='+key+']')||{}).value=value)
 		window.spwashi.version = searchParameters.get('version');
-
 		window.spwashi.parameterKey = `simulation.parameters#${window.spwashi.version}`;
+
 		let fromLocalStorage = window.localStorage.getItem(window.spwashi.parameterKey);
 		if (fromLocalStorage) {
 			fromLocalStorage = JSON.parse(fromLocalStorage);
@@ -25,14 +25,37 @@ window.spwashi.readParameters =
 		if (searchParameters.has('linkstrength')) {
 			window.spwashi.parameters.links.strength = +searchParameters.get('linkstrength');
 		}
+		window.spwashi.parameters.forces = window.spwashi.parameters.forces || {};
 		if (searchParameters.has('charge')) {
-			window.spwashi.parameters.forces = window.spwashi.parameters.forces || {};
 			window.spwashi.parameters.forces.charge = +searchParameters.get('charge');
 		}
 		if (searchParameters.has('linkprev')) {
 			window.spwashi.parameters.links.linkPrev = +searchParameters.get('linkprev');
 		} else {
 			window.spwashi.parameters.links.linkPrev = 0;	
+		}
+		if (searchParameters.has('width')) {
+			window.spwashi.parameters.width = +searchParameters.get('width');
+		}
+		if (searchParameters.has('height')) {
+			window.spwashi.parameters.height = +searchParameters.get('height');
+		}
+		if (searchParameters.has('center')) {
+			let [x, y] = (searchParameters.get('center').split(',').map(n => +n));
+			window.spwashi.parameters.forces.centerPos = {x, y};
+		}
+		if (searchParameters.has('mode')) {
+			switch (searchParameters.get('mode')) {
+				case 'spw':
+					document.body.classList.add('spw-mode');
+					break;
+				case 'direct':
+					document.body.classList.add('direct-mode');
+					break;
+				case 'node':
+					document.body.classList.add('node-mode');
+					break;
+			}
 		}
 
 		window.spwashi.values = window.spwashi.values || {};
@@ -59,10 +82,17 @@ window.spwashi.readParameters =
 		window.spwashi.superpower.weight = parseInt(searchParameters.get('weight') || 1);
 	
 		initializeParameterContainers();
+		initializeQueryParametersQuickChange();
+		initializeNodeMapAndFilter();
+		initializeSpwParseField();
 	}
-window.spwashi.setItem = (key, item, category = null) => { window.localStorage.setItem(window.spwashi.parameterKey + '@' + key, JSON.stringify(item || null)); }
+
+const getItemKey = key => window.spwashi.parameterKey + '@' + key;
+window.spwashi.setItem = (key, item, category = null) => { 
+	window.localStorage.setItem(getItemKey(key), JSON.stringify(item || null)); 
+}
 window.spwashi.getItem = (key, category = null) => {
-	const out = window.localStorage.getItem(window.spwashi.parameterKey + '@' + key)
+	const out = window.localStorage.getItem(getItemKey(key))
 	if (out) return JSON.parse(out || '{}')
 	return undefined;
 }
@@ -70,8 +100,8 @@ const getNodeKey = node => window.spwashi.parameterKey + '@node.id[' + node.id +
 const pw = window.innerWidth * .9;
 const ph = window.innerHeight * .9;
 
-window.spwashi.parameters.width = pw;
-window.spwashi.parameters.height = ph;
+window.spwashi.parameters.width = window.spwashi.parameters.width || pw;
+window.spwashi.parameters.height = window.spwashi.parameters.height || ph;
 window.spwashi.parameters.startPos = window.spwashi.parameters.startPos || {};
 window.spwashi.parameters.startPos.x = window.spwashi.parameters.startPos.x || window.spwashi.parameters.width / 2;
 window.spwashi.parameters.startPos.y = window.spwashi.parameters.startPos.y || window.spwashi.parameters.height / 2;
@@ -86,13 +116,3 @@ window.spwashi.parameters.forces.center = window.spwashi.parameters.forces.cente
 window.spwashi.parameters.forces.centerPos = window.spwashi.parameters.forces.centerPos || {};
 window.spwashi.parameters.forces.centerPos.x = window.spwashi.parameters.forces.centerPos.x || window.spwashi.parameters.startPos.x;
 window.spwashi.parameters.forces.centerPos.y = window.spwashi.parameters.forces.centerPos.y || window.spwashi.parameters.startPos.y;
-
-let width 		= window.spwashi.parameters.width;
-let height 		= window.spwashi.parameters.height;
-let CHARGE_STRENGTH 	= window.spwashi.parameters.forces.charge;
-let CENTER_STRENGTH 	= window.spwashi.parameters.forces.center;
-let CENTER_POS 		= [
-	window.spwashi.parameters.forces.centerPos.x,
-	window.spwashi.parameters.forces.centerPos.y,
-];
-let LINK_STRENGTH 	= window.spwashi.parameters.links.strength;

@@ -2,13 +2,10 @@ window.spwashi = window.spwashi || {};
 window.spwashi.simulation = d3.forceSimulation();
 window.spwashi.nodes = window.spwashi.nodes || [];
 
-d3.select("svg#simulation") 
-	.attr('width', window.spwashi.parameters.width)
-	.attr('height', window.spwashi.parameters.height)
-
-window.spwashi.reinit = 
-	() => {
-		const linkContainer = [];
+window.spwashi.reinit = () => {
+	d3.select("svg#simulation")
+		.attr('width', window.spwashi.parameters.width)
+		.attr('height', window.spwashi.parameters.height)
 		const nodes = window.spwashi.nodesManager.init(window.spwashi.nodes);
 		const links = window.spwashi.linksManager.init([], nodes);
 		const simulation = window.spwashi.simulation;
@@ -17,7 +14,10 @@ window.spwashi.reinit =
 		simulation.force('link', d3.forceLink().links(links).id(d => d.id).strength(l => l.strength || 1));
 		simulation.force('collide', d3.forceCollide(d => d.r));
 		simulation.force('charge', d3.forceManyBody().strength(window.spwashi.parameters.forces.charge));
-		simulation.force('center', d3.forceCenter(...CENTER_POS).strength(window.spwashi.parameters.forces.center));
+		simulation.force('center', d3.forceCenter(...[
+			window.spwashi.parameters.forces.centerPos.x,
+			window.spwashi.parameters.forces.centerPos.y,
+		]).strength(window.spwashi.parameters.forces.center));
 
 		window.spwashi.tick = 
 			() => {

@@ -1,60 +1,76 @@
 <!DOCTYPE html>
 <head>
-	<title>D3 page</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<script src = "https://d3js.org/d3.v7.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
-	<script defer src="js/parameters.js" type="application/javascript"></script>
-	<script defer src="js/nodes/colors.js" type="application/javascript"></script>
-	<script defer src="js/nodes/images.js" type="application/javascript"></script>
-	<script defer src="js/nodes/store.js" type="application/javascript"></script>
-	<script defer src="js/nodes/circle.js" type="application/javascript"></script>
-	<script defer src="js/nodes/rect.js" type="application/javascript"></script>
-	<script defer src="js/nodes/image.js" type="application/javascript"></script>
-	<script defer src="js/nodes/text.js" type="application/javascript"></script>
-	<script defer src="js/nodes/nodes.js" type="application/javascript"></script>
-	<script defer src="js/links.js" type="application/javascript"></script>
-	<script defer src="js/interactions.js" type="application/javascript"></script>
-	<script defer src="js/controls.js" type="application/javascript"></script>
-	<script defer src="js/simulation.js" type="application/javascript"></script>
-	<script defer src="js/input.js" type="application/javascript"></script>
-	<script type="module">
-		import {parse} from "./vendor/spw/parser/parse.mjs";
-		import {CharacterCursor} from "./vendor/spw/core/node/cursor.mjs";
-		window.spwashi = window.spwashi || {};
-		window.spwashi.parse = (text) => {
-			const tokens = [];
-			const generator = parse(text, {asGenerator: true});
-			for(let value of generator) {
-				if (CharacterCursor.isCharacterCursor(value)) {
-					tokens.push(value.getToken());
-				}
-			}
-			return tokens;
-		};
-	</script>
-	<link href="css/style.css" rel="stylesheet" />
+    <title>D3 page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
+    <script defer src="js/parameters.js" type="application/javascript"></script>
+    <script defer src="js/nodes/colors.js" type="application/javascript"></script>
+    <script defer src="js/nodes/images.js" type="application/javascript"></script>
+    <script defer src="js/nodes/store.js" type="application/javascript"></script>
+    <script defer src="js/nodes/circle.js" type="application/javascript"></script>
+    <script defer src="js/nodes/rect.js" type="application/javascript"></script>
+    <script defer src="js/nodes/image.js" type="application/javascript"></script>
+    <script defer src="js/nodes/text.js" type="application/javascript"></script>
+    <script defer src="js/nodes/nodes.js" type="application/javascript"></script>
+    <script defer src="js/links.js" type="application/javascript"></script>
+    <script defer src="js/interactions.js" type="application/javascript"></script>
+    <script defer src="js/controls.js" type="application/javascript"></script>
+    <script defer src="js/simulation.js" type="application/javascript"></script>
+    <script defer src="js/input.js" type="application/javascript"></script>
+    <script type="module">
+      import {parse}           from "./vendor/spw/parser/parse.mjs";
+      import {CharacterCursor} from "./vendor/spw/core/node/cursor.mjs";
+
+      window.spwashi       = window.spwashi || {};
+      window.spwashi.parse = (text) => {
+        const tokens    = [];
+        const generator = parse(text, {asGenerator: true});
+        for (let value of generator) {
+          if (CharacterCursor.isCharacterCursor(value)) {
+            tokens.push(value.getToken());
+          }
+        }
+        return tokens;
+      };
+    </script>
+    <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
-	<main>
-		<div id="spw-container">
-			<textarea autofocus placeholder="string to parse" id="spw-parse-field"></textarea>
-			<button id="parse-spw">parse</button>
-		</div>
-		<div id="show-any-input">
-			<label>
-				<span>Add Depth</span>
-				<input type="checkbox" />
-			</label>
-		</div>
-		<aside>
-			<div id="show-node-inputs">
-				<label>
-					<span>Modify Simulation Data</span>
-					<input autofocus type="checkbox" />
-				</label>
-
+    <main>
+        <aside id="spw-mode-container">
+			<div id="spw-container">
+				<textarea autofocus placeholder="string to parse" id="spw-parse-field"></textarea>
+				<button id="parse-spw">parse</button>
 			</div>
+			<form id="map-filter-form">
+				<textarea name="map" id="node-mapper"></textarea>
+				<textarea name="filter" id="node-filter"></textarea>
+				<button type="submit">submit</button>
+			</form>
+		</aside>
+        <aside id="direct-mode-container">
+			<div id="query-parameters">
+				<textarea class="value"></textarea>
+				<button class="go">go</button>
+			</div>
+			<form id="change-parameters-form">
+				<label><span>version</span><input name="version" value="boon"/></label>
+				<label>
+					<span>superpower</span>
+					<select name="superpower" value="grow">
+						<option>shrink</option>
+						<option>changecolor</option>
+						<option>grow</option>
+					</select>
+				</label>
+				<label><span>weight</span><input name="weight" value="100"/></label>
+				<label><span>node count</span><input name="nodeCount" value="13" type="number"/></label>
+				<label><span>link strength</span><input name="linkstrength" value=".5" type="number" step=".1"/></label>
+				<button type="submit">Submit</button>
+			</form>
+        </aside>
+		<aside id="node-mode-container">
 			<div id="node-input-container">
 				<label><span>Nodes Input</span><textarea id="nodes-input"></textarea></label>
 				<label><span>Data Selector</span><textarea id="nodes-selector-fn"></textarea></label>
@@ -82,47 +98,12 @@
 					</div>
 				</label>
 			</div>
-			<div id="show-parameters">
-				<label>
-					<span>Modify Simulation Parameters</span>
-					<input type="checkbox" />
-				</label>
-			</div>
-			<div id="parameters">
-				<div class="input-container"></div>
-				<button class="go">go</button>
-			</div>
-			<div id="show-page-form">
-				<label>
-					<span>Modify Page Parameters</span>
-					<input type="checkbox" />
-				</label>
-			</div>
-			<form>
-				<label><span>version</span><input name="version" value="boon" /></label>
-				<label>
-					<span>superpower</span>
-					<select name="superpower" value="grow">
-						<option>shrink</option>
-						<option>changecolor</option>
-						<option>grow</option>
-					</select>
-				</label>
-				<label><span>weight</span><input name="weight" value="100" /></label>
-				<label><span>node count</span><input name="nodeCount" value="13" type="number" /></label>
-				<label><span>link strength</span><input name="linkstrength" value=".5" type="number" step=".1" /></label>
-				<button type="submit">Submit</button>
-			</form>
-			<div id="query-parameters">
-				<textarea class="value"></textarea>
-				<button class="go">go</button>
-			</div>
 		</aside>
-		<div id="content">
-			<svg id="simulation">
-			  <g class="links"></g>
-			  <g class="nodes"></g>
-			</svg>
-		</div>
-	</main>
+        <div id="content">
+            <svg id="simulation">
+                <g class="links"></g>
+                <g class="nodes"></g>
+            </svg>
+        </div>
+    </main>
 </body>

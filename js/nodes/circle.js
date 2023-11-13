@@ -10,10 +10,10 @@ function makeCircle(g) {
 			d.fy = isNaN(d.fy) ? d.y : d.fy;
 			return;
 		}
-		if (e.key === ' ') {
-			if (e.shiftKey) d.fx = d.fy = undefined;
-			return;
-		}
+    if (e.shiftKey) {
+      d.fx = d.fy = undefined;
+      return;
+    }
 		if (e.key && e.key !== ' ') return;
 
 		if(e.shiftKey) {
@@ -75,7 +75,7 @@ function makeCircle(g) {
 		)
 		.call(d3.zoom().on('zoom', (e, d) => {
 			console.log('scroll', d.name , d.id);
-			// d.r = Math.min(d.r * e.transform.k, 50); 
+			// d.r = Math.min(d.r * e.transform.k, 50);
 		}))
 		.on('click', onclick)
 		.on('keydown', (e, d) => {
