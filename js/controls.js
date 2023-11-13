@@ -194,6 +194,15 @@ function initializeNodeMapAndFilter() {
   }
 }
 
+function initializeModeSelection(starterMode) {
+  const modeSelect = document.querySelector('#mode-selector');
+  modeSelect.value = starterMode;
+  modeSelect.onchange = function (e) {
+    const mode = e.target.value;
+    setDocumentMode(mode)
+  }
+}
+
 document.addEventListener('keydown', (e) => {
   if (!(e.ctrlKey || e.metaKey)) return;
   if (e.key === 'g') {

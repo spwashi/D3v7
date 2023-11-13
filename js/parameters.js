@@ -1,6 +1,21 @@
 window.spwashi = window.spwashi || {};
 window.spwashi.parameters = window.spwashi.parameters || {};
-window.spwashi.readParameters = 
+
+function setDocumentMode(mode) {
+	switch (mode) {
+		case 'spw':
+			document.body.dataset.mode = 'spw';
+			break;
+		case 'direct':
+			document.body.dataset.mode = 'direct';
+			break;
+		case 'node':
+			document.body.dataset.mode = 'node';
+			break;
+	}
+}
+
+window.spwashi.readParameters =
 	(searchParameters) => {
 		[...searchParameters.entries()].forEach(([key,value]) => (document.querySelector('input[name='+key+']')||{}).value=value)
 		window.spwashi.version = searchParameters.get('version');
@@ -44,18 +59,12 @@ window.spwashi.readParameters =
 			let [x, y] = (searchParameters.get('center').split(',').map(n => +n));
 			window.spwashi.parameters.forces.centerPos = {x, y};
 		}
+
+		let mode;
 		if (searchParameters.has('mode')) {
-			switch (searchParameters.get('mode')) {
-				case 'spw':
-					document.body.classList.add('spw-mode');
-					break;
-				case 'direct':
-					document.body.classList.add('direct-mode');
-					break;
-				case 'node':
-					document.body.classList.add('node-mode');
-					break;
-			}
+			mode = searchParameters.get('mode');
+
+			setDocumentMode(mode);
 		}
 
 		window.spwashi.values = window.spwashi.values || {};
@@ -85,6 +94,7 @@ window.spwashi.readParameters =
 		initializeQueryParametersQuickChange();
 		initializeNodeMapAndFilter();
 		initializeSpwParseField();
+		initializeModeSelection(mode);
 	}
 
 const getItemKey = key => window.spwashi.parameterKey + '@' + key;

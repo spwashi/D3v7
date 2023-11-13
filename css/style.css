@@ -1,79 +1,46 @@
 :root {
-	--html-background: #111111;
-	--body-background: #335555;
-	--node-color-0:  #446666;
-	--node-color-1:  #eeeeee;
-	--node-color-2:  #dddddd;
-	--node-color-3:  #cccccc;
-	--node-color-4:  #bbbbbb;
-	--node-color-5:  #999999;
-	--node-color-6:  #888888;
-	--node-color-7:  #777777;
-	--node-color-8:  #555555;
-	--node-color-9:  #444444;
-	--node-color-10: #333333;
-	--node-color-11: #111111;
-	--node-color-12: #000000;
+    --html-background: #111111;
+    --body-background: #335555;
+    --node-color-0: #446666;
+    --node-color-1: #eeeeee;
+    --node-color-2: #dddddd;
+    --node-color-3: #cccccc;
+    --node-color-4: #bbbbbb;
+    --node-color-5: #999999;
+    --node-color-6: #888888;
+    --node-color-7: #777777;
+    --node-color-8: #555555;
+    --node-color-9: #444444;
+    --node-color-10: #333333;
+    --node-color-11: #111111;
+    --node-color-12: #000000;
 
-	--form-checkbox-1-pos: 100px;
-	--form-checkbox-2-pos: 300px;
-	--form-checkbox-3-pos: 500px;
+    --form-checkbox-1-pos: 100px;
+    --form-checkbox-2-pos: 300px;
+    --form-checkbox-3-pos: 500px;
 }
 
 html {
-	font-family: monospace;
-	background: var(--html-background);
-	margin: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	width: 100%;
+    font-family: monospace;
+    background: var(--html-background);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 body {
-	outline: thick solid #ccc;
-	margin: 0;
-	padding: 0;
-	background: var(--body-background);
+    outline: thick solid #cccccc;
+    margin: 0;
+    padding: 0;
+    background: var(--body-background);
 }
 main {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-}
-svg {
-	display: block;
-}
-line {
-	stroke: #ccc;
-}
-
-.wordsonly :is(circle, rect, line) { fill: none; stroke: none; }
-text {
-	user-select: none;
-	text-anchor: middle;
-	font-family: monospace;
-	white-space: pre;
-}
-
-#direct-mode-container {
-    display: none;
-}
-.direct-mode #direct-mode-container {
     display: flex;
-}
-#change-parameters-form {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
-#node-mode-container {
-	display: none;
-}
-.node-mode #node-mode-container {
-	display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 main form {
@@ -103,79 +70,121 @@ label input[type=checkbox] {
 	margin-bottom: 1rem;
 }
 
+svg {
+    display: block;
+}
+line {
+    stroke: #cccccc;
+}
+text {
+	user-select: none;
+	text-anchor: middle;
+	font-family: monospace;
+	white-space: pre;
+}
+
+.wordsonly :is(circle, rect, line) {
+    fill: none;
+    stroke: none;
+}
+
+#direct-mode-container {
+    display: none;
+}
+[data-mode=direct] #direct-mode-container {
+    display: flex;
+}
+#change-parameters-form {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#node-mode-container {
+    display: none;
+}
+[data-mode=node] #node-mode-container {
+    display: flex;
+}
+
 #node-input-container {
-	display: flex;
-	flex-direction: column;
-	position: absolute;
-	left: 0;
-	top: 0;
-	z-index: 1;
-	background: #222;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    background: #222222;
+	color: white;
 }
 #node-input-container button {
-	padding: .5rem;
-	margin: .5rem 0;
+    padding: .5rem;
+    margin: .5rem 0;
 }
-#node-input-container {
-	color: white;
+
+#mode-selection-container {
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 #controls {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 #controls label {
-	color: white;
-	font-weight: bold;
+    color: white;
+    font-weight: bold;
 }
 #controls .button-container {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 #controls:has(:focus) {
-	border: thick solid yellow;
+    border: thick solid yellow;
 }
 #controls button {
-	padding: .5rem;
-	font-size: 2rem;
-	font-family: monospace;
+    padding: .5rem;
+    font-size: 2rem;
+    font-family: monospace;
 }
 
-#query-parameters{
-	position: absolute;
-	top: 0;
-	left: 0;
+#query-parameters {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 textarea:placeholder-shown + #parse-spw {
-	display: none;
+    display: none;
 }
 textarea + #parse-spw {
-	display: block;
-	font-size: 2rem;
+    display: block;
+    font-size: 2rem;
 }
 #spw-container {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: flex;
-	flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
 }
 #map-filter-form {
-	position: absolute;
-	left: 0;
-	top: 50%;
-	display: flex;
-	flex-direction: column;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
 }
 :is(#spw-container, #map-filter-form) {
-	display: none;
+    display: none;
 }
-.spw-mode :is(#spw-container, #map-filter-form) {
-	display: flex;
+[data-mode=spw] :is(#spw-container, #map-filter-form) {
+    display: flex;
 }
+
