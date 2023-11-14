@@ -205,12 +205,12 @@ function initializeModeSelection(starterMode) {
 }
 
 document.addEventListener('keydown', (e) => {
-  const isRelevantKeystroke = e.ctrlKey;
+  const isRelevantKeystroke = e.metaKey || e.ctrlKey;
   if (!isRelevantKeystroke) return;
-  e.preventDefault();
   const keystrokeOptions = window.spwashi.keystrokeOptions;
   for (let option of keystrokeOptions) {
     if (e.key === option[0]) {
+      e.preventDefault();
       option[2]();
     }
   }

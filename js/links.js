@@ -12,7 +12,6 @@ window.spwashi.linksManager = {
 				items.forEach(item => {
 					const source = (typeof item === "string" ? item : item.identity);
 					const sourceNode = window.spwashi.getNode(source);
-					console.log(source, sourceNode);
 					if (!sourceNode) {
 						return;
 					}

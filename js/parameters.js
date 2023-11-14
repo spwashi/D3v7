@@ -49,10 +49,22 @@ window.spwashi.readParameters = (searchParameters) => {
     window.spwashi.parameters.forces.centerPos = {x, y};
   }
 
+  if (searchParameters.has('alpha')) {
+    window.spwashi.parameters.forces.alpha = +searchParameters.get('alpha');
+  }
+  if (searchParameters.has('alphaTarget')) {
+    window.spwashi.parameters.forces.alphaTarget = +searchParameters.get('alphaTarget');
+  }
+  if (searchParameters.has('alphaDecay')) {
+    window.spwashi.parameters.forces.alphaDecay = +searchParameters.get('alphaDecay');
+  }
+  if (searchParameters.has('velocityDecay')) {
+    window.spwashi.parameters.forces.velocityDecay = +searchParameters.get('velocityDecay');
+  }
+
   let mode;
   if (searchParameters.has('mode')) {
     mode = searchParameters.get('mode');
-
     setDocumentMode(mode);
   }
 
@@ -100,23 +112,23 @@ window.spwashi.readParameters = (searchParameters) => {
        window.spwashi.setItem('parameters.nodes-input-map-fn-string', 'data => data');
        window.spwashi.refreshNodeInputs();
      }],
-    ['l', 'clear active nodes',
+    ['k', 'clear active nodes',
      () => {
        window.spwashi.nodes.length = 0;
        window.spwashi.reinit();
      }],
-    ['/', 'clear cached nodes',
+    ['-', 'clear cached nodes',
      () => {
-        window.spwashi.clearCachedNodes();
+       window.spwashi.clearCachedNodes();
      }],
-    ['j', 'fix positions',
+    ['.', 'fix positions',
      () => {
        window.spwashi.nodes.forEach(node => {
          node.fx = node.x;
          node.fy = node.y;
        });
      }],
-    ['k', 'clear fixed positions',
+    [',', 'clear fixed positions',
      () => {
        window.spwashi.nodes.forEach(node => {
          node.fx = undefined;
@@ -146,9 +158,9 @@ window.spwashi.getItem = (key, category = null) => {
   if (out) return JSON.parse(out || '{}')
   return undefined;
 }
-const getNodeKey       = node => window.spwashi.parameterKey + '@node.id[' + node.id + ']';
-const pw               = window.innerWidth * .9;
-const ph               = window.innerHeight * .9;
+
+const pw = window.innerWidth * .9;
+const ph = window.innerHeight * .9;
 
 window.spwashi.parameters.width                  = window.spwashi.parameters.width || pw;
 window.spwashi.parameters.height                 = window.spwashi.parameters.height || ph;
@@ -161,6 +173,10 @@ window.spwashi.parameters.nodes                  = window.spwashi.parameters.nod
 window.spwashi.parameters.nodes.count            = window.spwashi.parameters.nodes.count || 13;
 window.spwashi.parameters.nodes.radiusMultiplier = window.spwashi.parameters.nodes.radiusMultiplier || 30;
 window.spwashi.parameters.forces                 = window.spwashi.parameters.forces || {};
+window.spwashi.parameters.forces.alpha           = window.spwashi.parameters.forces.alpha || 1;
+window.spwashi.parameters.forces.alphaTarget     = window.spwashi.parameters.forces.alphaTarget || .3;
+window.spwashi.parameters.forces.alphaDecay      = window.spwashi.parameters.forces.alphaDecay || .03;
+window.spwashi.parameters.forces.velocityDecay   = window.spwashi.parameters.forces.velocityDecay || .03;
 window.spwashi.parameters.forces.charge          = window.spwashi.parameters.forces.charge || -100;
 window.spwashi.parameters.forces.center          = window.spwashi.parameters.forces.center || 1;
 window.spwashi.parameters.forces.centerPos       = window.spwashi.parameters.forces.centerPos || {};

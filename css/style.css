@@ -85,7 +85,6 @@ line {
 }
 text {
 	user-select: none;
-	text-anchor: middle;
 	font-family: monospace;
 	white-space: pre;
 }
