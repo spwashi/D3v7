@@ -134,6 +134,12 @@ text {
 	bottom: 0;
 	right: 0;
 }
+#mode-selection-container label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 #controls {
     position: absolute;
@@ -171,11 +177,18 @@ textarea + #parse-spw {
     display: block;
     font-size: 2rem;
 }
-#spw-container {
+#spw-mode-container {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
+    right: 0;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#spw-container {
+    display: inline-flex;
     flex-direction: column;
 }
 #map-filter-form {
@@ -185,10 +198,16 @@ textarea + #parse-spw {
     display: flex;
     flex-direction: column;
 }
-:is(#spw-container, #map-filter-form) {
+:is(#spw-container) {
     display: none;
 }
-[data-mode=spw] :is(#spw-container, #map-filter-form) {
+[data-mode=spw] :is(#spw-container) {
+    display: flex;
+}
+:is(#map-filter-form) {
+    display: none;
+}
+[data-mode=direct] :is(#map-filter-form) {
     display: flex;
 }
 
@@ -202,10 +221,11 @@ textarea + #parse-spw {
     color: wheat;
     cursor: pointer;
     background: #222222;
+    flex-direction: column;
+    border: thin solid wheat;
 }
 #show-keystroke-options input {
     display: inline-flex;
-    margin-left: 1rem;
 }
 #show-keystroke-options + #keystroke-options {
     display: none;
@@ -216,7 +236,7 @@ textarea + #parse-spw {
 }
 #keystroke-options {
     position: absolute;
-    bottom: 2rem;
+    bottom: 4rem;
     left: 0;
     padding: 0 2rem 1rem;
 }

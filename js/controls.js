@@ -196,6 +196,7 @@ function initializeNodeMapAndFilter() {
 
 function initializeModeSelection(starterMode) {
   const modeSelect    = document.querySelector('#mode-selector');
+  setDocumentMode(starterMode)
   modeSelect.value    = starterMode;
   modeSelect.onchange = function (e) {
     const mode = e.target.value;

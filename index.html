@@ -45,6 +45,8 @@
                 <textarea autofocus placeholder="string to parse" id="spw-parse-field"></textarea>
                 <button id="parse-spw">parse</button>
             </div>
+        </aside>
+        <aside id="direct-mode-container">
             <form id="map-filter-form">
                 <textarea name="map" id="node-mapper"></textarea>
                 <textarea name="filter" id="node-filter"></textarea>
@@ -109,17 +111,18 @@
         </div>
     </main>
     <label id="show-keystroke-options">
-        <span>Show Keystroke Options</span>
+        <span>Hotkeys</span>
         <input type="checkbox">
     </label>
     <aside id="keystroke-options"></aside>
     <aside id="mode-selection-container">
         <label>
-            <span>Mode Selector</span>
+            <span>Mode</span>
             <select name="mode" id="mode-selector">
                 <option></option>
                 <option>spw</option>
                 <option>node</option>
+                <option>direct</option>
                 <option>querymod</option>
             </select>
         </label>

@@ -2,17 +2,7 @@ window.spwashi            = window.spwashi || {};
 window.spwashi.parameters = window.spwashi.parameters || {};
 
 function setDocumentMode(mode) {
-  switch (mode) {
-    case 'spw':
-      document.body.dataset.mode = 'spw';
-      break;
-    case 'querymod':
-      document.body.dataset.mode = 'querymod';
-      break;
-    case 'node':
-      document.body.dataset.mode = 'node';
-      break;
-  }
+      document.body.dataset.mode = mode;
 }
 
 window.spwashi.readParameters =
