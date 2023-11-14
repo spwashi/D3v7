@@ -55,6 +55,13 @@ main form label {
 	color: white;
 	font-weight: bold;
 }
+body > aside {
+    background: #111111;
+    display: inline-flex;
+    color: wheat;
+    padding: 1rem;
+    border: thin solid wheat;
+}
 label {
 	width: 15rem;
 	text-align: center;
@@ -88,10 +95,10 @@ text {
     stroke: none;
 }
 
-#direct-mode-container {
+#querymod-mode-container {
     display: none;
 }
-[data-mode=direct] #direct-mode-container {
+[data-mode=querymod] #querymod-mode-container {
     display: flex;
 }
 #change-parameters-form {
@@ -188,3 +195,8 @@ textarea + #parse-spw {
     display: flex;
 }
 
+#keystroke-options {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

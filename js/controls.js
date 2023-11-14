@@ -46,7 +46,7 @@ function initializeForceSimulationControls() {
 }
 
 function initializeParameterContainers() {
-  let items            = {};
+  let items = {};
 
   function traverse(item, prefix = 'window-spwashi-parameters') {
     if (typeof item === "number") return item;
@@ -172,9 +172,9 @@ function initializeNodeMapAndFilter() {
   const filterElement = document.querySelector('#node-filter');
 
   mapElement.value    = window.spwashi.getItem(mapKey) || `d => {\n	return d;\n}`;
-  mapElement.rows = mapElement.value.split('\n').length + 1;
+  mapElement.rows     = mapElement.value.split('\n').length + 1;
   filterElement.value = window.spwashi.getItem(filterKey) || `d => {\n	return true;\n}`;
-  filterElement.rows = filterElement.value.split('\n').length + 1;
+  filterElement.rows  = filterElement.value.split('\n').length + 1;
 
   mapFilterForm.onsubmit = function (e) {
     e.preventDefault();
@@ -195,8 +195,8 @@ function initializeNodeMapAndFilter() {
 }
 
 function initializeModeSelection(starterMode) {
-  const modeSelect = document.querySelector('#mode-selector');
-  modeSelect.value = starterMode;
+  const modeSelect    = document.querySelector('#mode-selector');
+  modeSelect.value    = starterMode;
   modeSelect.onchange = function (e) {
     const mode = e.target.value;
     setDocumentMode(mode)
@@ -204,22 +204,42 @@ function initializeModeSelection(starterMode) {
 }
 
 document.addEventListener('keydown', (e) => {
-  if (!(e.ctrlKey || e.metaKey)) return;
-  if (e.key === 'g') {
-    e.preventDefault();
-    return generateNodes();
-  }
-  if (e.key === 'k') {
-    e.preventDefault();
-    window.spwashi.nodes.length = 0;
-    window.spwashi.reinit();
-  }
-  if (e.key === 's') {
-    e.preventDefault();
-    const nodes = window.spwashi.nodes;
-    nodes.map(window.spwashi.nodesManager.saveNode)
-    window.spwashi.setItem('parameters.nodes-input', nodes);
-    window.spwashi.setItem('parameters.nodes-input-map-fn-string', 'data => data');
-    window.spwashi.refreshNodeInputs();
+  const isRelevantKeystroke = e.ctrlKey;
+  if (!isRelevantKeystroke) return;
+  const keystrokeOptions = window.spwashi.keystrokeOptions;
+  switch (e.key) {
+    case keystrokeOptions[0][0]: {
+      window.spwashi.nodes.forEach(node => {
+        node.fx = undefined;
+        node.fy = undefined;
+      });
+      break;
+    }
+    case keystrokeOptions[1][0]: {
+      window.spwashi.nodes.forEach(node => {
+        node.fx = node.x;
+        node.fy = node.y;
+      });
+      break;
+    }
+    case keystrokeOptions[2][0]: {
+      e.preventDefault();
+      return generateNodes();
+    }
+    case keystrokeOptions[3][0]: {
+      e.preventDefault();
+      window.spwashi.nodes.length = 0;
+      window.spwashi.reinit();
+      break;
+    }
+    case keystrokeOptions[4][0]: {
+      e.preventDefault();
+      const nodes = window.spwashi.nodes;
+      nodes.map(window.spwashi.nodesManager.saveNode)
+      window.spwashi.setItem('parameters.nodes-input', nodes);
+      window.spwashi.setItem('parameters.nodes-input-map-fn-string', 'data => data');
+      window.spwashi.refreshNodeInputs();
+      break;
+    }
   }
 });

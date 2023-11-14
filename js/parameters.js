@@ -6,8 +6,8 @@ function setDocumentMode(mode) {
 		case 'spw':
 			document.body.dataset.mode = 'spw';
 			break;
-		case 'direct':
-			document.body.dataset.mode = 'direct';
+		case 'querymod':
+			document.body.dataset.mode = 'querymod';
 			break;
 		case 'node':
 			document.body.dataset.mode = 'node';
@@ -47,7 +47,7 @@ window.spwashi.readParameters =
 		if (searchParameters.has('linkprev')) {
 			window.spwashi.parameters.links.linkPrev = +searchParameters.get('linkprev');
 		} else {
-			window.spwashi.parameters.links.linkPrev = 0;	
+			window.spwashi.parameters.links.linkPrev = 0;
 		}
 		if (searchParameters.has('width')) {
 			window.spwashi.parameters.width = +searchParameters.get('width');
@@ -89,17 +89,31 @@ window.spwashi.readParameters =
 		window.spwashi.superpower = window.spwashi.superpower || {};
 		window.spwashi.superpower.name = searchParameters.get('superpower');
 		window.spwashi.superpower.weight = parseInt(searchParameters.get('weight') || 1);
-	
+
 		initializeParameterContainers();
 		initializeQueryParametersQuickChange();
 		initializeNodeMapAndFilter();
 		initializeSpwParseField();
 		initializeModeSelection(mode);
+		const keystrokeOptions     = document.querySelector('#keystroke-options');
+		keystrokeOptions.innerHTML = '';
+		const optionList  = keystrokeOptions.appendChild(document.createElement('UL'));
+		window.spwashi.keystrokeOptions = [
+			['k', 'clear fixed positions'],
+			['j', 'fix positions'],
+			['g', 'generate nodes'],
+			['l', 'clear nodes'],
+			['s', 'save nodes']
+		];
+		window.spwashi.keystrokeOptions.forEach(([key, description]) => {
+			const li = optionList.appendChild(document.createElement('LI'));
+			li.innerHTML = `[<kbd>CTRL + ${key}</kbd>] ${description}`;
+		})
 	}
 
 const getItemKey = key => window.spwashi.parameterKey + '@' + key;
-window.spwashi.setItem = (key, item, category = null) => { 
-	window.localStorage.setItem(getItemKey(key), JSON.stringify(item || null)); 
+window.spwashi.setItem = (key, item, category = null) => {
+	window.localStorage.setItem(getItemKey(key), JSON.stringify(item || null));
 }
 window.spwashi.getItem = (key, category = null) => {
 	const out = window.localStorage.getItem(getItemKey(key))
@@ -126,3 +140,4 @@ window.spwashi.parameters.forces.center = window.spwashi.parameters.forces.cente
 window.spwashi.parameters.forces.centerPos = window.spwashi.parameters.forces.centerPos || {};
 window.spwashi.parameters.forces.centerPos.x = window.spwashi.parameters.forces.centerPos.x || window.spwashi.parameters.startPos.x;
 window.spwashi.parameters.forces.centerPos.y = window.spwashi.parameters.forces.centerPos.y || window.spwashi.parameters.startPos.y;
+window.spwashi.keystrokeOptions = window.spwashi.keystrokeOptions || [];
