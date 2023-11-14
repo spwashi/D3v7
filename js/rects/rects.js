@@ -11,7 +11,7 @@ window.spwashi.rectsManager = {
                          .classed('rect', true);
 
               const rect = g.append('rect')
-                            .attr('width', d => d.width || 5)
+                            .attr('width', d => Math.abs(d.width))
                             .attr('height', d => d.height || 5)
                             .attr('x', d => d.x)
                             .attr('y', d => d.y)

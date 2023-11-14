@@ -154,6 +154,10 @@ function initializeQueryParametersQuickChange() {
 
 function initializeSpwParseField() {
   const element  = document.querySelector('#spw-parse-field');
+  element.onkeyup = () => {
+    // set textarea height to line count
+    element.rows = element.value.split('\n').length + 1;
+  }
   const button   = document.querySelector('#parse-spw');
   button.onclick = () => {
     const text    = element.value;

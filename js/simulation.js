@@ -22,6 +22,12 @@ window.spwashi.rects      = window.spwashi.rects || [
     calc:  d => d.width = window.spwashi.simulation.alphaDecay() * (window.spwashi.parameters.width || 0)
   },
   {
+    title: 'Charge',
+    x:     0,
+    width: 0,
+    calc:  d => d.width = window.spwashi.parameters.forces.charge
+  },
+  {
     title: 'Velocity Decay',
     x:     0,
     width: 0,

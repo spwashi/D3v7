@@ -96,6 +96,7 @@ window.spwashi.readParameters = (searchParameters) => {
   initializeNodeMapAndFilter();
   initializeSpwParseField();
   initializeModeSelection(mode);
+
   const keystrokeOptions          = document.querySelector('#keystroke-options');
   keystrokeOptions.innerHTML      = '';
   const optionList                = keystrokeOptions.appendChild(document.createElement('UL'));
@@ -134,6 +135,12 @@ window.spwashi.readParameters = (searchParameters) => {
          node.fx = undefined;
          node.fy = undefined;
        });
+     }],
+    ['/', 'clear local storage',
+     () => {
+        window.localStorage.clear();
+        // refresh page
+        window.location.href = window.location.href.split('?')[0];
      }],
   ];
   window.spwashi.keystrokeOptions.forEach(([key, description, handler]) => {
