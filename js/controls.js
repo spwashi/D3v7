@@ -206,40 +206,11 @@ function initializeModeSelection(starterMode) {
 document.addEventListener('keydown', (e) => {
   const isRelevantKeystroke = e.ctrlKey;
   if (!isRelevantKeystroke) return;
+  e.preventDefault();
   const keystrokeOptions = window.spwashi.keystrokeOptions;
-  switch (e.key) {
-    case keystrokeOptions[0][0]: {
-      window.spwashi.nodes.forEach(node => {
-        node.fx = undefined;
-        node.fy = undefined;
-      });
-      break;
-    }
-    case keystrokeOptions[1][0]: {
-      window.spwashi.nodes.forEach(node => {
-        node.fx = node.x;
-        node.fy = node.y;
-      });
-      break;
-    }
-    case keystrokeOptions[2][0]: {
-      e.preventDefault();
-      return generateNodes();
-    }
-    case keystrokeOptions[3][0]: {
-      e.preventDefault();
-      window.spwashi.nodes.length = 0;
-      window.spwashi.reinit();
-      break;
-    }
-    case keystrokeOptions[4][0]: {
-      e.preventDefault();
-      const nodes = window.spwashi.nodes;
-      nodes.map(window.spwashi.nodesManager.saveNode)
-      window.spwashi.setItem('parameters.nodes-input', nodes);
-      window.spwashi.setItem('parameters.nodes-input-map-fn-string', 'data => data');
-      window.spwashi.refreshNodeInputs();
-      break;
+  for (let option of keystrokeOptions) {
+    if (e.key === option[0]) {
+      option[2]();
     }
   }
 });

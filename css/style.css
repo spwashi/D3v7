@@ -62,17 +62,17 @@ body > aside {
     padding: 1rem;
     border: thin solid wheat;
 }
-label {
+main label {
 	width: 15rem;
 	text-align: center;
 	display: flex;
 	cursor: pointer;
 	flex-direction: column;
 }
-label span {
+main label span {
 	padding: 1rem;
 }
-label input[type=checkbox] {
+main label input[type=checkbox] {
 	cursor: pointer;
 	margin-bottom: 1rem;
 }
@@ -137,7 +137,7 @@ text {
 
 #controls {
     position: absolute;
-    bottom: 0;
+    bottom: 4rem;
     left: 0;
     display: flex;
     flex-direction: column;
@@ -151,9 +151,6 @@ text {
 #controls .button-container {
     display: flex;
     flex-direction: column;
-}
-#controls:has(:focus) {
-    border: thick solid yellow;
 }
 #controls button {
     padding: .5rem;
@@ -195,8 +192,48 @@ textarea + #parse-spw {
     display: flex;
 }
 
-#keystroke-options {
+#show-keystroke-options {
     position: absolute;
+    z-index: 1;
     bottom: 0;
     left: 0;
+    display: inline-flex;
+    padding: 1rem;
+    color: wheat;
+    cursor: pointer;
+    background: #222222;
+}
+#show-keystroke-options input {
+    display: inline-flex;
+    margin-left: 1rem;
+}
+#show-keystroke-options + #keystroke-options {
+    display: none;
+}
+#show-keystroke-options:has(:checked) + #keystroke-options {
+    display: flex;
+    position: absolute;
+}
+#keystroke-options {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    padding: 0 2rem 1rem;
+}
+#keystroke-options ul {
+    list-style: none;
+    padding: 0;
+}
+#keystroke-options li {
+    cursor: pointer;
+    padding: .5rem;
+}
+#keystroke-options li:focus {background: #333;}
+#keystroke-options kbd:before { content: '['; }
+#keystroke-options kbd { padding-right: 1rem; }
+#keystroke-options kbd:after { content: ']'; }
+@media (max-width:600px) {
+    kbd {
+        display: none;
+    }
 }
