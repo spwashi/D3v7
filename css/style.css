@@ -248,9 +248,9 @@ textarea + #parse-spw {
     padding: .5rem;
 }
 #keystroke-options li:focus {background: #333;}
-#keystroke-options kbd:before { content: '['; }
+#keystroke-options kbd:before { content: ''; }
 #keystroke-options kbd { padding-right: 1rem; }
-#keystroke-options kbd:after { content: ']'; }
+#keystroke-options kbd:after { content: ''; }
 @media (max-width:600px) {
     kbd {
         display: none;

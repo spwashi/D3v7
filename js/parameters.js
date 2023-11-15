@@ -101,10 +101,22 @@ window.spwashi.readParameters = (searchParameters) => {
   keystrokeOptions.innerHTML      = '';
   const optionList                = keystrokeOptions.appendChild(document.createElement('UL'));
   window.spwashi.keystrokeOptions = [
-    ['g', 'generate nodes',
+    ['ArrowUp', 'more nodes',
      () => {
        generateNodes();
      }],
+    ['ArrowDown', 'less nodes', () => {
+      window.spwashi.nodes.length = Math.max(0, window.spwashi.nodes.length - window.spwashi.parameters.nodes.count);
+      window.spwashi.reinit();
+    }],
+    ['ArrowLeft', 'decrease charge', () => {
+      window.spwashi.parameters.forces.charge -= 10;
+      window.spwashi.reinit();
+    }],
+    ['ArrowRight', 'increase charge', () => {
+      window.spwashi.parameters.forces.charge += 10;
+      window.spwashi.reinit();
+    }],
     ['s', 'save active nodes',
      () => {
        const nodes = window.spwashi.nodes;
@@ -136,11 +148,11 @@ window.spwashi.readParameters = (searchParameters) => {
          node.fy = undefined;
        });
      }],
-    ['/', 'clear local storage',
+    ['\\', 'clear local storage',
      () => {
-        window.localStorage.clear();
-        // refresh page
-        window.location.href = window.location.href.split('?')[0];
+       window.localStorage.clear();
+       // refresh page
+       window.location.href = window.location.href.split('?')[0];
      }],
   ];
   window.spwashi.keystrokeOptions.forEach(([key, description, handler]) => {

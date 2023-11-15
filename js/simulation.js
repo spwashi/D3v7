@@ -25,7 +25,10 @@ window.spwashi.rects      = window.spwashi.rects || [
     title: 'Charge',
     x:     0,
     width: 0,
-    calc:  d => d.width = window.spwashi.parameters.forces.charge
+    calc:  d => {
+      d.title = 'Charge: ' + window.spwashi.parameters.forces.charge;
+      d.width = window.spwashi.parameters.forces.charge;
+    }
   },
   {
     title: 'Velocity Decay',
@@ -39,7 +42,7 @@ window.spwashi.rects      = window.spwashi.rects || [
     width: 0,
     calc:  d => {
       let nodeCount = window.spwashi.nodes.length;
-      d.title = 'Node Count: ' + nodeCount;
+      d.title       = 'Node Count: ' + nodeCount;
 
       return d.width = nodeCount;
     }
@@ -83,6 +86,7 @@ window.spwashi.reinit = () => {
   simulation.alphaTarget(window.spwashi.parameters.forces.alphaTarget);
   simulation.alphaDecay(window.spwashi.parameters.forces.alphaDecay);
   simulation.velocityDecay(window.spwashi.parameters.forces.velocityDecay);
+
   simulation.force('link', d3.forceLink().links(links).id(d => d.id).strength(l => l.strength || 1));
   simulation.force('collide', d3.forceCollide(d => d.r));
   simulation.force('charge', d3.forceManyBody().strength(window.spwashi.parameters.forces.charge));
@@ -90,6 +94,27 @@ window.spwashi.reinit = () => {
     window.spwashi.parameters.forces.centerPos.x,
     window.spwashi.parameters.forces.centerPos.y,
   ]).strength(window.spwashi.parameters.forces.center));
+  simulation.force('boon', (alpha) => {
+    for (let i = 0, n = nodes.length, k = alpha * 0.1; i < n; ++i) {
+      const node = nodes[i];
+      if (node.x > window.spwashi.parameters.width) {
+        node.x = window.spwashi.parameters.width;
+        node.vx *= .9;
+      } else if (node.x < 0) {
+        node.x = 0;
+        node.vx *= .9;
+      }
+      if (node.y > window.spwashi.parameters.height) {
+        node.y = window.spwashi.parameters.height;
+        node.vy *= .9;
+      } else if (node.y < 0) {
+        node.y = 0;
+        node.vy *= .9;
+      }
+
+    }
+  })
+
 
   window.spwashi.tick           =
     () => {
