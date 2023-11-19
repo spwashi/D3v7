@@ -17,12 +17,10 @@ function resolveSimulationInput(timeout = 100) {
 		}
 		const mapFnInput = document.querySelector('#nodes-selector-fn');
 		const mapFnString = mapFnInput?.value || 'd=>d.nodes';
-		console.log(mapFnString);
 		const mapFn = eval(mapFnString);
 		const parsed = JSON.parse(input);
 		window.spwashi.setItem('parameters.nodes-input', parsed);
 		window.spwashi.setItem('parameters.nodes-input-map-fn-string', mapFnString);
-		console.log(parsed);
 		resolve(mapFn(parsed));
 	}, timeout);
 

@@ -19,11 +19,12 @@ function makeImage(g) {
 			.on('start', (e, d) => {
 			})
 			.on('drag', (e, d) => {
+				e.stopPropagation();
 				d.image.offsetX += e.dx;
 				d.image.offsetY += e.dy;
 			})
 			.on('end', (e, d) => {
-				saveNodePosition(d)
+				cacheNode(d)
 			})
 		)
 		.on('error', (e, d) => {
@@ -54,7 +55,7 @@ function makeImage(g) {
 					break;
 				}
 			}
-			saveNodePosition(d);
+			cacheNode(d);
 		});
 	return g;
 }

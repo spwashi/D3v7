@@ -47,7 +47,7 @@ function makeCircle(g) {
 				break;
 			}
 		}
-		saveNodePosition(d);
+		cacheNode(d);
 	}
 
 	return g
@@ -65,12 +65,13 @@ function makeCircle(g) {
 					node.y = e.y;
 				})
 				.on('drag', (e, node) => {
+					e.stopPropagation();
 					node.fx = e.x;
 					node.fy = e.y;
 				})
 				.on('end', (e, node) => {
 					window.spwashi.tick();
-					saveNodePosition(node);
+					cacheNode(node);
 				})
 		)
 		.call(d3.zoom().on('zoom', (e, d) => {

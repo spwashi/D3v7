@@ -1,6 +1,5 @@
-const saveNodePosition = node => {
+const cacheNode        = node => {
 	window.spwashi.setItem('nodes', window.spwashi.nodes);
-	console.log('saved', node);
 }
 const readNodePosition = node => {
 	const nodes =  window.spwashi.getItem('nodes', window.spwashi.nodes) || [];

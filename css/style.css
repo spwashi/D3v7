@@ -79,6 +79,7 @@ main label input[type=checkbox] {
 
 svg {
     display: block;
+    overflow: visible;
 }
 line {
     stroke: #cccccc;

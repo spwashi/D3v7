@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "serve": "serve -l 5050",
-	  "serve:json": "json-server --watch input.json"
+    "serve:json": "json-server --watch input.json"
   },
   "dependencies": {
     "json-server": "^0.17.4"

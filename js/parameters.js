@@ -120,7 +120,7 @@ window.spwashi.readParameters = (searchParameters) => {
     ['s', 'save active nodes',
      () => {
        const nodes = window.spwashi.nodes;
-       nodes.map(window.spwashi.nodesManager.saveNode)
+       nodes.map(window.spwashi.nodesManager.cacheNode)
        window.spwashi.setItem('parameters.nodes-input', nodes);
        window.spwashi.setItem('parameters.nodes-input-map-fn-string', 'data => data');
        window.spwashi.refreshNodeInputs();

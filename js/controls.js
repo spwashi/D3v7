@@ -87,7 +87,6 @@ function initializeParameterContainers() {
 
     if (!Array.isArray(nodes)) {
       console.error('not nodes');
-      console.log({nodes});
       return [];
     }
 
@@ -116,7 +115,7 @@ function initializeParameterContainers() {
 
   document.querySelector('#controls button.save-nodes').onclick = () => {
     const nodes = window.spwashi.nodes;
-    nodes.map(window.spwashi.nodesManager.saveNode)
+    nodes.map(window.spwashi.nodesManager.cacheNode)
     window.spwashi.setItem('parameters.nodes-input', nodes);
     window.spwashi.setItem('parameters.nodes-input-map-fn-string', 'data => data');
     window.spwashi.refreshNodeInputs();
@@ -130,7 +129,7 @@ function initializeParameterContainers() {
         delete node[prop];
       }
       node.id = id;
-      window.spwashi.nodesManager.saveNode(node);
+      window.spwashi.nodesManager.cacheNode(node);
     });
     nodes.length = 0;
     window.spwashi.reinit();
@@ -190,7 +189,6 @@ function initializeNodeMapAndFilter() {
     const nodes          = window.spwashi.nodes.map(mapFunction).filter(filterFunction);
 
     window.spwashi.setItem(mapKey, mapFnString);
-    console.log(window.spwashi.getItem(mapKey));
     window.spwashi.setItem(filterKey, filterFnString);
 
     window.spwashi.nodes.length = 0;

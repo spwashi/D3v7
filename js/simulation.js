@@ -64,6 +64,12 @@ window.spwashi.rects      = window.spwashi.rects || [
     width: 1,
     calc:  d => d.x = window.spwashi.simulation.alpha() * (window.spwashi.parameters.width || 0)
   },
+  {
+    title: 'Zoom',
+    x:     0,
+    width: 1,
+    calc:  d => d.title = 'Zoom: ' + window.spwashi.zoomTransform?.k
+  },
 ].map((r, i) => {
   r.height = 20;
   r.y      = i * 20;
@@ -72,11 +78,19 @@ window.spwashi.rects      = window.spwashi.rects || [
 
 window.spwashi.reinit = () => {
   window.spwashi.counter = 0;
-  d3.select("svg#simulation")
+  const simulationSVG = d3.select("svg#simulation");
+  simulationSVG
     .attr('width', window.spwashi.parameters.width)
     .attr('height', window.spwashi.parameters.height)
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .call(d3.zoom()
+            .on("zoom", (e, d) => {
+              window.spwashi.zoomTransform = e.transform;
+              simulationSVG.attr("transform", e.transform);
+              window.spwashi.internalTicker();
+            }))
 
-  const nodes      = window.spwashi.nodesManager.init(window.spwashi.nodes);
+  const nodes      = window.spwashi.nodesManager.initNodes(window.spwashi.nodes);
   const links      = window.spwashi.linksManager.init([], nodes);
   const rects      = window.spwashi.rectsManager.init(window.spwashi.rects)
   const simulation = window.spwashi.simulation;
@@ -126,7 +140,7 @@ window.spwashi.reinit = () => {
       window.spwashi.counter += 1;
       rects.forEach(d => d.calc(d));
       window.spwashi.linksManager.update(links);
-      window.spwashi.nodesManager.update(nodes);
+      window.spwashi.nodesManager.updateNodes(nodes);
       window.spwashi.rectsManager.update(rects);
     };
 
