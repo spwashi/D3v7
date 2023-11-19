@@ -65,7 +65,6 @@ function makeCircle(g) {
 					node.y = e.y;
 				})
 				.on('drag', (e, node) => {
-					e.stopPropagation();
 					node.fx = e.x;
 					node.fy = e.y;
 				})

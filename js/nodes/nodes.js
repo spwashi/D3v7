@@ -28,23 +28,6 @@ function getNodeRootId(node = {}, i = 0) {
   return indexedName;
 };
 
-function initNodes(nodes) {
-  const count = nodes.length;
-  for (let i = 0; i < count; i++) {
-    const node     = {id: getNodeId(nodes[i], i),};
-    const readNode = readNodePosition(node);
-
-    window.spwashi.nodesManager.normalize(
-      nodes[i],
-      {...node, ...readNode},
-      i
-    );
-  }
-
-  const activeNodes = sortNodes(nodes);
-  return window.spwashi.nodes = activeNodes;
-}
-
 function normalize(node, readNode, i) {
   const template = {
     image:      {},
@@ -77,6 +60,23 @@ function normalize(node, readNode, i) {
   node.image.offsetX = !isNaN(node.image.offsetX) ? node.image.offsetX : 0;
   node.image.offsetY = !isNaN(node.image.offsetY) ? node.image.offsetY : node.r;
   return node;
+}
+
+function initNodes(nodes) {
+  const count = nodes.length;
+  for (let i = 0; i < count; i++) {
+    const node     = {id: getNodeId(nodes[i], i),};
+    const readNode = readNodePosition(node);
+
+    window.spwashi.nodesManager.normalize(
+      nodes[i],
+      {...node, ...readNode},
+      i
+    );
+  }
+
+  const activeNodes = sortNodes(nodes);
+  return window.spwashi.nodes = activeNodes;
 }
 
 function updateNodes(nodes) {

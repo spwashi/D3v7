@@ -8,7 +8,6 @@ function makeText(text) {
 				d.text.fy = d.text.fy || 0;
 			})
 			.on('drag', (e, d) => {
-				e.stopPropagation();
 				d.text.fx += e.dx;
 				d.text.fy += e.dy;
 			})

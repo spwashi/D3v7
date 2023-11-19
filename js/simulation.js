@@ -86,7 +86,8 @@ window.spwashi.reinit = () => {
     .call(d3.zoom()
             .on("zoom", (e, d) => {
               window.spwashi.zoomTransform = e.transform;
-              simulationSVG.attr("transform", e.transform);
+              simulationSVG.attr("transform", `scale(${e.transform.k})`);
+              console.log(e.transform)
               window.spwashi.internalTicker();
             }))
 

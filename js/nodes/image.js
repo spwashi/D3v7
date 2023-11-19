@@ -19,7 +19,6 @@ function makeImage(g) {
 			.on('start', (e, d) => {
 			})
 			.on('drag', (e, d) => {
-				e.stopPropagation();
 				d.image.offsetX += e.dx;
 				d.image.offsetY += e.dy;
 			})
