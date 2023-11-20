@@ -1,4 +1,2 @@
-window.spwashi.images = 
-	[ 
-	];
-const getImageHref = window.spwashi.getNodeImageHref;
+window.spwashi.images =
+  [];

@@ -1,13 +1,13 @@
 function makeImage(g) {
 	const rect = g.append('rect')
-	.attr('width', d => { return d.image.r || d.r })
-	.attr('height', d => d.image.r || d.r)
+	.attr('width', d => { return window.spwashi.getNodeImageHref(d) ? d.image.r || d.r : 0})
+	.attr('height', d => window.spwashi.getNodeImageHref(d) ? d.image.r || d.r : 0)
 	.attr('x', d => d.x + d.image.offsetX - d.image.r / 2)
 	.attr('y', d => d.y + d.image.offsetY - d.image.r / 2)
 
 	const image =  g
 		.append('image')
-		.attr('href', getImageHref)
+		.attr('href', window.spwashi.getNodeImageHref)
 		.attr('width', d => d.image.r || d.r)
 		.attr('height', d => d.image.r || d.r)
 		.attr('preserveAspectRatio', d => 'xMidYMin slice')
@@ -61,12 +61,12 @@ function makeImage(g) {
 
 function updateNodeImage(image) {
 	image
-		.select('rect')	
+		.select('rect')
 		.attr('stroke', 'black')
 		.attr('x', d => d.x + d.image.offsetX - d.image.r/2)
 		.attr('y', d => d.y + d.image.offsetY - d.image.r/2)
-		.attr('width', d => d.image.r)
-		.attr('height', d => d.image.r)
+		.attr('width', d => window.spwashi.getNodeImageHref(d) ? d.image.r : 0)
+		.attr('height', d => window.spwashi.getNodeImageHref(d) ? d.image.r : 0)
 	image
 		.select('image')
 		.attr('href', window.spwashi.getNodeImageHref)

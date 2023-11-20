@@ -1,5 +1,6 @@
-const generateNodes = () => {
-  const nodes = [...Array(window.spwashi.parameters.nodes.count)].map(n => ({}));
+const generateNodes = (n) => {
+  const count = n || window.spwashi.parameters.nodes.count;
+  const nodes = [...Array(count)].map(n => ({}));
   window.spwashi.nodes.push(...nodes);
   window.spwashi.reinit();
 }
@@ -46,23 +47,6 @@ function initializeForceSimulationControls() {
 }
 
 function initializeParameterContainers() {
-  let items = {};
-
-  function traverse(item, prefix = 'window-spwashi-parameters') {
-    if (typeof item === "number") return item;
-    if (typeof item !== "object") throw new Error("only numbers or objects are currently configured");
-    for (let key in item) {
-      const value     = item[key];
-      const valuekey  = prefix + '-' + key;
-      const realValue = traverse(value, valuekey);
-      items[valuekey] = realValue;
-    }
-    return undefined;
-  }
-
-  traverse(window.spwashi.parameters);
-  Object.keys(items).forEach(key => items[key] === undefined && delete items[key]);
-
   window.spwashi.refreshNodeInputs = (nodes) => {
     const nodesSelectorFn   = (window.spwashi.getItem('parameters.nodes-input-map-fn-string') || 'data => data');
     const nodesInputElement = document.querySelector('#nodes-input');
@@ -152,13 +136,13 @@ function initializeQueryParametersQuickChange() {
 }
 
 function initializeSpwParseField() {
-  const element  = document.querySelector('#spw-parse-field');
+  const element   = document.querySelector('#spw-parse-field');
   element.onkeyup = () => {
     // set textarea height to line count
     element.rows = element.value.split('\n').length + 1;
   }
-  const button   = document.querySelector('#parse-spw');
-  button.onclick = () => {
+  const button    = document.querySelector('#parse-spw');
+  button.onclick  = () => {
     const text    = element.value;
     const parsed  = window.spwashi.parse(text);
     element.value = '';
@@ -193,11 +177,12 @@ function initializeNodeMapAndFilter() {
 
     window.spwashi.nodes.length = 0;
     window.spwashi.nodes.push(...nodes);
+    window.spwashi.reinit();
   }
 }
 
 function initializeModeSelection(starterMode) {
-  const modeSelect    = document.querySelector('#mode-selector');
+  const modeSelect = document.querySelector('#mode-selector');
   setDocumentMode(starterMode)
   modeSelect.value    = starterMode;
   modeSelect.onchange = function (e) {
@@ -207,8 +192,16 @@ function initializeModeSelection(starterMode) {
 }
 
 document.addEventListener('keydown', (e) => {
-  const isRelevantKeystroke = e.metaKey || e.ctrlKey;
-  if (!isRelevantKeystroke) return;
+  if (e.key === 'Backspace') {
+    window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
+    window.spwashi.reinit();
+  }
+
+  if (e.key === ' ') {
+    generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
+  }
+  if (!(e.metaKey || e.ctrlKey)) return;
+
   const keystrokeOptions = window.spwashi.keystrokeOptions;
   for (let option of keystrokeOptions) {
     if (e.key === option[0]) {

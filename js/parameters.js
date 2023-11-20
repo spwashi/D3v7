@@ -15,8 +15,8 @@ window.spwashi.readParameters = (searchParameters) => {
     fromLocalStorage          = JSON.parse(fromLocalStorage);
     window.spwashi.parameters = fromLocalStorage;
   }
-  if (searchParameters.has('wordsonly')) {
-    document.body.classList.add('wordsonly')
+  if (searchParameters.has('display')) {
+    document.body.dataset.displaymode = searchParameters.get('display');
   }
   if (searchParameters.has('reset')) {
     window.localStorage.clear();
@@ -48,7 +48,6 @@ window.spwashi.readParameters = (searchParameters) => {
     let [x, y]                                 = (searchParameters.get('center').split(',').map(n => +n));
     window.spwashi.parameters.forces.centerPos = {x, y};
   }
-
   if (searchParameters.has('alpha')) {
     window.spwashi.parameters.forces.alpha = +searchParameters.get('alpha');
   }
@@ -60,6 +59,9 @@ window.spwashi.readParameters = (searchParameters) => {
   }
   if (searchParameters.has('velocityDecay')) {
     window.spwashi.parameters.forces.velocityDecay = +searchParameters.get('velocityDecay');
+  }
+  if (searchParameters.has('zoom')) {
+    window.spwashi.parameters.canzoom = true;
   }
 
   let mode;
@@ -101,6 +103,12 @@ window.spwashi.readParameters = (searchParameters) => {
   keystrokeOptions.innerHTML      = '';
   const optionList                = keystrokeOptions.appendChild(document.createElement('UL'));
   window.spwashi.keystrokeOptions = [
+    ['c', 'Copy current nodes to clipboard',
+     () => {
+    const nodes = window.spwashi.nodes;
+        const text  = nodes.map(n => n.id.trim() ? `<${n.id.trim()}>`: '').filter(t => t.length).join('\n');
+        navigator.clipboard.writeText(text);
+     }],
     ['ArrowUp', 'more nodes',
      () => {
        generateNodes();

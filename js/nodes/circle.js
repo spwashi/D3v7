@@ -1,5 +1,6 @@
 function makeCircle(g) {
 	const onclick = (e, d) => {
+		console.log(d)
 		if (e.defaultPrevented) return;
 		let weight = window.spwashi.superpower.weight;
 		if (e.key === 'x') {
@@ -73,10 +74,6 @@ function makeCircle(g) {
 					cacheNode(node);
 				})
 		)
-		.call(d3.zoom().on('zoom', (e, d) => {
-			console.log('scroll', d.name , d.id);
-			// d.r = Math.min(d.r * e.transform.k, 50);
-		}))
 		.on('click', onclick)
 		.on('keydown', (e, d) => {
 			onclick(e, d)

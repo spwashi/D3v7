@@ -1,13 +1,24 @@
-const idMap     = new Map();
+const nodesManager = {
+  getNode:     getNode,
+  initNodes:   initNodes,
+  normalize:   normalize,
+  updateNodes: updateNodes,
+  filterNode:  filterNode,
+  processNode: processNode,
+  cacheNode:   cacheNode,
+};
 
-window.spwashi.getNodeId        = getNodeId;
-window.spwashi.getNodeImageHref = d => {
+const idMap = new Map();
+
+function getNodeImageHref(d) {
+  return null;
   if (d.image.href === null) return null;
   return d.image.href || window.spwashi.images[(d.colorindex || 0) % (window.spwashi.images.length)];
 }
-window.spwashi.getNode          = (id) => window.spwashi.nodes.find(n => n.id === id);
 
-function sortNodes(nodes) { return nodes.sort((a, b) => a.z - b.z); }
+function sortNodes(nodes) {
+  return nodes.sort((a, b) => a.z - b.z);
+}
 
 function getNodeId(node, i) {
   const root_id = getNodeRootId(node, i);
@@ -56,6 +67,7 @@ function normalize(node, readNode, i) {
     }
   );
   node.r             = Math.max(node.r, 1)
+  node.private       = {};
   node.image.r       = isNaN(node.image.r) ? node.r : Math.max(10, node.image.r);
   node.image.offsetX = !isNaN(node.image.offsetX) ? node.image.offsetX : 0;
   node.image.offsetY = !isNaN(node.image.offsetY) ? node.image.offsetY : node.r;
@@ -79,9 +91,9 @@ function initNodes(nodes) {
   return window.spwashi.nodes = activeNodes;
 }
 
-function updateNodes(nodes) {
+function updateNodes(g, nodes) {
   const wrapperSelection =
-          d3
+          g
             .select('.nodes')
             .selectAll('g.wrapper')
             .data(nodes, d => d.id);
@@ -158,7 +170,6 @@ function processNode(node, i) {
   node.image.offsetX = 0;
   node.image.offsetY = 0;
   node.md5           = node.identity && md5(node.identity);
-  node.image.href    = 'images/' + node.md5 + '.webp';
 
   const edgeLeft   = 50;
   const edgeRight  = window.spwashi.parameters.width - 50;
@@ -166,6 +177,7 @@ function processNode(node, i) {
   const discreteY  = edgeBottom - 100;
   const quantY     = [50, 50 + edgeBottom / 4, 50 + edgeBottom / 2, 50 + 3 * edgeBottom / 4, edgeBottom];
   const quantX     = [50, 50 + edgeRight / 4, 50 + edgeRight / 2, 50 + 3 * edgeRight / 4, edgeRight];
+
   switch (node.kind?.split(' + ')[0]) {
     case 'container':
       node.text.fontSize = 10;
@@ -223,8 +235,12 @@ function processNode(node, i) {
       node.fx = edgeRight;
       break;
     case 'ordinal':
+      if (node.kind.split(' + ').includes('operator')) {
+        node.fy = 0;
+        node.fx = 0;
+        break;
+      }
       node.fx = quantX[3];
-
       break;
     case 'phrasal':
       node.colorindex = 0;
@@ -243,13 +259,10 @@ function processNode(node, i) {
   }
 }
 
-const nodesManager = {
-  initNodes,
-  normalize,
-  updateNodes,
-  filterNode,
-  processNode,
-  cacheNode,
-};
+function getNode(id) {
+  return window.spwashi.nodes.find(n => n.id === id);
+}
 
-window.spwashi.nodesManager = nodesManager;
+window.spwashi.getNodeImageHref = getNodeImageHref
+window.spwashi.getNode          = nodesManager.getNode;
+window.spwashi.nodesManager     = nodesManager;

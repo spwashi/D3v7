@@ -43,14 +43,23 @@
     <main>
         <aside id="spw-mode-container">
             <div id="spw-container">
-                <textarea autofocus placeholder="string to parse" id="spw-parse-field"></textarea>
+                <label>
+                    <span>SPW</span>
+                    <textarea autofocus placeholder="string to parse" id="spw-parse-field"></textarea>
+                </label>
                 <button id="parse-spw">parse</button>
             </div>
         </aside>
         <aside id="direct-mode-container">
             <form id="map-filter-form">
-                <textarea name="map" id="node-mapper"></textarea>
-                <textarea name="filter" id="node-filter"></textarea>
+                <label>
+                    <span>Node Map Function</span>
+                    <textarea name="map" id="node-mapper"></textarea>
+                </label>
+                <label>
+                    <span>Node Filter Function</span>
+                    <textarea name="filter" id="node-filter"></textarea>
+                </label>
                 <button type="submit">submit</button>
             </form>
         </aside>
@@ -114,7 +123,7 @@
     </main>
     <label id="show-keystroke-options">
         <span>Hotkeys</span>
-        <input type="checkbox" />
+        <input type="checkbox"/>
     </label>
     <aside id="keystroke-options"></aside>
     <aside id="mode-selection-container">

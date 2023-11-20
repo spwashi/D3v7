@@ -90,9 +90,11 @@ text {
 	white-space: pre;
 }
 
-.wordsonly :is(circle, rect, line) {
-    fill: none;
-    stroke: none;
+[data-displaymode=nodes] :is(.rects, text) {
+    display: none;
+}
+[data-displaymode=words] :is(.rects, .nodes :is(circle, rect)) {
+    display: none;
 }
 
 #querymod-mode-container {
@@ -190,6 +192,7 @@ textarea + #parse-spw {
 #spw-container {
     display: inline-flex;
     flex-direction: column;
+    color: white;
 }
 #map-filter-form {
     position: absolute;
