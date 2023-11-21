@@ -137,12 +137,14 @@ function initializeQueryParametersQuickChange() {
 
 function initializeSpwParseField() {
   const element  = document.querySelector('#spw-parse-field');
+  const value = window.spwashi.getItem('parameters.spw-parse-field') || '';
   const spwInput = ace.edit('spw-parse-field');
+  spwInput.setValue(value);
   const button   = document.querySelector('#parse-spw');
   button.onclick = () => {
     const text    = spwInput.getValue()
     const parsed  = window.spwashi.parse(text);
-    element.value = '';
+    window.spwashi.setItem('parameters.spw-parse-field', text);
     window.spwashi.nodes.push(...JSON.parse(JSON.stringify(parsed)));
     window.spwashi.reinit();
   }
@@ -212,9 +214,8 @@ document.addEventListener('keydown', (e) => {
     window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
     window.spwashi.reinit();
   }
-
   if (e.key === ' ') {
-    generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
+    // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
   }
   if (!(e.metaKey || e.ctrlKey)) return;
 

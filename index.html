@@ -13,6 +13,7 @@
     <script defer src="js/nodes/rect.js" type="application/javascript"></script>
     <script defer src="js/nodes/image.js" type="application/javascript"></script>
     <script defer src="js/nodes/text.js" type="application/javascript"></script>
+    <script defer src="js/nodes/processNode.js" type="application/javascript"></script>
     <script defer src="js/nodes/nodes.js" type="application/javascript"></script>
     <script defer src="js/links.js" type="application/javascript"></script>
     <script defer src="js/rects/rects.js" type="application/javascript"></script>
@@ -20,7 +21,6 @@
     <script defer src="js/controls.js" type="application/javascript"></script>
     <script defer src="js/simulation.js" type="application/javascript"></script>
     <script defer src="js/input.js" type="application/javascript"></script>
-
     <script type="module">
       import {parse}           from "./vendor/spw/parser/parse.mjs";
       import {CharacterCursor} from "./vendor/spw/core/node/cursor.mjs";
@@ -60,21 +60,24 @@
         <script type="application/javascript">
           window.spwashi      = window.spwashi || {};
           window.spwashi.boon = () => {
-            window.spwashi.nodes.push(...[
-              {
-                name:       'boon',
-                colorindex: getColorIndex(),
-              },
-              {
-                name:       'boon',
-                colorindex: getColorIndex(),
-              },
-              {
-                name:       'boon',
-                colorindex: getColorIndex(),
+            async function* loop(timeout = 300, count = window.spwashi.parameters.nodes.count) {
+              for (let i = 0; i < count; i++) {
+                yield i;
+                await new Promise(r => setTimeout(r, timeout));
               }
-            ]);
-            window.spwashi.reinit();
+            }
+
+            async function main() {
+              for await (const i of loop()) {
+                window.spwashi.nodes.push({
+                                            name:       'node:' + i,
+                                            colorindex: getColorIndex()
+                                          });
+                window.spwashi.reinit();
+              }
+            }
+
+            main();
           };
           window.spwashi.bone = () => {
             window.spwashi.links = window.spwashi.links || [];
@@ -91,7 +94,7 @@
               let prev;
               let first;
               for (let node of arr) {
-                first = first || node;
+                first      = first || node;
                 let source = window.spwashi.getNode ? (prev?.id) : '';
                 let target = window.spwashi.getNode ? (node.id) : '';
                 const link = {
@@ -123,92 +126,101 @@
         </script>
         <button
                 data-dataindex="spwashi-datum-0"
-                class="color cls-0"
                 onclick="window.spwashi.boon()"
         >
             boon
         </button>
         <button
                 data-dataindex="spwashi-datum-1"
-                class="color cls-1"
                 onclick="let arr=window.spwashi.nodes.filter(d=>d.id.indexOf('node:')<0);window.spwashi.nodes.length=0;window.spwashi.nodes.push(...arr);console.log(arr);window.spwashi.reinit()"
         >
             bane
         </button>
         <button
                 data-dataindex="spwashi-datum-2"
-                class="color cls-2"
                 onclick="window.spwashi.bone()"
         >
             bone
         </button>
         <button
                 data-dataindex="spwashi-datum-3"
-                class="color cls-3"
                 onclick="window.spwashi.bonk()"
         >
             bonk
         </button>
         <button
                 data-dataindex="spwashi-datum-4"
-                class="color cls-4"
                 onclick="window.spwashi.honk()"
         >
             honk
         </button>
         <button
                 data-dataindex="spwashi-datum-6"
-                class="color cls-6"
                 onclick="window.spwashi.parameters.forces.charge = 100;window.spwashi.reinit();"
         >
             [charge = 100]
         </button>
         <button
                 data-dataindex="spwashi-datum-5"
-                class="color cls-5"
                 onclick="window.spwashi.parameters.forces.charge = 0;window.spwashi.reinit();"
         >
             [charge = 0]
         </button>
         <button
                 data-dataindex="spwashi-datum-7"
-                class="color cls-7"
                 onclick="window.spwashi.parameters.forces.charge = -100;window.spwashi.reinit();"
         >
             [charge = -100]
         </button>
         <button
                 data-dataindex="spwashi-datum-8"
-                class="color cls-8"
                 onclick="window.spwashi.parameters.forces.charge += 10;window.spwashi.reinit();"
         >
             [charge +10]
         </button>
         <button
                 data-dataindex="spwashi-datum-9"
-                class="color cls-9"
                 onclick="window.spwashi.parameters.forces.charge -= 10;window.spwashi.reinit();"
         >
             [charge -10]
         </button>
         <button
                 data-dataindex="spwashi-datum-10"
-                class="color cls-10"
+                onclick="window.spwashi.nodes.forEach(n=>n.r*=3.2);window.spwashi.reinit()"
         >
-            [#]
+            [r *= 3.2]
         </button>
         <button
                 data-dataindex="spwashi-datum-11"
-                class="color cls-11"
+                onclick="window.spwashi.nodes.forEach(n=>n.r/=2.3);window.spwashi.reinit()"
         >
-            [#]
+            [r /= 2.3]
         </button>
         <button
                 data-dataindex="spwashi-datum-12"
-                class="color cls-12"
+                onclick="window.spwashi.nodes.forEach(n=>n.r = 10);window.spwashi.reinit()"
         >
-            [#]
+            [r=10]
         </button>
+        <button
+                data-dataindex="spwashi-datum-0"
+                onclick="window.spwashi.setDocumentMode('spw');"
+        >
+            [mode=spw]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-1"
+                onclick="window.spwashi.setDocumentMode(null);"
+        >
+            [mode=null]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-2"
+                onclick="window.spwashi.parameters.forces.boundingBox = !window.spwashi.parameters.forces.boundingBox; window.spwashi.reinit();"
+        >
+            [toggle bounding box]
+        </button>
+
     </section>
     <section id="main-log">
         <ul class="events-log"></ul>
@@ -249,14 +261,20 @@
         </aside>
         <aside id="querymod-mode-container">
             <div id="query-parameters">
-                <textarea class="value"></textarea>
+                <label>
+                    <span>Query Parameters</span>
+                    <textarea class="value"></textarea>
+                </label>
                 <button class="go">go</button>
             </div>
             <form id="change-parameters-form">
-                <label><span>version</span><input name="version" value="boon"/></label>
+                <label>
+                    <span>version</span>
+                    <input name="version" value="boon"/>
+                </label>
                 <label>
                     <span>superpower</span>
-                    <select name="superpower" value="grow">
+                    <select name="superpower">
                         <option>shrink</option>
                         <option>changecolor</option>
                         <option>grow</option>
@@ -278,23 +296,23 @@
             <div id="controls">
                 <label>
                     <span>Data Buttons</span>
-                    <div class="button-container">
-                        <button class="save-nodes">save</button>
-                        <button class="generate-nodes">generate</button>
-                        <button class="clear-saved-nodes">clear</button>
-                        <button class="read-nodes">read</button>
-                        <button class="clear-fixed-positions">free</button>
-                    </div>
                 </label>
+                <div class="button-container">
+                    <button class="save-nodes">save</button>
+                    <button class="generate-nodes">generate</button>
+                    <button class="clear-saved-nodes">clear</button>
+                    <button class="read-nodes">read</button>
+                    <button class="clear-fixed-positions">free</button>
+                </div>
                 <label>
                     <span>Simulation Buttons</span>
-                    <div class="button-container">
-                        <button class="stop">stop</button>
-                        <button class="tick">tick</button>
-                        <button class="start">start</button>
-                        <button class="reinit">reinit</button>
-                    </div>
                 </label>
+                <div class="button-container">
+                    <button class="stop">stop</button>
+                    <button class="tick">tick</button>
+                    <button class="start">start</button>
+                    <button class="reinit">reinit</button>
+                </div>
             </div>
         </aside>
         <div id="content">

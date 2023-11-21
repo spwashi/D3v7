@@ -1,7 +1,7 @@
 function updateRects(g, rects) {
   g.select('.rects')
    .selectAll('g.rect')
-   .data(rects, d => d)
+   .data(rects, d => d.title)
    .join(e => {
            const g = e.append('g')
                       .classed('rect', true);

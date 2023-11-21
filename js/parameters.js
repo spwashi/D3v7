@@ -69,7 +69,7 @@ function setColorIndex(index) {
   document.body.dataset.dataindex = index;
 }
 function getColorIndex() {
-  return parseInt(document.body.dataset.dataindex.split('-').reverse()[0]);
+  return parseInt((document.body.dataset.dataindex||'1').split('-').reverse()[0]);
 }
 
 function logMainEvent(event) {
@@ -189,7 +189,7 @@ window.spwashi.readParameters                    = (searchParameters) => {
   initializeNodeMapAndFilter();
   initializeSpwParseField();
   initializeModeSelection(mode);
-  initializeColors()
+  initializeColors();
 
   const keystrokeOptions     = document.querySelector('#keystroke-options');
   keystrokeOptions.innerHTML = '';
@@ -205,7 +205,6 @@ window.spwashi.readParameters                    = (searchParameters) => {
       }
     });
   });
-  document.querySelector('#output').innerHTML = JSON.stringify(window.spwashi.parameters, null, 2);
 }
 const getItemKey                                 = key => window.spwashi.parameterKey + '@' + key;
 window.spwashi.setItem                           = (key, item, category = null) => {

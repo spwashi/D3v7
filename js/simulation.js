@@ -78,20 +78,32 @@ window.spwashi.rects      = window.spwashi.rects || [
 });
 
 function initializeForces(simulation, links, nodes) {
-  console.log(links)
   simulation.alpha(window.spwashi.parameters.forces.alpha);
   simulation.alphaTarget(window.spwashi.parameters.forces.alphaTarget);
   simulation.alphaDecay(window.spwashi.parameters.forces.alphaDecay);
   simulation.velocityDecay(window.spwashi.parameters.forces.velocityDecay);
-  simulation.force('link', d3.forceLink().links(links).id(d => d.id).strength(l => l.strength || 1));
-  simulation.force('collide', d3.forceCollide(d => d.r));
-  simulation.force('charge', d3.forceManyBody().strength(window.spwashi.parameters.forces.charge));
-  simulation.force('center', d3.forceCenter(...[
-    window.spwashi.parameters.forces.centerPos.x,
-    window.spwashi.parameters.forces.centerPos.y,
-  ]).strength(window.spwashi.parameters.forces.center));
-  window.spwashi.parameters.forces.boundingBox &&
-  simulation.force('boundingBox', (alpha) => {
+  simulation.force(
+    'link',
+    d3.forceLink().links(links).id(d => d.id).strength(l => l.strength || 1)
+  );
+  simulation.force(
+    'collide',
+    d3.forceCollide(d => d.r)
+  );
+  simulation.force('charge', null)
+  simulation.force(
+    'charge',
+    d3.forceManyBody().strength(d => d.charge || window.spwashi.parameters.forces.charge)
+  );
+  simulation.force(
+    'center',
+    d3.forceCenter(...[
+      window.spwashi.parameters.forces.centerPos.x,
+      window.spwashi.parameters.forces.centerPos.y,
+    ]).strength(window.spwashi.parameters.forces.center)
+  );
+  simulation.force('boundingBox', null);
+  window.spwashi.parameters.forces.boundingBox && simulation.force('boundingBox', (alpha) => {
     for (let i = 0, n = nodes.length, k = alpha * 0.1; i < n; ++i) {
       const node = nodes[i];
       if (node.x > window.spwashi.parameters.width) {
@@ -147,34 +159,67 @@ window.spwashi.reinit = () => {
                   })
                 }
               }));
+  } else if (window.spwashi.parameters.canpan) {
+    simulationSVG
+      .call(d3
+              .drag()
+              .on('start', (e) => {
+                simulationSVG.attr("cursor", "grabbing");
+                nodeG_offset.x = e.x;
+                nodeG_offset.y = e.y;
+              })
+              .on('drag', (e) => {
+                const dx = nodeG_offset.x - e.x;
+                const dy = nodeG_offset.y - e.y;
+
+                nodeG_transform.x += dx / 10;
+                nodeG_transform.y += dy / 10;
+
+                circlesG.attr("transform", `translate(${nodeG_transform.x}, ${nodeG_transform.y})`);
+                linksG.attr("transform", `translate(${nodeG_transform.x}, ${nodeG_transform.y})`);
+              })
+              .on('end', (e) => {
+                simulationSVG.attr("cursor", "grab");
+                nodeG_offset.x = e.x;
+                nodeG_offset.y = e.y;
+              })
+      )
+  } else {
+    let rect = null;
+    simulationSVG
+      .on('mousedown', (e) => {
+        rect = {x: e.offsetX, y: e.offsetY, calc: d => d, width: 1, height: 1};
+        window.spwashi.rects.push(rect);
+        logMainEvent('mousedown:' + e.y + ' ' + e.x);
+      })
+      .on('mousemove', (e) => {
+        if (!rect) return 0;
+        rect.width  = e.offsetX - rect.x;
+        rect.height = e.offsetY - rect.y;
+      })
+      .on('mouseup', (e) => {
+        const nodes      = window.spwashi.nodes.filter(node => {
+          return node.x > rect.x && node.x < rect.x + rect.width &&
+                 node.y > rect.y && node.y < rect.y + rect.height
+        });
+        const xRange     = d3.extent(nodes, d => d.x);
+        const xIncrement = (xRange[1] - xRange[0]) / nodes.length;
+        const yRange     = d3.extent(nodes, d => d.y);
+        const yIncrement = (yRange[1] - yRange[0]) / nodes.length;
+        logMainEvent(xRange + ' ' + yRange)
+        nodes.forEach((node, i) => {
+          node.fx     = xRange[0] + (xIncrement * i);
+          node.fy     = yRange[0] + (yIncrement * i);
+          node.charge = -1000;
+        });
+        window.spwashi.rects.splice(window.spwashi.rects.indexOf(rect), 1);
+        window.spwashi.reinit();
+        rect = null;
+        logMainEvent('mouseup:' + e.y + ' ' + e.x);
+
+
+      });
   }
-
-  simulationSVG
-    .call(d3
-            .drag()
-            .on('start', (e, node) => {
-              simulationSVG.attr("cursor", "grabbing");
-              nodeG_offset.x = e.x;
-              nodeG_offset.y = e.y;
-            })
-            .on('drag', (e, node) => {
-              const dx = nodeG_offset.x - e.x;
-              const dy = nodeG_offset.y - e.y;
-
-              nodeG_transform.x += dx / 10;
-              nodeG_transform.y += dy / 10;
-
-              circlesG.attr("transform", `translate(${nodeG_transform.x}, ${nodeG_transform.y})`);
-              linksG.attr("transform", `translate(${nodeG_transform.x}, ${nodeG_transform.y})`);
-            })
-            .on('end', (e, node) => {
-              simulationSVG.attr("cursor", "grab");
-              nodeG_offset.x = e.x;
-              nodeG_offset.y = e.y;
-            })
-    )
-
-
   const nodes      = window.spwashi.nodesManager.initNodes(window.spwashi.nodes);
   const links      = window.spwashi.linksManager.initLinks(window.spwashi.links, nodes);
   const rects      = window.spwashi.rectsManager.initRects(window.spwashi.rects)
@@ -193,6 +238,7 @@ window.spwashi.reinit = () => {
     window.spwashi.rectsManager.updateRects(g, rects);
   };
   simulation.on('tick', window.spwashi.internalTicker);
+  document.querySelector('#output').innerHTML = JSON.stringify(window.spwashi.parameters, null, 2);
 };
 
 window.spwashi.readParameters(new URLSearchParams(window.location.search));
