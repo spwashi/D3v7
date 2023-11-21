@@ -1,23 +1,70 @@
 :root {
-    --html-background: #111111;
-    --body-background: #335555;
+    --html-background: #818181;
+    --body-background: #95b6b6;
+    --form-background: #222222;
+    --aside-background: #222222;
+    --aside-text-color: wheat;
+
+    --body-outline: wheat;
+
     --node-color-0: #446666;
-    --node-color-1: #eeeeee;
-    --node-color-2: #dddddd;
-    --node-color-3: #cccccc;
-    --node-color-4: #bbbbbb;
-    --node-color-5: #999999;
-    --node-color-6: #888888;
+    --node-color-1: #2ea37a;
+    --node-color-2: #872424;
+    --node-color-3: #0bb1a9;
+    --node-color-4: #a8937b;
+    --node-color-5: #29293f;
+    --node-color-6: #ba6e0e;
     --node-color-7: #777777;
     --node-color-8: #555555;
-    --node-color-9: #444444;
-    --node-color-10: #333333;
-    --node-color-11: #111111;
-    --node-color-12: #000000;
+    --node-color-9: #947494;
+    --node-color-10: #aab033;
+    --node-color-11: #996633;
+    --node-color-12: #56789a;
 
-    --form-checkbox-1-pos: 100px;
-    --form-checkbox-2-pos: 300px;
-    --form-checkbox-3-pos: 500px;
+    --link-stroke-color: black;
+
+    --node-input-container-background: #222222;
+    --show-keystroke-options-background: #222222;
+    --keystroke-options-hover-background: #333333;
+    --keystroke-options-border: #222222;
+    --spw-container-text-color: white;
+}
+#colors {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#colors .color {
+    width: 5rem;
+    height: 5rem;
+}
+
+#main-button-container {
+    position: absolute;
+    top: 0;
+    left: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+#main-button-container > button:hover, #main-button-container > button:focus     {
+    border: thin solid var(--body-outline);
+    background: var(--aside-background);
+    color: var(--aside-text-color);
+    cursor: pointer;
+}
+#main-button-container > button {
+    font-size: 1rem;
+    padding: 1rem;
+    margin: .5rem;
+    border: thin solid transparent;;
+    font-family: monospace;
+}
+#main-log {
+    position: absolute;
+    top: 33%;
+    right: 15%;
 }
 
 html {
@@ -31,7 +78,7 @@ html {
     width: 100%;
 }
 body {
-    outline: thick solid #cccccc;
+    outline: thin solid var(--body-outline);
     margin: 0;
     padding: 0;
     background: var(--body-background);
@@ -44,37 +91,37 @@ main {
 }
 
 main form {
-	flex-direction: column;
-	padding: 2rem 0;
-	background: #222222;
+    flex-direction: column;
+    padding: 2rem 0;
+    background: var(--form-background);
 }
 main form label {
-	display: flex;
-	padding-bottom: .5rem;
-	flex-direction: column;
-	color: white;
-	font-weight: bold;
+    display: flex;
+    padding-bottom: .5rem;
+    flex-direction: column;
+    color: var(--spw-container-text-color);
+    font-weight: bold;
 }
 body > aside {
-    background: #111111;
+    background: var(--aside-background);
     display: inline-flex;
-    color: wheat;
+    color: var(--aside-text-color);
     padding: 1rem;
-    border: thin solid wheat;
+    border: thin solid var(--body-outline);
 }
 main label {
-	width: 15rem;
-	text-align: center;
-	display: flex;
-	cursor: pointer;
-	flex-direction: column;
+    width: 15rem;
+    text-align: center;
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
 }
 main label span {
-	padding: 1rem;
+    padding: 1rem;
 }
 main label input[type=checkbox] {
-	cursor: pointer;
-	margin-bottom: 1rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
 }
 
 svg {
@@ -82,25 +129,28 @@ svg {
     overflow: visible;
 }
 line {
-    stroke: #cccccc;
+    stroke: var(--link-stroke-color);
 }
 text {
-	user-select: none;
-	font-family: monospace;
-	white-space: pre;
+    user-select: none;
+    font-family: monospace;
+    white-space: pre;
 }
 
-[data-displaymode=nodes] :is(.rects, text) {
+[data-displaymode=nodes] :is(.rects, text, #show-keystroke-options, line) {
     display: none;
 }
-[data-displaymode=words] :is(.rects, .nodes :is(circle, rect)) {
+[data-displaymode=words] :is(.rects, .nodes :is(circle, rect), line) {
+    display: none;
+}
+[data-displaymode=edges] :is(.rects, .nodes :is(circle, rect), text) {
     display: none;
 }
 
 #querymod-mode-container {
     display: none;
 }
-[data-mode=querymod] #querymod-mode-container {
+[data-mode=query] #querymod-mode-container {
     display: flex;
 }
 #change-parameters-form {
@@ -123,8 +173,8 @@ text {
     left: 0;
     top: 0;
     z-index: 1;
-    background: #222222;
-	color: white;
+    background: var(--node-input-container-background);
+    color: var(--aside-text-color);
 }
 #node-input-container button {
     padding: .5rem;
@@ -132,9 +182,9 @@ text {
 }
 
 #mode-selection-container {
-	position: absolute;
-	bottom: 0;
-	right: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 #mode-selection-container label {
     display: flex;
@@ -153,7 +203,7 @@ text {
     align-items: center;
 }
 #controls label {
-    color: white;
+    color: var(--aside-text-color);
     font-weight: bold;
 }
 #controls .button-container {
@@ -192,18 +242,50 @@ textarea + #parse-spw {
 #spw-container {
     display: inline-flex;
     flex-direction: column;
-    color: white;
+    color: var(--spw-container-text-color);
+}
+#spw-parse-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 13rem;
+    font-size: 2rem;
+    overflow: visible;
+    width: 50vw;
 }
 #map-filter-form {
     position: absolute;
-    left: 0;
-    top: 50%;
+    right: 1rem;
+    top: 25%;
     display: flex;
     flex-direction: column;
+    width: 25rem;
+}
+.editor-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin: 1rem;
+}
+.code-editor {
+    bottom: 0;
+    width: 20rem;
+    padding: 1rem;
+    height: 5rem;
+}
+.checked-enabler + .code-editor {
+    display: none;
+}
+.checked-enabler:checked + .code-editor {
+    display: block;
 }
 :is(#spw-container) {
     display: none;
 }
+
+
 [data-mode=spw] :is(#spw-container) {
     display: flex;
 }
@@ -214,6 +296,15 @@ textarea + #parse-spw {
     display: flex;
 }
 
+[data-mode=map] :is(#node-mapper-enabler, #map-filter-form .editor-wrapper:not(:has(#node-mapper))),
+[data-mode=filter] :is(#node-mapper-enabler, #map-filter-form .editor-wrapper:not(:has(#node-filter))) {
+    display: none;
+}
+[data-mode=map] :is(#map-filter-form, #node-mapper, .code-editor),
+[data-mode=filter] :is(#map-filter-form, #node-filter, .code-editor) {
+    display: flex !important;
+}
+
 #show-keystroke-options {
     position: absolute;
     z-index: 1;
@@ -221,11 +312,11 @@ textarea + #parse-spw {
     left: 0;
     display: inline-flex;
     padding: 1rem;
-    color: wheat;
+    color: var(--aside-text-color);
     cursor: pointer;
-    background: #222222;
+    background: var(--show-keystroke-options-background);
     flex-direction: column;
-    border: thin solid wheat;
+    border: thin solid var(--keystroke-options-border);
 }
 #show-keystroke-options input {
     display: inline-flex;
@@ -251,11 +342,13 @@ textarea + #parse-spw {
     cursor: pointer;
     padding: .5rem;
 }
-#keystroke-options li:focus {background: #333;}
+#keystroke-options li:focus, #keystroke-options li:hover {
+    background: var(--keystroke-options-hover-background);
+}
 #keystroke-options kbd:before { content: ''; }
 #keystroke-options kbd { padding-right: 1rem; }
 #keystroke-options kbd:after { content: ''; }
-@media (max-width:600px) {
+@media (max-width: 600px) {
     kbd {
         display: none;
     }

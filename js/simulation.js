@@ -2,6 +2,7 @@ window.spwashi            = window.spwashi || {};
 window.spwashi.simulation = d3.forceSimulation();
 window.spwashi.counter    = 0;
 window.spwashi.nodes      = window.spwashi.nodes || [];
+window.spwashi.links      = window.spwashi.links || [];
 window.spwashi.rects      = window.spwashi.rects || [
   {
     title: 'Counter',
@@ -77,6 +78,7 @@ window.spwashi.rects      = window.spwashi.rects || [
 });
 
 function initializeForces(simulation, links, nodes) {
+  console.log(links)
   simulation.alpha(window.spwashi.parameters.forces.alpha);
   simulation.alphaTarget(window.spwashi.parameters.forces.alphaTarget);
   simulation.alphaDecay(window.spwashi.parameters.forces.alphaDecay);
@@ -88,7 +90,8 @@ function initializeForces(simulation, links, nodes) {
     window.spwashi.parameters.forces.centerPos.x,
     window.spwashi.parameters.forces.centerPos.y,
   ]).strength(window.spwashi.parameters.forces.center));
-  simulation.force('boon', (alpha) => {
+  window.spwashi.parameters.forces.boundingBox &&
+  simulation.force('boundingBox', (alpha) => {
     for (let i = 0, n = nodes.length, k = alpha * 0.1; i < n; ++i) {
       const node = nodes[i];
       if (node.x > window.spwashi.parameters.width) {
@@ -129,11 +132,20 @@ window.spwashi.reinit = () => {
     simulationSVG
       .call(d3.zoom()
               .on("zoom", (e, d) => {
-                window.spwashi.zoomTransform = e.transform;
-                window.spwashi.nodes.forEach(node => {
-                  node.private._r = node.private._r || node.r
-                  node.r          = node.private._r * e.transform.k;
-                })
+                const factor = (e.transform.k - 1) * 10;
+
+                window.spwashi.zoomTransform = {k: factor};
+
+                if (e.sourceEvent.shiftKey) {
+                  window.spwashi.parameters.forces._charge = window.spwashi.parameters.forces._charge || window.spwashi.parameters.forces.charge;
+                  window.spwashi.parameters.forces.charge  = window.spwashi.parameters.forces._charge * factor;
+                  window.spwashi.reinit();
+                } else {
+                  window.spwashi.nodes.forEach(node => {
+                    node.private._r = node.private._r || node.r
+                    node.r          = node.private._r * e.transform.k;
+                  })
+                }
               }));
   }
 
@@ -164,7 +176,7 @@ window.spwashi.reinit = () => {
 
 
   const nodes      = window.spwashi.nodesManager.initNodes(window.spwashi.nodes);
-  const links      = window.spwashi.linksManager.initLinks([], nodes);
+  const links      = window.spwashi.linksManager.initLinks(window.spwashi.links, nodes);
   const rects      = window.spwashi.rectsManager.initRects(window.spwashi.rects)
   const simulation = window.spwashi.simulation;
   simulation.nodes(nodes);

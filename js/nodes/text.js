@@ -20,8 +20,8 @@ function makeText(text) {
 		.join(
 			enter => enter
 					.append('tspan')
-					.attr('text-anchor', 'start') 
-					.attr('dy', d => d.node.r) .attr('dx', 0) ,
+					.attr('text-anchor', 'middle')
+					.attr('dy', d => d.node.r * 2) .attr('dx', 0) ,
 			update => 
 				update
 					.selectAll('tspan')

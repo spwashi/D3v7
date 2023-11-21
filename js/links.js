@@ -1,12 +1,16 @@
-function initLinks(linkContainer, nodes) {
-  const LINK_STRENGTH = window.spwashi.parameters.links.strength;
-  const doPrevLinks   = window.spwashi.parameters.links.linkPrev;
+function pushLink(links, link) {
+  links.push(link)
+}
 
+function initLinks(linkContainer, nodes) {
+  const linkStrength = window.spwashi.parameters.links.strength;
+  const doPrevLinks  = window.spwashi.parameters.links.linkPrev;
   const links = linkContainer;
 
   for (let node of nodes) {
     const {head, body, tail} = node;
-    let items                = [head, body, tail].flat().map(i => i?.identity).filter(Boolean);
+
+    const items = [head, body, tail].flat().map(i => i?.identity).filter(Boolean);
     items.forEach(item => {
       const source     = (typeof item === "string" ? item : item.identity);
       const sourceNode = window.spwashi.getNode(source);
@@ -14,19 +18,35 @@ function initLinks(linkContainer, nodes) {
         return;
       }
       const target = node.id;
-      links.push({source, target, strength: LINK_STRENGTH})
+
+      let bondStrength = 1;
+
+      switch (sourceNode.kind.trim()) {
+        case 'operator + delimiter + essential.open':
+        case 'operator + delimiter + essential.close':
+          bondStrength = 5;
+          break;
+        case 'operator + delimiter + locational.open':
+        case 'operator + delimiter + locational.close':
+          bondStrength = 5;
+          break;
+        case 'operator + delimiter + conceptual.open':
+        case 'operator + delimiter + conceptual.close':
+          bondStrength = 5;
+          break;
+      }
+      switch (node.kind.trim()) {
+        case 'phrasal':
+          bondStrength = 7;
+          break;
+        default:
+          console.log(sourceNode.kind);
+      }
+
+      const strength = linkStrength * bondStrength;
+      const link     = {source, target, strength: strength};
+      pushLink(links, link);
     })
-  }
-  if (doPrevLinks) {
-    let prev;
-    for (let node of nodes) {
-      prev?.id && links.push({
-                               source:   prev?.id,
-                               target:   node.id,
-                               strength: LINK_STRENGTH * .3
-                             });
-      prev = node;
-    }
   }
 
   return links;

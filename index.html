@@ -38,30 +38,214 @@
       };
     </script>
     <link href="css/style.css" rel="stylesheet"/>
+    <link href="css/dataindex.css" rel="stylesheet"/>
 </head>
 <body data-mode="nothing">
+    <section id="colors">
+        <button data-dataindex="spwashi-datum-0" class="color cls-0"></button>
+        <button data-dataindex="spwashi-datum-1" class="color cls-1"></button>
+        <button data-dataindex="spwashi-datum-2" class="color cls-2"></button>
+        <button data-dataindex="spwashi-datum-3" class="color cls-3"></button>
+        <button data-dataindex="spwashi-datum-4" class="color cls-4"></button>
+        <button data-dataindex="spwashi-datum-5" class="color cls-5"></button>
+        <button data-dataindex="spwashi-datum-6" class="color cls-6"></button>
+        <button data-dataindex="spwashi-datum-7" class="color cls-7"></button>
+        <button data-dataindex="spwashi-datum-8" class="color cls-8"></button>
+        <button data-dataindex="spwashi-datum-9" class="color cls-9"></button>
+        <button data-dataindex="spwashi-datum-10" class="color cls-10"></button>
+        <button data-dataindex="spwashi-datum-11" class="color cls-11"></button>
+        <button data-dataindex="spwashi-datum-12" class="color cls-12"></button>
+    </section>
+    <section id="main-button-container">
+        <script type="application/javascript">
+          window.spwashi      = window.spwashi || {};
+          window.spwashi.boon = () => {
+            window.spwashi.nodes.push(...[
+              {
+                name:       'boon',
+                colorindex: getColorIndex(),
+              },
+              {
+                name:       'boon',
+                colorindex: getColorIndex(),
+              },
+              {
+                name:       'boon',
+                colorindex: getColorIndex(),
+              }
+            ]);
+            window.spwashi.reinit();
+          };
+          window.spwashi.bone = () => {
+            window.spwashi.links = window.spwashi.links || [];
+
+            const nodeBuckets = new Map();
+            for (let node of window.spwashi.nodes) {
+              const bucket = nodeBuckets.get(node.colorindex) || [];
+              bucket.push(node);
+              nodeBuckets.set(node.colorindex, bucket);
+            }
+
+
+            [...nodeBuckets.values()].forEach(arr => {
+              let prev;
+              let first;
+              for (let node of arr) {
+                first = first || node;
+                let source = window.spwashi.getNode ? (prev?.id) : '';
+                let target = window.spwashi.getNode ? (node.id) : '';
+                const link = {
+                  source:   source,
+                  target:   target,
+                  strength: window.spwashi.parameters.links.strength * .3
+                };
+                source && pushLink(window.spwashi.links, link);
+                prev = node;
+              }
+              pushLink(window.spwashi.links, {
+                source:   prev?.id,
+                target:   first?.id,
+                strength: window.spwashi.parameters.links.strength * .3
+              })
+            });
+
+
+            window.spwashi.reinit();
+          };
+          window.spwashi.bonk = () => {
+            window.spwashi.nodes.forEach(n => n.colorindex += 1)
+            window.spwashi.reinit();
+          };
+          window.spwashi.honk = () => {
+            window.spwashi.links.forEach(link => link.strength = 1)
+            window.spwashi.reinit();
+          }
+        </script>
+        <button
+                data-dataindex="spwashi-datum-0"
+                class="color cls-0"
+                onclick="window.spwashi.boon()"
+        >
+            boon
+        </button>
+        <button
+                data-dataindex="spwashi-datum-1"
+                class="color cls-1"
+                onclick="let arr=window.spwashi.nodes.filter(d=>d.id.indexOf('node:')<0);window.spwashi.nodes.length=0;window.spwashi.nodes.push(...arr);console.log(arr);window.spwashi.reinit()"
+        >
+            bane
+        </button>
+        <button
+                data-dataindex="spwashi-datum-2"
+                class="color cls-2"
+                onclick="window.spwashi.bone()"
+        >
+            bone
+        </button>
+        <button
+                data-dataindex="spwashi-datum-3"
+                class="color cls-3"
+                onclick="window.spwashi.bonk()"
+        >
+            bonk
+        </button>
+        <button
+                data-dataindex="spwashi-datum-4"
+                class="color cls-4"
+                onclick="window.spwashi.honk()"
+        >
+            honk
+        </button>
+        <button
+                data-dataindex="spwashi-datum-6"
+                class="color cls-6"
+                onclick="window.spwashi.parameters.forces.charge = 100;window.spwashi.reinit();"
+        >
+            [charge = 100]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-5"
+                class="color cls-5"
+                onclick="window.spwashi.parameters.forces.charge = 0;window.spwashi.reinit();"
+        >
+            [charge = 0]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-7"
+                class="color cls-7"
+                onclick="window.spwashi.parameters.forces.charge = -100;window.spwashi.reinit();"
+        >
+            [charge = -100]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-8"
+                class="color cls-8"
+                onclick="window.spwashi.parameters.forces.charge += 10;window.spwashi.reinit();"
+        >
+            [charge +10]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-9"
+                class="color cls-9"
+                onclick="window.spwashi.parameters.forces.charge -= 10;window.spwashi.reinit();"
+        >
+            [charge -10]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-10"
+                class="color cls-10"
+        >
+            [#]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-11"
+                class="color cls-11"
+        >
+            [#]
+        </button>
+        <button
+                data-dataindex="spwashi-datum-12"
+                class="color cls-12"
+        >
+            [#]
+        </button>
+    </section>
+    <section id="main-log">
+        <ul class="events-log"></ul>
+    </section>
     <main>
         <aside id="spw-mode-container">
             <div id="spw-container">
                 <label>
                     <span>SPW</span>
-                    <textarea autofocus placeholder="string to parse" id="spw-parse-field"></textarea>
                 </label>
+                <div id="spw-parse-field"></div>
                 <button id="parse-spw">parse</button>
             </div>
         </aside>
         <aside id="direct-mode-container">
             <form id="map-filter-form">
-                <label>
-                    <span>Node Map Function</span>
-                    <textarea name="map" id="node-mapper"></textarea>
-                </label>
-                <label>
-                    <span>Node Filter Function</span>
-                    <textarea name="filter" id="node-filter"></textarea>
-                </label>
+                <div class="editor-wrapper">
+                    <label for="node-mapper-enabler">
+                        <span>Node Map Function</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input class="checked-enabler" id="node-mapper-enabler" type="checkbox"/>
+                        <div id="node-mapper" class="code-editor"></div>
+                    </div>
+                </div>
+                <div class="editor-wrapper">
+                    <label for="node-filter-enabler">
+                        <span>Node Filter Function</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input class="checked-enabler" id="node-filter-enabler" type="checkbox"/>
+                        <div id="node-filter" class="code-editor"></div>
+                    </div>
+                </div>
                 <button type="submit">submit</button>
             </form>
+            <script src="/vendor/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
         </aside>
         <aside id="querymod-mode-container">
             <div id="query-parameters">
@@ -121,6 +305,7 @@
             </svg>
         </div>
     </main>
+    <output id="output" style="position:absolute;top:0;left:0;white-space:pre;color:wheat;"></output>
     <label id="show-keystroke-options">
         <span>Hotkeys</span>
         <input type="checkbox"/>
@@ -133,8 +318,9 @@
                 <option></option>
                 <option>spw</option>
                 <option>node</option>
-                <option>direct</option>
-                <option>querymod</option>
+                <option>map</option>
+                <option>filter</option>
+                <option>query</option>
             </select>
         </label>
     </aside>

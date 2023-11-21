@@ -47,7 +47,7 @@ function normalize(node, readNode, i) {
     z:          0,
     x:          window.spwashi.parameters.startPos.x + i * 2,
     y:          window.spwashi.parameters.startPos.y,
-    colorindex: i % 13,
+    colorindex: 1,
   };
   const fixedPos = {
     fx: null && window.spwashi.parameters.startPos.x + i * 20,
@@ -114,15 +114,7 @@ function updateNodes(g, nodes) {
     const image  = outerG.select('g.image');
     const text   = outerG.select('text.text');
 
-    // removeAll(update, {filterImage: true});
-
-    update
-      .select('circle')
-      .attr('fill', getNodeColor)
-      .attr('cx', d => d.x || 0)
-      .attr('r', d => (d.r || 1))
-      .attr('cy', d => d.y || 0)
-
+    updateCircle(update);
     updateNodeTextSvg(text);
     updateNodeImage(image);
     update
@@ -201,6 +193,7 @@ function processNode(node, i) {
       break;
     case 'nominal':
       node.fx = quantX[2];
+      node.r  = 5;
       break;
     case 'conceptual.open':
       node.fy = quantY[0];
@@ -243,18 +236,15 @@ function processNode(node, i) {
       node.fx = quantX[3];
       break;
     case 'phrasal':
-      node.colorindex = 0;
       node.fx         = quantX[3];
       break;
     case 'binding':
       if (node.kind.split(' + ').includes('operator')) {
         break;
       }
-      node.colorindex = 3;
       node.fx         = 100
       break;
     default:
-      node.colorindex = node.colorindex || 2;
       break;
   }
 }

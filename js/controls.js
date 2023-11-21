@@ -136,14 +136,11 @@ function initializeQueryParametersQuickChange() {
 }
 
 function initializeSpwParseField() {
-  const element   = document.querySelector('#spw-parse-field');
-  element.onkeyup = () => {
-    // set textarea height to line count
-    element.rows = element.value.split('\n').length + 1;
-  }
-  const button    = document.querySelector('#parse-spw');
-  button.onclick  = () => {
-    const text    = element.value;
+  const element  = document.querySelector('#spw-parse-field');
+  const spwInput = ace.edit('spw-parse-field');
+  const button   = document.querySelector('#parse-spw');
+  button.onclick = () => {
+    const text    = spwInput.getValue()
     const parsed  = window.spwashi.parse(text);
     element.value = '';
     window.spwashi.nodes.push(...JSON.parse(JSON.stringify(parsed)));
@@ -156,20 +153,30 @@ function initializeNodeMapAndFilter() {
   const mapKey        = ('map-nodes-fn');
   const filterKey     = ('filter-nodes-fn');
   const mapElement    = document.querySelector('#node-mapper');
-  const filterElement = document.querySelector('#node-filter');
+  const mapEnabler    = document.querySelector('#node-mapper-enabler');
+  const mapEditor     = ace.edit('node-mapper');
 
-  mapElement.value    = window.spwashi.getItem(mapKey) || `d => {\n	return d;\n}`;
-  mapElement.rows     = mapElement.value.split('\n').length + 1;
-  filterElement.value = window.spwashi.getItem(filterKey) || `d => {\n	return true;\n}`;
-  filterElement.rows  = filterElement.value.split('\n').length + 1;
+  const filterElement = document.querySelector('#node-filter');
+  const filterEnabler = document.querySelector('#node-filter-enabler');
+  const filterEditor  = ace.edit('node-filter');
+
+  [filterEditor, mapEditor].forEach((editor) => {
+    editor.setTheme('ace/theme/monokai');
+    editor.session.setMode('ace/mode/javascript');
+  })
+
+  console.log([mapElement, filterElement])
+  const mapValue = window.spwashi.getItem(mapKey) || `d => {\n	return d;\n}`;
+  mapEditor.setSession(ace.createEditSession(mapValue, 'ace/mode/javascript'));
+  const filterValue = window.spwashi.getItem(filterKey) || `d => {\n	return true;\n}`;
+  filterEditor.setSession(ace.createEditSession(filterValue, 'ace/mode/javascript'));
 
   mapFilterForm.onsubmit = function (e) {
     e.preventDefault();
-    const data           = new FormData(mapFilterForm);
-    const mapFnString    = data.get('map');
-    const filterFnString = data.get('filter');
-    const mapFunction    = mapFnString ? eval(mapFnString) : d => d;
-    const filterFunction = filterFnString ? eval(filterFnString) : d => true;
+    const mapFnString    = mapEditor.getValue();
+    const filterFnString = filterEditor.getValue();
+    const mapFunction    = mapEnabler.checked || window.spwashi.parameters.mode === 'map' && mapFnString ? eval(mapFnString) : d => d;
+    const filterFunction = filterEnabler.checked || window.spwashi.parameters.mode === 'filter' && filterFnString ? eval(filterFnString) : d => true;
     const nodes          = window.spwashi.nodes.map(mapFunction).filter(filterFunction);
 
     window.spwashi.setItem(mapKey, mapFnString);
@@ -183,11 +190,20 @@ function initializeNodeMapAndFilter() {
 
 function initializeModeSelection(starterMode) {
   const modeSelect = document.querySelector('#mode-selector');
-  setDocumentMode(starterMode)
+  window.spwashi.setDocumentMode(starterMode)
   modeSelect.value    = starterMode;
   modeSelect.onchange = function (e) {
     const mode = e.target.value;
-    setDocumentMode(mode)
+    window.spwashi.setDocumentMode(mode)
+  }
+}
+
+function initializeColors() {
+  const colorContainer   = document.querySelector('#colors');
+  colorContainer.onclick = function (e) {
+    const target = e.target;
+    const color  = target.dataset.dataindex;
+    setColorIndex(color);
   }
 }
 

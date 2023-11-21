@@ -1,0 +1,44 @@
+ [data-dataindex=spwashi-datum-0]  { background: var(--node-color-0); fill: var(--node-color-0);}
+ [data-dataindex=spwashi-datum-1]  { background: var(--node-color-1); fill: var(--node-color-1);}
+ [data-dataindex=spwashi-datum-2]  { background: var(--node-color-2); fill: var(--node-color-2);}
+ [data-dataindex=spwashi-datum-3]  { background: var(--node-color-3); fill: var(--node-color-3);}
+ [data-dataindex=spwashi-datum-4]  { background: var(--node-color-4); fill: var(--node-color-4);}
+ [data-dataindex=spwashi-datum-5]  { background: var(--node-color-5); fill: var(--node-color-5);}
+ [data-dataindex=spwashi-datum-6]  { background: var(--node-color-6); fill: var(--node-color-6);}
+ [data-dataindex=spwashi-datum-7]  { background: var(--node-color-7); fill: var(--node-color-7);}
+ [data-dataindex=spwashi-datum-8]  { background: var(--node-color-8); fill: var(--node-color-8);}
+ [data-dataindex=spwashi-datum-9]  { background: var(--node-color-9); fill: var(--node-color-9);}
+[data-dataindex=spwashi-datum-10] { background: var(--node-color-10); fill: var(--node-color-10);}
+[data-dataindex=spwashi-datum-11] { background: var(--node-color-11); fill: var(--node-color-11);}
+[data-dataindex=spwashi-datum-12] { background: var(--node-color-12); fill: var(--node-color-12);}
+
+[data-dataindex=spwashi-datum-0] svg [data-dataindex=spwashi-datum-0] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-1] svg [data-dataindex=spwashi-datum-1] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-2] svg [data-dataindex=spwashi-datum-2] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-3] svg [data-dataindex=spwashi-datum-3] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-4] svg [data-dataindex=spwashi-datum-4] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-5] svg [data-dataindex=spwashi-datum-5] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-6] svg [data-dataindex=spwashi-datum-6] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-7] svg [data-dataindex=spwashi-datum-7] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-8] svg [data-dataindex=spwashi-datum-8] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-9] svg [data-dataindex=spwashi-datum-9] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-10] svg [data-dataindex=spwashi-datum-10] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-11] svg [data-dataindex=spwashi-datum-11] { stroke: red; stroke-width: 3px;}
+[data-dataindex=spwashi-datum-12] svg [data-dataindex=spwashi-datum-12] { stroke: red; stroke-width: 3px;}
+
+[data-dataindex=spwashi-datum-0] #colors [data-dataindex=spwashi-datum-0] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-1] #colors [data-dataindex=spwashi-datum-1] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-2] #colors [data-dataindex=spwashi-datum-2] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-3] #colors [data-dataindex=spwashi-datum-3] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-4] #colors [data-dataindex=spwashi-datum-4] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-5] #colors [data-dataindex=spwashi-datum-5] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-6] #colors [data-dataindex=spwashi-datum-6] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-7] #colors [data-dataindex=spwashi-datum-7] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-8] #colors [data-dataindex=spwashi-datum-8] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-9] #colors [data-dataindex=spwashi-datum-9] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-10] #colors [data-dataindex=spwashi-datum-10] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-11] #colors [data-dataindex=spwashi-datum-11] { outline: thick solid red; }
+[data-dataindex=spwashi-datum-12] #colors [data-dataindex=spwashi-datum-12] { outline: thick solid red; }
+
+text { fill: black; }
+/*line { stroke-width: 1rem;}*/
