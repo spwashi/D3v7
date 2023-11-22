@@ -3,9 +3,9 @@ import path from 'path';
 
 export default defineConfig({
   root: path.resolve(__dirname, 'src'),
-  base: '/',
+  base: '/arena',
   build: {
-    outDir: path.resolve(__dirname, 'dist'),
+    outDir: path.resolve(__dirname, 'arena'),
     emptyOutDir: true,
     sourcemap: true,
   },
