@@ -1,10 +1,11 @@
-import {getDataIndexKey, initializeColors, setColorIndex} from "../modes/mode-dataindex";
-import {initializeParameterContainers}                    from "../modes/mode-direct";
-import {initializeQueryParametersQuickChange}             from "../modes/mode-querystring";
-import {initializeNodeMapAndFilter}                       from "../modes/mode-mapfilter";
-import {initializeSpwParseField}                          from "../modes/mode-spw";
-import {initializeModeSelection}                          from "../modes";
-import {initKeystrokes}                                   from "./keystrokes";
+import {getDataIndexKey, initializeDataindexMode, setColorIndex} from "../modes/mode-dataindex";
+import {initializeDirectMode}                                    from "../modes/mode-direct";
+import {initializeQuerystringMode}                               from "../modes/mode-querystring";
+import {initializeMapFilterMode}                                 from "../modes/mode-mapfilter";
+import {initializeSpwParseField}                  from "../modes/mode-spw";
+import {initializeModeSelection, setDocumentMode} from "../modes";
+import {initKeystrokes}                           from "./keystrokes";
+import {initializeReflexMode}                                    from "../modes/reflex-mode";
 
 export function initParameters() {
   window.spwashi.parameters                        = window.spwashi.parameters || {};
@@ -108,7 +109,7 @@ export function readParameters(searchParameters) {
   }
   if (searchParameters.has('mode')) {
     mode = searchParameters.get('mode');
-    window.spwashi.setDocumentMode(mode);
+    setDocumentMode(mode);
   }
   if (searchParameters.has('fx')) {
     window.spwashi.values.fx = searchParameters.get('fx').split(',').map(n => +n);
@@ -136,11 +137,13 @@ export function readParameters(searchParameters) {
     setColorIndex(getDataIndexKey(window.spwashi.parameters.dataIndex));
   }
 
-  initializeParameterContainers();
-  initializeQueryParametersQuickChange();
-  initializeNodeMapAndFilter();
+  initializeDirectMode();
+  initializeQuerystringMode();
+  initializeMapFilterMode();
   initializeSpwParseField();
+  initializeReflexMode();
   initializeModeSelection(mode);
-  initializeColors();
+  initializeDataindexMode();
+
   initKeystrokes();
 }

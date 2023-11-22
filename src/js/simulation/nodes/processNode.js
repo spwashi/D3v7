@@ -1,5 +1,5 @@
 import {readNodePosition} from "./store";
-
+import md5 from "md5";
 function getLastKind(node) {
   return node.kind?.trim().split(' + ').reverse()[0];
 }

@@ -1,8 +1,7 @@
-const setDocumentMode          = mode => {
+export const setDocumentMode = mode => {
   window.spwashi.parameters.mode = mode;
   return document.body.dataset.mode = mode;
 };
-window.spwashi.setDocumentMode = setDocumentMode;
 
 export function initializeModeSelection(starterMode) {
   const modeSelect = document.querySelector('#mode-selector');

@@ -7,6 +7,3 @@ export const readNodePosition = node => {
 	if (readNode) return readNode;
 	return {};
 }
-window.spwashi.clearCachedNodes = () => {
-	window.spwashi.setItem('nodes', []);
-}

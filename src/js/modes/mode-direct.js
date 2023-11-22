@@ -1,7 +1,7 @@
 import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {reinitializeSimulation} from "../simulation/simulation";
 
-export function initializeParameterContainers() {
+export function initializeDirectMode() {
   window.spwashi.refreshNodeInputs = (nodes) => {
     const nodesSelectorFn   = (window.spwashi.getItem('parameters.nodes-input-map-fn-string') || 'data => data');
     const nodesInputElement = document.querySelector('#nodes-input');

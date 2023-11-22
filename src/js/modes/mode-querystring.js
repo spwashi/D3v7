@@ -1,4 +1,4 @@
-export function initializeQueryParametersQuickChange() {
+export function initializeQuerystringMode() {
   const element     = document.querySelector('#query-parameters .value');
   const text        = [...new URLSearchParams(window.location.search)].map(entry => entry.join('=')).join('\n');
   element.innerHTML = text;

@@ -1,13 +1,15 @@
 import {initializeForceSimulationControls} from "./simulation/buttons";
 import {initParameters, readParameters}    from "./init/parameters";
-import {reinitializeSimulation}         from "./simulation/simulation";
-import {getNodeImageHref, NODE_MANAGER} from "./simulation/nodes/nodes";
+import {reinitializeSimulation}            from "./simulation/simulation";
+import {getNodeImageHref, NODE_MANAGER}    from "./simulation/nodes/nodes";
 
 const getItemKey = key => window.spwashi.parameterKey + '@' + key;
 
 
 function initRoot() {
-
+  window.spwashi.clearCachedNodes = () => {
+    window.spwashi.setItem('nodes', []);
+  }
   window.spwashi.reinit           = reinitializeSimulation;
   window.spwashi.simulation       = d3.forceSimulation();
   window.spwashi.counter          = 0;

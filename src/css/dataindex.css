@@ -1,13 +1,29 @@
- [data-dataindex=spwashi-datum-0]  { background: var(--node-color-0); fill: var(--node-color-0);}
- [data-dataindex=spwashi-datum-1]  { background: var(--node-color-1); fill: var(--node-color-1);}
- [data-dataindex=spwashi-datum-2]  { background: var(--node-color-2); fill: var(--node-color-2);}
- [data-dataindex=spwashi-datum-3]  { background: var(--node-color-3); fill: var(--node-color-3);}
- [data-dataindex=spwashi-datum-4]  { background: var(--node-color-4); fill: var(--node-color-4);}
- [data-dataindex=spwashi-datum-5]  { background: var(--node-color-5); fill: var(--node-color-5);}
- [data-dataindex=spwashi-datum-6]  { background: var(--node-color-6); fill: var(--node-color-6);}
- [data-dataindex=spwashi-datum-7]  { background: var(--node-color-7); fill: var(--node-color-7);}
- [data-dataindex=spwashi-datum-8]  { background: var(--node-color-8); fill: var(--node-color-8);}
- [data-dataindex=spwashi-datum-9]  { background: var(--node-color-9); fill: var(--node-color-9);}
+:root {
+    --node-color-0: #446666;
+    --node-color-1: #2ea37a;
+    --node-color-2: #872424;
+    --node-color-3: #0bb1a9;
+    --node-color-4: #a8937b;
+    --node-color-5: #29293f;
+    --node-color-6: #ba6e0e;
+    --node-color-7: #777777;
+    --node-color-8: #555555;
+    --node-color-9: #947494;
+    --node-color-10: #aab033;
+    --node-color-11: #996633;
+    --node-color-12: #56789a;
+}
+
+[data-dataindex=spwashi-datum-0] { background: var(--node-color-0); fill: var(--node-color-0);}
+[data-dataindex=spwashi-datum-1] { background: var(--node-color-1); fill: var(--node-color-1);}
+[data-dataindex=spwashi-datum-2] { background: var(--node-color-2); fill: var(--node-color-2);}
+[data-dataindex=spwashi-datum-3] { background: var(--node-color-3); fill: var(--node-color-3);}
+[data-dataindex=spwashi-datum-4] { background: var(--node-color-4); fill: var(--node-color-4);}
+[data-dataindex=spwashi-datum-5] { background: var(--node-color-5); fill: var(--node-color-5);}
+[data-dataindex=spwashi-datum-6] { background: var(--node-color-6); fill: var(--node-color-6);}
+[data-dataindex=spwashi-datum-7] { background: var(--node-color-7); fill: var(--node-color-7);}
+[data-dataindex=spwashi-datum-8] { background: var(--node-color-8); fill: var(--node-color-8);}
+[data-dataindex=spwashi-datum-9] { background: var(--node-color-9); fill: var(--node-color-9);}
 [data-dataindex=spwashi-datum-10] { background: var(--node-color-10); fill: var(--node-color-10);}
 [data-dataindex=spwashi-datum-11] { background: var(--node-color-11); fill: var(--node-color-11);}
 [data-dataindex=spwashi-datum-12] { background: var(--node-color-12); fill: var(--node-color-12);}

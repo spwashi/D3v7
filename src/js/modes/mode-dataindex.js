@@ -6,7 +6,7 @@ export function getColorIndex() {
   return parseInt((document.body.dataset.dataindex || '1').split('-').reverse()[0]);
 }
 
-export function initializeColors() {
+export function initializeDataindexMode() {
   const colorContainer   = document.querySelector('#colors');
   colorContainer.onclick = function (e) {
     const target = e.target;
@@ -16,5 +16,5 @@ export function initializeColors() {
 }
 
 export function getDataIndexKey(index) {
-  return 'spwashi-datum-' + index;
+  return 'spwashi-datum-' + (index % 13);
 }
