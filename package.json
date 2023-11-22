@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "serve -l 5050 dist",
+    "serve": "serve -l 5050",
     "serve:json": "json-server --watch input.json"
   },
   "dependencies": {
