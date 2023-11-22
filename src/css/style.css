@@ -7,6 +7,9 @@
 
     --body-outline: wheat;
 
+    --has-focus-outline: green;
+    --is-focus-outline: yellow;
+
     --node-color-0: #446666;
     --node-color-1: #2ea37a;
     --node-color-2: #872424;
@@ -28,43 +31,6 @@
     --keystroke-options-hover-background: #333333;
     --keystroke-options-border: #222222;
     --spw-container-text-color: white;
-}
-#colors {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-#colors .color {
-    width: 5rem;
-    height: 5rem;
-}
-
-#main-button-container {
-    position: absolute;
-    top: 0;
-    left: 15%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-}
-#main-button-container > button:hover, #main-button-container > button:focus     {
-    border: thin solid var(--body-outline);
-    background: var(--aside-background);
-    color: var(--aside-text-color);
-    cursor: pointer;
-}
-#main-button-container > button {
-    font-size: 1rem;
-    padding: 1rem;
-    margin: .5rem;
-    border: thin solid transparent;;
-    font-family: monospace;
-}
-#main-log {
-    position: absolute;
-    top: 33%;
-    right: 15%;
 }
 
 html {
@@ -89,41 +55,39 @@ main {
     justify-content: center;
     align-items: center;
 }
-
-main form {
+form {
+    display: flex;
     flex-direction: column;
     padding: 2rem 0;
     background: var(--form-background);
 }
-main form label {
+aside {
+    background: var(--aside-background);
+    display: inline-flex;
+    justify-content: center;
+    align-items: start;
+    color: var(--aside-text-color);
+    border: thin solid var(--body-outline);
+}
+aside > * {
+    padding: 1rem;
+}
+label {
     display: flex;
-    padding-bottom: .5rem;
     flex-direction: column;
+    text-align: center;
+    cursor: pointer;
+    padding-bottom: .5rem;
     color: var(--spw-container-text-color);
     font-weight: bold;
 }
-body > aside {
-    background: var(--aside-background);
-    display: inline-flex;
-    color: var(--aside-text-color);
-    padding: 1rem;
-    border: thin solid var(--body-outline);
-}
-main label {
-    width: 15rem;
-    text-align: center;
-    display: flex;
-    cursor: pointer;
-    flex-direction: column;
-}
-main label span {
+label span {
     padding: 1rem;
 }
-main label input[type=checkbox] {
+label input[type=checkbox] {
     cursor: pointer;
     margin-bottom: 1rem;
 }
-
 svg {
     display: block;
     overflow: visible;
@@ -137,41 +101,17 @@ text {
     white-space: pre;
 }
 
-[data-displaymode=nodes] :is(.rects, text, #show-keystroke-options, line) {
-    display: none;
+:is(:focus) {
+    outline: thick solid var(--is-focus-outline);
 }
-[data-displaymode=words] :is(.rects, .nodes :is(circle, rect), line) {
-    display: none;
-}
-[data-displaymode=edges] :is(.rects, .nodes :is(circle, rect), text) {
-    display: none;
+:has(:focus) {
+    outline: thick solid var(--has-focus-outline);
 }
 
-#querymod-mode-container {
-    display: none;
-}
-[data-mode=query] #querymod-mode-container {
-    display: flex;
-}
-#change-parameters-form {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-#node-mode-container {
-    display: none;
-}
-[data-mode=node] #node-mode-container {
-    display: flex;
-}
 
 #node-input-container {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    left: 0;
-    top: 0;
     z-index: 1;
     background: var(--node-input-container-background);
     color: var(--aside-text-color);
@@ -180,23 +120,13 @@ text {
     padding: .5rem;
     margin: .5rem 0;
 }
-
-#mode-selection-container {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
 #mode-selection-container label {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
 #controls {
-    position: absolute;
-    bottom: 4rem;
-    left: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -216,31 +146,29 @@ text {
     font-family: monospace;
 }
 
-#query-parameters {
+#aside-container {
     position: absolute;
     top: 0;
     left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+#main-log {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
-textarea:placeholder-shown + #parse-spw {
-    display: none;
-}
-textarea + #parse-spw {
-    display: block;
-    font-size: 2rem;
-}
+/* Mode Containers */
 #spw-mode-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 #spw-container {
-    display: inline-flex;
+    display: none;
     flex-direction: column;
     color: var(--spw-container-text-color);
 }
@@ -254,84 +182,124 @@ textarea + #parse-spw {
     overflow: visible;
     width: 50vw;
 }
-#map-filter-form {
-    position: absolute;
-    right: 1rem;
-    top: 25%;
-    display: flex;
-    flex-direction: column;
-    width: 25rem;
+#color-mode-container {
+    display: none;
 }
-.editor-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
+#colors {
     margin: 1rem;
+    border: thin solid var(--body-outline);
 }
-.code-editor {
-    bottom: 0;
-    width: 20rem;
-    padding: 1rem;
+#colors .color {
+    width: 5rem;
     height: 5rem;
 }
-.checked-enabler + .code-editor {
+#reflex-mode-container {
     display: none;
 }
-.checked-enabler:checked + .code-editor {
-    display: block;
+#reflexes {
+    margin: 1rem;
+    border: thin solid var(--body-outline);
+    display: flex;
+    flex-direction: column;
 }
-:is(#spw-container) {
+#querymod-mode-container {
+    display: none;
+}
+#node-mode-container {
+    display: none;
+}
+#debug-mode-container {
+    display: none;
+}
+#output {
+    white-space: pre;
+}
+#map-mode-container {
+    display: none;
+}
+#filter-mode-container {
     display: none;
 }
 
+:is(#color-mode-container) :is(:hover, :focus) {
+    border: thin solid var(--body-outline);
+    background: var(--aside-background);
+    color: var(--aside-text-color);
+}
+:is(#reflex-mode-container) button {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 1rem;
+    margin: .5rem;
+    border: thin solid transparent;;
+    font-family: monospace;
+}
 
+
+[data-displaymode=nodes] :is(.rects, text, #show-keystroke-options, line) {
+    display: none;
+}
+[data-displaymode=words] :is(.rects, .nodes :is(circle, rect), line) {
+    display: none;
+}
+[data-displaymode=edges] :is(.rects, .nodes :is(circle, rect), text) {
+    display: none;
+}
+
+/* Mode Containers: in use */
+[data-mode=debug] #debug-mode-container {
+    display: flex;
+}
+[data-mode=debug] #debug-mode-container {
+    display: flex;
+}
+[data-mode=color] #color-mode-container {
+    display: flex;
+}
+[data-mode=reflex] #reflex-mode-container {
+    display: flex;
+}
+[data-mode=query] #querymod-mode-container {
+    display: flex;
+}
+[data-mode=node] #node-mode-container {
+    display: flex;
+}
 [data-mode=spw] :is(#spw-container) {
     display: flex;
 }
-:is(#map-filter-form) {
-    display: none;
-}
-[data-mode=direct] :is(#map-filter-form) {
+[data-mode=map] #map-mode-container,
+[data-mode=filter] #filter-mode-container {
     display: flex;
 }
 
-[data-mode=map] :is(#node-mapper-enabler, #map-filter-form .editor-wrapper:not(:has(#node-mapper))),
-[data-mode=filter] :is(#node-mapper-enabler, #map-filter-form .editor-wrapper:not(:has(#node-filter))) {
-    display: none;
-}
-[data-mode=map] :is(#map-filter-form, #node-mapper, .code-editor),
-[data-mode=filter] :is(#map-filter-form, #node-filter, .code-editor) {
-    display: flex !important;
-}
-
-#show-keystroke-options {
-    position: absolute;
-    z-index: 1;
-    bottom: 0;
-    left: 0;
-    display: inline-flex;
-    padding: 1rem;
-    color: var(--aside-text-color);
-    cursor: pointer;
-    background: var(--show-keystroke-options-background);
-    flex-direction: column;
-    border: thin solid var(--keystroke-options-border);
-}
-#show-keystroke-options input {
-    display: inline-flex;
-}
 #show-keystroke-options + #keystroke-options {
     display: none;
 }
 #show-keystroke-options:has(:checked) + #keystroke-options {
     display: flex;
+}
+#show-keystroke-options {
+    display: inline-flex;
+    flex-direction: column;
+    z-index: 1;
+    padding: 1rem;
+    color: var(--aside-text-color);
+    cursor: pointer;
+    background: var(--show-keystroke-options-background);
+    border: thin solid var(--keystroke-options-border);
+}
+#show-keystroke-options input {
+    display: inline-flex;
+}
+#hotkey-container {
     position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: end;
 }
 #keystroke-options {
-    position: absolute;
-    bottom: 4rem;
-    left: 0;
     padding: 0 2rem 1rem;
 }
 #keystroke-options ul {
@@ -345,9 +313,29 @@ textarea + #parse-spw {
 #keystroke-options li:focus, #keystroke-options li:hover {
     background: var(--keystroke-options-hover-background);
 }
-#keystroke-options kbd:before { content: ''; }
-#keystroke-options kbd { padding-right: 1rem; }
-#keystroke-options kbd:after { content: ''; }
+#keystroke-options kbd:before {
+    content: '';
+}
+#keystroke-options kbd {
+    padding-right: 1rem;
+}
+#keystroke-options kbd:after {
+    content: '';
+}
+
+.editor-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 1rem;
+    margin: 1rem;
+}
+.code-editor {
+    width: 20rem;
+    padding: 1rem;
+    height: 5rem;
+}
+
 @media (max-width: 600px) {
     kbd {
         display: none;

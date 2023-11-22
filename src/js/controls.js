@@ -137,56 +137,61 @@ function initializeQueryParametersQuickChange() {
 
 function initializeSpwParseField() {
   const element  = document.querySelector('#spw-parse-field');
-  const value = window.spwashi.getItem('parameters.spw-parse-field') || '';
+  const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
   const spwInput = ace.edit('spw-parse-field');
   spwInput.setValue(value);
   const button   = document.querySelector('#parse-spw');
   button.onclick = () => {
-    const text    = spwInput.getValue()
-    const parsed  = window.spwashi.parse(text);
+    const text   = spwInput.getValue()
+    const parsed = window.spwashi.parse(text);
     window.spwashi.setItem('parameters.spw-parse-field', text);
     window.spwashi.nodes.push(...JSON.parse(JSON.stringify(parsed)));
     window.spwashi.reinit();
   }
 }
 
-function initializeNodeMapAndFilter() {
-  const mapFilterForm = document.querySelector('#map-filter-form');
-  const mapKey        = ('map-nodes-fn');
-  const filterKey     = ('filter-nodes-fn');
-  const mapElement    = document.querySelector('#node-mapper');
-  const mapEnabler    = document.querySelector('#node-mapper-enabler');
-  const mapEditor     = ace.edit('node-mapper');
+function hardResetNodes(nodes) {
+  window.spwashi.nodes.length = 0;
+  window.spwashi.nodes.push(...nodes);
+  window.spwashi.reinit();
+}
 
-  const filterElement = document.querySelector('#node-filter');
-  const filterEnabler = document.querySelector('#node-filter-enabler');
-  const filterEditor  = ace.edit('node-filter');
+function initializeNodeMapAndFilter() {
+  const mapEditor = ace.edit('node-mapper');
+  const mapKey    = 'map-nodes-fn';
+  const mapValue  = window.spwashi.getItem(mapKey) || `d => {\n	return d;\n}`;
+  mapEditor.setSession(ace.createEditSession(mapValue, 'ace/mode/javascript'));
+
+  const filterEditor = ace.edit('node-filter');
+  const filterKey    = 'filter-nodes-fn';
+  const filterValue  = window.spwashi.getItem(filterKey) || `d => {\n	return true;\n}`;
+  filterEditor.setSession(ace.createEditSession(filterValue, 'ace/mode/javascript'));
 
   [filterEditor, mapEditor].forEach((editor) => {
     editor.setTheme('ace/theme/monokai');
     editor.session.setMode('ace/mode/javascript');
   })
 
-  console.log([mapElement, filterElement])
-  const mapValue = window.spwashi.getItem(mapKey) || `d => {\n	return d;\n}`;
-  mapEditor.setSession(ace.createEditSession(mapValue, 'ace/mode/javascript'));
-  const filterValue = window.spwashi.getItem(filterKey) || `d => {\n	return true;\n}`;
-  filterEditor.setSession(ace.createEditSession(filterValue, 'ace/mode/javascript'));
+  const mapSubmit   = document.querySelector('#submit-node-mapper');
+  mapSubmit.onclick = submitMapper;
 
-  mapFilterForm.onsubmit = function (e) {
-    e.preventDefault();
-    const mapFnString    = mapEditor.getValue();
-    const filterFnString = filterEditor.getValue();
-    const mapFunction    = mapEnabler.checked || window.spwashi.parameters.mode === 'map' && mapFnString ? eval(mapFnString) : d => d;
-    const filterFunction = filterEnabler.checked || window.spwashi.parameters.mode === 'filter' && filterFnString ? eval(filterFnString) : d => true;
-    const nodes          = window.spwashi.nodes.map(mapFunction).filter(filterFunction);
+  const filterSubmit   = document.querySelector('#submit-node-filter');
+  filterSubmit.onclick = submitFilter;
 
+  function submitMapper() {
+    const mapFnString = mapEditor.getValue();
+    const mapFunction = mapFnString ? eval(mapFnString) : d => d;
+    const nodes       = window.spwashi.nodes.map(mapFunction);
+    hardResetNodes(nodes);
     window.spwashi.setItem(mapKey, mapFnString);
-    window.spwashi.setItem(filterKey, filterFnString);
+  }
 
-    window.spwashi.nodes.length = 0;
-    window.spwashi.nodes.push(...nodes);
-    window.spwashi.reinit();
+  function submitFilter() {
+    const filterFnString = filterEditor.getValue();
+    const filterFunction = filterFnString ? eval(filterFnString) : d => true;
+    const nodes          = window.spwashi.nodes.filter(filterFunction);
+    hardResetNodes(nodes);
+    window.spwashi.setItem(filterKey, filterFnString);
   }
 }
 
@@ -218,6 +223,7 @@ document.addEventListener('keydown', (e) => {
     // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
   }
   if (!(e.metaKey || e.ctrlKey)) return;
+  if (e.shiftKey) return;
 
   const keystrokeOptions = window.spwashi.keystrokeOptions;
   for (let option of keystrokeOptions) {
