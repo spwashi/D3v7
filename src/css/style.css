@@ -2,8 +2,8 @@
     --html-background: #818181;
     --body-background: #95b6b6;
     --form-background: #222222;
-    --aside-background: #222222;
-    --aside-text-color: wheat;
+    --quickaction-background: #222222;
+    --quickaction-text-color: wheat;
 
     --body-outline: wheat;
 
@@ -48,16 +48,20 @@ form {
     padding: 2rem 0;
     background: var(--form-background);
 }
-aside {
-    background: var(--aside-background);
+body > aside {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: var(--quickaction-background);
     display: inline-flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: start;
-    color: var(--aside-text-color);
+    align-items: center;
+    color: var(--quickaction-text-color);
     border: thin solid var(--body-outline);
 }
-aside > * {
-    padding: 1rem;
+body > aside > * {
+    /*padding: 1rem;*/
 }
 label {
     display: flex;
@@ -88,11 +92,11 @@ text {
     white-space: pre;
 }
 
-:is(:focus) {
-    outline: thick solid var(--is-focus-outline);
+aside :is(:focus) {
+    outline: thin solid var(--is-focus-outline);
 }
-:has(:focus) {
-    outline: thick solid var(--has-focus-outline);
+aside :has(:focus) {
+    outline: thin solid var(--has-focus-outline);
 }
 
 
@@ -101,17 +105,11 @@ text {
     flex-direction: column;
     z-index: 1;
     background: var(--node-input-container-background);
-    color: var(--aside-text-color);
+    color: var(--quickaction-text-color);
 }
 #node-input-container button {
     padding: .5rem;
     margin: .5rem 0;
-}
-#mode-selection-container label {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 #controls {
     display: flex;
@@ -120,7 +118,7 @@ text {
     align-items: center;
 }
 #controls label {
-    color: var(--aside-text-color);
+    color: var(--quickaction-text-color);
     font-weight: bold;
 }
 #controls .button-container {
@@ -133,13 +131,8 @@ text {
     font-family: monospace;
 }
 
-#aside-container {
-    position: absolute;
-    top: 0;
-    left: 0;
+#quickaction-container {
     display: flex;
-    flex-direction: column;
-    align-items: start;
 }
 #main-log {
     position: absolute;
@@ -210,8 +203,8 @@ text {
 
 :is(#color-mode-container) :is(:hover, :focus) {
     border: thin solid var(--body-outline);
-    background: var(--aside-background);
-    color: var(--aside-text-color);
+    background: var(--quickaction-background);
+    color: var(--quickaction-text-color);
 }
 :is(#reflex-mode-container) button {
     cursor: pointer;
@@ -260,18 +253,32 @@ text {
     display: flex;
 }
 
-#show-keystroke-options + #keystroke-options {
+#show-keystroke-options + #keystroke-options,
+#quickaction-container > label ~ * {
     display: none;
 }
-#show-keystroke-options:has(:checked) + #keystroke-options {
+#quickaction-container > label:has(:checked) ~ #mode-container {
     display: flex;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
 }
-#show-keystroke-options {
+#show-keystroke-options:has(:checked) + #keystroke-options,
+#quickaction-container > label:has(:checked) + select {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 100%;
+}
+:is(#show-keystroke-options, #quickaction-container > label) > [type=checkbox] {
+    display: none;
+}
+#show-keystroke-options, #quickaction-container > label {
     display: inline-flex;
     flex-direction: column;
     z-index: 1;
     padding: 1rem;
-    color: var(--aside-text-color);
+    color: var(--quickaction-text-color);
     cursor: pointer;
     background: var(--show-keystroke-options-background);
     border: thin solid var(--keystroke-options-border);
@@ -279,10 +286,7 @@ text {
 #show-keystroke-options input {
     display: inline-flex;
 }
-#hotkey-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+#hotkey-container, #quickaction-container {
     display: flex;
     align-items: end;
 }
@@ -321,7 +325,7 @@ text {
 #keystroke-options kbd {
     padding-left: 1rem;
     margin-left: 1rem;
-    color: #777;
+    color: #777777;
     border-left: thin solid var(--body-outline);
 }
 #keystroke-options kbd:after {

@@ -3,12 +3,8 @@
     <title>[arena] factshift.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
-    <script type="application/javascript">
-      window.spwashi = window.spwashi || {};
-    </script>
-  <script type="module" crossorigin src="/arena/assets/index-PY9nh6y3.js"></script>
-  <link rel="stylesheet" crossorigin href="/arena/assets/index-W6r6-ZI_.css">
+  <script type="module" crossorigin src="/arena/assets/index-7Ry2IYnq.js"></script>
+  <link rel="stylesheet" crossorigin href="/arena/assets/index-laF4wPiy.css">
 </head>
 <body data-mode="nothing">
     <main>
@@ -16,13 +12,12 @@
             <svg id="simulation"></svg>
         </div>
     </main>
-    <section id="main-log">
-        <ul class="events-log"></ul>
-    </section>
-    <section id="aside-container">
-        <aside id="mode-selection-container">
+    <aside>
+        <section id="quickaction-container">
             <label>
                 <span>Mode</span>
+                <input type="checkbox">
+            </label>
                 <select name="mode" id="mode-selector">
                     <option></option>
                     <option>spw</option>
@@ -34,220 +29,116 @@
                     <option>query</option>
                     <option>debug</option>
                 </select>
-            </label>
-        </aside>
-        <section id="mode-container">
-            <aside id="spw-mode-container">
-                <div id="spw-container">
-                    <label>
-                        <span>SPW</span>
-                    </label>
-                    <div id="spw-parse-field"></div>
-                    <button id="parse-spw">parse</button>
-                </div>
-            </aside>
-            <aside id="map-mode-container">
-                <div id="node-mapper" class="code-editor"></div>
-                <button id="submit-node-mapper">Submit</button>
-            </aside>
-            <aside id="filter-mode-container">
-                <div id="node-filter" class="code-editor"></div>
-                <button id="submit-node-filter">Submit</button>
-            </aside>
-            <aside id="querymod-mode-container">
-                <div id="query-parameters">
-                    <label>
-                        <span>Query Parameters</span>
-                        <textarea class="value"></textarea>
-                    </label>
-                    <button class="go">go</button>
-                </div>
-                <form id="change-parameters-form">
-                    <label>
-                        <span>version</span>
-                        <input name="version" value="boon"/>
-                    </label>
-                    <label>
-                        <span>superpower</span>
-                        <select name="superpower">
-                            <option>shrink</option>
-                            <option>changecolor</option>
-                            <option>grow</option>
-                        </select>
-                    </label>
-                    <label><span>weight</span><input name="weight" value="100"/></label>
-                    <label><span>node count</span><input name="nodeCount" value="13" type="number"/></label>
-                    <label><span>link strength</span><input name="linkstrength" value=".5" type="number" step=".1"/></label>
-                    <button type="submit">Submit</button>
-                </form>
-            </aside>
-            <aside id="node-mode-container">
-                <div id="node-input-container">
-                    <label><span>Nodes Input</span><textarea id="nodes-input"></textarea></label>
-                    <label><span>Data Selector</span><textarea id="nodes-selector-fn"></textarea></label>
-                    <button class="replace">replace</button>
-                    <button class="add">add</button>
-                </div>
-                <div id="controls">
-                    <label>
-                        <span>Data Buttons</span>
-                    </label>
-                    <div class="button-container">
-                        <button class="save-nodes">save</button>
-                        <button class="generate-nodes">generate</button>
-                        <button class="clear-saved-nodes">clear</button>
-                        <button class="read-nodes">read</button>
-                        <button class="clear-fixed-positions">free</button>
+            <section id="mode-container">
+                <section id="spw-mode-container">
+                    <div id="spw-container">
+                        <label>
+                            <span>SPW</span>
+                        </label>
+                        <div id="spw-parse-field"></div>
+                        <button id="parse-spw">parse</button>
                     </div>
-                    <label>
-                        <span>Simulation Buttons</span>
-                    </label>
-                    <div class="button-container">
-                        <button class="stop">stop</button>
-                        <button class="tick">tick</button>
-                        <button class="start">start</button>
-                        <button class="reinit">reinit</button>
+                </section>
+                <section id="map-mode-container">
+                    <div id="node-mapper" class="code-editor"></div>
+                    <button id="submit-node-mapper">Submit</button>
+                </section>
+                <section id="filter-mode-container">
+                    <div id="node-filter" class="code-editor"></div>
+                    <button id="submit-node-filter">Submit</button>
+                </section>
+                <section id="querymod-mode-container">
+                    <div id="query-parameters">
+                        <label>
+                            <span>Query Parameters</span>
+                            <textarea class="value"></textarea>
+                        </label>
+                        <button class="go">go</button>
                     </div>
-                </div>
-            </aside>
-            <aside id="color-mode-container">
-                <section id="colors">
-                    <button data-dataindex="spwashi-datum-0" class="color cls-0"></button>
-                    <button data-dataindex="spwashi-datum-1" class="color cls-1"></button>
-                    <button data-dataindex="spwashi-datum-2" class="color cls-2"></button>
-                    <button data-dataindex="spwashi-datum-3" class="color cls-3"></button>
-                    <button data-dataindex="spwashi-datum-4" class="color cls-4"></button>
-                    <button data-dataindex="spwashi-datum-5" class="color cls-5"></button>
-                    <button data-dataindex="spwashi-datum-6" class="color cls-6"></button>
-                    <button data-dataindex="spwashi-datum-7" class="color cls-7"></button>
-                    <button data-dataindex="spwashi-datum-8" class="color cls-8"></button>
-                    <button data-dataindex="spwashi-datum-9" class="color cls-9"></button>
-                    <button data-dataindex="spwashi-datum-10" class="color cls-10"></button>
-                    <button data-dataindex="spwashi-datum-11" class="color cls-11"></button>
-                    <button data-dataindex="spwashi-datum-12" class="color cls-12"></button>
+                    <form id="change-parameters-form">
+                        <label>
+                            <span>version</span>
+                            <input name="version" value="boon"/>
+                        </label>
+                        <label>
+                            <span>superpower</span>
+                            <select name="superpower">
+                                <option>shrink</option>
+                                <option>changecolor</option>
+                                <option>grow</option>
+                            </select>
+                        </label>
+                        <label><span>weight</span><input name="weight" value="100"/></label>
+                        <label><span>node count</span><input name="nodeCount" value="13" type="number"/></label>
+                        <label><span>link strength</span><input name="linkstrength" value=".5" type="number" step=".1"/></label>
+                        <button type="submit">Submit</button>
+                    </form>
                 </section>
-            </aside>
-            <aside id="reflex-mode-container">
-                <section id="reflexes">
-
-                    <section>
-                        <button
-                                data-dataindex="spwashi-datum-0"
-                                onclick="window.spwashi.boon()"
-                        >
-                            boon
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-1"
-                                onclick="let arr=window.spwashi.nodes.filter(d=>d.id.indexOf('node:')<0);window.spwashi.nodes.length=0;window.spwashi.nodes.push(...arr);console.log(arr);window.spwashi.reinit()"
-                        >
-                            bane
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-2"
-                                onclick="window.spwashi.bone()"
-                        >
-                            bone
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-3"
-                                onclick="window.spwashi.bonk()"
-                        >
-                            bonk
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-4"
-                                onclick="window.spwashi.honk()"
-                        >
-                            honk
-                        </button>
-                    </section>
-                    <section>
-                        <button
-                                data-dataindex="spwashi-datum-6"
-                                onclick="window.spwashi.parameters.forces.charge = 100;window.spwashi.reinit();"
-                        >
-                            [charge = 100]
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-5"
-                                onclick="window.spwashi.parameters.forces.charge = 0;window.spwashi.reinit();"
-                        >
-                            [charge = 0]
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-7"
-                                onclick="window.spwashi.parameters.forces.charge = -100;window.spwashi.reinit();"
-                        >
-                            [charge = -100]
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-8"
-                                onclick="window.spwashi.parameters.forces.charge += 10;window.spwashi.reinit();"
-                        >
-                            [charge +10]
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-9"
-                                onclick="window.spwashi.parameters.forces.charge -= 10;window.spwashi.reinit();"
-                        >
-                            [charge -10]
-                        </button>
-                    </section>
-                    <section>
-                        <button
-                                data-dataindex="spwashi-datum-10"
-                                onclick="window.spwashi.nodes.forEach(n=>n.r*=3.2);window.spwashi.reinit()"
-                        >
-                            [r *= 3.2]
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-11"
-                                onclick="window.spwashi.nodes.forEach(n=>n.r/=2.3);window.spwashi.reinit()"
-                        >
-                            [r /= 2.3]
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-12"
-                                onclick="window.spwashi.nodes.forEach(n=>n.r = 10);window.spwashi.reinit()"
-                        >
-                            [r=10]
-                        </button>
-                    </section>
-                    <section>
-                        <button
-                                data-dataindex="spwashi-datum-0"
-                                onclick="window.spwashi.setDocumentMode('spw');"
-                        >
-                            [mode=spw]
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-1"
-                                onclick="window.spwashi.setDocumentMode(null);"
-                        >
-                            [mode=null]
-                        </button>
-                        <button
-                                data-dataindex="spwashi-datum-2"
-                                onclick="window.spwashi.parameters.forces.boundingBox = !window.spwashi.parameters.forces.boundingBox; window.spwashi.reinit();"
-                        >
-                            [toggle bounding box]
-                        </button>
+                <section id="node-mode-container">
+                    <div id="node-input-container">
+                        <label><span>Nodes Input</span><textarea id="nodes-input"></textarea></label>
+                        <label><span>Data Selector</span><textarea id="nodes-selector-fn"></textarea></label>
+                        <button class="replace">replace</button>
+                        <button class="add">add</button>
+                    </div>
+                    <div id="controls">
+                        <label>
+                            <span>Data Buttons</span>
+                        </label>
+                        <div class="button-container">
+                            <button class="save-nodes">save</button>
+                            <button class="generate-nodes">generate</button>
+                            <button class="clear-saved-nodes">clear</button>
+                            <button class="read-nodes">read</button>
+                            <button class="clear-fixed-positions">free</button>
+                        </div>
+                        <label>
+                            <span>Simulation Buttons</span>
+                        </label>
+                        <div class="button-container">
+                            <button class="stop">stop</button>
+                            <button class="tick">tick</button>
+                            <button class="start">start</button>
+                            <button class="reinit">reinit</button>
+                        </div>
+                    </div>
+                </section>
+                <section id="color-mode-container">
+                    <section id="colors">
+                        <button data-dataindex="spwashi-datum-0" class="color cls-0"></button>
+                        <button data-dataindex="spwashi-datum-1" class="color cls-1"></button>
+                        <button data-dataindex="spwashi-datum-2" class="color cls-2"></button>
+                        <button data-dataindex="spwashi-datum-3" class="color cls-3"></button>
+                        <button data-dataindex="spwashi-datum-4" class="color cls-4"></button>
+                        <button data-dataindex="spwashi-datum-5" class="color cls-5"></button>
+                        <button data-dataindex="spwashi-datum-6" class="color cls-6"></button>
+                        <button data-dataindex="spwashi-datum-7" class="color cls-7"></button>
+                        <button data-dataindex="spwashi-datum-8" class="color cls-8"></button>
+                        <button data-dataindex="spwashi-datum-9" class="color cls-9"></button>
+                        <button data-dataindex="spwashi-datum-10" class="color cls-10"></button>
+                        <button data-dataindex="spwashi-datum-11" class="color cls-11"></button>
+                        <button data-dataindex="spwashi-datum-12" class="color cls-12"></button>
                     </section>
                 </section>
-            </aside>
-            <aside id="debug-mode-container">
-                <section>
-                    <output id="output"></output>
+                <section id="reflex-mode-container">
+                    <section id="reflexes"></section>
                 </section>
-            </aside>
+                <section id="debug-mode-container">
+                    <section>
+                        <output id="output"></output>
+                    </section>
+                </section>
+            </section>
         </section>
-    </section>
-    <aside id="hotkey-container">
-        <label id="show-keystroke-options">
-            <span>Hotkeys</span>
-            <input type="checkbox"/>
-        </label>
-        <section id="keystroke-options"></section>
+        <section id="hotkey-container">
+            <label id="show-keystroke-options">
+                <span>Hotkeys</span>
+                <input type="checkbox"/>
+            </label>
+            <section id="keystroke-options"></section>
+        </section>
     </aside>
+    <section id="main-log">
+        <ul class="events-log"></ul>
+    </section>
 </body>
