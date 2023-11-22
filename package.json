@@ -6,13 +6,15 @@
   "author": "Sam Washington <sam@spwashi.com>",
   "license": "MIT",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
     "serve": "serve -l 5050",
     "serve:json": "json-server --watch input.json"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "json-server": "^0.17.4",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vite": "^5.0.2"
   }
 }
