@@ -1,2 +1,0 @@
-window.spwashi.images =
-  [];

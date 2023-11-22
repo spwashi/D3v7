@@ -1,13 +1,13 @@
-import {processNode}                 from "./processNode.js";
-import {cacheNode, readNodePosition} from "./store";
-import {getColorIndex}               from "../parameters";
-import {makeText, updateNodeTextSvg} from "./text";
-import {makeRect}                    from "./rect";
-import {makeCircle, updateCircle}   from "./circle";
+import {processNode}                      from "./processNode.js";
+import {cacheNode, readNodePosition}      from "./store";
+import {makeText, updateNodeTextSvg}      from "./text";
+import {makeRect}                         from "./rect";
+import {makeCircle, updateCircle}         from "./circle";
 import {makeImage, updateNodeImage}       from "./image";
 import {getNodeColor, getNodeStrokeColor} from "./colors";
+import {getColorIndex}                    from "../../modes/mode-dataindex";
 
-const nodesManager = {
+export const NODE_MANAGER = {
   getNode:     getNode,
   initNodes:   initNodes,
   normalize:   normalize,
@@ -19,7 +19,7 @@ const nodesManager = {
 
 const idMap = new Map();
 
-function getNodeImageHref(d) {
+export function getNodeImageHref(d) {
   return null;
   if (d.image.href === null) return null;
   return d.image.href || window.spwashi.images[(d.colorindex || 0) % (window.spwashi.images.length)];
@@ -33,8 +33,7 @@ function getNodeId(node, i) {
   const root_id = getNodeRootId(node, i);
   const set     = idMap.get(root_id) || new Set;
   if (!set.has(node)) {
-    const set_id = root_id + (set.size ? '[' + set.size + ']' : '');
-    node.id      = set_id;
+    node.id = root_id + (set.size ? '[' + set.size + ']' : '');
     set.add(node);
   }
   node.id = node.id || root_id;
@@ -44,8 +43,7 @@ function getNodeId(node, i) {
 
 function getNodeRootId(node = {}, i = 0) {
   if (node.identity) return node.identity;
-  const indexedName = `node:[${i}]`;
-  return indexedName;
+  return `node:[${i}]`;
 };
 
 function normalize(node, readNode, i) {
@@ -90,7 +88,7 @@ function initNodes(nodes) {
     const node     = {id: getNodeId(nodes[i], i),};
     const readNode = readNodePosition(node);
 
-    window.spwashi.nodesManager.normalize(
+    NODE_MANAGER.normalize(
       nodes[i],
       {...node, ...readNode},
       i
@@ -156,6 +154,3 @@ function getNode(id) {
   return window.spwashi.nodes.find(n => n.id === id);
 }
 
-window.spwashi.getNodeImageHref = getNodeImageHref
-window.spwashi.getNode          = nodesManager.getNode;
-window.spwashi.nodesManager     = nodesManager;

@@ -5,7 +5,7 @@ export function pushLink(links, link) {
 function initLinks(linkContainer, nodes) {
   const linkStrength = window.spwashi.parameters.links.strength;
   const doPrevLinks  = window.spwashi.parameters.links.linkPrev;
-  const links = linkContainer;
+  const links        = linkContainer;
 
   for (let node of nodes) {
     const {head, body, tail} = node;
@@ -72,7 +72,7 @@ function updateLinks(g, links) {
              });
 }
 
-window.spwashi.linksManager = {
+export const EDGE_MANAGER          = {
   initLinks:   initLinks,
   updateLinks: updateLinks,
-}
+};

@@ -37,8 +37,9 @@ function updateRects(g, rects) {
             .text(d => d.title)
          })
 
-};
-window.spwashi.rectsManager = {
+}
+
+export const RECT_MANAGER   = {
   initRects:   rects => rects,
   updateRects: updateRects
-}
+};

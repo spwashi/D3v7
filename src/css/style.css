@@ -306,7 +306,19 @@ text {
     list-style: none;
     padding: 0;
 }
+#keystroke-options li kbd {
+    flex: 0 1;
+}
+#keystroke-options li span {
+    flex: 1 0;
+}
+#keystroke-options li :is(span, kbd) {
+}
 #keystroke-options li {
+    overflow: hidden;
+    white-space: pre;
+    display: flex;
+    flex-direction: row;
     cursor: pointer;
     padding: .5rem;
 }
@@ -316,8 +328,14 @@ text {
 #keystroke-options kbd:before {
     content: '';
 }
+#keystroke-options kbd strong {
+    color: white;
+}
 #keystroke-options kbd {
-    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-left: 1rem;
+    color: #777;
+    border-left: thin solid var(--body-outline);
 }
 #keystroke-options kbd:after {
     content: '';

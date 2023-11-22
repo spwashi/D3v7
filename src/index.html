@@ -6,29 +6,18 @@
     <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
     <link href="css/style.css" rel="stylesheet"/>
     <link href="css/dataindex.css" rel="stylesheet"/>
+    <script type="application/javascript">
+      window.spwashi = window.spwashi || {};
+    </script>
     <script type="module">
-      import "./js/parameters.js";
-      import "./js/nodes/colors.js";
-      import "./js/nodes/images.js";
-      import "./js/nodes/store.js";
-      import "./js/nodes/circle.js";
-      import "./js/nodes/rect.js";
-      import "./js/nodes/image.js";
-      import "./js/nodes/text.js";
-      import "./js/nodes/processNode.js";
-      import "./js/nodes/nodes.js";
-      import "./js/links.js";
-      import "./js/rects/rects.js";
-      import "./js/interactions.js";
-      import "./js/controls.js";
-      import "./js/simulation.js";
-      import "./js/input.js";
+      import {init} from "./js";
+
+      init()
     </script>
     <script type="module">
       import {parse}           from "./vendor/spw/parser/parse.mjs";
       import {CharacterCursor} from "./vendor/spw/core/node/cursor.mjs";
 
-      window.spwashi       = window.spwashi || {};
       window.spwashi.parse = (text) => {
         const tokens    = [];
         const generator = parse(text, {asGenerator: true});
@@ -41,10 +30,9 @@
       };
     </script>
     <script type="module">
-      import {getColorIndex} from "./js/parameters";
-      import {pushLink}      from "./js/links";
+      import {pushLink}      from "./js/simulation/edges/links";
+      import {getColorIndex} from "./js/modes/mode-dataindex";
 
-      window.spwashi      = window.spwashi || {};
       window.spwashi.boon = () => {
         async function* loop(timeout = 300, count = window.spwashi.parameters.nodes.count) {
           for (let i = 0; i < count; i++) {

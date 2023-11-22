@@ -1,4 +1,4 @@
-import {cacheNode} from "./store";
+import {cacheNode}          from "./store";
 import {getNodeStrokeColor} from "./colors";
 
 export function makeImage(g) {

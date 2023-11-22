@@ -1,84 +1,17 @@
-import {initializeForceSimulationControls} from "./controls";
-import {logMainEvent}                      from "./nodes/circle";
+import {logMainEvent} from "./nodes/circle";
+import {NODE_MANAGER} from "./nodes/nodes";
+import {EDGE_MANAGER} from "./edges/links";
+import {RECT_MANAGER} from "./rects/rects";
 
-window.spwashi            = window.spwashi || {};
-window.spwashi.simulation = d3.forceSimulation();
-window.spwashi.counter    = 0;
-window.spwashi.nodes      = window.spwashi.nodes || [];
-window.spwashi.links      = window.spwashi.links || [];
-window.spwashi.rects      = window.spwashi.rects || [
-  {
-    title: 'Counter',
-    x:     0,
-    width: 0,
-    calc:  d => d.width = window.spwashi.counter * 1
-  },
-  {
-    title: 'Alpha',
-    x:     0,
-    width: 0,
-    calc:  d => d.width = window.spwashi.simulation.alpha() * (window.spwashi.parameters.width || 0)
-  },
-  {
-    title: 'Alpha Decay',
-    x:     0,
-    width: 0,
-    calc:  d => d.width = window.spwashi.simulation.alphaDecay() * (window.spwashi.parameters.width || 0)
-  },
-  {
-    title: 'Charge',
-    x:     0,
-    width: 0,
-    calc:  d => {
-      d.title = 'Charge: ' + window.spwashi.parameters.forces.charge;
-      d.width = window.spwashi.parameters.forces.charge;
-    }
-  },
-  {
-    title: 'Velocity Decay',
-    x:     0,
-    width: 0,
-    calc:  d => d.width = window.spwashi.simulation.velocityDecay() * (window.spwashi.parameters.width || 0)
-  },
-  {
-    title: 'Node Quantity',
-    x:     0,
-    width: 0,
-    calc:  d => {
-      let nodeCount = window.spwashi.nodes.length;
-      d.title       = 'Node Count: ' + nodeCount;
 
-      return d.width = nodeCount;
-    }
-  },
-  {
-    title: 'Node Queue Count',
-    x:     0,
-    width: 0,
-    calc:  d => {
-      const nodeCount = window.spwashi.parameters.nodes.count;
 
-      d.title = 'Node Queue Count: ' + nodeCount;
-      d.width = nodeCount;
-    }
-  },
-  {
-    title: 'Alpha Cursor',
-    x:     0,
-    width: 1,
-    calc:  d => d.x = window.spwashi.simulation.alpha() * (window.spwashi.parameters.width || 0)
-  },
-  {
-    title: 'Zoom',
-    x:     0,
-    width: 1,
-    calc:  d => d.title = 'Zoom: ' + window.spwashi.zoomTransform?.k
-  },
-].map((r, i) => {
-  r.height = 20;
-  r.y      = i * 20;
-  return r;
-});
+const simulationSVG   = d3.select("svg#simulation");
+const g               = simulationSVG.append('g').attr('id', 'simulation-content');
+const rectsG          = g.append('g').classed('rects', true);
+const linksG          = g.append('g').classed('links', true);
+const circlesG        = g.append('g').classed('nodes', true);
+const nodeG_offset    = {x: 0, y: 0};
+const nodeG_transform = {x: 0, y: 0};
 
 function initializeForces(simulation, links, nodes) {
   simulation.alpha(window.spwashi.parameters.forces.alpha);
@@ -127,16 +60,7 @@ function initializeForces(simulation, links, nodes) {
   });
 }
 
-const simulationSVG = d3.select("svg#simulation");
-const g             = simulationSVG.append('g').attr('id', 'simulation-content');
-
-const rectsG   = g.append('g').classed('rects', true);
-const linksG   = g.append('g').classed('links', true);
-const circlesG = g.append('g').classed('nodes', true);
-
-const nodeG_offset    = {x: 0, y: 0};
-const nodeG_transform = {x: 0, y: 0};
-window.spwashi.reinit = () => {
+export function reinitializeSimulation() {
   window.spwashi.counter = 0;
   simulationSVG
     .attr('width', window.spwashi.parameters.width)
@@ -154,7 +78,7 @@ window.spwashi.reinit = () => {
                 if (e.sourceEvent.shiftKey) {
                   window.spwashi.parameters.forces._charge = window.spwashi.parameters.forces._charge || window.spwashi.parameters.forces.charge;
                   window.spwashi.parameters.forces.charge  = window.spwashi.parameters.forces._charge * factor;
-                  window.spwashi.reinit();
+                  reinitializeSimulation();
                 } else {
                   window.spwashi.nodes.forEach(node => {
                     node.private._r = node.private._r || node.r
@@ -216,14 +140,15 @@ window.spwashi.reinit = () => {
           node.charge = -1000;
         });
         window.spwashi.rects.splice(window.spwashi.rects.indexOf(rect), 1);
-        window.spwashi.reinit();
+        reinitializeSimulation();
         rect = null;
         logMainEvent('mouseup:' + e.y + ' ' + e.x);
       });
   }
-  const nodes      = window.spwashi.nodesManager.initNodes(window.spwashi.nodes);
-  const links      = window.spwashi.linksManager.initLinks(window.spwashi.links, nodes);
-  const rects      = window.spwashi.rectsManager.initRects(window.spwashi.rects)
+  const nodes = NODE_MANAGER.initNodes(window.spwashi.nodes);
+  const links = EDGE_MANAGER.initLinks(window.spwashi.links, nodes);
+  const rects = RECT_MANAGER.initRects(window.spwashi.rects)
+
   const simulation = window.spwashi.simulation;
   simulation.nodes(nodes);
   initializeForces(simulation, links, nodes);
@@ -234,28 +159,10 @@ window.spwashi.reinit = () => {
   window.spwashi.internalTicker = () => {
     window.spwashi.counter += 1;
     rects.forEach(d => d.calc(d));
-    window.spwashi.linksManager.updateLinks(g, links);
-    window.spwashi.nodesManager.updateNodes(g, nodes);
-    window.spwashi.rectsManager.updateRects(g, rects);
+    EDGE_MANAGER.updateLinks(g, links);
+    NODE_MANAGER.updateNodes(g, nodes);
+    RECT_MANAGER.updateRects(g, rects);
   };
   simulation.on('tick', window.spwashi.internalTicker);
   document.querySelector('#output').innerHTML = JSON.stringify(window.spwashi.parameters, null, 2);
-};
-
-window.spwashi.readParameters(new URLSearchParams(window.location.search));
-
-if (window.spwashi.doFetchNodes) {
-  const fetchThing = async () => {
-    const identities = await fetch('http://localhost:3000/identities').then(r => r.json());
-    const tokens     = await fetch('http://localhost:3000/tokens').then(r => r.json());
-    const els        = {};
-    const ret        = {identities, tokens: tokens.filter(el => els[el.identity] ? false : (els[el.identity] = true))};
-
-    return ret.tokens;
-  }
-  fetchThing()
-    .then(nodes => window.spwashi.nodes.push(...nodes))
-    .then(nodes => window.spwashi.reinit());
 }
-
-initializeForceSimulationControls();
