@@ -1,4 +1,4 @@
-function pushLink(links, link) {
+export function pushLink(links, link) {
   links.push(link)
 }
 

@@ -29,8 +29,8 @@ function updateRects(g, rects) {
            u
              .selectAll('rect')
              .attr('fill', d => d.fill || 'teal')
-             .attr('width', d => d.width || 0)
-             .attr('height', d => d.height || 0)
+             .attr('width', d => Math.abs(d.width || 0))
+             .attr('height', d => Math.abs(d.height || 0))
              .attr('y', d => d.y)
              .attr('x', d => d.x);
            u.selectAll('text')

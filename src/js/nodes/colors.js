@@ -13,6 +13,6 @@ const colors = [
 	'var(--node-color-11)',
 	'var(--node-color-12)',
 ];
-const getNodeColor = d => colors[(d.colorindex || 0) % (colors.length )];
-const getNodeText = d => d.name;
-const getNodeStrokeColor = d => colors[((d.colorindex || 0) + 5) % colors.length];
+export const getNodeColor = d => colors[(d.colorindex || 0) % (colors.length )];
+export const getNodeText = d => d.name;
+export const getNodeStrokeColor = d => colors[((d.colorindex || 0) + 5) % colors.length];

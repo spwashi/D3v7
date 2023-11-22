@@ -1,3 +1,8 @@
+import {setColorIndex}          from "./parameters";
+import ace, {createEditSession} from 'ace-builds/src-noconflict/ace';
+import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/mode-javascript';
+
 const generateNodes = (n) => {
   const count = n || window.spwashi.parameters.nodes.count;
   const nodes = [...Array(count)].map(n => ({}));
@@ -5,7 +10,7 @@ const generateNodes = (n) => {
   window.spwashi.reinit();
 }
 
-function initializeForceSimulationControls() {
+export function initializeForceSimulationControls() {
   const forceSimulation = window.spwashi.simulation;
   if (!forceSimulation) {
     const error = 'no force simulation initialized';
@@ -46,7 +51,7 @@ function initializeForceSimulationControls() {
 
 }
 
-function initializeParameterContainers() {
+export function initializeParameterContainers() {
   window.spwashi.refreshNodeInputs = (nodes) => {
     const nodesSelectorFn   = (window.spwashi.getItem('parameters.nodes-input-map-fn-string') || 'data => data');
     const nodesInputElement = document.querySelector('#nodes-input');
@@ -120,7 +125,7 @@ function initializeParameterContainers() {
   }
 }
 
-function initializeQueryParametersQuickChange() {
+export function initializeQueryParametersQuickChange() {
   const element     = document.querySelector('#query-parameters .value');
   const text        = [...new URLSearchParams(window.location.search)].map(entry => entry.join('=')).join('\n');
   element.innerHTML = text;
@@ -135,10 +140,11 @@ function initializeQueryParametersQuickChange() {
   }
 }
 
-function initializeSpwParseField() {
+export function initializeSpwParseField() {
   const element  = document.querySelector('#spw-parse-field');
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
   const spwInput = ace.edit('spw-parse-field');
+  spwInput.setOptions({useWorker: false})
   spwInput.setValue(value);
   const button   = document.querySelector('#parse-spw');
   button.onclick = () => {
@@ -156,18 +162,19 @@ function hardResetNodes(nodes) {
   window.spwashi.reinit();
 }
 
-function initializeNodeMapAndFilter() {
+export function initializeNodeMapAndFilter() {
   const mapEditor = ace.edit('node-mapper');
   const mapKey    = 'map-nodes-fn';
   const mapValue  = window.spwashi.getItem(mapKey) || `d => {\n	return d;\n}`;
-  mapEditor.setSession(ace.createEditSession(mapValue, 'ace/mode/javascript'));
+  mapEditor.setSession(createEditSession(mapValue, 'ace/mode/javascript'));
 
   const filterEditor = ace.edit('node-filter');
   const filterKey    = 'filter-nodes-fn';
   const filterValue  = window.spwashi.getItem(filterKey) || `d => {\n	return true;\n}`;
-  filterEditor.setSession(ace.createEditSession(filterValue, 'ace/mode/javascript'));
+  filterEditor.setSession(createEditSession(filterValue, 'ace/mode/javascript'));
 
   [filterEditor, mapEditor].forEach((editor) => {
+    editor.setOptions({useWorker: false})
     editor.setTheme('ace/theme/monokai');
     editor.session.setMode('ace/mode/javascript');
   })
@@ -195,7 +202,7 @@ function initializeNodeMapAndFilter() {
   }
 }
 
-function initializeModeSelection(starterMode) {
+export function initializeModeSelection(starterMode) {
   const modeSelect = document.querySelector('#mode-selector');
   window.spwashi.setDocumentMode(starterMode)
   modeSelect.value    = starterMode;
@@ -205,7 +212,7 @@ function initializeModeSelection(starterMode) {
   }
 }
 
-function initializeColors() {
+export function initializeColors() {
   const colorContainer   = document.querySelector('#colors');
   colorContainer.onclick = function (e) {
     const target = e.target;

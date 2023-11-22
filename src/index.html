@@ -4,25 +4,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
-    <script src="/vendor/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script defer src="js/parameters.js" type="application/javascript"></script>
-    <script defer src="js/nodes/colors.js" type="application/javascript"></script>
-    <script defer src="js/nodes/images.js" type="application/javascript"></script>
-    <script defer src="js/nodes/store.js" type="application/javascript"></script>
-    <script defer src="js/nodes/circle.js" type="application/javascript"></script>
-    <script defer src="js/nodes/rect.js" type="application/javascript"></script>
-    <script defer src="js/nodes/image.js" type="application/javascript"></script>
-    <script defer src="js/nodes/text.js" type="application/javascript"></script>
-    <script defer src="js/nodes/processNode.js" type="application/javascript"></script>
-    <script defer src="js/nodes/nodes.js" type="application/javascript"></script>
-    <script defer src="js/links.js" type="application/javascript"></script>
-    <script defer src="js/rects/rects.js" type="application/javascript"></script>
-    <script defer src="js/interactions.js" type="application/javascript"></script>
-    <script defer src="js/controls.js" type="application/javascript"></script>
-    <script defer src="js/simulation.js" type="application/javascript"></script>
-    <script defer src="js/input.js" type="application/javascript"></script>
     <link href="css/style.css" rel="stylesheet"/>
     <link href="css/dataindex.css" rel="stylesheet"/>
+    <script type="module">
+      import "./js/parameters.js";
+      import "./js/nodes/colors.js";
+      import "./js/nodes/images.js";
+      import "./js/nodes/store.js";
+      import "./js/nodes/circle.js";
+      import "./js/nodes/rect.js";
+      import "./js/nodes/image.js";
+      import "./js/nodes/text.js";
+      import "./js/nodes/processNode.js";
+      import "./js/nodes/nodes.js";
+      import "./js/links.js";
+      import "./js/rects/rects.js";
+      import "./js/interactions.js";
+      import "./js/controls.js";
+      import "./js/simulation.js";
+      import "./js/input.js";
+    </script>
     <script type="module">
       import {parse}           from "./vendor/spw/parser/parse.mjs";
       import {CharacterCursor} from "./vendor/spw/core/node/cursor.mjs";
@@ -39,7 +40,10 @@
         return tokens;
       };
     </script>
-    <script type="application/javascript">
+    <script type="module">
+      import {getColorIndex} from "./js/parameters";
+      import {pushLink}      from "./js/links";
+
       window.spwashi      = window.spwashi || {};
       window.spwashi.boon = () => {
         async function* loop(timeout = 300, count = window.spwashi.parameters.nodes.count) {
@@ -93,8 +97,6 @@
             strength: window.spwashi.parameters.links.strength * .3
           })
         });
-
-
         window.spwashi.reinit();
       };
       window.spwashi.bonk = () => {

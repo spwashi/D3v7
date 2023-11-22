@@ -1,3 +1,5 @@
+import {readNodePosition} from "./store";
+
 function getLastKind(node) {
   return node.kind?.trim().split(' + ').reverse()[0];
 }
@@ -10,7 +12,7 @@ function isOperator(node) {
   return node.kind.split(' + ').includes('operator');
 }
 
-function processNode(node, i) {
+export function processNode(node, i) {
   const readNode = readNodePosition(node);
   if (readNode.fx || readNode.fy) return;
   if (!node.identity) return;

@@ -1,3 +1,5 @@
+import {initializeColors, initializeModeSelection, initializeNodeMapAndFilter, initializeParameterContainers, initializeQueryParametersQuickChange, initializeSpwParseField} from "./controls";
+
 window.spwashi                  = window.spwashi || {};
 window.spwashi.keystrokeOptions = [
   ['c', 'Copy current nodes to clipboard',
@@ -65,19 +67,14 @@ function getDataIndexKey(index) {
   return 'spwashi-datum-' + index;
 }
 
-function setColorIndex(index) {
+export function setColorIndex(index) {
   document.body.dataset.dataindex = index;
 }
-function getColorIndex() {
-  return parseInt((document.body.dataset.dataindex||'1').split('-').reverse()[0]);
+
+export function getColorIndex() {
+  return parseInt((document.body.dataset.dataindex || '1').split('-').reverse()[0]);
 }
 
-function logMainEvent(event) {
-  const eventsElement = document.querySelector('#main-log ul.events-log');
-  const listItem      = document.createElement('li');
-  listItem.innerText  = event;
-  eventsElement.appendChild(listItem);
-}
 
 window.spwashi.readParameters                    = (searchParameters) => {
   [...searchParameters.entries()].forEach(([key, value]) => (document.querySelector(`[name=${key}]`) || {}).value = value)

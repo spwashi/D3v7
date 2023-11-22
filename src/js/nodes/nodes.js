@@ -1,3 +1,12 @@
+import {processNode}                 from "./processNode.js";
+import {cacheNode, readNodePosition} from "./store";
+import {getColorIndex}               from "../parameters";
+import {makeText, updateNodeTextSvg} from "./text";
+import {makeRect}                    from "./rect";
+import {makeCircle, updateCircle}   from "./circle";
+import {makeImage, updateNodeImage}       from "./image";
+import {getNodeColor, getNodeStrokeColor} from "./colors";
+
 const nodesManager = {
   getNode:     getNode,
   initNodes:   initNodes,
@@ -16,7 +25,7 @@ function getNodeImageHref(d) {
   return d.image.href || window.spwashi.images[(d.colorindex || 0) % (window.spwashi.images.length)];
 }
 
-function sortNodes(nodes) {
+export function sortNodes(nodes) {
   return nodes.sort((a, b) => a.z - b.z);
 }
 

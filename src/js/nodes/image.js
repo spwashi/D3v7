@@ -1,4 +1,7 @@
-function makeImage(g) {
+import {cacheNode} from "./store";
+import {getNodeStrokeColor} from "./colors";
+
+export function makeImage(g) {
 	const rect = g.append('rect')
 	.attr('width', d => { return window.spwashi.getNodeImageHref(d) ? d.image.r || d.r : 0})
 	.attr('height', d => window.spwashi.getNodeImageHref(d) ? d.image.r || d.r : 0)
@@ -59,7 +62,7 @@ function makeImage(g) {
 	return g;
 }
 
-function updateNodeImage(image) {
+export function updateNodeImage(image) {
 	image
 		.select('rect')
 		.attr('stroke', 'black')

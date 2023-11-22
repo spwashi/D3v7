@@ -1,3 +1,6 @@
+import {initializeForceSimulationControls} from "./controls";
+import {logMainEvent}                      from "./nodes/circle";
+
 window.spwashi            = window.spwashi || {};
 window.spwashi.simulation = d3.forceSimulation();
 window.spwashi.counter    = 0;
@@ -216,8 +219,6 @@ window.spwashi.reinit = () => {
         window.spwashi.reinit();
         rect = null;
         logMainEvent('mouseup:' + e.y + ' ' + e.x);
-
-
       });
   }
   const nodes      = window.spwashi.nodesManager.initNodes(window.spwashi.nodes);

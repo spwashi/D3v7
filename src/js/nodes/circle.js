@@ -1,4 +1,14 @@
-function makeCircle(g) {
+import {cacheNode} from "./store";
+import {sortNodes} from "./nodes";
+
+export function logMainEvent(event) {
+  const eventsElement = document.querySelector('#main-log ul.events-log');
+  const listItem      = document.createElement('li');
+  listItem.innerText  = event;
+  eventsElement.appendChild(listItem);
+}
+
+export function makeCircle(g) {
   const onclick = (e, d) => {
     logMainEvent('clicked: ' + d.id);
     if (e.defaultPrevented) return;
@@ -80,7 +90,7 @@ function makeCircle(g) {
     });
 }
 
-function updateCircle(update) {
+export function updateCircle(update) {
   update
     .select('circle')
     .attr('data-dataindex', d => 'spwashi-datum-' + (d.colorindex % 13))

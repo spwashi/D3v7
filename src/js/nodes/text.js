@@ -1,4 +1,6 @@
-function makeText(text) {
+import {getNodeText} from "./colors";
+
+export function makeText(text) {
 	text
 		.attr('x', d => d.x)
 		.attr('font-size', d => d.text.fontSize || d.r)
@@ -35,7 +37,7 @@ function makeText(text) {
 	return text;
 }
 
-function updateNodeTextSvg(text) {
+export function updateNodeTextSvg(text) {
 return text
 	.attr('x', d => (d.x || 0) + (d.text.fx || 0))
 	.attr('y', d => (d.y || 0) + (d.text.fy || 0) - (getNodeText(d).split('\n').length * d.r)/2)
