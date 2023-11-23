@@ -1,6 +1,7 @@
 import {generateNodes}          from "../simulation/nodes/generateNodes";
 import {reinitializeSimulation} from "../simulation/simulation";
 import {NODE_MANAGER}           from "../simulation/nodes/nodes";
+import {setDocumentMode}        from "../modes";
 
 export function initKeystrokes() {
   window.spwashi.keystrokeOptions = [
@@ -88,6 +89,23 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Backspace') {
     window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
     reinitializeSimulation();
+  }
+
+  const shortKeys = {
+    1: () => setDocumentMode('spw'),
+    2: () => setDocumentMode('color'),
+    3: () => setDocumentMode('reflex'),
+    4: () => setDocumentMode('node'),
+    5: () => setDocumentMode('map'),
+    6: () => setDocumentMode('filter'),
+    7: () => setDocumentMode('query'),
+    8: () => setDocumentMode('debug'),
+    0: () => setDocumentMode(''),
+  };
+
+  if (shortKeys[e.key]) {
+    e.preventDefault();
+    shortKeys[e.key]();
   }
   if (e.key === ' ') {
     // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);

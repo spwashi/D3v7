@@ -1,3 +1,5 @@
+import {setDocumentMode} from "./index";
+
 export function setColorIndex(index) {
   document.body.dataset.dataindex = index;
 }
@@ -12,6 +14,7 @@ export function initializeDataindexMode() {
     const target = e.target;
     const color  = target.dataset.dataindex;
     setColorIndex(color);
+    setDocumentMode(null);
   }
 }
 

@@ -232,6 +232,17 @@ aside > section :has(:focus) {
 }
 
 /* Mode Containers: in use */
+[data-mode=node] [data-mode-action=node],
+[data-mode=color] [data-mode-action=color],
+[data-mode=spw] [data-mode-action=spw],
+[data-mode=filter] [data-mode-action=filter],
+[data-mode=map] [data-mode-action=map],
+[data-mode=color] [data-mode-action=color],
+[data-mode=reflex] [data-mode-action=reflex],
+[data-mode=query] [data-mode-action=query],
+[data-mode=debug] [data-mode-action=debug] {
+    border: thick solid red;
+}
 [data-mode=debug] #debug-mode-container {
     display: flex;
 }
@@ -363,4 +374,39 @@ aside > section :has(:focus) {
     kbd {
         display: none;
     }
+}
+
+label[for=mode-selector],
+#mode-selector {
+    display: none !important;
+}
+#quickaction-shortcuts ul {
+    padding: 0;
+}
+#quickaction-shortcuts li {
+    list-style: none;
+}
+#quickaction-shortcuts button {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    border: thin solid var(--body-outline);
+    background: var(--quickaction-background);
+    color: var(--quickaction-text-color);
+    cursor: pointer;
+    padding: 1rem;
+    margin: .5rem;
+    font-size: 1rem;
+    font-family: monospace;
+}
+#quickaction-shortcuts button:empty {
+    display: none;
+}
+#quickaction-shortcuts {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }

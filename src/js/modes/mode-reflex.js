@@ -202,7 +202,10 @@ export function initializeReflexMode() {
     reflexGroup.forEach(reflex => {
       const button             = section.appendChild(document.createElement('button'));
       button.innerText         = reflex[0];
-      button.onclick           = reflex[1];
+      button.onclick           = () => {
+        reflex[1]();
+        setDocumentMode(null)
+      }
       button.dataset.dataindex = getDataIndexKey(i++);
     })
   });

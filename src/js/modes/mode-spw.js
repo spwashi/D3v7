@@ -2,6 +2,7 @@ import ace                      from "ace-builds";
 import {reinitializeSimulation} from "../simulation/simulation";
 import {CharacterCursor}        from "../../vendor/spw/core/node/cursor.mjs";
 import {parse}                  from "../../vendor/spw/parser/parse.mjs";
+import {getDocumentMode}        from "./index";
 
 const parseSpw = (text) => {
   const tokens    = [];
@@ -18,8 +19,12 @@ export function initializeSpwParseField() {
   const element  = document.querySelector('#spw-parse-field');
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
   const spwInput = ace.edit('spw-parse-field');
+  window.spwashi.spwEditor = spwInput;
   spwInput.setOptions({useWorker: false})
   spwInput.setValue(value);
+  if (getDocumentMode() === 'spw') {
+    spwInput.focus();
+  }
   const button   = document.querySelector('#parse-spw');
   button.onclick = () => {
     const text   = spwInput.getValue()

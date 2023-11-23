@@ -4,8 +4,8 @@ import {initializeQuerystringMode}                               from "../modes/
 import {initializeMapFilterMode}                                 from "../modes/mode-mapfilter";
 import {initializeSpwParseField}                  from "../modes/mode-spw";
 import {initializeModeSelection, setDocumentMode} from "../modes";
-import {initKeystrokes}                           from "./keystrokes";
-import {initializeReflexMode}                                    from "../modes/reflex-mode";
+import {initKeystrokes}       from "./keystrokes";
+import {initializeReflexMode} from "../modes/mode-reflex";
 
 export function initParameters() {
   window.spwashi.parameters                        = window.spwashi.parameters || {};
@@ -25,7 +25,7 @@ export function initParameters() {
   window.spwashi.parameters.forces.alphaTarget     = window.spwashi.parameters.forces.alphaTarget || .3;
   window.spwashi.parameters.forces.alphaDecay      = window.spwashi.parameters.forces.alphaDecay || .03;
   window.spwashi.parameters.forces.velocityDecay   = window.spwashi.parameters.forces.velocityDecay || .03;
-  window.spwashi.parameters.forces.charge          = window.spwashi.parameters.forces.charge || -100;
+  window.spwashi.parameters.forces.charge          = window.spwashi.parameters.forces.charge || 10;
   window.spwashi.parameters.forces.center          = window.spwashi.parameters.forces.center || 1;
   window.spwashi.parameters.forces.boundingBox     = typeof window.spwashi.parameters.forces.boundingBox !== 'undefined' ? window.spwashi.parameters.forces.boundingBox : true;
   window.spwashi.parameters.forces.centerPos       = window.spwashi.parameters.forces.centerPos || {};
