@@ -35,7 +35,7 @@ export function initializeModeSelection(starterMode) {
   optionsList.forEach((mode) => {
     const button = document.querySelector(`#mode-selector--${mode}`);
     button.onclick = () => {
-      setDocumentMode(mode)
+      setDocumentMode(getDocumentMode() === mode ? null : mode)
     }
   });
 

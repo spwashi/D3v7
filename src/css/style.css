@@ -241,7 +241,7 @@ aside > section :has(:focus) {
 [data-mode=reflex] [data-mode-action=reflex],
 [data-mode=query] [data-mode-action=query],
 [data-mode=debug] [data-mode-action=debug] {
-    border: thick solid red;
+    outline: thick solid red;
 }
 [data-mode=debug] #debug-mode-container {
     display: flex;
@@ -361,21 +361,6 @@ aside > section :has(:focus) {
     height: 5rem;
 }
 
-@media (max-width: 600px) {
-    g.rects {
-        display: none;
-    }
-    #main-log {
-        display: none;
-    }
-    #mode-selector option:is([value=debug], [value=query], [value=node], [value=map], [value=filter]) {
-        display: none;
-    }
-    kbd {
-        display: none;
-    }
-}
-
 label[for=mode-selector],
 #mode-selector {
     display: none !important;
@@ -398,7 +383,6 @@ label[for=mode-selector],
     color: var(--quickaction-text-color);
     cursor: pointer;
     padding: 1rem;
-    margin: .5rem;
     font-size: 1rem;
     font-family: monospace;
 }
@@ -409,4 +393,28 @@ label[for=mode-selector],
     position: absolute;
     bottom: 0;
     right: 0;
+}
+
+@media (max-width: 600px) {
+    g.rects {
+        display: none;
+    }
+    #main-log {
+        display: none;
+    }
+    #mode-selector option:is([value=debug], [value=query], [value=node], [value=map], [value=filter]) {
+        display: none;
+    }
+    kbd {
+        display: none;
+    }
+    #quickaction-shortcuts button {
+        font-size: .75rem;
+        padding: .2rem;
+        width: 3rem;
+        height: 3rem;
+    }
+    #show-keystroke-options, #show-keystroke-options span {
+        padding: .2rem;
+    }
 }

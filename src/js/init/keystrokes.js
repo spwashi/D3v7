@@ -5,21 +5,21 @@ import {setDocumentMode}        from "../modes";
 
 export function initKeystrokes() {
   window.spwashi.keystrokeOptions = [
-    {shortcut: '-', categories: ['cache', 'nodes'], title: 'clear', callback: clearCachedNodes},
-    {shortcut: '\\', categories: ['cache', 'local'], title: 'clear', callback: clearLocalStorage},
+    {shortcut: '\\', categories: ['storage'], title: 'clear storage', callback: clearLocalStorage},
     {shortcut: '<space>'},
     {shortcut: 'ArrowRight', categories: ['nodes'], shortcutName: '→', title: '++charge', callback: increaseCharge},
     {shortcut: 'ArrowLeft', categories: ['nodes'], shortcutName: '←', title: '--charge', callback: decreaseCharge,},
     {shortcut: '<space>'},
-    {shortcut: '.', categories: ['nodes'], title: 'freeze', callback: fixPositions},
-    {shortcut: ',', categories: ['nodes'], title: 'unfreeze', callback: clearFixedPositions},
+    {shortcut: '.', categories: ['nodes'], title: 'fix position', callback: fixPositions},
+    {shortcut: ',', categories: ['nodes'], title: 'unfix position', callback: clearFixedPositions},
     {shortcut: '<space>'},
-    {shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},
-    {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
-    {shortcut: '<space>'},
+    {shortcut: '-', categories: ['nodes'], title: 'clear cache', callback: clearCachedNodes},
     {shortcut: 'c', categories: ['nodes'], title: 'copy', callback: copyNodesToClipboard},
     {shortcut: 'k', categories: ['nodes'], title: 'clear', callback: clearActiveNodes},
     {shortcut: 's', categories: ['nodes'], title: 'save', callback: saveActiveNodes},
+    {shortcut: '<space>'},
+    {shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},
+    {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
   ]
   initKeystrokeOptions();
 }
@@ -126,14 +126,18 @@ function initKeystrokeOptions() {
   keystrokeOptions.innerHTML = '';
   const optionList           = keystrokeOptions.appendChild(document.createElement('UL'));
   window.spwashi.keystrokeOptions.forEach(({shortcut, categories = [], title, callback, shortcutName}) => {
-    const li = optionList.appendChild(document.createElement('LI'));
+    const handler = () => {
+      callback();
+      document.querySelector('#show-keystroke-options input').checked = false;
+    };
+    const li      = optionList.appendChild(document.createElement('LI'));
     if (!title) return;
     li.tabIndex  = 0;
     li.innerHTML = `<span class="${categories.join(' ')}">${categories.map(c => '[' + c + ']').join('')} ${title}</span><kbd>ctrl + <strong>${shortcutName || shortcut}</strong></kbd>`;
-    li.onclick   = callback;
+    li.onclick   = handler;
     li.addEventListener('keydown', e => {
       if (e.key === ' ') {
-        callback();
+        handler();
       }
     });
   });
