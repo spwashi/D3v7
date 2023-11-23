@@ -14,15 +14,15 @@ export const setDocumentMode = mode => {
 export function initializeModeSelection(starterMode) {
   const modeSelect  = document.querySelector('#mode-selector');
   const optionsList = [
-    'unset',
-    'spw',
-    'color',
     'reflex',
-    'node',
+    'color',
+    'spw',
     'map',
     'filter',
+    'node',
     'query',
-    'debug'
+    'debug',
+    'unset',
   ];
 
   const optionsString    = optionsList.map((mode) => `<option value="${mode}">${mode}</option>`).join('');
