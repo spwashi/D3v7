@@ -84,20 +84,20 @@ function clearLocalStorage() {
   window.localStorage.clear();
   window.location.href = window.location.href.split('?')[0];
 }
-
 document.addEventListener('keydown', (e) => {
+  if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
   if (e.key === 'Backspace') {
     window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
     reinitializeSimulation();
   }
 
   const shortKeys = {
-    1: () => setDocumentMode('spw'),
+    1: () => setDocumentMode('reflex'),
     2: () => setDocumentMode('color'),
-    3: () => setDocumentMode('reflex'),
-    4: () => setDocumentMode('node'),
-    5: () => setDocumentMode('map'),
-    6: () => setDocumentMode('filter'),
+    3: () => setDocumentMode('spw'),
+    4: () => setDocumentMode('map'),
+    5: () => setDocumentMode('filter'),
+    6: () => setDocumentMode('node'),
     7: () => setDocumentMode('query'),
     8: () => setDocumentMode('debug'),
     0: () => setDocumentMode(''),
