@@ -296,6 +296,7 @@ aside > section :has(:focus) {
 }
 #keystroke-options {
     padding: 0 2rem 1rem;
+    background: var(--show-keystroke-options-background);
 }
 #keystroke-options ul {
     list-style: none;
@@ -350,6 +351,15 @@ aside > section :has(:focus) {
 }
 
 @media (max-width: 600px) {
+    g.rects {
+        display: none;
+    }
+    #main-log {
+        display: none;
+    }
+    #mode-selector option:is([value=debug], [value=query], [value=node], [value=map], [value=filter]) {
+        display: none;
+    }
     kbd {
         display: none;
     }
