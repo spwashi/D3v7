@@ -168,6 +168,12 @@ aside > section :has(:focus) {
 #colors {
     margin: 1rem;
     border: thin solid var(--body-outline);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+#colors :nth-child(7) {
+    grid-column: 5 / 3;
 }
 #colors .color {
     width: 5rem;
@@ -205,11 +211,6 @@ aside > section :has(:focus) {
     display: none;
 }
 
-:is(#color-mode-container) :is(:hover, :focus) {
-    border: thin solid var(--body-outline);
-    background: var(--quickaction-background);
-    color: var(--quickaction-text-color);
-}
 :is(#reflex-mode-container) button {
     cursor: pointer;
     font-size: 1rem;
