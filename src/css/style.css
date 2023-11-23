@@ -95,7 +95,7 @@ text {
 aside :is(:focus) {
     outline: thin solid var(--is-focus-outline);
 }
-aside :has(:focus) {
+aside > section :has(:focus) {
     outline: thin solid var(--has-focus-outline);
 }
 
@@ -182,6 +182,10 @@ aside :has(:focus) {
     display: flex;
     flex-direction: column;
 }
+#reflexes > section {
+    display: flex;
+    flex-direction: row;
+}
 #querymod-mode-container {
     display: none;
 }
@@ -254,10 +258,10 @@ aside :has(:focus) {
 }
 
 #show-keystroke-options + #keystroke-options,
-#quickaction-container > label ~ * {
+#quickaction-container > label ~ #mode-container {
     display: none;
 }
-#quickaction-container > label:has(:checked) ~ #mode-container {
+#quickaction-container > :is(label:has(:checked ), select:is(:focus)) ~ #mode-container {
     display: flex;
     position: absolute;
     bottom: 100%;
@@ -271,7 +275,6 @@ aside :has(:focus) {
     left: 100%;
 }
 :is(#show-keystroke-options, #quickaction-container > label) > [type=checkbox] {
-    display: none;
 }
 #show-keystroke-options, #quickaction-container > label {
     display: inline-flex;
