@@ -3,10 +3,14 @@ import {reinitializeSimulation} from "../simulation/simulation";
 import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {setDocumentMode}        from "../modes";
 
+function toggleHotkeyMenu() {
+  const checkbox = document.querySelector('#hotkey-menu-toggle');
+  checkbox.checked = !checkbox.checked;
+  document.querySelector('#keystroke-options li').focus()
+}
+
 export function initKeystrokes() {
   window.spwashi.keystrokeOptions = [
-    {shortcut: '\\', categories: ['storage'], title: 'clear storage', callback: clearLocalStorage},
-    {shortcut: '<space>'},
     {shortcut: 'ArrowRight', categories: ['nodes'], shortcutName: '→', title: '++charge', callback: increaseCharge},
     {shortcut: 'ArrowLeft', categories: ['nodes'], shortcutName: '←', title: '--charge', callback: decreaseCharge,},
     {shortcut: '<space>'},
@@ -20,6 +24,9 @@ export function initKeystrokes() {
     {shortcut: '<space>'},
     {shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},
     {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
+    {shortcut: '<space>'},
+    {shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: toggleHotkeyMenu},
+    {shortcut: '\\', categories: ['this'], title: 'clear storage', callback: clearLocalStorage},
   ]
   initKeystrokeOptions();
 }
@@ -86,22 +93,7 @@ function clearLocalStorage() {
   window.location.href = window.location.href.split('?')[0];
 }
 
-document.addEventListener('keydown', (e) => {
-  if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
-
-  if (e.key === 'Escape') {
-    const el = document.querySelector('#mode-container :is(:focus)');
-    setDocumentMode('');
-  }
-  if (e.key === ' ') {
-    // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
-  }
-
-  if (e.key === 'Backspace') {
-    // window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
-    // reinitializeSimulation();
-  }
-
+function plainKeyHandler(key) {
   const shortKeys = {
     1: () => setDocumentMode('reflex'),
     2: () => setDocumentMode('color'),
@@ -113,26 +105,19 @@ document.addEventListener('keydown', (e) => {
     8: () => setDocumentMode('debug'),
     0: () => setDocumentMode(''),
   };
-
-  if (shortKeys[e.key]) {
-    e.preventDefault();
-    shortKeys[e.key]();
-  }
-
-  if (e.shiftKey) return;
-
-
-  if (e.metaKey || e.ctrlKey) {
-    for (let option of window.spwashi.keystrokeOptions) {
-      if (e.key === option.shortcut) {
-        e.preventDefault();
-        option.callback();
-      }
-    }
+  if (shortKeys[key]) {
+    shortKeys[key]();
     return;
   }
-
-  switch (e.key) {
+  if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+  if (key === ' ') {
+    // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
+  }
+  if (key === 'Backspace') {
+    // window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
+    // reinitializeSimulation();
+  }
+  switch (key) {
     case 'ArrowRight':
       window.spwashi.callbacks.arrowRight();
       break;
@@ -146,6 +131,28 @@ document.addEventListener('keydown', (e) => {
       window.spwashi.callbacks.arrowDown();
       break;
   }
+}
+
+document.addEventListener('keydown', (e) => {
+  const key = e.key;
+  if (key === 'Escape') {
+    const el = document.querySelector('#mode-container :is(:focus)');
+    setDocumentMode('');
+  }
+
+  if (e.shiftKey) return;
+
+  if (e.metaKey || e.ctrlKey) {
+    for (let option of window.spwashi.keystrokeOptions) {
+      if (key === option.shortcut) {
+        e.preventDefault();
+        option.callback();
+      }
+    }
+    return;
+  }
+
+  plainKeyHandler(key);
 })
 
 function initKeystrokeOptions() {

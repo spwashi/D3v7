@@ -12,7 +12,7 @@ export function getModifiedActionIndex(index, modifier = 1) {
   const number         = parseInt(`${index}`.replace(dataindexPrefix, ''));
   const modifiedNumber = number + modifier;
   const count          = document.querySelectorAll('[data-actionindex]').length;
-  return getActionIndexForNumber(modifiedNumber > 0 ? modifiedNumber % count : count - 1);
+  return getActionIndexForNumber(modifiedNumber >= 0 ? modifiedNumber % count : count - 1);
 }
 
 export function initializeReflexMode() {
@@ -98,20 +98,6 @@ export function initializeReflexMode() {
       () => {
         window.spwashi.nodes.forEach(n => n.r = 10);
         window.spwashi.reinit()
-      },
-    ],
-  ];
-  const modeReflexes        = [
-    [
-      '[mode=spw]',
-      () => {
-        setDocumentMode('spw');
-      },
-    ],
-    [
-      '[mode=null]',
-      () => {
-        setDocumentMode(null);
       },
     ],
   ];
@@ -202,7 +188,6 @@ export function initializeReflexMode() {
   const reflexes        = [
     loreReflexes,
     chargeSetReflexes,
-    modeReflexes,
     radiusReflexes,
     chargeTweakReflexes,
     forceReflexes,
