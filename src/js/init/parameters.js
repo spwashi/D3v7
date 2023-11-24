@@ -1,5 +1,5 @@
-import {getDataIndexKey, initializeDataindexMode, setColorIndex} from "../modes/mode-dataindex";
-import {initializeDirectMode}                                    from "../modes/mode-direct";
+import {getDataIndexForNumber, initializeDataindexMode, setDocumentDataIndex} from "../modes/mode-dataindex";
+import {initializeDirectMode}                                                 from "../modes/mode-direct";
 import {initializeQuerystringMode}                               from "../modes/mode-querystring";
 import {initializeMapFilterMode}                                 from "../modes/mode-mapfilter";
 import {initializeSpwParseField}                  from "../modes/mode-spw";
@@ -134,7 +134,7 @@ export function readParameters(searchParameters) {
   }
   if (searchParameters.has('dataindex')) {
     window.spwashi.parameters.dataIndex = +searchParameters.get('dataindex');
-    setColorIndex(getDataIndexKey(window.spwashi.parameters.dataIndex));
+    setDocumentDataIndex(getDataIndexForNumber(window.spwashi.parameters.dataIndex));
   }
 
   initializeDirectMode();

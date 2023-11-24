@@ -5,7 +5,7 @@ import {makeRect}                         from "./rect";
 import {makeCircle, updateCircle}         from "./circle";
 import {makeImage, updateNodeImage}       from "./image";
 import {getNodeColor, getNodeStrokeColor} from "./colors";
-import {getColorIndex}                    from "../../modes/mode-dataindex";
+import {getDocumentDataIndex}             from "../../modes/mode-dataindex";
 
 export const NODE_MANAGER = {
   getNode:     getNode,
@@ -55,7 +55,7 @@ function normalize(node, readNode, i) {
     z:          0,
     x:          window.spwashi.parameters.startPos.x + i * 2,
     y:          window.spwashi.parameters.startPos.y,
-    colorindex: getColorIndex(),
+    colorindex: getDocumentDataIndex(),
   };
   const fixedPos = {
     fx: null && window.spwashi.parameters.startPos.x + i * 20,

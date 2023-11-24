@@ -1,6 +1,19 @@
-import {getDataIndexKey, setDocumentMode} from "./index";
-import {getColorIndex}                    from "./mode-dataindex";
-import {pushLink}                         from "../simulation/edges/links";
+import {setDocumentMode}      from "./index";
+import {getDocumentDataIndex} from "./mode-dataindex";
+import {pushLink}             from "../simulation/edges/links";
+
+const dataindexPrefix = 'spwashi-action-';
+
+export function getActionIndexForNumber(index) {
+  return dataindexPrefix + (index);
+}
+
+export function getModifiedActionIndex(index, modifier = 1) {
+  const number         = parseInt(`${index}`.replace(dataindexPrefix, ''));
+  const modifiedNumber = number + modifier;
+  const count          = document.querySelectorAll('[data-actionindex]').length;
+  return getActionIndexForNumber(modifiedNumber > 0 ? modifiedNumber % count : count - 1);
+}
 
 export function initializeReflexMode() {
   window.spwashi.boon = () => {
@@ -15,7 +28,7 @@ export function initializeReflexMode() {
       for await (const i of loop()) {
         window.spwashi.nodes.push({
                                     name:       'node:' + i,
-                                    colorindex: getColorIndex()
+                                    colorindex: getDocumentDataIndex()
                                   });
         window.spwashi.reinit();
       }
@@ -90,13 +103,13 @@ export function initializeReflexMode() {
   ];
   const modeReflexes        = [
     [
-      '[mode = spw]',
+      '[mode=spw]',
       () => {
         setDocumentMode('spw');
       },
     ],
     [
-      '[mode = null]',
+      '[mode=null]',
       () => {
         setDocumentMode(null);
       },
@@ -104,37 +117,37 @@ export function initializeReflexMode() {
   ];
   const chargeSetReflexes   = [
     [
-      '[charge += 100]',
+      '[charge=-100]',
       () => {
-        window.spwashi.parameters.forces.charge = 100;
+        window.spwashi.parameters.forces.charge = -100;
         window.spwashi.reinit();
       },
     ],
     [
-      '[charge = 0]',
+      '[charge=0]',
       () => {
         window.spwashi.parameters.forces.charge = 0;
         window.spwashi.reinit();
       },
     ],
     [
-      '[charge = -100]',
+      '[charge+=100]',
       () => {
-        window.spwashi.parameters.forces.charge = -100;
+        window.spwashi.parameters.forces.charge = 100;
         window.spwashi.reinit();
       },
     ],
   ]
   const chargeTweakReflexes = [
     [
-      '[charge += 10]',
+      '[charge+=10]',
       () => {
         window.spwashi.parameters.forces.charge += 10;
         window.spwashi.reinit();
       },
     ],
     [
-      '[charge -= 10]',
+      '[charge-=10]',
       () => {
         window.spwashi.parameters.forces.charge -= 10;
         window.spwashi.reinit();
@@ -200,14 +213,39 @@ export function initializeReflexMode() {
   reflexes.forEach(reflexGroup => {
     const section = reflexContainer.appendChild(document.createElement('section'));
     reflexGroup.forEach(reflex => {
-      const button             = section.appendChild(document.createElement('button'));
-      button.innerText         = reflex[0];
-      button.onclick           = () => {
+      const button               = section.appendChild(document.createElement('button'));
+      button.innerText           = reflex[0];
+      button.onclick             = () => {
         reflex[1]();
         setDocumentMode(null);
         document.querySelector('#mode-selector--reflex').focus();
       }
-      button.dataset.dataindex = getDataIndexKey(i++);
+      button.dataset.actionindex = getActionIndexForNumber(i++);
     })
   });
+
+  window.spwashi.callbacks.arrowUp    = () => {
+    const parentElement = document.activeElement?.parentElement;
+    if (parentElement?.previousElementSibling) {
+      document.activeElement.parentElement.previousElementSibling.querySelector('button').focus();
+    }
+  };
+  window.spwashi.callbacks.arrowDown  = () => {
+    const parentElement = document.activeElement?.parentElement;
+    if (parentElement?.nextElementSibling) {
+      document.activeElement.parentElement.nextElementSibling.querySelector('button').focus();
+    }
+  };
+  window.spwashi.callbacks.arrowRight = () => {
+    const currentIndex   = document.activeElement.dataset.actionindex;
+    const actionIndexKey = getModifiedActionIndex(currentIndex, 1);
+    const button         = document.querySelector(`#reflexes button[data-actionindex="${actionIndexKey}"]`);
+    button && button.focus();
+  };
+  window.spwashi.callbacks.arrowLeft  = () => {
+    const currentIndex   = document.activeElement.dataset.actionindex;
+    const actionIndexKey = getModifiedActionIndex(currentIndex, -1);
+    const button         = document.querySelector(`#reflexes button[data-actionindex="${actionIndexKey}"]`);
+    button && button.focus();
+  };
 }

@@ -119,14 +119,32 @@ document.addEventListener('keydown', (e) => {
     shortKeys[e.key]();
   }
 
-  if (!(e.metaKey || e.ctrlKey)) return;
   if (e.shiftKey) return;
 
-  for (let option of window.spwashi.keystrokeOptions) {
-    if (e.key === option.shortcut) {
-      e.preventDefault();
-      option.callback();
+
+  if (e.metaKey || e.ctrlKey) {
+    for (let option of window.spwashi.keystrokeOptions) {
+      if (e.key === option.shortcut) {
+        e.preventDefault();
+        option.callback();
+      }
     }
+    return;
+  }
+
+  switch (e.key) {
+    case 'ArrowRight':
+      window.spwashi.callbacks.arrowRight();
+      break;
+    case 'ArrowLeft':
+      window.spwashi.callbacks.arrowLeft();
+      break;
+    case 'ArrowUp':
+      window.spwashi.callbacks.arrowUp();
+      break;
+    case 'ArrowDown':
+      window.spwashi.callbacks.arrowDown();
+      break;
   }
 })
 

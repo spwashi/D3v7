@@ -188,6 +188,14 @@ aside > section :has(:focus) {
     display: flex;
     flex-direction: column;
 }
+#reflexes button:is(:focus) {
+
+    outline: thick solid var(--quickaction-text-color);
+}
+#reflexes button:not(:focus) {
+    color: var(--quickaction-text-color);
+    background: var(--quickaction-background);
+}
 #reflexes > section {
     display: flex;
     flex-direction: row;
@@ -215,7 +223,7 @@ aside > section :has(:focus) {
     cursor: pointer;
     font-size: 1rem;
     padding: 1rem;
-    margin: .5rem;
+    margin: .2rem;
     border: thin solid transparent;;
     font-family: monospace;
 }

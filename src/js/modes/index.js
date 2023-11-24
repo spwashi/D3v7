@@ -50,4 +50,4 @@ export function initializeModeSelection(starterMode) {
   }
 }
 
-export {getDataIndexKey} from "./mode-dataindex";
+export {getDataIndexForNumber} from "./mode-dataindex";

@@ -6,7 +6,17 @@ import {getNodeImageHref, NODE_MANAGER}    from "./simulation/nodes/nodes";
 const getItemKey = key => window.spwashi.parameterKey + '@' + key;
 
 
+function initCallbacks() {
+  window.spwashi.callbacks = window.spwashi.callbacks || {};
+
+  window.spwashi.callbacks.arrowRight = () => {};
+  window.spwashi.callbacks.arrowLeft  = () => {};
+  window.spwashi.callbacks.arrowUp    = () => {};
+  window.spwashi.callbacks.arrowDown  = () => {};
+}
+
 function initRoot() {
+  initCallbacks();
   window.spwashi.clearCachedNodes = () => {
     window.spwashi.setItem('nodes', []);
   }
