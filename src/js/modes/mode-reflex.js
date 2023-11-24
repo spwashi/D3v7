@@ -140,16 +140,16 @@ export function initializeReflexMode() {
   ]
   const chargeTweakReflexes = [
     [
-      '[charge+=10]',
+      '[charge-=10]',
       () => {
-        window.spwashi.parameters.forces.charge += 10;
+        window.spwashi.parameters.forces.charge -= 10;
         window.spwashi.reinit();
       },
     ],
     [
-      '[charge-=10]',
+      '[charge+=10]',
       () => {
-        window.spwashi.parameters.forces.charge -= 10;
+        window.spwashi.parameters.forces.charge += 10;
         window.spwashi.reinit();
       },
     ],
@@ -202,9 +202,9 @@ export function initializeReflexMode() {
   const reflexes        = [
     loreReflexes,
     chargeSetReflexes,
-    chargeTweakReflexes,
-    radiusReflexes,
     modeReflexes,
+    radiusReflexes,
+    chargeTweakReflexes,
     forceReflexes,
   ];
   const reflexContainer = document.querySelector('#reflexes');
@@ -225,15 +225,21 @@ export function initializeReflexMode() {
   });
 
   window.spwashi.callbacks.arrowUp    = () => {
-    const parentElement = document.activeElement?.parentElement;
+    const activeElement = document.activeElement;
+    const parentElement = activeElement?.parentElement;
     if (parentElement?.previousElementSibling) {
-      document.activeElement.parentElement.previousElementSibling.querySelector('button').focus();
+      activeElement.parentElement.previousElementSibling.querySelector('button').focus();
+    } else {
+      activeElement.parentElement.parentElement.lastElementChild.querySelector('button').focus();
     }
   };
   window.spwashi.callbacks.arrowDown  = () => {
-    const parentElement = document.activeElement?.parentElement;
+    const activeElement = document.activeElement;
+    const parentElement = activeElement?.parentElement;
     if (parentElement?.nextElementSibling) {
-      document.activeElement.parentElement.nextElementSibling.querySelector('button').focus();
+      activeElement.parentElement.nextElementSibling.querySelector('button').focus();
+    } else {
+      activeElement.parentElement.parentElement.firstElementChild.querySelector('button').focus();
     }
   };
   window.spwashi.callbacks.arrowRight = () => {
