@@ -1,11 +1,11 @@
 import {getDataIndexForNumber, initializeDataindexMode, setDocumentDataIndex} from "../modes/mode-dataindex";
 import {initializeDirectMode}                                                 from "../modes/mode-direct";
-import {initializeQuerystringMode}                               from "../modes/mode-querystring";
-import {initializeMapFilterMode}                                 from "../modes/mode-mapfilter";
-import {initializeSpwParseField}                  from "../modes/mode-spw";
-import {initializeModeSelection, setDocumentMode} from "../modes";
-import {initKeystrokes}       from "./keystrokes";
-import {initializeReflexMode} from "../modes/mode-reflex";
+import {initializeQuerystringMode}                                            from "../modes/mode-querystring";
+import {initializeMapFilterMode}                                              from "../modes/mode-mapfilter";
+import {initializeSpwParseField}                                              from "../modes/mode-spw";
+import {initializeModeSelection, setDocumentMode}                             from "../modes";
+import {initKeystrokes}                                                       from "./keystrokes";
+import {initializeReflexMode}                                                 from "../modes/mode-reflex";
 
 export function initParameters() {
   window.spwashi.parameters                        = window.spwashi.parameters || {};
@@ -99,8 +99,11 @@ export function readParameters(searchParameters) {
     window.spwashi.parameters.forces.velocityDecay = +searchParameters.get('velocityDecay');
   }
   if (searchParameters.has('zoom')) {
+    window.spwashi.parameters.canzoom = !!(+searchParameters.get('zoom'));
+  } else {
     window.spwashi.parameters.canzoom = true;
   }
+
   if (searchParameters.has('superpower')) {
     window.spwashi.superpower.name = searchParameters.get('superpower');
   }
