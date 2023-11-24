@@ -56,23 +56,24 @@ function updateLinks(g, links) {
   const u = g.select('.links')
              .selectAll('line')
              .data(links)
-             .join('line')
-             .attr('stroke-width', d => (d.strength || 1) * 1)
-             .attr('x1', function (d) {
-               return d.source.x
-             })
-             .attr('y1', function (d) {
-               return d.source.y
-             })
-             .attr('x2', function (d) {
-               return d.target.x
-             })
-             .attr('y2', function (d) {
-               return d.target.y
-             });
+             .join(
+               enter => enter.append('line')
+                             .attr('stroke-width', d => (d.strength || 1) * 1)
+                             .attr('x1', d => d.source.x)
+                             .attr('y1', d => d.source.y)
+                             .attr('x2', d => d.target.x)
+                             .attr('y2', d => d.target.y),
+               update => update
+                               .attr('x1', d => d.source.x)
+                               .attr('y1', d => d.source.y)
+                               .attr('x2', d => d.target.x)
+                               .attr('y2', d => d.target.y),
+               exit => exit.remove()
+             )
+
 }
 
-export const EDGE_MANAGER          = {
+export const EDGE_MANAGER = {
   initLinks:   initLinks,
   updateLinks: updateLinks,
 };

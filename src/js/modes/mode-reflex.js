@@ -204,7 +204,8 @@ export function initializeReflexMode() {
       button.innerText         = reflex[0];
       button.onclick           = () => {
         reflex[1]();
-        setDocumentMode(null)
+        setDocumentMode(null);
+        document.querySelector('#mode-selector--reflex').focus();
       }
       button.dataset.dataindex = getDataIndexKey(i++);
     })

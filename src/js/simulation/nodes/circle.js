@@ -64,7 +64,6 @@ export function makeCircle(g) {
   return g
     .append('circle')
     .attr('data-dataindex', d => 'spwashi-datum-' + d.colorindex)
-    .attr('tabindex', 0)
     .attr('r', d => (d.r || 1))
     .attr('cx', d => d.x || 0)
     .attr('cy', d => d.y || 0)

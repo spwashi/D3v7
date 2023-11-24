@@ -59,6 +59,7 @@ function saveActiveNodes() {
 
 function clearActiveNodes() {
   window.spwashi.nodes.length = 0;
+  window.spwashi.links.length = 0;
   reinitializeSimulation();
 }
 
@@ -84,11 +85,21 @@ function clearLocalStorage() {
   window.localStorage.clear();
   window.location.href = window.location.href.split('?')[0];
 }
+
 document.addEventListener('keydown', (e) => {
   if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+  if (e.key === 'Escape') {
+    const el = document.querySelector('#mode-container :is(:focus)');
+    setDocumentMode('');
+  }
+  if (e.key === ' ') {
+    // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
+  }
+
   if (e.key === 'Backspace') {
-    window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
-    reinitializeSimulation();
+    // window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
+    // reinitializeSimulation();
   }
 
   const shortKeys = {
@@ -107,9 +118,7 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     shortKeys[e.key]();
   }
-  if (e.key === ' ') {
-    // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
-  }
+
   if (!(e.metaKey || e.ctrlKey)) return;
   if (e.shiftKey) return;
 

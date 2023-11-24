@@ -9,6 +9,9 @@ export const setDocumentMode = mode => {
   if (mode === 'spw' && window.spwashi.spwEditor) {
     window.spwashi.spwEditor.focus();
   }
+  if (mode === 'reflex') {
+    document.querySelector('#reflexes button').focus();
+  }
 };
 
 export function initializeModeSelection(starterMode) {
@@ -25,15 +28,15 @@ export function initializeModeSelection(starterMode) {
     'unset',
   ];
 
-  const optionsString    = optionsList.map((mode) => `<option value="${mode}">${mode}</option>`).join('');
-  const liString         = optionsList.map((mode) => { return `<li data-mode-action="${mode }"><button id="mode-selector--${mode}">${mode}</button></li>`; }).join('');
-  const modeSelector     = document.querySelector('#mode-selector');
-  modeSelector.innerHTML = optionsString;
-  const quickactionShortcutsList     = document.querySelector('#quickaction-shortcuts ul');
+  const optionsString            = optionsList.map((mode) => `<option value="${mode}">${mode}</option>`).join('');
+  const liString                 = optionsList.map((mode) => { return `<li data-mode-action="${mode}"><button id="mode-selector--${mode}">${mode}</button></li>`; }).join('');
+  const modeSelector             = document.querySelector('#mode-selector');
+  modeSelector.innerHTML         = optionsString;
+  const quickactionShortcutsList = document.querySelector('#quickaction-shortcuts ul');
 
   quickactionShortcutsList.innerHTML = liString;
   optionsList.forEach((mode) => {
-    const button = document.querySelector(`#mode-selector--${mode}`);
+    const button   = document.querySelector(`#mode-selector--${mode}`);
     button.onclick = () => {
       setDocumentMode(getDocumentMode() === mode ? null : mode)
     }
