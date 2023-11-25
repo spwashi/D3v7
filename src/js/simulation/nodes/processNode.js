@@ -1,5 +1,7 @@
-import {readNodePosition} from "./store";
-import md5 from "md5";
+import {readNodePosition}     from "./store";
+import md5                    from "md5";
+import {getDocumentDataIndex} from "../../modes/mode-dataindex";
+
 function getLastKind(node) {
   return node.kind?.trim().split(' + ').reverse()[0];
 }
@@ -22,6 +24,7 @@ export function processNode(node, i) {
   const r        = window.spwashi.values.r?.[i] || node.r || window.spwashi.parameters.nodes.radiusMultiplier || undefined;
   const fontSize = window.spwashi.values.text?.fontSize?.[i] || node.text?.fontSize || undefined;
 
+  node.colorindex    = getDocumentDataIndex();
   node.fx            = fx;
   node.fy            = fy;
   node.r             = r;

@@ -6,12 +6,7 @@ export const setDocumentMode = mode => {
   document.body.dataset.mode     = mode;
   const modeSelect               = document.querySelector('#mode-selector');
   modeSelect.value               = mode || '';
-  if (mode === 'spw' && window.spwashi.spwEditor) {
-    window.spwashi.spwEditor.focus();
-  }
-  if (mode === 'reflex') {
-    document.querySelector('#reflexes button').focus();
-  }
+  window.spwashi.onModeChange(mode);
 };
 
 export function initializeModeSelection(starterMode) {

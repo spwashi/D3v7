@@ -17,7 +17,7 @@ export function getModifiedActionIndex(index, modifier = 1) {
 
 export function initializeReflexMode() {
   window.spwashi.boon = () => {
-    async function* loop(timeout = 300, count = window.spwashi.parameters.nodes.count) {
+    async function* loop(timeout = 100, count = window.spwashi.parameters.nodes.count) {
       for (let i = 0; i < count; i++) {
         yield i;
         await new Promise(r => setTimeout(r, timeout));
@@ -208,7 +208,10 @@ export function initializeReflexMode() {
       button.dataset.actionindex = getActionIndexForNumber(i++);
     })
   });
+}
 
+export function onReflexModeStart() {
+  document.querySelector('#reflexes button').focus();
   window.spwashi.callbacks.arrowUp    = () => {
     const activeElement = document.activeElement;
     const parentElement = activeElement?.parentElement;

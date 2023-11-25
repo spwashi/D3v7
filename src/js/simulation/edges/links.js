@@ -6,18 +6,23 @@ function initLinks(linkContainer, nodes) {
   const linkStrength = window.spwashi.parameters.links.strength;
   const doPrevLinks  = window.spwashi.parameters.links.linkPrev;
   const links        = linkContainer;
-
-  for (let node of nodes) {
-    const {head, body, tail} = node;
+  let hasError       = false;
+  for (let targetNode of nodes) {
+    const {head, body, tail} = targetNode;
 
     const items = [head, body, tail].flat().map(i => i?.identity).filter(Boolean);
     items.forEach(item => {
       const source     = (typeof item === "string" ? item : item.identity);
-      const sourceNode = window.spwashi.getNode(source);
+      const toggle     = !!(+window.spwashi.parameters.perspective);
+      const sourceNode = window.spwashi.getNode(
+        source,
+        toggle ? targetNode.colorindex : undefined
+      );
       if (!sourceNode) {
+        console.log('sourceNode not found', source);
+        hasError = true;
         return;
       }
-      const target = node.id;
 
       let bondStrength = 1;
 
@@ -35,20 +40,25 @@ function initLinks(linkContainer, nodes) {
           bondStrength = 5;
           break;
       }
-      switch (node.kind.trim()) {
+      switch (targetNode.kind.trim()) {
         case 'phrasal':
           bondStrength = 7;
+
           break;
-        default:
-          console.log(sourceNode.kind);
       }
 
       const strength = linkStrength * bondStrength;
-      const link     = {source, target, strength: strength};
+      const link     = {
+        source:   sourceNode.id,
+        target:   targetNode.id,
+        strength: strength
+      };
       pushLink(links, link);
     })
   }
-
+  if (hasError) {
+    console.error(nodes);
+  }
   return links;
 }
 
@@ -64,10 +74,10 @@ function updateLinks(g, links) {
                              .attr('x2', d => d.target.x)
                              .attr('y2', d => d.target.y),
                update => update
-                               .attr('x1', d => d.source.x)
-                               .attr('y1', d => d.source.y)
-                               .attr('x2', d => d.target.x)
-                               .attr('y2', d => d.target.y),
+                 .attr('x1', d => d.source.x)
+                 .attr('y1', d => d.source.y)
+                 .attr('x2', d => d.target.x)
+                 .attr('y2', d => d.target.y),
                exit => exit.remove()
              )
 

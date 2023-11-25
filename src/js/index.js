@@ -1,7 +1,9 @@
-import {initializeForceSimulationControls} from "./simulation/buttons";
-import {initParameters, readParameters}    from "./init/parameters";
-import {reinitializeSimulation}            from "./simulation/simulation";
-import {getNodeImageHref, NODE_MANAGER}    from "./simulation/nodes/nodes";
+import {initializeForceSimulationControls}           from "./simulation/buttons";
+import {initParameters, readParameters}              from "./init/parameters";
+import {reinitializeSimulation}                      from "./simulation/simulation";
+import {getNodeImageHref, NODE_MANAGER}                                from "./simulation/nodes/nodes";
+import {getDataIndexForNumber, getDocumentDataIndex, onColorModeStart} from "./modes/mode-dataindex";
+import {onReflexModeStart}                                             from "./modes/mode-reflex";
 
 const getItemKey = key => window.spwashi.parameterKey + '@' + key;
 
@@ -15,8 +17,29 @@ function initCallbacks() {
   window.spwashi.callbacks.arrowDown  = () => {};
 }
 
+function initListeners() {
+  window.spwashi.onModeChange = (mode) => {
+    switch (mode) {
+      case 'spw':
+        window.spwashi.spwEditor?.focus();
+        break;
+      case 'reflex':
+        onReflexModeStart();
+        break;
+      case 'color':
+        onColorModeStart()
+        break;
+    }
+  }
+
+  window.spwashi.onDataIndexChange = (dataindex) => {
+  };
+}
+
 function initRoot() {
   initCallbacks();
+  initListeners();
+
   window.spwashi.clearCachedNodes = () => {
     window.spwashi.setItem('nodes', []);
   }

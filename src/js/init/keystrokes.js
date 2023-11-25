@@ -93,7 +93,7 @@ function clearLocalStorage() {
   window.location.href = window.location.href.split('?')[0];
 }
 
-function plainKeyHandler(key) {
+function plainKeyHandler(key, e) {
   const shortKeys = {
     1: () => setDocumentMode('reflex'),
     2: () => setDocumentMode('color'),
@@ -105,11 +105,12 @@ function plainKeyHandler(key) {
     8: () => setDocumentMode('debug'),
     0: () => setDocumentMode(''),
   };
+  if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
   if (shortKeys[key]) {
+    e && e.preventDefault();
     shortKeys[key]();
     return;
   }
-  if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
   if (key === ' ') {
     // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
   }
@@ -152,7 +153,7 @@ document.addEventListener('keydown', (e) => {
     return;
   }
 
-  plainKeyHandler(key);
+  plainKeyHandler(key, e);
 })
 
 function initKeystrokeOptions() {

@@ -9,6 +9,7 @@ import {initializeReflexMode}                                                 fr
 
 export function initParameters() {
   window.spwashi.parameters                        = window.spwashi.parameters || {};
+  window.spwashi.parameters.perspective            = window.spwashi.parameters.perspective || undefined;
   window.spwashi.parameters.dataIndex              = window.spwashi.parameters.dataIndex || null;
   window.spwashi.parameters.width                  = window.spwashi.parameters.width || window.innerWidth * .9;
   window.spwashi.parameters.height                 = window.spwashi.parameters.height || window.innerHeight * .9;
@@ -50,6 +51,9 @@ export function readParameters(searchParameters) {
 
   let mode;
 
+  if (searchParameters.has('perspective')) {
+    window.spwashi.parameters.perspective = searchParameters.get('perspective');
+  }
   if (searchParameters.has('display')) {
     document.body.dataset.displaymode = searchParameters.get('display');
   }

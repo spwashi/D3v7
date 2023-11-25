@@ -146,6 +146,7 @@ export function reinitializeSimulation() {
       });
   }
   const nodes = NODE_MANAGER.initNodes(window.spwashi.nodes);
+  console.log(nodes);
   const links = EDGE_MANAGER.initLinks(window.spwashi.links, nodes);
   const rects = RECT_MANAGER.initRects(window.spwashi.rects)
 

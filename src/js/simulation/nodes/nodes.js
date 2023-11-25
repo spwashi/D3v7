@@ -150,7 +150,17 @@ function filterNode(node) {
   return true;
 }
 
-function getNode(id) {
-  return window.spwashi.nodes.find(n => n.id === id);
+function getNode(id, perspective) {
+  let fallback;
+  return window.spwashi.nodes.find(n => {
+    if (n.identity === id) {
+      fallback = n;
+      if (perspective === undefined) return true;
+      return n.colorindex === perspective;
+    }
+    if (n.id === id) {
+      fallback = n;
+    }
+  }) || fallback;
 }
 

@@ -179,6 +179,15 @@ aside > section :has(:focus) {
     width: 5rem;
     height: 5rem;
 }
+#colors :is(:focus) {
+    outline: thick solid var(--quickaction-text-color);
+}
+#colors :is(:focus):before {
+    content: 'X';
+    font-weight: bold;
+    color: white;
+    font-size: 3rem;
+}
 #reflex-mode-container {
     display: none;
 }
@@ -189,7 +198,6 @@ aside > section :has(:focus) {
     flex-direction: column;
 }
 #reflexes button:is(:focus) {
-
     outline: thick solid var(--quickaction-text-color);
 }
 #reflexes button:not(:focus) {

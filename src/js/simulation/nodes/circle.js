@@ -10,6 +10,7 @@ export function logMainEvent(event) {
 
 export function makeCircle(g) {
   const onclick = (e, d) => {
+    console.log(d)
     logMainEvent('clicked: ' + d.id);
     if (e.defaultPrevented) return;
     let weight = window.spwashi.superpower.weight;
