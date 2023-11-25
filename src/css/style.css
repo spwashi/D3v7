@@ -1,6 +1,6 @@
 :root {
     --html-background: #818181;
-    --body-background: #95b6b6;
+    --body-background: #707070;
     --form-background: #222222;
     --quickaction-background: #222222;
     --quickaction-text-color: wheat;
@@ -35,6 +35,7 @@ body {
     margin: 0;
     padding: 0;
     background: var(--body-background);
+    box-shadow: inset #222222 0 0 .5rem;
 }
 main {
     display: flex;

@@ -75,7 +75,7 @@ export function initializeReflexMode() {
     window.spwashi.reinit();
   };
   window.spwashi.honk = () => {
-    window.spwashi.links.forEach(link => link.strength = 1)
+    window.spwashi.links.forEach(link => link.strength *= 1.5)
     window.spwashi.reinit();
   };
 
@@ -123,6 +123,20 @@ export function initializeReflexMode() {
         window.spwashi.reinit();
       },
     ],
+    [
+      '[charge=-1000]',
+      () => {
+        window.spwashi.parameters.forces.charge = -1000;
+        window.spwashi.reinit();
+      },
+    ],
+    [
+      '[charge=-10000]',
+      () => {
+        window.spwashi.parameters.forces.charge = -10000;
+        window.spwashi.reinit();
+      },
+    ],
   ]
   const chargeTweakReflexes = [
     [
@@ -148,6 +162,18 @@ export function initializeReflexMode() {
       },
     ],
     [
+      'bone',
+      () => {
+        window.spwashi.bone()
+      },
+    ],
+    [
+      'honk',
+      () => {
+        window.spwashi.honk()
+      },
+    ],
+    [
       'bane',
       () => {
         let arr                     = window.spwashi.nodes.filter(d => d.id.indexOf('node:') < 0);
@@ -157,21 +183,9 @@ export function initializeReflexMode() {
       },
     ],
     [
-      'bone',
-      () => {
-        window.spwashi.bone()
-      },
-    ],
-    [
       'bonk',
       () => {
         window.spwashi.bonk()
-      },
-    ],
-    [
-      'honk',
-      () => {
-        window.spwashi.honk()
       },
     ],
   ];
@@ -184,15 +198,14 @@ export function initializeReflexMode() {
       },
     ],
   ];
-
-  const reflexes        = [
+  const reflexes            = [
     loreReflexes,
     chargeSetReflexes,
     radiusReflexes,
     chargeTweakReflexes,
     forceReflexes,
   ];
-  const reflexContainer = document.querySelector('#reflexes');
+  const reflexContainer     = document.querySelector('#reflexes');
 
   let i = 0;
   reflexes.forEach(reflexGroup => {

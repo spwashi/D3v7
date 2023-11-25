@@ -7,6 +7,8 @@ import {initializeModeSelection, setDocumentMode}                             fr
 import {initKeystrokes}                                                       from "./keystrokes";
 import {initializeReflexMode}                                                 from "../modes/mode-reflex";
 
+export const POWER_MODE = ['common', 'dev'][0];
+
 export function initParameters() {
   window.spwashi.parameters                        = window.spwashi.parameters || {};
   window.spwashi.parameters.perspective            = window.spwashi.parameters.perspective || undefined;
@@ -46,11 +48,17 @@ export function readParameters(searchParameters) {
   window.spwashi.superpower           = window.spwashi.superpower || {};
   window.spwashi.parameters.links     = window.spwashi.parameters.links || {};
   window.spwashi.parameters.forces    = window.spwashi.parameters.forces || {};
-  window.spwashi.version              = searchParameters.get('version');
-  window.spwashi.parameterKey         = `simulation.parameters#${window.spwashi.version}`;
+  window.spwashi.featuredIdentity     = /\/arena\/identity\/([a-zA-Z\d]+)/.exec(window.location.href)?.[1] || searchParameters.get('identity');
+  const parameterKey                  = `spwashi.parameters#${window.spwashi.featuredIdentity}`;
+  window.spwashi.parameterKey         = parameterKey;
 
+  console.log({parameterKey});
+
+  if (searchParameters.get('title')) {
+    document.title = searchParameters.get('title');
+    document.querySelector('h1').innerText = searchParameters.get('title');
+  }
   let mode;
-
   if (searchParameters.has('perspective')) {
     window.spwashi.parameters.perspective = searchParameters.get('perspective');
   }

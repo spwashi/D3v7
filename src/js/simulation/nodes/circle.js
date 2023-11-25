@@ -32,6 +32,18 @@ export function makeCircle(g) {
     }
 
     switch (window.spwashi.superpower.name) {
+      case 'hyperlink':
+        if (!d.url) break;
+        logMainEvent('hyperlink: ' + d.url)
+        window.open(d.url, '_blank');
+        break
+      case 'prune':
+        window.spwashi.nodes.splice(window.spwashi.nodes.indexOf(d), 1);
+        window.spwashi.links = window.spwashi.links.filter(link => {
+          return link.source !== d && link.target !== d;
+        });
+        window.spwashi.reinit();
+        break;
       case 'alert':
         if (!d.md5) return;
         navigator.clipboard.writeText(d.md5).then(e => {

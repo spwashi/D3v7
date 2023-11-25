@@ -28,6 +28,7 @@ export function processNode(node, i) {
   node.fx            = fx;
   node.fy            = fy;
   node.r             = r;
+  node.cr            = r * 2;
   node.text          = node.text || {};
   node.text.fontSize = fontSize;
   node.image         = node.image || {};
@@ -35,6 +36,7 @@ export function processNode(node, i) {
   node.image.offsetX = 0;
   node.image.offsetY = 0;
   node.md5           = node.identity && md5(node.identity);
+  node.url           = `/arena/identity/${node.md5}?title=` + encodeURIComponent(node.identity);
 
   const edgeLeft   = 50;
   const edgeRight  = window.spwashi.parameters.width - 50;
@@ -46,9 +48,9 @@ export function processNode(node, i) {
   const rules = [
     [node => getFirstKind(node) === 'container', {text: {fontSize: 10}, fx: 100, y: 0, colorindex: 3}],
 
-    [node => getLastKind(node) === 'nominal', {fx: quantX[2], r: 5}],
+    [node => getLastKind(node) === 'nominal', {fx: undefined, r: 10}],
 
-    [node => getLastKind(node) === 'phrasal', {fx: quantX[3]}],
+    [node => getLastKind(node) === 'phrasal', {fx: undefined}],
 
     [node => getLastKind(node) === 'binding', {fx: 100, r: 5}],
 

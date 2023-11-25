@@ -5,7 +5,7 @@ export function initializeDirectMode() {
   window.spwashi.refreshNodeInputs = (nodes) => {
     const nodesSelectorFn   = (window.spwashi.getItem('parameters.nodes-input-map-fn-string') || 'data => data');
     const nodesInputElement = document.querySelector('#nodes-input');
-    const nodesInputText    = window.spwashi.getItem('parameters.nodes-input') || [{r: 30}];
+    const nodesInputText    = window.spwashi.getItem('parameters.nodes-input') || [];
     nodesInputElement.value = JSON.stringify(nodesInputText, null, 2);
     nodesInputElement.rows  = 5;
 
@@ -29,6 +29,7 @@ export function initializeDirectMode() {
       return [];
     }
 
+    console.log(...nodes)
     return nodes || [];
   }
   window.spwashi.refreshNodeInputs();
