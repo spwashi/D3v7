@@ -4,7 +4,6 @@ import {EDGE_MANAGER} from "./edges/links";
 import {RECT_MANAGER} from "./rects/rects";
 
 
-
 const simulationSVG   = d3.select("svg#simulation");
 const g               = simulationSVG.append('g').attr('id', 'simulation-content');
 const rectsG          = g.append('g').classed('rects', true);
@@ -146,7 +145,6 @@ export function reinitializeSimulation() {
       });
   }
   const nodes = NODE_MANAGER.initNodes(window.spwashi.nodes);
-  console.log(nodes);
   const links = EDGE_MANAGER.initLinks(window.spwashi.links, nodes);
   const rects = RECT_MANAGER.initRects(window.spwashi.rects)
 

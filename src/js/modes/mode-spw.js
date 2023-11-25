@@ -19,8 +19,6 @@ const parseSpw = (text) => {
   const tokenObj    = {};
   tokens.forEach(token => tokenObj[token.identity] = tokenObj[token.identity] || token);
   const newIdentities = appendIdentities(perspective, Object.keys(tokenObj), tokenObj);
-  console.log({newIdentities})
-
   return newIdentities.map(identity => tokenObj[identity]);
 }
 
@@ -50,7 +48,6 @@ export function initializeSpwParseField() {
   const identities              = window.spwashi.nodes.map(node => node.identity);
   appendIdentities(perspective, identities, getTokenObj(identities));
 
-  console.log('window.spwashi.perspectiveMap', window.spwashi.perspectiveMap);
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
   const spwInput = ace.edit('spw-parse-field');
 

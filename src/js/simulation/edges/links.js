@@ -19,7 +19,6 @@ function initLinks(linkContainer, nodes) {
         toggle ? targetNode.colorindex : undefined
       );
       if (!sourceNode) {
-        console.log('sourceNode not found', source);
         hasError = true;
         return;
       }

@@ -55,8 +55,6 @@ export function onColorModeStart() {
     group.forEach(button => button.dataset.y = i);
     return group;
   });
-  console.log(sortedButtonsByX, sortedButtonsByY);
-
 
   window.spwashi.callbacks.arrowUp    = () => {
     const column = parseInt(document.activeElement.dataset.x);
