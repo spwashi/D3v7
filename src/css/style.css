@@ -1,23 +1,26 @@
 :root {
-    --html-background: #818181;
+    --html-background: #4c1d1d;
     --body-background: #707070;
     --form-background: #222222;
     --quickaction-background: #222222;
     --quickaction-text-color: wheat;
 
-    --body-outline: wheat;
+    --standard-outline: wheat;
 
-    --has-focus-outline: green;
-    --is-focus-outline: yellow;
+    --has-focus-outline: wheat;
+    --is-focus-outline: rgba(33, 33, 33, .3);
 
 
-    --link-stroke-color: black;
+    --link-stroke-color: rgba(127, 255, 255, .3);
 
     --node-input-container-background: #222222;
     --show-keystroke-options-background: #222222;
     --keystroke-options-hover-background: #333333;
     --keystroke-options-border: #222222;
     --spw-container-text-color: white;
+
+    --focal-x: 0;
+    --focal-y: 0;
 }
 
 html {
@@ -31,7 +34,6 @@ html {
     width: 100%;
 }
 body {
-    outline: thin solid var(--body-outline);
     margin: 0;
     padding: 0;
     background: var(--body-background);
@@ -49,6 +51,18 @@ form {
     padding: 2rem 0;
     background: var(--form-background);
 }
+h1 {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background: #222222;
+    color: wheat;
+    padding: 1rem;
+    margin: 1rem;
+    line-height: 1;
+    font-size: 2rem;
+    outline: wheat thin solid;
+}
 body > aside {
     position: absolute;
     bottom: 0;
@@ -59,7 +73,7 @@ body > aside {
     justify-content: center;
     align-items: center;
     color: var(--quickaction-text-color);
-    border: thin solid var(--body-outline);
+    border: thin solid var(--standard-outline);
 }
 body > aside > * {
     /*padding: 1rem;*/
@@ -107,12 +121,23 @@ aside > section :has(:focus) {
     z-index: 1;
     background: var(--node-input-container-background);
     color: var(--quickaction-text-color);
+    padding: 1rem;
+}
+#node-input-container:focus {
 }
 #node-input-container button {
     padding: .5rem;
     margin: .5rem 0;
 }
+#node-input-container label {
+    color: var(--quickaction-text-color);
+    margin-bottom: 1rem;
+}
+#node-input-container label span {
+    padding: 0;
+}
 #controls {
+    margin-left: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -128,30 +153,58 @@ aside > section :has(:focus) {
 }
 #controls button {
     padding: .5rem;
-    font-size: 2rem;
     font-family: monospace;
 }
 
 #quickaction-container {
     display: flex;
 }
+#events-log {
+    display: flex;
+    flex-direction: column;
+}
 #main-log {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 10rem;
+    background: rgba(127, 137, 137, .9);
+
+}
+#main-log details {
+    max-width: 25rem;
+    overflow: scroll;
+}
+#main-log summary {
+    cursor: pointer;
+    padding: 1rem;
+    white-space: nowrap;
+    list-style: none;
+    display: inline-block;
 }
 
 /* Mode Containers */
 #spw-mode-container {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-#spw-container {
-    display: none;
-    flex-direction: column;
     color: var(--spw-container-text-color);
+    background: #222222;
+    padding: 1rem;
+    position: absolute;
+    top: -5rem;
+}
+#spw-mode-container button {
+    padding: 1rem;
+    margin: .5rem;
+    font-family: monospace;
+    cursor: pointer;
+    border: thin solid var(--standard-outline);
+    background: var(--quickaction-background);
+    color: var(--quickaction-text-color);
+}
+#spw-mode-container button:is(:focus) {
+    outline: thick solid var(--quickaction-text-color);
 }
 #spw-parse-field {
     display: flex;
@@ -161,14 +214,20 @@ aside > section :has(:focus) {
     min-height: 13rem;
     font-size: 2rem;
     overflow: visible;
-    width: 50vw;
+    width: 35rem;
+    color: var(--quickaction-text-color);
+    background: #222222;
+    padding: 2rem;
+}
+#spw-parse-field:focus {
+    outline: thin solid wheat;
 }
 #color-mode-container {
     display: none;
 }
 #colors {
     margin: 1rem;
-    border: thin solid var(--body-outline);
+    border: thin solid var(--standard-outline);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -194,32 +253,67 @@ aside > section :has(:focus) {
 }
 #reflexes {
     margin: 1rem;
-    border: thin solid var(--body-outline);
+    border: thin solid var(--standard-outline);
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
+}
+#reflexes .card-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#reflexes button {
+    --outline: var(--standard-outline);
+    cursor: pointer;
+    padding: 1rem;
+    width: 5rem;
+    height: 5rem;
+    margin: .2rem;
+    border: thin solid var(--outline);;
+    font-family: monospace;
+}
+#reflexes button:before {
+    content: attr(data-reflex);
 }
 #reflexes button:is(:focus) {
     outline: thick solid var(--quickaction-text-color);
 }
 #reflexes button:not(:focus) {
-    color: var(--quickaction-text-color);
     background: var(--quickaction-background);
-}
-#reflexes > section {
-    display: flex;
-    flex-direction: row;
+    color: var(--quickaction-text-color);
 }
 #querymod-mode-container {
     display: none;
+    position: absolute;
+    top: -5rem;
+}
+#query-parameters {
+    width: 20rem;
+}
+#query-parameters textarea {
+    white-space: nowrap;
 }
 #node-mode-container {
     display: none;
+    position: absolute;
+    top: -5rem;
 }
 #debug-mode-container {
+    display: none;
+    position: absolute;
+    top: -5rem;
+}
+#main-log {
     display: none;
 }
 #output {
     white-space: pre;
+}
+#story-mode-container {
+    display: none;
+    position: absolute;
+    top: -5rem;
 }
 #map-mode-container {
     display: none;
@@ -228,25 +322,23 @@ aside > section :has(:focus) {
     display: none;
 }
 
-:is(#reflex-mode-container) button {
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 1rem;
-    margin: .2rem;
-    border: thin solid transparent;;
-    font-family: monospace;
+[data-displaymode=nodes] :is(text, line) {
+    display: none;
+}
+[data-displaymode=words] :is(circle, line) {
+    display: none;
+}
+:is([data-displaymode^=edges], [data-displaymode$=edges]) :is(circle, text) {
+    display: none;
 }
 
+:is([data-displaymode^=nodes], [data-displaymode$=nodes]) :is(circle) {
+    display: unset;
+}
+:is([data-displaymode^=edges], [data-displaymode$=edges]) :is(line) {
+    display: unset;
+}
 
-[data-displaymode=nodes] :is(.rects, text, #show-keystroke-options, line) {
-    display: none;
-}
-[data-displaymode=words] :is(.rects, .nodes :is(circle, rect), line) {
-    display: none;
-}
-[data-displaymode=edges] :is(.rects, .nodes :is(circle, rect), text) {
-    display: none;
-}
 
 /* Mode Containers: in use */
 [data-mode=node] [data-mode-action=node],
@@ -257,13 +349,12 @@ aside > section :has(:focus) {
 [data-mode=color] [data-mode-action=color],
 [data-mode=reflex] [data-mode-action=reflex],
 [data-mode=query] [data-mode-action=query],
+[data-mode=story] [data-mode-action=story],
 [data-mode=debug] [data-mode-action=debug] {
-    outline: thick solid red;
+    outline: thick solid #222222;
+    background: wheat;
 }
-[data-mode=debug] #debug-mode-container {
-    display: flex;
-}
-[data-mode=debug] #debug-mode-container {
+[data-mode=debug] :is(#debug-mode-container, #main-log) {
     display: flex;
 }
 [data-mode=color] #color-mode-container {
@@ -277,8 +368,13 @@ aside > section :has(:focus) {
 }
 [data-mode=node] #node-mode-container {
     display: flex;
+    align-items: start;
+    margin-left: 1rem;
 }
-[data-mode=spw] :is(#spw-container) {
+[data-mode=spw] :is(#spw-mode-container) {
+    display: flex;
+}
+[data-mode=story] #story-mode-container {
     display: flex;
 }
 [data-mode=map] #map-mode-container,
@@ -286,30 +382,32 @@ aside > section :has(:focus) {
     display: flex;
 }
 
-#show-keystroke-options + #keystroke-options,
-#quickaction-container > label ~ #mode-container {
+#show-keystroke-options + #keystroke-options {
     display: none;
 }
-#quickaction-container > :is(label:has(:checked ), select:is(:focus)) ~ #mode-container {
+#mode-container {
     display: flex;
     position: absolute;
-    bottom: 100%;
-    left: 0;
+    bottom: calc(100vh - var(--focal-y));
+    left: var(--focal-x);
 }
-#show-keystroke-options:has(:checked) + #keystroke-options,
-#quickaction-container > label:has(:checked) + select {
+#show-keystroke-options:has(:checked) + #keystroke-options {
     display: flex;
     position: absolute;
     bottom: 0;
     left: 100%;
 }
-:is(#show-keystroke-options, #quickaction-container > label) > [type=checkbox] {
+:is(#show-keystroke-options) > [type=checkbox] {
+    display: none
 }
-#show-keystroke-options, #quickaction-container > label {
+#show-keystroke-options:focus {
+    outline: 1rem solid wheat;
+    font-weight: bold;
+}
+#show-keystroke-options {
     display: inline-flex;
     flex-direction: column;
     z-index: 1;
-    padding: 1rem;
     color: var(--quickaction-text-color);
     cursor: pointer;
     background: var(--show-keystroke-options-background);
@@ -359,7 +457,7 @@ aside > section :has(:focus) {
     padding-left: 1rem;
     margin-left: 1rem;
     color: #777777;
-    border-left: thin solid var(--body-outline);
+    border-left: thin solid var(--standard-outline);
 }
 #keystroke-options kbd:after {
     content: '';
@@ -382,40 +480,73 @@ label[for=mode-selector],
 #mode-selector {
     display: none !important;
 }
-#quickaction-shortcuts ul {
+#quickaction-shortcuts ol {
     padding: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    counter-reset: item;
 }
 #quickaction-shortcuts li {
-    list-style: none;
+    counter-increment: item;
 }
-#quickaction-shortcuts button {
+#quickaction-shortcuts li:has([aria-selected="true"]):before {
+    color: #222222;
+}
+#quickaction-shortcuts li:before {
+    color: wheat;
+    margin: 0 1rem;
+    content: counter(item);
+    border-radius: 100%;
+    width: 1.2em;
+    font-size: 2rem;
+    text-align: center;
+    display: inline-block;
+}
+#quickaction-shortcuts ol > li > button {
     display: inline-flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 5rem;
     height: 5rem;
-    border: thin solid var(--body-outline);
+    border: thin solid var(--standard-outline);
     background: var(--quickaction-background);
     color: var(--quickaction-text-color);
     cursor: pointer;
-    padding: 1rem;
-    font-size: 1rem;
     font-family: monospace;
 }
-#quickaction-shortcuts button:empty {
-    display: none;
+#quickaction-shortcuts ol > li > button:focus {
+    outline: 1rem solid var(--quickaction-text-color);
 }
 #quickaction-shortcuts {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    top: 0;
+    left: 0;
+}
+
+body:not([data-debug=debug]) g.rects {
+    display: none;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background: var(--form-background);
+    color: var(--quickaction-text-color);
+}
+.card-header {
+    text-align: center;
+    border-bottom: thin solid var(--standard-outline);
+}
+.card-body {
+    padding: 1rem;
+    display: inline;
+}
+.card .button-container {
+    display: flex;
+    flex-direction: row;
 }
 
 @media (max-width: 600px) {
-    g.rects {
-        display: none;
-    }
     #main-log {
         display: none;
     }
@@ -426,12 +557,15 @@ label[for=mode-selector],
         display: none;
     }
     #quickaction-shortcuts button {
-        font-size: .75rem;
+        /*font-size: .75rem;*/
         padding: .2rem;
         width: 3rem;
         height: 3rem;
     }
     #show-keystroke-options, #show-keystroke-options span {
         padding: .2rem;
+    }
+    #quickaction-shortcuts li:before {
+        content: none;
     }
 }

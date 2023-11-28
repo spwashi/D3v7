@@ -145,7 +145,7 @@ function initializeForces(simulation, links, nodes) {
     d3.forceCenter(...[
       window.spwashi.parameters.forces.centerPos.x,
       window.spwashi.parameters.forces.centerPos.y,
-    ]).strength(window.spwashi.parameters.forces.center)
+    ]).strength(window.spwashi.parameters.forces.centerStrength)
   );
   simulation.force('boundingBox', null);
   window.spwashi.parameters.forces.boundingBox && simulation.force('boundingBox', (alpha) => {
@@ -183,7 +183,6 @@ function initSimulationEdges() {
 }
 
 function getDefaultRects() {
-  if (POWER_MODE !== 'dev') return [];
   return [
     {
       title: 'Counter',

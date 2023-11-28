@@ -52,12 +52,13 @@ export function initializeReflexMode() {
       let first;
       for (let node of arr) {
         first      = first || node;
-        let source = window.spwashi.getNode ? (prev?.id) : '';
-        let target = window.spwashi.getNode ? (node.id) : '';
+        let target = window.spwashi.getNode(prev?.id);
+        let source = window.spwashi.getNode(node.id);
         const link = {
-          source:   source,
-          target:   target,
-          strength: window.spwashi.parameters.links.strength * .3
+          source:     source,
+          target:     target,
+          colorindex: source.colorindex,
+          strength:   window.spwashi.parameters.links.strength * .3
         };
         source && pushLink(window.spwashi.links, link);
         prev = node;
@@ -79,125 +80,172 @@ export function initializeReflexMode() {
     window.spwashi.reinit();
   };
 
-  const radiusReflexes      = [
-    [
-      '[r *= 3.2]',
-      () => {
-        window.spwashi.nodes.forEach(n => n.r *= 3.2);
-        window.spwashi.reinit()
-      },],
-    [
-      '[r /= 2.3]',
-      () => {
-        window.spwashi.nodes.forEach(n => n.r /= 2.3);
-        window.spwashi.reinit()
-      },
-    ],
-    [
-      '[r = 10]',
-      () => {
-        window.spwashi.nodes.forEach(n => n.r = 10);
-        window.spwashi.reinit()
-      },
-    ],
-  ];
-  const chargeSetReflexes   = [
-    [
-      '[charge=-100]',
-      () => {
-        window.spwashi.parameters.forces.charge = -100;
-        window.spwashi.reinit();
-      },
-    ],
-    [
-      '[charge=0]',
-      () => {
-        window.spwashi.parameters.forces.charge = 0;
-        window.spwashi.reinit();
-      },
-    ],
-    [
-      '[charge+=100]',
-      () => {
-        window.spwashi.parameters.forces.charge = 100;
-        window.spwashi.reinit();
-      },
-    ],
-    [
-      '[charge=-1000]',
-      () => {
-        window.spwashi.parameters.forces.charge = -1000;
-        window.spwashi.reinit();
-      },
-    ],
-    [
-      '[charge=-10000]',
-      () => {
-        window.spwashi.parameters.forces.charge = -10000;
-        window.spwashi.reinit();
-      },
-    ],
-  ]
-  const chargeTweakReflexes = [
-    [
-      '[charge-=10]',
-      () => {
-        window.spwashi.parameters.forces.charge -= 10;
-        window.spwashi.reinit();
-      },
-    ],
-    [
-      '[charge+=10]',
-      () => {
-        window.spwashi.parameters.forces.charge += 10;
-        window.spwashi.reinit();
-      },
-    ],
-  ];
-  const loreReflexes        = [
-    [
-      'boon',
-      () => {
-        window.spwashi.boon()
-      },
-    ],
-    [
-      'bone',
-      () => {
-        window.spwashi.bone()
-      },
-    ],
-    [
-      'honk',
-      () => {
-        window.spwashi.honk()
-      },
-    ],
-    [
-      'bane',
-      () => {
-        let arr                     = window.spwashi.nodes.filter(d => d.id.indexOf('node:') < 0);
-        window.spwashi.nodes.length = 0;
-        window.spwashi.nodes.push(...arr);
-        window.spwashi.reinit()
-      },
-    ],
-    [
-      'bonk',
-      () => {
-        window.spwashi.bonk()
-      },
-    ],
-  ];
-  const forceReflexes       = [
-    [
-      '[toggle bounding box]',
-      () => {
-        window.spwashi.parameters.forces.boundingBox = !window.spwashi.parameters.forces.boundingBox;
-        window.spwashi.reinit();
-      },
-    ],
-  ];
+  const radiusReflexes      = {
+    title: 'Adjust Radius',
+
+    reflexes:
+      [
+        [
+          '*=3.2',
+          () => {
+            window.spwashi.nodes.forEach(n => n.r *= 3.2);
+            window.spwashi.reinit()
+          },],
+        [
+          '/=2.3',
+          () => {
+            window.spwashi.nodes.forEach(n => n.r /= 2.3);
+            window.spwashi.reinit()
+          },
+        ],
+        [
+          '=10',
+          () => {
+            window.spwashi.nodes.forEach(n => n.r = 10);
+            window.spwashi.reinit()
+          },
+        ],
+      ]
+  };
+  const chargeSetReflexes   = {
+    title: 'Set Charge',
+
+    reflexes:
+      [
+        [
+          '-100',
+          () => {
+            window.spwashi.parameters.forces.charge = -100;
+            window.spwashi.reinit();
+          },
+        ],
+        [
+          '0',
+          () => {
+            window.spwashi.parameters.forces.charge = 0;
+            window.spwashi.reinit();
+          },
+        ],
+        [
+          '100',
+          () => {
+            window.spwashi.parameters.forces.charge = 100;
+            window.spwashi.reinit();
+          },
+        ],
+        [
+          '-1k',
+          () => {
+            window.spwashi.parameters.forces.charge = -1000;
+            window.spwashi.reinit();
+          },
+        ],
+        [
+          '-10k',
+          () => {
+            window.spwashi.parameters.forces.charge = -10000;
+            window.spwashi.reinit();
+          },
+        ],
+      ]
+  };
+  const chargeTweakReflexes = {
+    title: 'Adjust Charge',
+
+    reflexes:
+      [
+        [
+          '-100',
+          () => {
+            window.spwashi.parameters.forces.charge -= 100;
+            window.spwashi.reinit();
+          },
+        ],
+        [
+          '-10',
+          () => {
+            window.spwashi.parameters.forces.charge -= 10;
+            window.spwashi.reinit();
+          },
+        ],
+        [
+          '*-1',
+          () => {
+            window.spwashi.parameters.forces.charge *= -1;
+            window.spwashi.reinit();
+          },
+        ],
+        [
+          '+10',
+          () => {
+            window.spwashi.parameters.forces.charge += 10;
+            window.spwashi.reinit();
+          },
+        ],
+        [
+          '*13',
+          () => {
+            window.spwashi.parameters.forces.charge *= 10;
+            window.spwashi.reinit();
+          },
+        ],
+      ]
+  };
+  const loreReflexes        = {
+    title: 'Lore',
+
+    reflexes:
+      [
+        [
+          'boon',
+          () => {
+            window.spwashi.boon()
+          },
+        ],
+        [
+          'bone',
+          () => {
+            window.spwashi.bone()
+          },
+        ],
+        [
+          'honk',
+          () => {
+            window.spwashi.honk()
+          },
+        ],
+        [
+          'bane',
+          () => {
+            let arr                     = window.spwashi.nodes.filter(d => d.id.indexOf('node:') < 0);
+            window.spwashi.nodes.length = 0;
+            window.spwashi.nodes.push(...arr);
+            window.spwashi.reinit()
+          },
+        ],
+        [
+          'bonk',
+          () => {
+            window.spwashi.bonk()
+          },
+        ],
+      ]
+  };
+  const forceReflexes       = {
+    title: 'force',
+
+    reflexes:
+      [
+        [
+
+          'box',
+          () => {
+            window.spwashi.parameters.forces.boundingBox = !window.spwashi.parameters.forces.boundingBox;
+            window.spwashi.reinit();
+          },
+        ],
+      ]
+  };
   const reflexes            = [
     loreReflexes,
     chargeSetReflexes,
@@ -208,10 +256,20 @@ export function initializeReflexMode() {
   const reflexContainer     = document.querySelector('#reflexes');
 
   let i = 0;
-  reflexes.forEach(reflexGroup => {
+  reflexes.forEach(({title, reflexes}) => {
     const section = reflexContainer.appendChild(document.createElement('section'));
-    reflexGroup.forEach(reflex => {
-      const button               = section.appendChild(document.createElement('button'));
+    section.classList.add('card');
+    const header = section.appendChild(document.createElement('header'));
+    header.classList.add('card-header')
+    const card = section.appendChild(document.createElement('div'));
+    card.classList.add('card-body');
+    const buttonContainer = card.appendChild(document.createElement('div'));
+    buttonContainer.classList.add('button-container');
+
+
+    header.innerText = title;
+    reflexes.forEach(reflex => {
+      const button               = buttonContainer.appendChild(document.createElement('button'));
       button.innerText           = reflex[0];
       button.onclick             = () => {
         reflex[1]();
@@ -225,34 +283,56 @@ export function initializeReflexMode() {
 
 export function onReflexModeStart() {
   document.querySelector('#reflexes button').focus();
+
+  // get position of all buttons, assuming they are all the same size
+  const buttons    = document.querySelectorAll('#reflexes button');
+  const buttonsByX = {};
+  const buttonsByY = {};
+  buttons.forEach(button => {
+    const rect = button.getBoundingClientRect();
+    const x    = Math.round(rect.x);
+    const y    = Math.round(rect.y);
+    if (!buttonsByX[x]) {
+      buttonsByX[x] = [];
+    }
+    if (!buttonsByY[y]) {
+      buttonsByY[y] = [];
+    }
+    buttonsByX[x].push(button);
+    buttonsByY[y].push(button);
+  });
+
+
+  window.spwashi.callbacks.arrowLeft  = () => {
+    const activeElement = document.activeElement;
+    const currentPos    = Math.round(activeElement.getBoundingClientRect().y);
+    const group         = buttonsByY[currentPos];
+    const index         = group.indexOf(activeElement);
+    const prev          = group[index - 1] || group[group.length - 1];
+    prev && prev.focus();
+  };
+  window.spwashi.callbacks.arrowRight = () => {
+    const activeElement = document.activeElement;
+    const currentPos    = Math.round(activeElement.getBoundingClientRect().y);
+    const group         = buttonsByY[currentPos];
+    const index         = group.indexOf(activeElement);
+    const next          = group[index + 1] || group[0];
+    next && next.focus();
+  };
   window.spwashi.callbacks.arrowUp    = () => {
     const activeElement = document.activeElement;
-    const parentElement = activeElement?.parentElement;
-    if (parentElement?.previousElementSibling) {
-      activeElement.parentElement.previousElementSibling.querySelector('button').focus();
-    } else {
-      activeElement.parentElement.parentElement.lastElementChild.querySelector('button').focus();
-    }
+    const currentPos    = Math.round(activeElement.getBoundingClientRect().x);
+    const group         = buttonsByX[currentPos];
+    const index         = group.indexOf(activeElement);
+    const next          = group[index + 1] || group[0];
+    next && next.focus();
   };
   window.spwashi.callbacks.arrowDown  = () => {
     const activeElement = document.activeElement;
-    const parentElement = activeElement?.parentElement;
-    if (parentElement?.nextElementSibling) {
-      activeElement.parentElement.nextElementSibling.querySelector('button').focus();
-    } else {
-      activeElement.parentElement.parentElement.firstElementChild.querySelector('button').focus();
-    }
-  };
-  window.spwashi.callbacks.arrowRight = () => {
-    const currentIndex   = document.activeElement.dataset.actionindex;
-    const actionIndexKey = getModifiedActionIndex(currentIndex, 1);
-    const button         = document.querySelector(`#reflexes button[data-actionindex="${actionIndexKey}"]`);
-    button && button.focus();
-  };
-  window.spwashi.callbacks.arrowLeft  = () => {
-    const currentIndex   = document.activeElement.dataset.actionindex;
-    const actionIndexKey = getModifiedActionIndex(currentIndex, -1);
-    const button         = document.querySelector(`#reflexes button[data-actionindex="${actionIndexKey}"]`);
-    button && button.focus();
+    const currentPos    = Math.round(activeElement.getBoundingClientRect().x);
+    const group         = buttonsByX[currentPos];
+    const index         = group.indexOf(activeElement);
+    const prev          = group[index - 1] || group[group.length - 1];
+    prev && prev.focus();
   };
 }

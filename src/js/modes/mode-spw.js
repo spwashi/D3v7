@@ -1,10 +1,9 @@
-import ace                                from "ace-builds";
-import {reinitializeSimulation}           from "../simulation/simulation";
-import {CharacterCursor}                  from "../../vendor/spw/core/node/cursor.mjs";
-import {parse}                            from "../../vendor/spw/parser/parse.mjs";
-import {getDocumentMode, setDocumentMode} from "./index";
-import {getDocumentDataIndex}             from "./mode-dataindex";
-import {NODE_MANAGER}                     from "../simulation/nodes/nodes";
+import {reinitializeSimulation} from "../simulation/simulation";
+import {CharacterCursor}        from "../../vendor/spw/core/node/cursor.mjs";
+import {parse}                  from "../../vendor/spw/parser/parse.mjs";
+import {setDocumentMode}        from "./index";
+import {getDocumentDataIndex}   from "./mode-dataindex";
+import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 
 const parseSpw = (text) => {
   const tokens    = [];
@@ -49,26 +48,13 @@ export function initializeSpwParseField() {
   appendIdentities(perspective, identities, getTokenObj(identities));
 
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
-  const spwInput = ace.edit('spw-parse-field');
+  const spwInput = document.querySelector('#spw-parse-field');
+  spwInput.value = value;
 
   window.spwashi.spwEditor = spwInput;
-  spwInput.setOptions({useWorker: false})
-  spwInput.setValue(value);
-  if (getDocumentMode() === 'spw') {
-    spwInput.focus();
-  }
-  const button = document.querySelector('#parse-spw');
-  spwInput.commands.addCommand(
-    {
-      name:    '...',
-      exec:    function (e) {
-        button.focus();
-      },
-      bindKey: {mac: 'tab', win: 'tab'}
-    }
-  )
-  button.onclick = () => {
-    const text   = spwInput.getValue()
+  const button             = document.querySelector('#parse-spw');
+  button.onclick           = () => {
+    const text   = spwInput.value;
     const parsed = parseSpw(text);
     window.spwashi.setItem('parameters.spw-parse-field', text);
     const newNodes = JSON.parse(JSON.stringify(parsed));

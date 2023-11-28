@@ -28,22 +28,22 @@
 [data-colorindex=spwashi-datum-11] { fill: var(--node-color-11); }
 [data-colorindex=spwashi-datum-12] { fill: var(--node-color-12); }
 
-[data-actionindex=spwashi-action-0] { background: var(--node-color-0); }
-[data-actionindex=spwashi-action-1] { background: var(--node-color-0); }
-[data-actionindex=spwashi-action-2] { background: var(--node-color-0); }
-[data-actionindex=spwashi-action-3] { background: var(--node-color-0); }
-[data-actionindex=spwashi-action-4] { background: var(--node-color-0); }
-[data-actionindex=spwashi-action-5] { background: var(--node-color-1); }
-[data-actionindex=spwashi-action-6] { background: var(--node-color-1); }
-[data-actionindex=spwashi-action-7] { background: var(--node-color-1); }
-[data-actionindex=spwashi-action-8] { background: var(--node-color-2); }
-[data-actionindex=spwashi-action-9] { background: var(--node-color-2); }
-[data-actionindex=spwashi-action-10] { background: var(--node-color-3); }
-[data-actionindex=spwashi-action-11] { background: var(--node-color-3); }
-[data-actionindex=spwashi-action-12] { background: var(--node-color-3); }
-[data-actionindex=spwashi-action-13] { background: var(--node-color-4); }
-[data-actionindex=spwashi-action-14] { background: var(--node-color-4); }
-[data-actionindex=spwashi-action-15] { background: var(--node-color-5); }
+[data-actionindex=spwashi-action-0] { background: wheat; }
+[data-actionindex=spwashi-action-1] { background: wheat; }
+[data-actionindex=spwashi-action-2] { background: wheat; }
+[data-actionindex=spwashi-action-3] { background: wheat; }
+[data-actionindex=spwashi-action-4] { background: wheat; }
+[data-actionindex=spwashi-action-5] { background: wheat; }
+[data-actionindex=spwashi-action-6] { background: wheat; }
+[data-actionindex=spwashi-action-7] { background: wheat; }
+[data-actionindex=spwashi-action-8] { background: wheat; }
+[data-actionindex=spwashi-action-9] { background: wheat; }
+[data-actionindex=spwashi-action-10] { background: wheat; }
+[data-actionindex=spwashi-action-11] { background: wheat; }
+[data-actionindex=spwashi-action-12] { background: wheat; }
+[data-actionindex=spwashi-action-13] { background: wheat; }
+[data-actionindex=spwashi-action-14] { background: wheat; }
+[data-actionindex=spwashi-action-15] { background: wheat; }
 
 body [data-dataindex=spwashi-datum-0] { background: var(--node-color-0); }
 body [data-dataindex=spwashi-datum-1] { background: var(--node-color-1); }
@@ -59,6 +59,20 @@ body [data-dataindex=spwashi-datum-10] { background: var(--node-color-10); }
 body [data-dataindex=spwashi-datum-11] { background: var(--node-color-11); }
 body [data-dataindex=spwashi-datum-12] { background: var(--node-color-12); }
 
+html:has(body[data-dataindex=spwashi-datum-0])  body { outline: 1rem solid var(--node-color-0); }
+html:has(body[data-dataindex=spwashi-datum-1])  body { outline: 1rem solid var(--node-color-1); }
+html:has(body[data-dataindex=spwashi-datum-2])  body { outline: 1rem solid var(--node-color-2); }
+html:has(body[data-dataindex=spwashi-datum-3])  body { outline: 1rem solid var(--node-color-3); }
+html:has(body[data-dataindex=spwashi-datum-4])  body { outline: 1rem solid var(--node-color-4); }
+html:has(body[data-dataindex=spwashi-datum-5])  body { outline: 1rem solid var(--node-color-5); }
+html:has(body[data-dataindex=spwashi-datum-6])  body { outline: 1rem solid var(--node-color-6); }
+html:has(body[data-dataindex=spwashi-datum-7])  body { outline: 1rem solid var(--node-color-7); }
+html:has(body[data-dataindex=spwashi-datum-8])  body { outline: 1rem solid var(--node-color-8); }
+html:has(body[data-dataindex=spwashi-datum-9])  body { outline: 1rem solid var(--node-color-9); }
+html:has(body[data-dataindex=spwashi-datum-10]) body { outline: 1rem solid var(--node-color-10); }
+html:has(body[data-dataindex=spwashi-datum-11]) body { outline: 1rem solid var(--node-color-11); }
+html:has(body[data-dataindex=spwashi-datum-12]) body { outline: 1rem solid var(--node-color-12); }
+
 [data-dataindex=spwashi-datum-0] svg [data-colorindex=spwashi-datum-0] { stroke: red; stroke-width: 3px;}
 [data-dataindex=spwashi-datum-1] svg [data-colorindex=spwashi-datum-1] { stroke: red; stroke-width: 3px;}
 [data-dataindex=spwashi-datum-2] svg [data-colorindex=spwashi-datum-2] { stroke: red; stroke-width: 3px;}
@@ -72,6 +86,20 @@ body [data-dataindex=spwashi-datum-12] { background: var(--node-color-12); }
 [data-dataindex=spwashi-datum-10] svg [data-colorindex=spwashi-datum-10] { stroke: red; stroke-width: 3px;}
 [data-dataindex=spwashi-datum-11] svg [data-colorindex=spwashi-datum-11] { stroke: red; stroke-width: 3px;}
 [data-dataindex=spwashi-datum-12] svg [data-colorindex=spwashi-datum-12] { stroke: red; stroke-width: 3px;}
+
+[data-colorindex=spwashi-stroke-0] { stroke: var(--node-color-0); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-1] { stroke: var(--node-color-1); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-2] { stroke: var(--node-color-2); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-3] { stroke: var(--node-color-3); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-4] { stroke: var(--node-color-4); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-5] { stroke: var(--node-color-5); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-6] { stroke: var(--node-color-6); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-7] { stroke: var(--node-color-7); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-8] { stroke: var(--node-color-8); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-9] { stroke: var(--node-color-9); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-10] { stroke: var(--node-color-10); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-11] { stroke: var(--node-color-11); stroke-width: 3px;}
+[data-colorindex=spwashi-stroke-12] { stroke: var(--node-color-12); stroke-width: 3px;}
 
 [data-dataindex=spwashi-datum-0] #colors [data-dataindex=spwashi-datum-0] { outline: thick solid red; }
 [data-dataindex=spwashi-datum-1] #colors [data-dataindex=spwashi-datum-1] { outline: thick solid red; }

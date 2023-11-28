@@ -18,15 +18,33 @@ function initCallbacks() {
 
 function initListeners() {
   window.spwashi.onModeChange = (mode) => {
+    document.querySelector('[data-mode-action] [aria-selected="true"]')?.setAttribute('aria-selected', 'false');
+    const button = document.querySelector(`#mode-selector--${mode}`);
+    if (button) {
+      button.setAttribute('aria-selected', 'true');
+      const x = button.getBoundingClientRect().x;
+      const y = button.getBoundingClientRect().y;
+      const w = button.getBoundingClientRect().width;
+      const h = button.getBoundingClientRect().height;
+      document.documentElement.style.setProperty('--focal-x', (x + w) + 'px');
+      document.documentElement.style.setProperty('--focal-y', (y + h) + 'px');
+    }
     switch (mode) {
       case 'spw':
-        window.spwashi.spwEditor?.focus();
+        const spwModeContainer = document.querySelector('#spw-mode-container');
+        spwModeContainer.tabIndex = 0;
+        spwModeContainer.focus();
         break;
       case 'reflex':
         onReflexModeStart();
         break;
       case 'color':
         onColorModeStart()
+        break;
+      case 'node':
+        const nodeInputContainer    = document.querySelector('#node-input-container');
+        nodeInputContainer.tabIndex = 0;
+        nodeInputContainer.focus();
         break;
     }
   }
@@ -40,6 +58,17 @@ function initRoot() {
   initCallbacks();
   initListeners();
   window.spwashi.counter        = 0;
+  window.spwashi.modeOrder      = [
+    'reflex',
+    'color',
+    'map',
+    'filter',
+    'node',
+    'query',
+    'debug',
+    'story',
+    'spw',
+  ]
   window.spwashi.readParameters = readParameters;
   window.spwashi.setItem        = (key, item, category = null) => window.localStorage.setItem(getItemKey(key), JSON.stringify(item || null))
   window.spwashi.getItem        = (key, category = null) => {

@@ -4,7 +4,7 @@ import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {setDocumentMode}        from "../modes";
 
 function toggleHotkeyMenu() {
-  const checkbox = document.querySelector('#hotkey-menu-toggle');
+  const checkbox   = document.querySelector('#hotkey-menu-toggle');
   checkbox.checked = !checkbox.checked;
   document.querySelector('#keystroke-options li').focus()
 }
@@ -26,7 +26,7 @@ export function initKeystrokes() {
     {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
     {shortcut: '<space>'},
     {shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: toggleHotkeyMenu},
-    {shortcut: '\\', categories: ['this'], title: 'clear storage', callback: clearLocalStorage},
+    {shortcut: '\\', categories: ['this'], title: 'reset interface', callback: resetInterface},
   ]
   initKeystrokeOptions();
 }
@@ -88,23 +88,30 @@ function clearFixedPositions() {
   });
 }
 
-function clearLocalStorage() {
+export function getNextUrlSearchParams() {
+  const queryStr   = window.location.href.split('?')[1] || '';
+  const params     = new URLSearchParams(queryStr);
+  const nextParams = new URLSearchParams();
+  params.has('size') && nextParams.set('size', params.get('size'));
+  params.has('superpower') && nextParams.set('superpower', params.get('superpower'));
+  return nextParams;
+}
+
+function getNextHref(nextParams) {
+  const href = window.location.href.split('?')[0];
+  return `${href}?${nextParams.toString()}`;
+}
+
+function resetInterface() {
   window.localStorage.clear();
-  window.location.href = window.location.href.split('?')[0];
+  const nextParams     = getNextUrlSearchParams();
+  window.location.href = getNextHref(nextParams);
 }
 
 function plainKeyHandler(key, e) {
-  const shortKeys = {
-    1: () => setDocumentMode('reflex'),
-    2: () => setDocumentMode('color'),
-    3: () => setDocumentMode('spw'),
-    4: () => setDocumentMode('map'),
-    5: () => setDocumentMode('filter'),
-    6: () => setDocumentMode('node'),
-    7: () => setDocumentMode('query'),
-    8: () => setDocumentMode('debug'),
-    0: () => setDocumentMode(''),
-  };
+  const shortKeyEntries = window.spwashi.modeOrder.map((reflex, i) => [i + 1, () => setDocumentMode(reflex)]);
+  const shortKeys       = Object.fromEntries(shortKeyEntries);
+
   if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
   if (shortKeys[key]) {
     e && e.preventDefault();
@@ -157,9 +164,15 @@ document.addEventListener('keydown', (e) => {
 })
 
 function initKeystrokeOptions() {
-  const keystrokeOptions     = document.querySelector('#keystroke-options');
-  keystrokeOptions.innerHTML = '';
-  const optionList           = keystrokeOptions.appendChild(document.createElement('UL'));
+  const keystrokeOptions              = document.querySelector('#keystroke-options');
+  keystrokeOptions.innerHTML          = '';
+  const showKeystrokeOptionsLabel     = document.querySelector('#show-keystroke-options');
+  showKeystrokeOptionsLabel.onkeydown = e => {
+    if (e.key === ' ') {
+      toggleHotkeyMenu();
+    }
+  }
+  const optionList                    = keystrokeOptions.appendChild(document.createElement('UL'));
   window.spwashi.keystrokeOptions.forEach(({shortcut, categories = [], title, callback, shortcutName}) => {
     const handler = () => {
       callback();

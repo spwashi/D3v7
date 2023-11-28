@@ -7,7 +7,6 @@ export function initializeDirectMode() {
     const nodesInputElement = document.querySelector('#nodes-input');
     const nodesInputText    = window.spwashi.getItem('parameters.nodes-input') || [];
     nodesInputElement.value = JSON.stringify(nodesInputText, null, 2);
-    nodesInputElement.rows  = 5;
 
     document.querySelector('#nodes-selector-fn').value = nodesSelectorFn;
   };

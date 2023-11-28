@@ -1,6 +1,7 @@
-import {readNodePosition}     from "./store";
-import md5                    from "md5";
-import {getDocumentDataIndex} from "../../modes/mode-dataindex";
+import {readNodePosition}       from "./store";
+import md5                      from "md5";
+import {getDocumentDataIndex}   from "../../modes/mode-dataindex";
+import {getNextUrlSearchParams} from "../../init/keystrokes";
 
 function getLastKind(node) {
   return node.kind?.trim().split(' + ').reverse()[0];
@@ -36,7 +37,11 @@ export function processNode(node, i) {
   node.image.offsetX = 0;
   node.image.offsetY = 0;
   node.md5           = node.identity && md5(node.identity);
-  node.url           = `/arena/identity/${node.md5}?title=` + encodeURIComponent(node.identity);
+  node.getUrl        = () => {
+    const urlParams = getNextUrlSearchParams();
+    urlParams.set('title', node.identity);
+    return `/identity/${node.md5}?${urlParams.toString()}`;
+  };
 
   const edgeLeft   = 50;
   const edgeRight  = window.spwashi.parameters.width - 50;

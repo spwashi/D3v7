@@ -1,18 +1,27 @@
 import {cacheNode} from "./store";
 import {sortNodes} from "./nodes";
 
-export function logMainEvent(event) {
+export function logMainEvent(event, details) {
   const eventsElement = document.querySelector('#main-log ul.events-log');
   const listItem      = document.createElement('li');
-  listItem.innerText  = event;
   eventsElement.appendChild(listItem);
+  const detailsEl = document.createElement('details');
+  listItem.appendChild(detailsEl)
+  const summary = document.createElement('summary');
+  detailsEl.appendChild(summary);
+  summary.innerText = event;
+  if (details) {
+    const pre     = document.createElement('pre');
+    pre.innerText = details;
+    detailsEl.appendChild(pre);
+  }
 }
 
 export function makeCircle(g) {
   const onclick = (e, d) => {
-    logMainEvent('clicked: ' + d.id);
+    logMainEvent('clicked: ' + d.id, JSON.stringify(d, null, 3));
     if (e.defaultPrevented) return;
-    let weight = window.spwashi.superpower.weight;
+    let intent = window.spwashi.superpower.intent;
     if (e.key === 'x') {
       d.fx = isNaN(d.fx) ? d.x : d.fx;
       return;
@@ -28,14 +37,15 @@ export function makeCircle(g) {
     if (e.key && e.key !== ' ') return;
 
     if (e.shiftKey) {
-      weight *= -1;
+      intent *= -1;
     }
 
     switch (window.spwashi.superpower.name) {
       case 'hyperlink':
-        if (!d.url) break;
-        logMainEvent('hyperlink: ' + d.url)
-        window.open(d.url, '_blank');
+        const url = d.getUrl?.();
+        if (!url) break;
+        logMainEvent('hyperlink: ' + url)
+        window.open(url, '_blank');
         break
       case 'prune':
         window.spwashi.nodes.splice(window.spwashi.nodes.indexOf(d), 1);
@@ -51,21 +61,21 @@ export function makeCircle(g) {
         });
         break;
       case 'grow': {
-        d.r += weight;
+        d.r += intent;
         break;
       }
       case 'shrink': {
-        d.r -= weight;
+        d.r -= intent;
         break;
       }
       case 'changecolor': {
         if (isNaN(d.colorindex)) d.colorindex = 1;
-        d.colorindex += weight;
+        d.colorindex += intent;
         break;
       }
       case 'z': {
         d.z = d.z || 0;
-        d.z += weight;
+        d.z += intent;
         sortNodes(ACTIVE_NODES);
         break;
       }

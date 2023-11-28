@@ -35,25 +35,25 @@ export function makeImage(g) {
 		})
 		.on('click', (e, d) => {
 			if (event.defaultPrevented) return;
-			let weight = window.spwashi.superpower.weight;
+			let intent = window.spwashi.superpower.intent;
 			if(e.shiftKey) {
-				weight *= -1;
+				intent *= -1;
 			}
 
 			switch (window.spwashi.superpower.name) {
 				case 'grow': {
 					d.image.r = d.image.r || d.r;
-					d.image.r += weight;
+					d.image.r += intent;
 					break;
 				}
 				case 'shrink': {
 					d.image.r = d.image.r || d.r;
-					d.image.r -= weight;
+					d.image.r -= intent;
 					break;
 				}
 				case 'changecolor': {
 					if (isNaN(d.colorindex)) d.colorindex = 1;
-					d.colorindex += weight;
+					d.colorindex += intent;
 					break;
 				}
 			}

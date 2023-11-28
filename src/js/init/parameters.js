@@ -11,6 +11,7 @@ export const POWER_MODE = ['common', 'dev'][0];
 
 export function initParameters() {
   window.spwashi.parameters                        = window.spwashi.parameters || {};
+  window.spwashi.parameters.debug                  = false;
   window.spwashi.parameters.perspective            = window.spwashi.parameters.perspective || undefined;
   window.spwashi.parameters.dataIndex              = window.spwashi.parameters.dataIndex || null;
   window.spwashi.parameters.width                  = window.spwashi.parameters.width || window.innerWidth * .9;
@@ -29,7 +30,7 @@ export function initParameters() {
   window.spwashi.parameters.forces.alphaDecay      = window.spwashi.parameters.forces.alphaDecay || .03;
   window.spwashi.parameters.forces.velocityDecay   = window.spwashi.parameters.forces.velocityDecay || .03;
   window.spwashi.parameters.forces.charge          = window.spwashi.parameters.forces.charge || 10;
-  window.spwashi.parameters.forces.center          = window.spwashi.parameters.forces.center || 1;
+  window.spwashi.parameters.forces.centerStrength  = window.spwashi.parameters.forces.centerStrength || 1;
   window.spwashi.parameters.forces.boundingBox     = typeof window.spwashi.parameters.forces.boundingBox !== 'undefined' ? window.spwashi.parameters.forces.boundingBox : true;
   window.spwashi.parameters.forces.centerPos       = window.spwashi.parameters.forces.centerPos || {};
   window.spwashi.parameters.forces.centerPos.x     = window.spwashi.parameters.forces.centerPos.x || window.spwashi.parameters.startPos.x;
@@ -48,19 +49,17 @@ export function readParameters(searchParameters) {
   window.spwashi.superpower           = window.spwashi.superpower || {};
   window.spwashi.parameters.links     = window.spwashi.parameters.links || {};
   window.spwashi.parameters.forces    = window.spwashi.parameters.forces || {};
-  window.spwashi.featuredIdentity     = /\/arena\/identity\/([a-zA-Z\d]+)/.exec(window.location.href)?.[1] || searchParameters.get('identity');
+  window.spwashi.featuredIdentity     = /\/identity\/([a-zA-Z\d]+)/.exec(window.location.href)?.[1] || searchParameters.get('identity');
   const parameterKey                  = `spwashi.parameters#${window.spwashi.featuredIdentity}`;
   window.spwashi.parameterKey         = parameterKey;
-
   console.log({parameterKey});
-
+  let mode;
   if (searchParameters.get('title')) {
-    document.title = searchParameters.get('title');
+    document.title                         = searchParameters.get('title');
     document.querySelector('h1').innerText = searchParameters.get('title');
   }
-  let mode;
   if (searchParameters.has('perspective')) {
-    window.spwashi.parameters.perspective = searchParameters.get('perspective');
+    window.spwashi.parameters.perspective = searchParameters.get('perspective') !== '0';
   }
   if (searchParameters.has('display')) {
     document.body.dataset.displaymode = searchParameters.get('display');
@@ -68,18 +67,18 @@ export function readParameters(searchParameters) {
   if (searchParameters.has('reset')) {
     window.localStorage.clear();
   }
-  if (searchParameters.has('ncount')) {
+  if (searchParameters.has('nodeQueueLength')) {
     window.spwashi.parameters.nodes       = window.spwashi.parameters.nodes || {};
-    window.spwashi.parameters.nodes.count = +searchParameters.get('ncount');
+    window.spwashi.parameters.nodes.count = +searchParameters.get('nodeQueueLength');
   }
-  if (searchParameters.has('linkstrength')) {
-    window.spwashi.parameters.links.strength = +searchParameters.get('linkstrength');
+  if (searchParameters.has('linkStrength')) {
+    window.spwashi.parameters.links.strength = +searchParameters.get('linkStrength');
   }
   if (searchParameters.has('charge')) {
     window.spwashi.parameters.forces.charge = +searchParameters.get('charge');
   }
-  if (searchParameters.has('linkprev')) {
-    window.spwashi.parameters.links.linkPrev = +searchParameters.get('linkprev');
+  if (searchParameters.has('linkStyle')) {
+    window.spwashi.parameters.links.linkPrev = searchParameters.get('linkStyle') === 'prev';
   } else {
     window.spwashi.parameters.links.linkPrev = 0;
   }
@@ -92,6 +91,9 @@ export function readParameters(searchParameters) {
   }
   if (searchParameters.has('height')) {
     window.spwashi.parameters.height = +searchParameters.get('height');
+  }
+  if (searchParameters.has('centerStrength')) {
+
   }
   if (searchParameters.has('center')) {
     let [x, y]                                 = (searchParameters.get('center').split(',').map(n => +n));
@@ -115,12 +117,11 @@ export function readParameters(searchParameters) {
   } else {
     window.spwashi.parameters.canzoom = true;
   }
-
   if (searchParameters.has('superpower')) {
     window.spwashi.superpower.name = searchParameters.get('superpower');
   }
-  if (searchParameters.has('weight')) {
-    window.spwashi.superpower.weight = parseInt(searchParameters.get('weight') || 1);
+  if (searchParameters.has('intent')) {
+    window.spwashi.superpower.intent = parseInt(searchParameters.get('intent') || 1);
   }
   if (searchParameters.has('mode')) {
     mode = searchParameters.get('mode');
@@ -141,15 +142,19 @@ export function readParameters(searchParameters) {
   if (searchParameters.has('fontSize')) {
     window.spwashi.values.text.fontSize = searchParameters.get('fontSize').split(',').map(n => +n);
   }
-  if (searchParameters.has('dofetch')) {
+  if (searchParameters.has('doFetch')) {
     window.spwashi.doFetchNodes = searchParameters.get('dofetch') === '1'
   }
-  if (searchParameters.has('boundingbox')) {
-    window.spwashi.parameters.forces.boundingBox = searchParameters.get('boundingbox') === '1'
+  if (searchParameters.has('boundingBox')) {
+    window.spwashi.parameters.forces.boundingBox = searchParameters.get('boundingBox') === '1'
   }
   if (searchParameters.has('dataindex')) {
     window.spwashi.parameters.dataIndex = +searchParameters.get('dataindex');
     setDocumentDataIndex(getDataIndexForNumber(window.spwashi.parameters.dataIndex));
+  }
+  if (searchParameters.has('debug')) {
+    window.spwashi.parameters.debug = true;
+    document.body.dataset.debug     = 'debug'
   }
 
   initializeDirectMode();
