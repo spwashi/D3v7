@@ -29,7 +29,7 @@ export function initParameters() {
   window.spwashi.parameters.forces.alpha           = window.spwashi.parameters.forces.alpha || 1;
   window.spwashi.parameters.forces.alphaTarget     = window.spwashi.parameters.forces.alphaTarget || .3;
   window.spwashi.parameters.forces.alphaDecay      = window.spwashi.parameters.forces.alphaDecay || .03;
-  window.spwashi.parameters.forces.velocityDecay   = window.spwashi.parameters.forces.velocityDecay || .03;
+  window.spwashi.parameters.forces.velocityDecay   = window.spwashi.parameters.forces.velocityDecay || .91;
   window.spwashi.parameters.forces.charge          = window.spwashi.parameters.forces.charge || 10;
   window.spwashi.parameters.forces.centerStrength  = window.spwashi.parameters.forces.centerStrength || 1;
   window.spwashi.parameters.forces.boundingBox     = typeof window.spwashi.parameters.forces.boundingBox !== 'undefined' ? window.spwashi.parameters.forces.boundingBox : true;
