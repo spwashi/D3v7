@@ -103,6 +103,7 @@ line {
 }
 text {
     user-select: none;
+    pointer-events: none;
     font-family: monospace;
     white-space: pre;
 }
