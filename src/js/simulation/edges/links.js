@@ -8,7 +8,7 @@ function initLinks(linkContainer, nodes) {
   const links        = linkContainer;
   let hasError       = false;
   for (let targetNode of nodes) {
-    const {head, body, tail} = targetNode;
+    const {head, body, tail} = targetNode.parts;
 
     const items = [head, body, tail].flat().map(i => i?.identity).filter(Boolean);
     items.forEach(item => {
