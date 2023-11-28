@@ -1,4 +1,3 @@
-import {readNodePosition}       from "./store";
 import md5                      from "md5";
 import {getDocumentDataIndex}   from "../../modes/mode-dataindex";
 import {getNextUrlSearchParams} from "../../init/keystrokes";
@@ -16,9 +15,22 @@ function isOperator(node) {
 }
 
 export function processNode(node, i) {
-  const readNode = readNodePosition(node);
-  if (readNode.fx || readNode.fy) return;
+  node.getUrl = () => {
+    const urlParams = getNextUrlSearchParams();
+    urlParams.set('title', node.identity);
+    return `/identity/${node.md5}?${urlParams.toString()}`;
+  };
+
+  if (node.processed) return;
+  node.processed = Date.now();
   if (!node.identity) return;
+  const head = node.head;
+  const body = node.body;
+  const tail = node.tail;
+  delete node.head;
+  delete node.body;
+  delete node.tail;
+  node.parts = {head, body, tail};
 
   const fx       = window.spwashi.values.fx?.[i] || node.fx || undefined;
   const fy       = window.spwashi.values.fy?.[i] || node.fy || undefined;
@@ -37,16 +49,10 @@ export function processNode(node, i) {
   node.image.offsetX = 0;
   node.image.offsetY = 0;
   node.md5           = node.identity && md5(node.identity);
-  node.getUrl        = () => {
-    const urlParams = getNextUrlSearchParams();
-    urlParams.set('title', node.identity);
-    return `/identity/${node.md5}?${urlParams.toString()}`;
-  };
 
   const edgeLeft   = 50;
   const edgeRight  = window.spwashi.parameters.width - 50;
   const edgeBottom = window.spwashi.parameters.height - 50;
-  const discreteY  = edgeBottom - 100;
   const quantY     = [50, 50 + edgeBottom / 4, 50 + edgeBottom / 2, 50 + 3 * edgeBottom / 4, edgeBottom];
   const quantX     = [50, 50 + edgeRight / 4, 50 + edgeRight / 2, 50 + 3 * edgeRight / 4, edgeRight];
 
@@ -80,5 +86,4 @@ export function processNode(node, i) {
       })
     }
   })
-
 }

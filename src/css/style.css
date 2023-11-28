@@ -569,4 +569,11 @@ body:not([data-debug=debug]) g.rects {
     #quickaction-shortcuts li:before {
         content: none;
     }
+    #reflexes button {
+        text-align: center;
+        width: 4rem;
+        height: 4rem;
+        font-size: .85rem;
+        padding: .5rem
+    }
 }
