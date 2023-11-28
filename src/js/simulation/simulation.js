@@ -98,7 +98,6 @@ export function reinitializeSimulation() {
         logMainEvent('mouseup:' + e.y + ' ' + e.x);
       });
   }
-  console.log(window.spwashi.nodes)
   const nodes = NODE_MANAGER.initNodes(window.spwashi.nodes);
   const links = EDGE_MANAGER.initLinks(window.spwashi.links, nodes);
   const rects = RECT_MANAGER.initRects(window.spwashi.rects)

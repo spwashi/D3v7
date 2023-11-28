@@ -31,7 +31,7 @@ function initListeners() {
     }
     switch (mode) {
       case 'spw':
-        const spwModeContainer = document.querySelector('#spw-mode-container');
+        const spwModeContainer    = document.querySelector('#spw-mode-container');
         spwModeContainer.tabIndex = 0;
         spwModeContainer.focus();
         break;
@@ -40,6 +40,12 @@ function initListeners() {
         break;
       case 'color':
         onColorModeStart()
+        break;
+      case 'story':
+        const storyModeContainer    = document.querySelector('#story-mode-container');
+        const buttonContainer = storyModeContainer.querySelector('.button-container');
+        buttonContainer.tabIndex = 0;
+        buttonContainer.focus();
         break;
       case 'node':
         const nodeInputContainer    = document.querySelector('#node-input-container');

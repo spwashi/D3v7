@@ -6,6 +6,7 @@ import {initializeSpwParseField}                                              fr
 import {initializeModeSelection, setDocumentMode}                             from "../modes";
 import {initKeystrokes}                                                       from "./keystrokes";
 import {initializeReflexMode}                                                 from "../modes/mode-reflex";
+import {initializeStoryMode}                                                  from "../modes/mode-story";
 
 export const POWER_MODE = ['common', 'dev'][0];
 
@@ -67,9 +68,9 @@ export function readParameters(searchParameters) {
   if (searchParameters.has('reset')) {
     window.localStorage.clear();
   }
-  if (searchParameters.has('nodeQueueLength')) {
+  if (searchParameters.has('nodeCount')) {
     window.spwashi.parameters.nodes       = window.spwashi.parameters.nodes || {};
-    window.spwashi.parameters.nodes.count = +searchParameters.get('nodeQueueLength');
+    window.spwashi.parameters.nodes.count = +searchParameters.get('nodeCount');
   }
   if (searchParameters.has('linkStrength')) {
     window.spwashi.parameters.links.strength = +searchParameters.get('linkStrength');
@@ -97,7 +98,8 @@ export function readParameters(searchParameters) {
   }
   if (searchParameters.has('center')) {
     let [x, y]                                 = (searchParameters.get('center').split(',').map(n => +n));
-    window.spwashi.parameters.startPos         = {x: 2, y: 2};
+    y                                          = y || x;
+    window.spwashi.parameters.startPos         = {x, y};
     window.spwashi.parameters.forces.centerPos = {x, y};
   }
   if (searchParameters.has('alpha')) {
@@ -125,7 +127,7 @@ export function readParameters(searchParameters) {
   }
   if (searchParameters.has('mode')) {
     mode = searchParameters.get('mode');
-    setDocumentMode(mode);
+    setTimeout(() => setDocumentMode(mode, false), 500)
   }
   if (searchParameters.has('fx')) {
     window.spwashi.values.fx = searchParameters.get('fx').split(',').map(n => +n);
@@ -162,8 +164,8 @@ export function readParameters(searchParameters) {
   initializeMapFilterMode();
   initializeSpwParseField();
   initializeReflexMode();
+  initializeStoryMode();
   initializeModeSelection(mode);
   initializeDataindexMode();
-
   initKeystrokes();
 }

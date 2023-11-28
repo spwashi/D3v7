@@ -28,7 +28,6 @@ export function initializeDirectMode() {
       return [];
     }
 
-    console.log(...nodes)
     return nodes || [];
   }
   window.spwashi.refreshNodeInputs();

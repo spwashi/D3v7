@@ -316,6 +316,65 @@ aside > section :has(:focus) {
     position: absolute;
     top: -5rem;
 }
+#story-mode-container summary {
+    background: #4c1d1d;
+    color: wheat;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 1rem;
+    white-space: nowrap;
+    list-style: none;
+    display: inline-block;
+}
+#story-mode-container summary ~ * {
+    padding: 1rem;
+    margin: 1rem;
+}
+#story-mode-container .button-container {
+    padding: .5rem;
+}
+#story-mode-container .button-container button {
+    padding: 1rem;
+    margin: .5rem;
+    font-family: monospace;
+    cursor: pointer;
+    border: thin solid var(--standard-outline);
+    background: var(--quickaction-background);
+    color: var(--quickaction-text-color);
+}
+#change-parameters-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+#change-parameters-form > label > input {
+    width: 7rem;
+    text-align: center;
+    font-size: 2rem;
+    background: #444444;
+    border: thin solid #555555;
+    padding: 1rem;
+    color: white;
+    font-family: monospace;
+}
+#change-parameters-form > label {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: wheat;
+}
+#change-parameters-form button {
+    padding: 1rem;
+    margin: .5rem;
+    font-family: monospace;
+    cursor: pointer;
+    border: thin solid var(--standard-outline);
+    background: var(--quickaction-background);
+    color: var(--quickaction-text-color);
+}
 #map-mode-container {
     display: none;
 }
