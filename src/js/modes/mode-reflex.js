@@ -27,7 +27,9 @@ export function initializeReflexMode() {
     async function run() {
       for await (const i of loop()) {
         window.spwashi.nodes.push({
-                                    name:       'node:' + i,
+                                    name:       '#',
+                                    r:          30,
+                                    color:      'wheat',
                                     colorindex: getDocumentDataIndex()
                                   });
         window.spwashi.reinit();

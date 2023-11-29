@@ -81,38 +81,37 @@ export function initializeStorySequence(reset = false) {
   initializeStoryMode()
 }
 
-const stories = {
-  demo: {
-    params:   {
-      width:         300,
-      height:        500,
-      superpower:    'hyperlink',
-      velocityDecay: 0.9,
-      center:        '150,250',
-    },
-    runStory: () => {
-      const delay1 = 50;
-      const delay2 = 300;
-      const events =
-              [
-                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 50, text: {fx: 75, fontSize: 30}, name: 'hello'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 100, text: {fx: 75, fontSize: 30}, name: 'how'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 150, text: {fx: 75, fontSize: 30}, name: 'are'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 200, text: {fx: 75, fontSize: 30}, name: 'you'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 250, text: {fx: 75, fontSize: 30}, name: 'doing'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 300, text: {fx: 75, fontSize: 30}, name: 'today'}]},},
-                {delay: delay2, payload: {params: {charge: 500}},},
-                {delay: delay1, payload: {params: {charge: 0}},},
-                {delay: delay1, payload: {effect: () => window.spwashi.nodes.forEach((d, i) => (fixY(d, i), fixX(d, i)))},},
-                {delay: 300, payload: {effect: () => clearActiveNodes()},},
-                {delay: 100, payload: {params: {mode: 'spw'}}},
-                {delay: 300, payload: {effect: () => setParseField('i am doing & today')}},
-              ]
-      executeEvents(events).then(console.log);
-    }
+const stories = {};
+initializeStorySequence();
+stories.demo = {
+  params:   {
+    width:         300,
+    height:        500,
+    superpower:    'hyperlink',
+    velocityDecay: 0.9,
+    center:        '150,250',
+  },
+  runStory: () => {
+    const delay1 = 50;
+    const delay2 = 300;
+    const events =
+            [
+              {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 50, text: {fx: 75, fontSize: 30}, name: 'hello'}]},},
+              {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 100, text: {fx: 75, fontSize: 30}, name: 'how'}]},},
+              {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 150, text: {fx: 75, fontSize: 30}, name: 'are'}]},},
+              {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 200, text: {fx: 75, fontSize: 30}, name: 'you'}]},},
+              {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 250, text: {fx: 75, fontSize: 30}, name: 'doing'}]},},
+              {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 300, text: {fx: 75, fontSize: 30}, name: 'today'}]},},
+              {delay: delay2, payload: {params: {charge: 500}},},
+              {delay: delay1, payload: {params: {charge: 0}},},
+              {delay: delay1, payload: {effect: () => window.spwashi.nodes.forEach((d, i) => (fixY(d, i), fixX(d, i)))},},
+              {delay: 300, payload: {effect: () => clearActiveNodes()},},
+              {delay: 100, payload: {params: {mode: 'spw'}}},
+              {delay: 300, payload: {effect: () => setParseField('i am doing & today')}},
+            ]
+    executeEvents(events).then(console.log);
   }
 };
-initializeStorySequence()
 
 export function initializeStoryMode() {
   const storyModeContainer     = document.querySelector('#story-mode-container');

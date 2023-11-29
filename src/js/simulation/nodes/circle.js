@@ -87,6 +87,7 @@ export function makeCircle(g) {
     .append('circle')
     .attr('data-colorindex', d => 'spwashi-datum-' + d.colorindex)
     .attr('r', d => (d.r || 1))
+    .attr('fill', d => d.color || undefined)
     .attr('cx', d => d.x || 0)
     .attr('cy', d => d.y || 0)
     .call(
@@ -114,7 +115,8 @@ export function makeCircle(g) {
 export function updateCircle(update) {
   update
     .select('circle')
-    .attr('data-colorindex', d => 'spwashi-datum-' + (d.colorindex % 13))
+    .attr('fill', d => d.color || undefined)
+    .attr('data-colorindex', d => !d.color ? 'spwashi-datum-' + (d.colorindex % 13) : undefined)
     .attr('cx', d => d.x || 0)
     .attr('r', d => (d.r || 1))
     .attr('cy', d => d.y || 0)
