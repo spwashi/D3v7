@@ -1,11 +1,11 @@
 export const getDocumentMode = () => {
   return window.spwashi.parameters.mode;
 }
-export const setDocumentMode = (mode, doToggle = true) => {
+export const setDocumentMode = (mode, doToggle = true, direct = false) => {
   if (doToggle && getDocumentMode() === mode) mode = null;
   window.spwashi.parameters.mode = mode;
   document.body.dataset.mode     = mode;
-  window.spwashi.onModeChange(mode);
+  window.spwashi.onModeChange(mode, direct);
 };
 
 export function initializeModeSelection(starterMode) {

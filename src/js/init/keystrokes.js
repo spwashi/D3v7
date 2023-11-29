@@ -112,7 +112,7 @@ function resetInterface() {
 }
 
 function plainKeyHandler(key, e) {
-  const shortKeyEntries = window.spwashi.modeOrder.map((reflex, i) => [i + 1, () => setDocumentMode(reflex)]);
+  const shortKeyEntries = window.spwashi.modeOrder.map((reflex, i) => [i + 1, () => setDocumentMode(reflex, true, true)]);
   const shortKeys       = Object.fromEntries(shortKeyEntries);
 
   if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;

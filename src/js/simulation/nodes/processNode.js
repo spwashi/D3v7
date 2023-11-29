@@ -18,6 +18,7 @@ export function processNode(node, i) {
   node.getUrl = () => {
     const urlParams = getNextUrlSearchParams();
     urlParams.set('title', node.identity);
+    urlParams.set('superpower', 'hyperlink');
     return `/identity/${node.md5}?${urlParams.toString()}`;
   };
 
@@ -56,8 +57,17 @@ export function processNode(node, i) {
   const quantY     = [50, 50 + edgeBottom / 4, 50 + edgeBottom / 2, 50 + 3 * edgeBottom / 4, edgeBottom];
   const quantX     = [50, 50 + edgeRight / 4, 50 + edgeRight / 2, 50 + 3 * edgeRight / 4, edgeRight];
 
+  const close_container_0 = 'conceptual.close';
+  const open_container_0  = 'conceptual.open';
+  const close_container_1 = 'essential.close';
+  const open_container_1  = 'essential.open';
+  const open_container_2  = 'structural.open';
+  const close_container_2 = 'structural.close';
+  const open_container_3  = 'locational.open';
+  const close_container_3 = 'locational.close';
+
   const rules = [
-    [node => getFirstKind(node) === 'container', {text: {fontSize: 10}, fx: 100, y: 0, colorindex: 3}],
+    [node => getFirstKind(node) === 'container', {text: {fontSize: 10}, fx: window.spwashi.parameters.width / 2, y: 0}],
 
     [node => getLastKind(node) === 'nominal', {fx: undefined, r: 10}],
 
@@ -65,18 +75,17 @@ export function processNode(node, i) {
 
     [node => getLastKind(node) === 'binding', {fx: 100, r: 5}],
 
-    [node => getLastKind(node) === 'ordinal', {fx: quantX[3], r: 5}],
-    [node => getLastKind(node) === 'ordinal' && isOperator(node), {fx: 0, fy: 0}],
+    [node => getLastKind(node) === 'ordinal', {r: 5}],
+    // [node => getLastKind(node) === 'ordinal' && isOperator(node), {fx: 0, fy: 0}],
 
-    [node => getLastKind(node) === 'conceptual.close' && isOperator(node), {fx: edgeRight, fy: quantY[0]}],
-    [node => getLastKind(node) === 'essential.close' && isOperator(node), {fx: edgeRight, fy: quantY[1]}],
-    [node => getLastKind(node) === 'structural.close' && isOperator(node), {fx: edgeRight, fy: quantY[2]}],
-    [node => getLastKind(node) === 'locational.close' && isOperator(node), {fx: edgeRight, fy: quantY[3]}],
-
-    [node => getLastKind(node) === 'conceptual.open' && isOperator(node), {fx: edgeLeft, fy: quantY[0]}],
-    [node => getLastKind(node) === 'essential.open' && isOperator(node), {fx: edgeLeft, fy: quantY[1]}],
-    [node => getLastKind(node) === 'structural.open' && isOperator(node), {fx: edgeLeft, fy: quantY[2]}],
-    [node => getLastKind(node) === 'locational.open' && isOperator(node), {fx: edgeLeft, fy: quantY[3]}],
+    [node => getLastKind(node) === close_container_0 && isOperator(node), {r: 10, fx: edgeRight, fy: quantY[0]}],
+    [node => getLastKind(node) === close_container_1 && isOperator(node), {r: 10, fx: edgeRight, fy: quantY[1]}],
+    [node => getLastKind(node) === close_container_2 && isOperator(node), {r: 10, fx: edgeRight, fy: quantY[2]}],
+    [node => getLastKind(node) === close_container_3 && isOperator(node), {r: 10, fx: edgeRight, fy: quantY[3]}],
+    [node => getLastKind(node) === open_container_0 && isOperator(node), {r: 10, fx: edgeLeft, fy: quantY[0]}],
+    [node => getLastKind(node) === open_container_1 && isOperator(node), {r: 10, fx: edgeLeft, fy: quantY[1]}],
+    [node => getLastKind(node) === open_container_2 && isOperator(node), {r: 10, fx: edgeLeft, fy: quantY[2]}],
+    [node => getLastKind(node) === open_container_3 && isOperator(node), {r: 10, fx: edgeLeft, fy: quantY[3]}],
   ]
 
   rules.forEach(([condition, rule]) => {

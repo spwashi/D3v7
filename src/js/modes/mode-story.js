@@ -50,47 +50,33 @@ function getPhrases() {
 }
 
 function getNames() {
-  return ['context', 'topic', 'story', 'status'];
+  return ['context', 'topic', 'structure', 'status'];
 }
 
 const phrases = getPhrases();
 const names   = getNames();
 
-const conceptStory = {
-  events: [
-    {delay: 300, payload: {params: {mode: 'spw'}}},
-    {
-      delay: 300, payload: {
-        effect: () => {
-          let phrase = phrases.shift();
-          if (!phrase) {
-            phrases.push(...getPhrases());
-            names.push(...getNames());
-            phrase = phrases.shift();
-          }
-          setParseField(phrase);
-        }
-      }
-    },
-    {delay: 300, payload: {effect: initializeStorySequence}},
-  ]
-};
-
-function reinitializeStoryOne() {
+export function initializeStorySequence(reset = false) {
   deleteAllStories();
   const index = names.shift();
-  if (!index) return
-  stories[index] = conceptStory;
-  initializeStoryMode()
-}
 
-function initializeStorySequence() {
-  deleteAllStories();
-  stories[names.shift()] = {
+  if (!index || reset) {
+    phrases.length = 0;
+    names.length   = 0;
+    phrases.push(...getPhrases());
+    names.push(...getNames());
+    initializeStorySequence();
+    return
+  }
+
+  stories[index] = {
+    params: {
+      superpower: 'hyperlink',
+    },
     events: [
       {delay: 300, payload: {params: {mode: 'spw'},}},
-      {delay: 300, payload: {effect: () => setParseField(phrases.shift() || 'this is a ( & )'),}},
-      {delay: 300, payload: {effect: reinitializeStoryOne}}]
+      {delay: 300, payload: {effect: () => setParseField(phrases.shift()),}},
+      {delay: 300, payload: {effect: initializeStorySequence}}]
   };
   initializeStoryMode()
 }

@@ -25,7 +25,7 @@ function resetArrows() {
 }
 
 function initListeners() {
-  window.spwashi.onModeChange = (mode) => {
+  window.spwashi.onModeChange = (mode, direct = false) => {
     document.querySelector('[data-mode-action] [aria-selected="true"]')?.setAttribute('aria-selected', 'false');
     const button = document.querySelector(`#mode-selector--${mode}`);
     if (button) {
@@ -42,8 +42,7 @@ function initListeners() {
       case 'spw':
         const spwModeContainer    = document.querySelector('#spw-mode-container');
         spwModeContainer.tabIndex = 0;
-        spwModeContainer.focus();
-        spwModeContainer.onfocus = () => spwModeContainer.tabIndex = 0;
+        direct && spwModeContainer.focus();
         break;
       case 'reflex':
         onReflexModeStart();
@@ -61,7 +60,7 @@ function initListeners() {
         const nodeInputContainer    = document.querySelector('#node-input-container input ');
         nodeInputContainer.tabIndex = 0;
         nodeInputContainer.focus();
-        nodeInputContainer.onfocus  = () => nodeInputContainer.tabIndex = 0;
+        nodeInputContainer.onfocus = () => nodeInputContainer.tabIndex = 0;
         break;
     }
   }
