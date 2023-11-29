@@ -314,7 +314,7 @@ aside > section :has(:focus) {
 #story-mode-container {
     display: none;
     position: absolute;
-    top: -5rem;
+    bottom: 0;
 }
 #story-mode-container summary {
     background: #4c1d1d;
