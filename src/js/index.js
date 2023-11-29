@@ -16,6 +16,14 @@ function initCallbacks() {
   window.spwashi.callbacks.arrowDown  = () => {};
 }
 
+function resetArrows() {
+  const noop                          = () => {};
+  window.spwashi.callbacks.arrowUp    = noop;
+  window.spwashi.callbacks.arrowDown  = noop;
+  window.spwashi.callbacks.arrowLeft  = noop;
+  window.spwashi.callbacks.arrowRight = noop;
+}
+
 function initListeners() {
   window.spwashi.onModeChange = (mode) => {
     document.querySelector('[data-mode-action] [aria-selected="true"]')?.setAttribute('aria-selected', 'false');
@@ -29,6 +37,7 @@ function initListeners() {
       document.documentElement.style.setProperty('--focal-x', (x + w) + 'px');
       document.documentElement.style.setProperty('--focal-y', (y + h) + 'px');
     }
+    resetArrows();
     switch (mode) {
       case 'spw':
         const spwModeContainer    = document.querySelector('#spw-mode-container');
@@ -44,8 +53,8 @@ function initListeners() {
       case 'story':
         const storyModeContainer = document.querySelector('#story-mode-container');
         const buttonContainer    = storyModeContainer.querySelector('.button-container button');
-        buttonContainer.tabIndex = 1;
-        buttonContainer.onfocus  = () => buttonContainer.tabIndex = 0;
+        buttonContainer.focus();
+        buttonContainer.onfocus = () => buttonContainer.tabIndex = 0;
         break;
       case 'node':
         const nodeInputContainer    = document.querySelector('#node-input-container input ');

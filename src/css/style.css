@@ -326,12 +326,10 @@ aside > section :has(:focus) {
     list-style: none;
     display: inline-block;
 }
-#story-mode-container summary ~ * {
-    padding: 1rem;
-    margin: 1rem;
-}
 #story-mode-container .button-container {
     padding: .5rem;
+    display: flex;
+    flex-direction: row;
 }
 #story-mode-container .button-container button {
     padding: 1rem;

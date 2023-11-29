@@ -15,7 +15,7 @@ async function* loopOverTimeEntries(events) {
   }
 }
 
-async function runStory(events) {
+async function executeEvents(events) {
   for await (const payload of loopOverTimeEntries(events)) {
     if (payload.effect) {
       payload.effect();
@@ -31,15 +31,56 @@ async function runStory(events) {
   }
 }
 
-function setParseField() {
+function setParseField(value) {
   const parseField = document.querySelector('#spw-parse-field');
-  parseField.value = "i am doing & today";
+  parseField.value = value;
   parseField.focus();
   const index = parseField.value.indexOf('&');
   parseField.setSelectionRange(index, index + 1);
 }
 
+function deleteAllStories() {
+  for (let key in stories) {
+    if (stories.hasOwnProperty(key)) delete stories[key];
+  }
+}
+
+const phrases = [
+  '< & >',
+  '( & )',
+  '[ & ]',
+  '{ & }',
+];
+const names   = ['two', 'three', 'four', 'five'];
+const one     = {
+  events: [
+    {delay: 300, payload: {params: {mode: 'spw'}}},
+    {delay: 300, payload: {effect: () => setParseField(phrases.shift() || 'this is a ( & )')}},
+    {delay: 300, payload: {effect: initializeStoryTwo}},
+  ]
+};
+
+function reinitializeStoryOne() {
+  deleteAllStories();
+  const index = names.shift();
+  if (!index) return
+  stories[index] = one;
+  initializeStoryMode()
+}
+
+function initializeStoryTwo() {
+  deleteAllStories();
+  stories[names.shift()] = {
+    events: [
+      {delay: 300, payload: {params: {mode: 'spw'},}},
+      {delay: 300, payload: {effect: () => setParseField(phrases.shift() || 'this is a ( & )'),}},
+      {delay: 300, payload: {effect: reinitializeStoryOne}}]
+  };
+  initializeStoryMode()
+}
+
 const stories = {
+  one:  one,
   demo: {
     params:   {
       width:         300,
@@ -64,9 +105,9 @@ const stories = {
                 {delay: delay1, payload: {effect: () => window.spwashi.nodes.forEach((d, i) => (fixY(d, i), fixX(d, i)))},},
                 {delay: 300, payload: {effect: () => clearActiveNodes()},},
                 {delay: 100, payload: {params: {mode: 'spw'}}},
-                {delay: 300, payload: {effect: setParseField}},
+                {delay: 300, payload: {effect: () => setParseField('i am doing & today')}},
               ]
-      runStory(events).then(console.log);
+      executeEvents(events).then(console.log);
     }
   }
 };
@@ -82,7 +123,8 @@ export function initializeStoryMode() {
     button.innerText = title;
     button.onclick   = () => {
       readParameters(new URLSearchParams(story.params));
-      story.runStory();
+      story.runStory && story.runStory();
+      story.events && executeEvents(story.events);
     };
     buttonContainer.appendChild(button);
   })
