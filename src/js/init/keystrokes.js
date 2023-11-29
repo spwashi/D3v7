@@ -12,7 +12,7 @@ function toggleHotkeyMenu() {
   document.querySelector('#keystroke-options button').focus()
 }
 
-function toggleInterfaceDepth() {
+function toggleMainMenu() {
   const options                        = ['all', 'title'];
   document.body.dataset.interfaceDepth = document.body.dataset.interfaceDepth === options[0] ? options[1] : options[0];
 }
@@ -23,8 +23,9 @@ function bonkVelocityDecay() {
 }
 
 export function initKeystrokes() {
-  window.spwashi.keystrokeOptions = [
-    {shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: toggleInterfaceDepth},
+  document.querySelector('#mainmenu-toggle').onclick = () => toggleMainMenu();
+  window.spwashi.keystrokeOptions                    = [
+    {shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: toggleMainMenu},
     {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
     {shortcut: '<space>'},
     {shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},

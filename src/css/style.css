@@ -458,6 +458,20 @@ aside > section :has(:focus) {
     margin: 0;
     padding: 1rem;
 }
+#mainmenu-toggle:focus {
+    border: thick solid wheat;
+}
+#mainmenu-toggle {
+    position: absolute;
+    bottom: 5rem;
+    left: 0;
+    background: #222222;
+    color: wheat;
+    border: thin solid var(--standard-outline);
+    padding: 0rem;
+    width: 2rem;
+    height: 2rem;
+}
 #show-keystroke-options {
     display: inline-flex;
     flex-direction: column;
@@ -474,7 +488,7 @@ aside > section :has(:focus) {
     border: none;
     background: none;
     color: var(--mainmenu-text-color);
-    outline: thin solid var(--standard-outline) ;
+    outline: thin solid var(--standard-outline);
     cursor: pointer;
 }
 #show-keystroke-options span, #show-keystroke-options label {
