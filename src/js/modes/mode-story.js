@@ -45,18 +45,34 @@ function deleteAllStories() {
   }
 }
 
-const phrases = [
-  '< & >',
-  '( & )',
-  '[ & ]',
-  '{ & }',
-];
-const names   = ['two', 'three', 'four', 'five'];
-const one     = {
+function getPhrases() {
+  return ['< & >', '( & )', '{ & }', '[ & ]',];
+}
+
+function getNames() {
+  return ['context', 'topic', 'story', 'status'];
+}
+
+const phrases = getPhrases();
+const names   = getNames();
+
+const conceptStory = {
   events: [
     {delay: 300, payload: {params: {mode: 'spw'}}},
-    {delay: 300, payload: {effect: () => setParseField(phrases.shift() || 'this is a ( & )')}},
-    {delay: 300, payload: {effect: initializeStoryTwo}},
+    {
+      delay: 300, payload: {
+        effect: () => {
+          let phrase = phrases.shift();
+          if (!phrase) {
+            phrases.push(...getPhrases());
+            names.push(...getNames());
+            phrase = phrases.shift();
+          }
+          setParseField(phrase);
+        }
+      }
+    },
+    {delay: 300, payload: {effect: initializeStorySequence}},
   ]
 };
 
@@ -64,11 +80,11 @@ function reinitializeStoryOne() {
   deleteAllStories();
   const index = names.shift();
   if (!index) return
-  stories[index] = one;
+  stories[index] = conceptStory;
   initializeStoryMode()
 }
 
-function initializeStoryTwo() {
+function initializeStorySequence() {
   deleteAllStories();
   stories[names.shift()] = {
     events: [
@@ -80,7 +96,6 @@ function initializeStoryTwo() {
 }
 
 const stories = {
-  one:  one,
   demo: {
     params:   {
       width:         300,
@@ -111,6 +126,7 @@ const stories = {
     }
   }
 };
+initializeStorySequence()
 
 export function initializeStoryMode() {
   const storyModeContainer     = document.querySelector('#story-mode-container');

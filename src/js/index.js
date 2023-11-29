@@ -41,8 +41,9 @@ function initListeners() {
     switch (mode) {
       case 'spw':
         const spwModeContainer    = document.querySelector('#spw-mode-container');
-        spwModeContainer.tabIndex = 1;
-        spwModeContainer.onfocus  = () => spwModeContainer.tabIndex = 0;
+        spwModeContainer.tabIndex = 0;
+        spwModeContainer.focus();
+        spwModeContainer.onfocus = () => spwModeContainer.tabIndex = 0;
         break;
       case 'reflex':
         onReflexModeStart();
@@ -58,7 +59,8 @@ function initListeners() {
         break;
       case 'node':
         const nodeInputContainer    = document.querySelector('#node-input-container input ');
-        nodeInputContainer.tabIndex = 1;
+        nodeInputContainer.tabIndex = 0;
+        nodeInputContainer.focus();
         nodeInputContainer.onfocus  = () => nodeInputContainer.tabIndex = 0;
         break;
     }

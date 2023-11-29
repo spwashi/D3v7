@@ -315,16 +315,7 @@ aside > section :has(:focus) {
     display: none;
     position: absolute;
     bottom: 0;
-}
-#story-mode-container summary {
-    background: #4c1d1d;
-    color: wheat;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 1rem;
-    white-space: nowrap;
-    list-style: none;
-    display: inline-block;
+    height: 5rem;
 }
 #story-mode-container .button-container {
     padding: .5rem;
@@ -573,7 +564,8 @@ label[for=mode-selector],
     font-family: monospace;
 }
 #quickaction-shortcuts ol > li > button:focus {
-    outline: 1rem solid var(--quickaction-text-color);
+    border: .5rem solid var(--quickaction-text-color);
+    z-index: 2;
 }
 #quickaction-shortcuts {
     position: absolute;
