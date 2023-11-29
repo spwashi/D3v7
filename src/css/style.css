@@ -469,8 +469,8 @@ aside > section :has(:focus) {
     color: wheat;
     border: thin solid var(--standard-outline);
     padding: 0rem;
-    width: 2rem;
-    height: 2rem;
+    width: 4rem;
+    height: 4rem;
 }
 #show-keystroke-options {
     display: inline-flex;
