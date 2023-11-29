@@ -7,27 +7,42 @@ import {getDocumentDataIndex}   from "../modes/mode-dataindex";
 function toggleHotkeyMenu() {
   const checkbox   = document.querySelector('#hotkey-menu-toggle');
   checkbox.checked = !checkbox.checked;
-  document.querySelector('#keystroke-options li').focus()
+  const isShown    = checkbox.checked;
+  if (!isShown) return;
+  document.querySelector('#keystroke-options button').focus()
+}
+
+function toggleInterfaceDepth() {
+  const options                        = ['all', 'title'];
+  document.body.dataset.interfaceDepth = document.body.dataset.interfaceDepth === options[0] ? options[1] : options[0];
+}
+
+function bonkVelocityDecay() {
+  window.spwashi.parameters.forces.velocityDecay = window.spwashi.parameters.forces.velocityDecay === 0.1 ? 0.9 : 0.1;
+  reinitializeSimulation();
 }
 
 export function initKeystrokes() {
   window.spwashi.keystrokeOptions = [
-    {shortcut: 'ArrowRight', categories: ['nodes'], shortcutName: '→', title: '++charge', callback: increaseCharge},
-    {shortcut: 'ArrowLeft', categories: ['nodes'], shortcutName: '←', title: '--charge', callback: decreaseCharge,},
+    {shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: toggleInterfaceDepth},
+    {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
+    {shortcut: '<space>'},
+    {shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},
+    {shortcut: 'ArrowLeft', categories: ['forces', 'charge'], shortcutName: '←', title: 'decrease charge', callback: decreaseCharge,},
+    {shortcut: 'ArrowRight', categories: ['forces', 'charge'], shortcutName: '→', title: 'increase charge', callback: increaseCharge},
     {shortcut: '<space>'},
     {shortcut: '.', categories: ['nodes'], title: 'fix position', callback: fixPositions},
     {shortcut: ',', categories: ['nodes'], title: 'unfix position', callback: clearFixedPositions},
     {shortcut: '<space>'},
-    {shortcut: '-', categories: ['nodes'], title: 'clear cache', callback: clearCachedNodes},
-    {shortcut: 'c', categories: ['nodes'], title: 'copy', callback: copyNodesToClipboard},
-    {shortcut: 'k', categories: ['nodes'], title: 'clear', callback: clearActiveNodes},
+    {shortcut: 'k', categories: ['data'], title: 'clear nodes', callback: clearActiveNodes},
+    {shortcut: '-', categories: ['data', 'cache'], title: 'clear node cache', callback: clearCachedNodes},
+    {shortcut: 'c', categories: ['data'], title: 'copy node ids', callback: copyNodesToClipboard},
     {shortcut: 's', categories: ['nodes'], title: 'save', callback: saveActiveNodes},
     {shortcut: '<space>'},
     {shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},
-    {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
     {shortcut: '<space>'},
     {shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: toggleHotkeyMenu},
-    {shortcut: '\\', categories: ['this'], title: 'reset interface', callback: resetInterface},
+    {shortcut: '\\', categories: ['data', 'cache'], title: 'reset interface', callback: resetInterface},
   ]
   initKeystrokeOptions();
 }
@@ -183,14 +198,14 @@ function initKeystrokeOptions() {
     };
     const li      = optionList.appendChild(document.createElement('LI'));
     if (!title) return;
-    li.tabIndex  = 0;
-    li.innerHTML = `<span class="${categories.join(' ')}">${categories.map(c => '[' + c + ']').join('')} ${title}</span><kbd>ctrl + <strong>${shortcutName || shortcut}</strong></kbd>`;
-    li.onclick   = handler;
-    li.addEventListener('keydown', e => {
-      if (e.key === ' ') {
-        handler();
-      }
-    });
+    const ctg        = li.appendChild(document.createElement('SPAN'));
+    ctg.className    = 'ctg';
+    ctg.innerHTML    = categories.map(c => `<span>[${c}]</span>`).join('');
+    const button     = li.appendChild(document.createElement('BUTTON'));
+    button.onclick   = handler;
+    button.innerHTML = title;
+    const kbd        = li.appendChild(document.createElement('KBD'));
+    kbd.innerHTML    = `ctrl + <strong>${shortcutName || shortcut}</strong>`;
   });
 }
 

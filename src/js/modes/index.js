@@ -10,9 +10,9 @@ export const setDocumentMode = (mode, doToggle = true, direct = false) => {
 
 export function initializeModeSelection(starterMode) {
   const liString                 = window.spwashi.modeOrder.map((mode) => { return `<li data-mode-action="${mode}"><button id="mode-selector--${mode}">${mode}</button></li>`; }).join('');
-  const quickactionShortcutsList = document.querySelector('#quickaction-shortcuts ol');
+  const mainmenuShortcutsList = document.querySelector('#mainmenu-shortcuts ol');
 
-  quickactionShortcutsList.innerHTML = liString;
+  mainmenuShortcutsList.innerHTML = liString;
   window.spwashi.modeOrder.forEach((mode) => {
     const button   = document.querySelector(`#mode-selector--${mode}`);
     button.onclick = () => {

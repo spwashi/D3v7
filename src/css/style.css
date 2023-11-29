@@ -2,8 +2,8 @@
     --html-background: #4c1d1d;
     --body-background: #707070;
     --form-background: #222222;
-    --quickaction-background: #222222;
-    --quickaction-text-color: wheat;
+    --mainmenu-background: #222222;
+    --mainmenu-text-color: wheat;
 
     --standard-outline: wheat;
 
@@ -67,12 +67,13 @@ body > aside {
     position: absolute;
     bottom: 0;
     left: 0;
-    background: var(--quickaction-background);
+    margin: 1rem;
+    background: var(--mainmenu-background);
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: var(--quickaction-text-color);
+    color: var(--mainmenu-text-color);
     border: thin solid var(--standard-outline);
 }
 body > aside > * {
@@ -121,7 +122,7 @@ aside > section :has(:focus) {
     flex-direction: column;
     z-index: 1;
     background: var(--node-input-container-background);
-    color: var(--quickaction-text-color);
+    color: var(--mainmenu-text-color);
     padding: 1rem;
 }
 #node-input-container:focus {
@@ -131,7 +132,7 @@ aside > section :has(:focus) {
     margin: .5rem 0;
 }
 #node-input-container label {
-    color: var(--quickaction-text-color);
+    color: var(--mainmenu-text-color);
     margin-bottom: 1rem;
 }
 #node-input-container label span {
@@ -145,7 +146,7 @@ aside > section :has(:focus) {
     align-items: center;
 }
 #controls label {
-    color: var(--quickaction-text-color);
+    color: var(--mainmenu-text-color);
     font-weight: bold;
 }
 #controls .button-container {
@@ -157,7 +158,7 @@ aside > section :has(:focus) {
     font-family: monospace;
 }
 
-#quickaction-container {
+#mainmenu-container {
     display: flex;
 }
 #events-log {
@@ -201,11 +202,11 @@ aside > section :has(:focus) {
     font-family: monospace;
     cursor: pointer;
     border: thin solid var(--standard-outline);
-    background: var(--quickaction-background);
-    color: var(--quickaction-text-color);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
 }
 #spw-mode-container button:is(:focus) {
-    outline: thick solid var(--quickaction-text-color);
+    outline: thick solid var(--mainmenu-text-color);
 }
 #spw-parse-field {
     display: flex;
@@ -216,7 +217,7 @@ aside > section :has(:focus) {
     font-size: 2rem;
     overflow: visible;
     width: 35rem;
-    color: var(--quickaction-text-color);
+    color: var(--mainmenu-text-color);
     background: #222222;
     padding: 2rem;
 }
@@ -241,7 +242,7 @@ aside > section :has(:focus) {
     height: 5rem;
 }
 #colors :is(:focus) {
-    outline: thick solid var(--quickaction-text-color);
+    outline: thick solid var(--mainmenu-text-color);
 }
 #colors :is(:focus):before {
     content: 'X';
@@ -278,11 +279,11 @@ aside > section :has(:focus) {
     content: attr(data-reflex);
 }
 #reflexes button:is(:focus) {
-    outline: thick solid var(--quickaction-text-color);
+    outline: thick solid var(--mainmenu-text-color);
 }
 #reflexes button:not(:focus) {
-    background: var(--quickaction-background);
-    color: var(--quickaction-text-color);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
 }
 #querymod-mode-container {
     display: none;
@@ -328,8 +329,8 @@ aside > section :has(:focus) {
     font-family: monospace;
     cursor: pointer;
     border: thin solid var(--standard-outline);
-    background: var(--quickaction-background);
-    color: var(--quickaction-text-color);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
 }
 #change-parameters-form {
     display: flex;
@@ -361,8 +362,8 @@ aside > section :has(:focus) {
     font-family: monospace;
     cursor: pointer;
     border: thin solid var(--standard-outline);
-    background: var(--quickaction-background);
-    color: var(--quickaction-text-color);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
 }
 #map-mode-container {
     display: none;
@@ -449,23 +450,40 @@ aside > section :has(:focus) {
 :is(#show-keystroke-options) > [type=checkbox] {
     display: none
 }
-#show-keystroke-options:focus {
-    outline: 1rem solid wheat;
+#show-keystroke-options:focus, #show-keystroke-options:hover {
+    outline: .5rem solid wheat;
     font-weight: bold;
+}
+#hotkey-container {
+    margin: 0;
+    padding: 0;
 }
 #show-keystroke-options {
     display: inline-flex;
     flex-direction: column;
     z-index: 1;
-    color: var(--quickaction-text-color);
+    color: var(--mainmenu-text-color);
     cursor: pointer;
     background: var(--show-keystroke-options-background);
     border: thin solid var(--keystroke-options-border);
+    padding: 0;
+}
+#keystroke-options button {
+    padding: .5rem;
+    margin: 0;
+    border: none;
+    background: none;
+    color: var(--mainmenu-text-color);
+    outline: thin solid var(--standard-outline) ;
+    cursor: pointer;
+}
+#show-keystroke-options span, #show-keystroke-options label {
+    padding: 0;
 }
 #show-keystroke-options input {
     display: inline-flex;
 }
-#hotkey-container, #quickaction-container {
+#hotkey-container, #mainmenu-container {
     display: flex;
     align-items: end;
 }
@@ -483,6 +501,12 @@ aside > section :has(:focus) {
 #keystroke-options li span {
     flex: 1 0;
 }
+#keystroke-options li .ctg {
+    font-size: .7rem;
+    display: flex;
+    flex-direction: column;
+    margin-right: 3rem;
+}
 #keystroke-options li :is(span, kbd) {
 }
 #keystroke-options li {
@@ -492,6 +516,11 @@ aside > section :has(:focus) {
     flex-direction: row;
     cursor: pointer;
     padding: .5rem;
+}
+#keystroke-options button:focus {
+    background: wheat;
+    color: #222222;
+    font-weight: bold;
 }
 #keystroke-options li:focus, #keystroke-options li:hover {
     background: var(--keystroke-options-hover-background);
@@ -529,19 +558,25 @@ label[for=mode-selector],
 #mode-selector {
     display: none !important;
 }
-#quickaction-shortcuts ol {
+[data-interface-depth="main-menu"] {
+    display: none;
+}
+body[data-interface-depth="all"] [data-interface-depth="main-menu"] {
+    display: flex;
+}
+#mainmenu-shortcuts ol {
     padding: 0;
     display: flex;
     flex-direction: column-reverse;
     counter-reset: item;
 }
-#quickaction-shortcuts li {
+#mainmenu-shortcuts li {
     counter-increment: item;
 }
-#quickaction-shortcuts li:has([aria-selected="true"]):before {
+#mainmenu-shortcuts li:has([aria-selected="true"]):before {
     color: #222222;
 }
-#quickaction-shortcuts li:before {
+#mainmenu-shortcuts li:before {
     color: wheat;
     margin: 0 1rem;
     content: counter(item);
@@ -551,23 +586,23 @@ label[for=mode-selector],
     text-align: center;
     display: inline-block;
 }
-#quickaction-shortcuts ol > li > button {
+#mainmenu-shortcuts ol > li > button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 5rem;
     height: 5rem;
     border: thin solid var(--standard-outline);
-    background: var(--quickaction-background);
-    color: var(--quickaction-text-color);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
     cursor: pointer;
     font-family: monospace;
 }
-#quickaction-shortcuts ol > li > button:focus {
-    border: .5rem solid var(--quickaction-text-color);
+#mainmenu-shortcuts ol > li > button:focus {
+    border: .5rem solid var(--mainmenu-text-color);
     z-index: 2;
 }
-#quickaction-shortcuts {
+#mainmenu-shortcuts {
     position: absolute;
     top: 0;
     left: 0;
@@ -581,7 +616,7 @@ body:not([data-debug=debug]) g.rects {
     display: flex;
     flex-direction: column;
     background: var(--form-background);
-    color: var(--quickaction-text-color);
+    color: var(--mainmenu-text-color);
 }
 .card-header {
     text-align: center;
@@ -606,16 +641,12 @@ body:not([data-debug=debug]) g.rects {
     kbd {
         display: none;
     }
-    #quickaction-shortcuts button {
-        /*font-size: .75rem;*/
+    #mainmenu-shortcuts button {
         padding: .2rem;
         width: 3rem;
         height: 3rem;
     }
-    #show-keystroke-options, #show-keystroke-options span {
-        padding: .2rem;
-    }
-    #quickaction-shortcuts li:before {
+    #mainmenu-shortcuts li:before {
         content: none;
     }
     #reflexes button {
