@@ -21,9 +21,9 @@ export function processNode(node, i) {
     return `/identity/${node.md5}?${urlParams.toString()}`;
   };
 
-  if (node.processed) return;
+  if (node.processed) return node;
   node.processed = Date.now();
-  if (!node.identity) return;
+  if (!node.identity) return node;
   const head = node.head;
   const body = node.body;
   const tail = node.tail;
@@ -86,4 +86,5 @@ export function processNode(node, i) {
       })
     }
   })
+  return node;
 }

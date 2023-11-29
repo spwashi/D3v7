@@ -50,6 +50,7 @@ function normalize(node, readNode, i) {
   const template = {
     image:      {},
     charge:     0,
+    parts:      {},
     text:       {fontSize: 20},
     r:          1 * window.spwashi.parameters.nodes.radiusMultiplier,
     z:          0,
