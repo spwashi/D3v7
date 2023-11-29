@@ -635,4 +635,9 @@ body:not([data-debug=debug]) g.rects {
         font-size: .85rem;
         padding: .5rem
     }
+    #spw-parse-field {
+        font-size: 1.5rem;
+        width: 20rem;
+        height: 10rem;
+    }
 }
