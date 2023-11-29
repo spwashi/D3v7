@@ -53,7 +53,7 @@ form {
 }
 h1 {
     position: fixed;
-    bottom: 0;
+    top: 0;
     right: 0;
     background: #222222;
     color: wheat;
@@ -456,7 +456,7 @@ aside > section :has(:focus) {
 }
 #hotkey-container {
     margin: 0;
-    padding: 0;
+    padding: 1rem;
 }
 #show-keystroke-options {
     display: inline-flex;
