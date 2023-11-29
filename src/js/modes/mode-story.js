@@ -1,9 +1,10 @@
-import {readParameters} from "../init/parameters";
-import {processNode}    from "../simulation/nodes/processNode";
-import {NODE_MANAGER}   from "../simulation/nodes/nodes";
+import {readParameters}   from "../init/parameters";
+import {processNode}      from "../simulation/nodes/processNode";
+import {NODE_MANAGER}     from "../simulation/nodes/nodes";
+import {clearActiveNodes} from "../init/keystrokes";
 
 const clearFxFy = d => d.fx = d.fy = undefined;
-const fixX      = (d, i) => d.fy = 75 * i;
+const fixX      = (d, i) => d.fy = 75 * (i + 1);
 const fixY      = (d, i) => d.fx = 75;
 
 
@@ -30,55 +31,41 @@ async function runStory(events) {
   }
 }
 
+function setParseField() {
+  const parseField = document.querySelector('#spw-parse-field');
+  parseField.value = "i am doing & today";
+  parseField.focus();
+  const index = parseField.value.indexOf('&');
+  parseField.setSelectionRange(index, index + 1);
+}
+
 const stories = {
   basic: {
     params:   {
       title:         'demo',
       width:         300,
       height:        500,
-      mode:          'spw',
       superpower:    'hyperlink',
       velocityDecay: 0.9,
-      center:        250
+      center:        '150,250',
     },
     runStory: () => {
-      const delay1     = 100;
-      const delay2     = 300;
+      const delay1 = 50;
+      const delay2 = 300;
       const events =
               [
-                {delay: delay1, payload: {nodes: [{r: 10, fx: 30, text: {fx: 75, fontSize: 30}, fy: 50, name: 'hello'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, fx: 30, text: {fx: 75, fontSize: 30}, fy: 100, name: 'how'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, fx: 30, text: {fx: 75, fontSize: 30}, fy: 150, name: 'are'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, fx: 30, text: {fx: 75, fontSize: 30}, fy: 200, name: 'you'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, fx: 30, text: {fx: 75, fontSize: 30}, fy: 250, name: 'doing'}]},},
-                {delay: delay1, payload: {nodes: [{r: 10, fx: 30, text: {fx: 75, fontSize: 30}, fy: 300, name: 'today'}]},},
-
-                {delay: delay1, payload: {params: {width: 500, height: 500}},},
-
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(clearFxFy)},},
+                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 50, text: {fx: 75, fontSize: 30}, name: 'hello'}]},},
+                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 100, text: {fx: 75, fontSize: 30}, name: 'how'}]},},
+                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 150, text: {fx: 75, fontSize: 30}, name: 'are'}]},},
+                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 200, text: {fx: 75, fontSize: 30}, name: 'you'}]},},
+                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 250, text: {fx: 75, fontSize: 30}, name: 'doing'}]},},
+                {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 300, text: {fx: 75, fontSize: 30}, name: 'today'}]},},
                 {delay: delay2, payload: {params: {charge: 500}},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(d => d.r = 3)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixX)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixY)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(clearFxFy)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixY)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixX)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(clearFxFy)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixX)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixY)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(clearFxFy)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixY)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixX)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(clearFxFy)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixX)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixY)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(clearFxFy)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixY)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixX)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(clearFxFy)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixY)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(fixX)},},
-                {delay: delay2, payload: {effect: () => window.spwashi.nodes.forEach(clearFxFy)},},
+                {delay: delay1, payload: {params: {charge: 0}},},
+                {delay: delay1, payload: {effect: () => window.spwashi.nodes.forEach((d, i) => (fixY(d, i), fixX(d, i)))},},
+                {delay: 300, payload: {effect: () => clearActiveNodes()},},
+                {delay: 100, payload: {params: {mode: 'spw'}}},
+                {delay: 300, payload: {effect: setParseField}},
               ]
       runStory(events).then(console.log);
     }

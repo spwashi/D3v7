@@ -32,8 +32,8 @@ function initListeners() {
     switch (mode) {
       case 'spw':
         const spwModeContainer    = document.querySelector('#spw-mode-container');
-        spwModeContainer.tabIndex = 0;
-        spwModeContainer.focus();
+        spwModeContainer.tabIndex = 1;
+        spwModeContainer.onfocus  = () => spwModeContainer.tabIndex = 0;
         break;
       case 'reflex':
         onReflexModeStart();
@@ -42,15 +42,15 @@ function initListeners() {
         onColorModeStart()
         break;
       case 'story':
-        const storyModeContainer    = document.querySelector('#story-mode-container');
-        const buttonContainer = storyModeContainer.querySelector('.button-container');
-        buttonContainer.tabIndex = 0;
-        buttonContainer.focus();
+        const storyModeContainer = document.querySelector('#story-mode-container');
+        const buttonContainer    = storyModeContainer.querySelector('.button-container button');
+        buttonContainer.tabIndex = 1;
+        buttonContainer.onfocus  = () => buttonContainer.tabIndex = 0;
         break;
       case 'node':
-        const nodeInputContainer    = document.querySelector('#node-input-container');
-        nodeInputContainer.tabIndex = 0;
-        nodeInputContainer.focus();
+        const nodeInputContainer    = document.querySelector('#node-input-container input ');
+        nodeInputContainer.tabIndex = 1;
+        nodeInputContainer.onfocus  = () => nodeInputContainer.tabIndex = 0;
         break;
     }
   }

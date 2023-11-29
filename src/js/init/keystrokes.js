@@ -2,6 +2,7 @@ import {generateNodes}          from "../simulation/nodes/generateNodes";
 import {reinitializeSimulation} from "../simulation/simulation";
 import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {setDocumentMode}        from "../modes";
+import {getDocumentDataIndex}   from "../modes/mode-dataindex";
 
 function toggleHotkeyMenu() {
   const checkbox   = document.querySelector('#hotkey-menu-toggle');
@@ -64,9 +65,10 @@ function saveActiveNodes() {
   window.spwashi.refreshNodeInputs();
 }
 
-function clearActiveNodes() {
+export function clearActiveNodes() {
   window.spwashi.nodes.length = 0;
   window.spwashi.links.length = 0;
+  window.spwashi.perspectiveMap.delete(getDocumentDataIndex())
   reinitializeSimulation();
 }
 

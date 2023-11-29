@@ -101,6 +101,14 @@ export function readParameters(searchParameters) {
     y                                          = y || x;
     window.spwashi.parameters.startPos         = {x, y};
     window.spwashi.parameters.forces.centerPos = {x, y};
+  } else {
+    let [x, y]                                 = [
+      window.spwashi.parameters.width,
+      window.spwashi.parameters.height,
+    ].map(n => n / 2);
+    window.spwashi.parameters.startPos         = {x, y};
+    window.spwashi.parameters.forces.centerPos = {x, y};
+
   }
   if (searchParameters.has('alpha')) {
     window.spwashi.parameters.forces.alpha = +searchParameters.get('alpha');
