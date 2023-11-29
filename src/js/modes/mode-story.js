@@ -40,9 +40,8 @@ function setParseField() {
 }
 
 const stories = {
-  basic: {
+  demo: {
     params:   {
-      title:         'demo',
       width:         300,
       height:        500,
       superpower:    'hyperlink',
@@ -78,9 +77,9 @@ export function initializeStoryMode() {
   const buttonContainer        = document.createElement('div');
   buttonContainer.classList.add('button-container');
   storyModeContainer.appendChild(buttonContainer)
-  Object.entries(stories).forEach(([key, story]) => {
+  Object.entries(stories).forEach(([title, story]) => {
     const button     = document.createElement('button');
-    button.innerText = story.params.title;
+    button.innerText = title;
     button.onclick   = () => {
       readParameters(new URLSearchParams(story.params));
       story.runStory();
