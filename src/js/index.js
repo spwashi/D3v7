@@ -104,15 +104,25 @@ function initListeners() {
 function initH1() {
   const h1          = document.querySelector('h1');
   const currentText = h1.innerText;
-
+  const changeTitleButton = document.querySelector('#change-title');
   h1.tabIndex  = 0;
   h1.onkeydown = (e) => {
+    if (e.ctrlKey || e.metaKey || e.shiftKey) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'c') {
+          navigator.clipboard.writeText(currentText);
+        }
+      }
+      return;
+    }
     if (e.target !== h1) return;
     if (e.key === 'Tab') return;
     if (e.key === ' ') {
       e.preventDefault()
     }
-    h1.click();
+    // if key is number ignore
+    if (e.key.match(/\d/)) return;
+    changeTitleButton.click();
   }
 
   let temporaryDocumentClickHandler;
@@ -122,7 +132,7 @@ function initH1() {
     h1.innerText = currentText
   }
 
-  h1.onclick = (e) => {
+  changeTitleButton.onclick = (e) => {
     e.stopPropagation()
     const form  = document.createElement('form');
     const input = document.createElement('input');

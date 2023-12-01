@@ -1,13 +1,13 @@
-import {reinitializeSimulation} from "../simulation/simulation";
-import {CharacterCursor}        from "../../vendor/spw/core/node/cursor.mjs";
-import {parse}                  from "../../vendor/spw/parser/parse.mjs";
-import {getDocumentDataIndex}   from "./mode-dataindex";
-import {NODE_MANAGER}           from "../simulation/nodes/nodes";
-import {moreMenuOptionsSpell}   from "./mode-story";
-import {initKeystrokes}         from "../init/keystrokes";
-import {initFocalSquare}        from "../focalPoint";
-import {setDocumentMode}        from "./index";
-import {generateNodes}          from "../simulation/nodes/generateNodes";
+import {reinitializeSimulation}                      from "../simulation/simulation";
+import {CharacterCursor}                             from "../../vendor/spw/core/node/cursor.mjs";
+import {parse}                                       from "../../vendor/spw/parser/parse.mjs";
+import {getDocumentDataIndex}                        from "./mode-dataindex";
+import {NODE_MANAGER}                                from "../simulation/nodes/nodes";
+import {moreMenuOptionsSpell}                        from "./mode-story";
+import {initKeystrokes, toggleInterfaceDepthOptions} from "../init/keystrokes";
+import {initFocalSquare}                             from "../focalPoint";
+import {setDocumentMode}                             from "./index";
+import {generateNodes}                               from "../simulation/nodes/generateNodes";
 
 const parseSpw = (text) => {
   const tokens    = [];
@@ -133,6 +133,11 @@ export function initializeSpwParseField() {
       }
 
       switch (line) {
+        case 'minimalism':
+          window.spwashi.minimalism = true;
+          toggleInterfaceDepthOptions();
+          document.body.dataset.displaymode = 'nodes';
+          return;
         case 'scatter':
           window.spwashi.nodes.forEach(node => {
             node.x = Math.random() * 1000;

@@ -4,21 +4,40 @@ import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {setDocumentMode}        from "../modes";
 import {getDocumentDataIndex}   from "../modes/mode-dataindex";
 
+const MAIN_MENU_OPTION  = 'main-menu';
+const HOTKEY_OPTION     = 'hotkey-menu';
+const STANDARD_OPTION   = 'standard';
+const MINIMALISM_OPTION = 'minimalism';
+
 function toggleHotkeyMenu() {
-  console.log('toggle hotkey menu');
-  toggleInterfaceDepthOptions(['hotkey-menu', 'standard']);
+  toggleInterfaceDepthOptions([
+                                HOTKEY_OPTION,
+                                !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION
+                              ]);
 }
 
-function toggleInterfaceDepthOptions(options) {
-  const currentOption = options.indexOf(document.body.dataset.interfaceDepth);
-  const otherOptions  = options.filter((_, i) => i !== currentOption);
-  const nextOption    = otherOptions[currentOption + 1] || otherOptions[0];
-  console.log({currentOption, otherOptions, nextOption});
+export function toggleInterfaceDepthOptions(options) {
+  let nextOption;
+  if (options) {
+    const currentOption = options.indexOf(document.body.dataset.interfaceDepth);
+    const otherOptions  = options.filter((_, i) => i !== currentOption);
+    nextOption          = otherOptions[currentOption + 1] || otherOptions[0];
+  } else {
+    if (window.spwashi.minimalism) {
+      nextOption = MINIMALISM_OPTION;
+    } else {
+      nextOption = STANDARD_OPTION;
+    }
+  }
+
   document.body.dataset.interfaceDepth = nextOption;
 }
 
 export function initKeystrokes() {
-  document.querySelector('#mainmenu-toggle').onclick = () => toggleInterfaceDepthOptions(['main-menu', 'standard']);
+  document.querySelector('#mainmenu-toggle').onclick = () => toggleInterfaceDepthOptions([
+                                                                                           MAIN_MENU_OPTION,
+                                                                                           !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION
+                                                                                         ]);
 
   window.spwashi.keystrokeRevealOrder = window.spwashi.keystrokeRevealOrder || 0;
   window.spwashi.keystrokeOptions     = window.spwashi.keystrokeOptions || initialKeyStrokeOptions;
@@ -198,19 +217,33 @@ function initHotkeyButtons() {
 }
 
 ;
+const toggleFocalPoint                      = () => {
+  const button               = document.querySelector('#focal-square');
+  const wasActive            = button.dataset.focalStatus !== 'inactive';
+  const nextStatus           = wasActive ? 'inactive' : 'active';
+  button.disabled            = nextStatus === 'inactive';
+  button.dataset.focalStatus = nextStatus;
+};
 const initialKeyStrokeOptions = [
   {
-    revealOrder: 0, shortcut: ']', categories: ['this'], title: 'toggle focal point', callback: () => {
-      const button               = document.querySelector('#focal-square');
-      const wasActive            = button.dataset.focalStatus !== 'inactive';
-      const nextStatus           = wasActive ? 'inactive' : 'active';
-      button.disabled            = nextStatus === 'inactive';
-      button.dataset.focalStatus = nextStatus;
+    revealOrder: 0, shortcut: ']', categories: ['this'], title: 'toggle focal point', callback: toggleFocalPoint
+  },
+  {
+    revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => {
+      toggleInterfaceDepthOptions([
+                                    MAIN_MENU_OPTION,
+                                    !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION
+                                  ]);
     }
   },
-  {revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => { toggleInterfaceDepthOptions(['main-menu', 'standard']); }},
   {revealOrder: 0, shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
-  {revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleInterfaceDepthOptions(['hotkey-menu', 'standard'])},
+  {
+    revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () =>
+      toggleInterfaceDepthOptions([
+                                    MAIN_MENU_OPTION,
+                                    !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION,
+                                  ])
+  },
   {revealOrder: 1, shortcut: '<space>'},
   {revealOrder: 1, shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},
   // {revealOrder: 1, shortcut: 'ArrowLeft', categories: ['forces', 'charge'], shortcutName: '←', title: 'decrease charge', callback: decreaseCharge,},
@@ -221,7 +254,7 @@ const initialKeyStrokeOptions = [
   {revealOrder: 1, shortcut: '<space>'},
   {revealOrder: 1, shortcut: 'k', categories: ['data'], title: 'clear nodes', callback: clearActiveNodes},
   {revealOrder: 1, shortcut: '-', categories: ['data', 'cache'], title: 'clear node cache', callback: clearCachedNodes},
-  {revealOrder: 1, shortcut: 'c', categories: ['data'], title: 'copy node ids', callback: copyNodesToClipboard},
+  // {revealOrder: 1, shortcut: 'c', categories: ['data'], title: 'copy node ids', callback: copyNodesToClipboard},
   {revealOrder: 1, shortcut: 's', categories: ['nodes'], title: 'save', callback: saveActiveNodes},
   {revealOrder: 1, shortcut: '<space>'},
   {revealOrder: 1, shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},

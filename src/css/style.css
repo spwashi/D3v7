@@ -695,6 +695,12 @@ body:not([data-debug=debug]) g.rects {
 [data-interface-depth="standard"] #mainmenu-shortcuts li:before {
     content: none;
 }
+[data-interface-depth="minimalism"] #mainmenu-toggle {
+    display: none;
+}
+[data-interface-depth="minimalism"] #hotkey-menu-toggle {
+    display: none;
+}
 [data-interface-element="main-menu"], [data-interface-element="hotkey-menu"] {
     display: none;
 }
