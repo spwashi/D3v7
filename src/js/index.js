@@ -87,6 +87,12 @@ function initListeners() {
         nodeInputContainer.focus();
         nodeInputContainer.onfocus = () => nodeInputContainer.tabIndex = 0;
         break;
+      case 'map':
+        window.spwashi.callbacks.onMapMode?.();
+        break;
+      case 'filter':
+        window.spwashi.callbacks.onFilterMode?.();
+        break;
     }
     resetInterfaceDepth();
   }
@@ -102,12 +108,22 @@ function initH1() {
   h1.tabIndex  = 0;
   h1.onkeydown = (e) => {
     if (e.target !== h1) return;
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'Tab') return;
+    if (e.key === ' ') {
       e.preventDefault()
-      h1.click();
     }
+    h1.click();
   }
-  h1.onclick   = () => {
+
+  let temporaryDocumentClickHandler;
+
+  function resetH1() {
+    document.removeEventListener('click', temporaryDocumentClickHandler);
+    h1.innerText = currentText
+  }
+
+  h1.onclick = (e) => {
+    e.stopPropagation()
     const form  = document.createElement('form');
     const input = document.createElement('input');
     input.value = currentText;
@@ -126,13 +142,19 @@ function initH1() {
       e.preventDefault();
       const value = input.value;
       console.log({value});
-      const parsed = JSON.parse(JSON.stringify(parse(value)));
-      const params = getNextUrlSearchParams();
-      params.set('title', parsed.identity);
-      let href = getIdentityPath(md5(parsed.identity), params);
-      console.log(href);
+      const parsed         = JSON.parse(JSON.stringify(parse(value)));
+      const params         = getNextUrlSearchParams();
+      const href           = getIdentityPath(
+        md5(parsed.identity),
+        params,
+        parsed.identity
+      );
       window.location.href = href;
     }
+
+    temporaryDocumentClickHandler = () => { resetH1(); };
+    submit.onblur                 = () => { resetH1(); }
+    document.addEventListener('click', temporaryDocumentClickHandler)
   }
 }
 

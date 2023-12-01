@@ -2,9 +2,11 @@ import {cacheNode} from "./store";
 import {sortNodes} from "./nodes";
 
 export function logMainEvent(event, details) {
-  const eventsElement = document.querySelector('#main-log ul.events-log');
-  const listItem      = document.createElement('li');
-  eventsElement.appendChild(listItem);
+  const mainLog   = document.querySelector('#main-log');
+  const eventsLog = mainLog.querySelector('.events-log');
+  if (!eventsLog) return;
+  const listItem = document.createElement('li');
+  eventsLog.appendChild(listItem);
   const detailsEl = document.createElement('details');
   listItem.appendChild(detailsEl)
   const summary = document.createElement('summary');
@@ -19,6 +21,7 @@ export function logMainEvent(event, details) {
 
 export function makeCircle(g) {
   const onclick = (e, d) => {
+    console.log(d)
     logMainEvent('clicked: ' + d.id, JSON.stringify(d, null, 3));
     if (e.defaultPrevented) return;
     let intent = window.spwashi.superpower.intent;
@@ -43,9 +46,11 @@ export function makeCircle(g) {
     switch (window.spwashi.superpower.name) {
       case 'hyperlink':
         const url = d.getUrl?.();
+        d.url     = url;
+        console.log(url)
         if (!url) break;
         logMainEvent('hyperlink: ' + url)
-        window.open(url, '_blank');
+        // window.open(url, '_blank');
         break
       case 'prune':
         window.spwashi.nodes.splice(window.spwashi.nodes.indexOf(d), 1);

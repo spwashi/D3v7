@@ -124,11 +124,15 @@ line {
 }
 text {
     user-select: none;
-    pointer-events: none;
+    /*pointer-events: none;*/
     font-family: monospace;
     white-space: pre;
 }
-
+#main-image-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
 #focal-square {
     position: absolute;
     top: calc(var(--focal-y) - 1rem);
@@ -465,6 +469,25 @@ aside > section :has(:focus) {
 [data-mode=map] #map-mode-container,
 [data-mode=filter] #filter-mode-container {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+:is(#map-mode-container, #filter-mode-container) {
+    background-color: #222222;
+    padding: 1rem;
+    margin: 2rem;
+}
+:is(#map-mode-container, #filter-mode-container) button:focus {
+    outline: thick solid var(--mainmenu-text-color);
+}
+:is(#map-mode-container, #filter-mode-container) button {
+    padding: 1rem;
+    margin: 1rem 0 0 0 ;
+    font-family: monospace;
+    cursor: pointer;
+    border: thin solid var(--standard-outline);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
 }
 
 #mode-container {
@@ -607,9 +630,10 @@ aside > section :has(:focus) {
     margin: 1rem;
 }
 .code-editor {
-    width: 20rem;
+    font-size: 1.5rem;
+    width: 30rem;
     padding: 1rem;
-    height: 5rem;
+    height: 13rem;
 }
 
 label[for=mode-selector],
@@ -699,10 +723,10 @@ body[data-interface-depth="hotkey-menu"] [data-interface-element="hotkey-menu"] 
 }
 
 .consent-to-engage {
-    outline: thick solid #222;
+    outline: thick solid #222222;
 }
 .consented-to-engage {
-    outline: thick solid #555;
+    outline: thick solid #555555;
 }
 
 @media (max-width: 600px) {

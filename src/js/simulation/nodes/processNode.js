@@ -14,17 +14,20 @@ function isOperator(node) {
   return node.kind.split(' + ').includes('operator');
 }
 
-export function getIdentityPath(md5, urlParams) {
-  return `/identity/${md5}?${urlParams.toString()}`;
+export function getIdentityPath(hash, urlParams, title = undefined) {
+  urlParams.set('title', title);
+  return `/identity/${hash}?${urlParams.toString()}`;
 }
 
 export function processNode(node, i) {
+
   node.getUrl = () => {
     const urlParams = getNextUrlSearchParams();
-    urlParams.set('title', node.identity);
     urlParams.set('superpower', 'hyperlink');
-    const md5 = node.md5;
-    return getIdentityPath(md5, urlParams);
+    const hash = node.md5;
+    const url  = getIdentityPath(hash, urlParams, node.identity);
+    node.url   = url;
+    return url;
   };
 
   if (node.processed) return node;
@@ -37,6 +40,7 @@ export function processNode(node, i) {
   delete node.body;
   delete node.tail;
   node.parts = {head, body, tail};
+
 
   const fx       = window.spwashi.values.fx?.[i] || node.fx || undefined;
   const fy       = window.spwashi.values.fy?.[i] || node.fy || undefined;
@@ -55,6 +59,8 @@ export function processNode(node, i) {
   node.image.offsetX = 0;
   node.image.offsetY = 0;
   node.md5           = node.identity && md5(node.identity);
+  const urlParams    = getNextUrlSearchParams();
+  node.url           = getIdentityPath(node.md5, urlParams, node.identity)
 
   const edgeLeft   = 50;
   const edgeRight  = window.spwashi.parameters.width - 50;
@@ -74,7 +80,7 @@ export function processNode(node, i) {
   const rules = [
     [node => getFirstKind(node) === 'container', {text: {fontSize: 10}, fx: window.spwashi.parameters.width / 2, y: 0}],
 
-    [node => getLastKind(node) === 'nominal', {fx: undefined, r: 10}],
+    [node => getLastKind(node) === 'nominal', {fx: undefined, r: 30}],
 
     [node => getLastKind(node) === 'phrasal', {fx: undefined}],
 

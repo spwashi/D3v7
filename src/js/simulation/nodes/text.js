@@ -1,7 +1,10 @@
 import {getNodeText}  from "./colors";
 import {logMainEvent} from "./circle";
 
-export function makeText(text) {
+export function makeText(g) {
+  const a = g.append('a');
+  a.attr('href', d => d.url || undefined);
+  const text = a.append('text')
   text
     .attr('x', d => d.x)
     .attr('font-size', d => d.text.fontSize || d.r)
@@ -36,11 +39,14 @@ export function makeText(text) {
         d => d.selectAll('tspan').remove()
       )
   ;
-  return text;
+  return g;
 }
 
-export function updateNodeTextSvg(text) {
-  return text
+export function updateNodeTextSvg(g) {
+  const a = g.select('a');
+  a.attr('href', d => d.url || undefined);
+  const text = a.select('text');
+  text
     .attr('x', d => (d.x || 0) + (d.text.fx || 0))
     .attr('y', d => (d.y || 0) + (d.text.fy || 0) - (getNodeText(d).split('\n').length * d.r) / 2)
     .attr('font-size', d => d.text.fontSize || d.r)
@@ -48,6 +54,6 @@ export function updateNodeTextSvg(text) {
     .data(d => getNodeText(d).split('\n').map((line, i) => ({node: d, i: i, text: line})))
     .text(d => (d.text))
     .attr('x', d => (d.node.x || 0) + (d.node.text.fx || 0))
-    ;
-
+  ;
+  return g;
 }

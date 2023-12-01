@@ -111,7 +111,7 @@ function updateNodes(g, nodes) {
     const outerG = enter.append('g').classed('wrapper', true);
     const image  = outerG.append('g').classed('image', true);
     const node   = outerG.append('g').classed('node', true);
-    const text   = outerG.append('text').classed('text', true)
+    const text   = outerG.append('g').classed('text', true)
     makeImage(image);
     makeCircle(node);
     makeRect(node);
@@ -121,7 +121,7 @@ function updateNodes(g, nodes) {
   const updateJoin = outerG => {
     const update = outerG.select('g.node');
     const image  = outerG.select('g.image');
-    const text   = outerG.select('text.text');
+    const text   = outerG.select('g.text');
 
     updateCircle(update);
     updateNodeTextSvg(text);
@@ -140,7 +140,7 @@ function updateNodes(g, nodes) {
   }
   const removeJoin = remove => {
     remove.select('g.node').remove();
-    remove.select('text.text').remove();
+    remove.select('g.text').remove();
     remove.select('g.image').remove();
   }
 

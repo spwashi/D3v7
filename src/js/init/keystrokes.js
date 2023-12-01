@@ -114,6 +114,12 @@ function plainKeyHandler(key, e) {
   const shortKeys       = Object.fromEntries(shortKeyEntries);
 
   if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+  if (key === '/') {
+    e.preventDefault();
+    const h1 = document.querySelector('h1');
+    h1.click();
+    return;
+  }
   if (shortKeys[key]) {
     e && e.preventDefault();
     shortKeys[key]();
@@ -207,8 +213,8 @@ const initialKeyStrokeOptions = [
   {revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleInterfaceDepthOptions(['hotkey-menu', 'standard'])},
   {revealOrder: 1, shortcut: '<space>'},
   {revealOrder: 1, shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},
-  {revealOrder: 1, shortcut: 'ArrowLeft', categories: ['forces', 'charge'], shortcutName: '←', title: 'decrease charge', callback: decreaseCharge,},
-  {revealOrder: 1, shortcut: 'ArrowRight', categories: ['forces', 'charge'], shortcutName: '→', title: 'increase charge', callback: increaseCharge},
+  // {revealOrder: 1, shortcut: 'ArrowLeft', categories: ['forces', 'charge'], shortcutName: '←', title: 'decrease charge', callback: decreaseCharge,},
+  // {revealOrder: 1, shortcut: 'ArrowRight', categories: ['forces', 'charge'], shortcutName: '→', title: 'increase charge', callback: increaseCharge},
   {revealOrder: 1, shortcut: '<space>'},
   {revealOrder: 1, shortcut: '.', categories: ['nodes'], title: 'fix position', callback: fixPositions},
   {revealOrder: 1, shortcut: ',', categories: ['nodes'], title: 'unfix position', callback: clearFixedPositions},
