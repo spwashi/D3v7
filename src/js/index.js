@@ -25,20 +25,44 @@ function resetArrows() {
 }
 
 let focalSquare;
-let focalSquarePosition = {x: 0, y: 0};
+let focalSquareInteractionLog = {
+  ready: true
+};
+let focalpoint                = {x: 0, y: 0};
 
 function initFocalSquare() {
   if (!focalSquare) {
     focalSquare    = document.createElement('button');
     focalSquare.id = 'focal-square';
     focalSquare.classList.add('focal-square');
+    focalSquare.onmousedown = (e) => {
+      e.preventDefault();
+      focalSquare.classList.add('dragging');
+      document.documentElement.onmousemove = (e) => {
+        e.preventDefault();
+        focalSquareInteractionLog.ready = false;
+        setFocalPoint({x: e.x, y: e.y}, true);
+      }
+      document.documentElement.onmouseup   = (e) => {
+        e.preventDefault();
+        focalSquare.classList.remove('dragging');
+        if (!focalSquareInteractionLog.ready) {
+          setTimeout(() => focalSquareInteractionLog.ready = true, 100);
+        }
+        document.documentElement.onmousemove = null;
+        document.documentElement.onmouseup   = null;
+      }
+    }
     document.documentElement.appendChild(focalSquare);
   }
-  focalSquare.onclick = () => {
+  focalSquare.onclick = (e) => {
+    if (!focalSquareInteractionLog.ready) return
     window.spwashi.boon().then(result => {
       focalSquare.onclick = () => {
+        if (!focalSquareInteractionLog.ready) return
         window.spwashi.bane(result);
         focalSquare.onclick = () => {
+          if (!focalSquareInteractionLog.ready) return
           window.spwashi.bonk(result);
         };
       }
@@ -48,17 +72,26 @@ function initFocalSquare() {
   return focalSquare;
 }
 
-function attachFocalPointToElementPosition(button) {
-  const x      = button.getBoundingClientRect().x;
-  const y      = button.getBoundingClientRect().y;
-  const w      = button.getBoundingClientRect().width;
-  const h      = button.getBoundingClientRect().height;
-  const focalX = x + w;
-  const focalY = y + h;
+function setFocalPoint({x, y}, fix = false) {
+  focalpoint.x = x;
+  focalpoint.y = y;
+  if (fix) {
+    focalpoint.fx = x;
+    focalpoint.fy = y;
+  }
+  document.documentElement.style.setProperty('--focal-x', x + 'px');
+  document.documentElement.style.setProperty('--focal-y', y + 'px');
+}
 
-  focalSquarePosition = {x: focalX, y: focalY};
-  document.documentElement.style.setProperty('--focal-x', focalX + 'px');
-  document.documentElement.style.setProperty('--focal-y', focalY + 'px');
+function attachFocalPointToElementPosition(button) {
+  const x        = button.getBoundingClientRect().x;
+  const y        = button.getBoundingClientRect().y;
+  const w        = button.getBoundingClientRect().width;
+  const h        = button.getBoundingClientRect().height;
+  const focalX   = x + w;
+  const focalY   = y + h;
+  const notFixed = focalpoint.fx === undefined || focalpoint.fy === undefined;
+  notFixed && setFocalPoint({x: focalX, y: focalY});
 }
 
 document.body.addEventListener('mousedown', (e) => {
@@ -66,8 +99,8 @@ document.body.addEventListener('mousedown', (e) => {
   if (e.target.tagName === 'CIRCLE') return;
   if (document.body.dataset.interfaceDepth !== 'standard') return;
   initFocalSquare();
-  document.documentElement.style.setProperty('--focal-x', (e.x) + 'px');
-  document.documentElement.style.setProperty('--focal-y', (e.y) + 'px');
+  const notFixed = focalpoint.fx === undefined || focalpoint.fy === undefined;
+  notFixed && setFocalPoint({x: e.x, y: e.y});
 }, true);
 
 function initListeners() {
