@@ -3,9 +3,9 @@ import {initParameters, readParameters}             from "./init/parameters";
 import {initSimulationRoot, reinitializeSimulation} from "./simulation/simulation";
 import {onColorModeStart}                           from "./modes/mode-dataindex";
 import {onReflexModeStart}                          from "./modes/mode-reflex";
+import {setDocumentMode}                            from "./modes";
 
 const getItemKey = key => window.spwashi.parameterKey + '@' + key;
-
 
 function initCallbacks() {
   window.spwashi.callbacks = window.spwashi.callbacks || {};
@@ -26,17 +26,29 @@ function resetArrows() {
 
 let focalSquare;
 let focalSquareInteractionLog = {
-  ready: true
+  ready: true,
 };
-let focalpoint                = {x: 0, y: 0};
+
+const focalPoint = {
+  x:            0,
+  y:            0,
+  queuedAction: () => {
+    const mode = window.spwashi.getItem('mode');
+    setDocumentMode(mode);
+  }
+};
 
 function initFocalSquare() {
   if (!focalSquare) {
-    focalSquare    = document.createElement('button');
+    focalSquare          = document.createElement('button');
+    const prevFocalPoint = window.spwashi.getItem('focalPoint');
+    if (prevFocalPoint) {
+      Object.assign(focalPoint, prevFocalPoint);
+      setFocalPoint(focalPoint, true);
+    }
     focalSquare.id = 'focal-square';
     focalSquare.classList.add('focal-square');
-    // on mousedown, start dragging
-    focalSquare.onmousedown = (e) => {
+    focalSquare.onmousedown  = (e) => {
       e.preventDefault();
       focalSquare.classList.add('dragging');
       document.documentElement.onmousemove = (e) => {
@@ -54,7 +66,6 @@ function initFocalSquare() {
         document.documentElement.onmouseup   = null;
       }
     }
-    // on touchstart, start dragging
     focalSquare.ontouchstart = (e) => {
       e.preventDefault();
       focalSquare.classList.add('dragging');
@@ -63,44 +74,35 @@ function initFocalSquare() {
         focalSquareInteractionLog.ready = false;
         setFocalPoint({x: e.touches[0].clientX, y: e.touches[0].clientY}, true);
       }
-      document.documentElement.ontouchend   = (e) => {
+      document.documentElement.ontouchend  = (e) => {
         e.preventDefault();
         focalSquare.classList.remove('dragging');
         if (!focalSquareInteractionLog.ready) {
           setTimeout(() => focalSquareInteractionLog.ready = true, 100);
         }
         document.documentElement.ontouchmove = null;
-        document.documentElement.ontouchend   = null;
+        document.documentElement.ontouchend  = null;
       }
     }
     document.documentElement.appendChild(focalSquare);
   }
   focalSquare.onclick = (e) => {
-    if (!focalSquareInteractionLog.ready) return
-    window.spwashi.boon().then(result => {
-      focalSquare.onclick = () => {
-        if (!focalSquareInteractionLog.ready) return
-        window.spwashi.bane(result);
-        focalSquare.onclick = () => {
-          if (!focalSquareInteractionLog.ready) return
-          window.spwashi.bonk(result);
-        };
-      }
-    });
-
+    if (!focalSquareInteractionLog.ready) return;
+    focalPoint.queuedAction();
   }
   return focalSquare;
 }
 
 function setFocalPoint({x, y}, fix = false) {
-  focalpoint.x = x;
-  focalpoint.y = y;
+  focalPoint.x = x;
+  focalPoint.y = y;
   if (fix) {
-    focalpoint.fx = x;
-    focalpoint.fy = y;
+    focalPoint.fx = x;
+    focalPoint.fy = y;
   }
   document.documentElement.style.setProperty('--focal-x', x + 'px');
   document.documentElement.style.setProperty('--focal-y', y + 'px');
+  window.spwashi.setItem('focalPoint', {x, y, fx: x, fy: y});
 }
 
 function attachFocalPointToElementPosition(button) {
@@ -110,7 +112,7 @@ function attachFocalPointToElementPosition(button) {
   const h        = button.getBoundingClientRect().height;
   const focalX   = x + w;
   const focalY   = y + h;
-  const notFixed = focalpoint.fx === undefined || focalpoint.fy === undefined;
+  const notFixed = focalPoint.fx === undefined || focalPoint.fy === undefined;
   notFixed && setFocalPoint({x: focalX, y: focalY});
 }
 
@@ -119,12 +121,15 @@ document.body.addEventListener('mousedown', (e) => {
   if (e.target.tagName === 'CIRCLE') return;
   if (document.body.dataset.interfaceDepth !== 'standard') return;
   initFocalSquare();
-  const notFixed = focalpoint.fx === undefined || focalpoint.fy === undefined;
+  const notFixed = focalPoint.fx === undefined || focalPoint.fy === undefined;
   notFixed && setFocalPoint({x: e.x, y: e.y});
 }, true);
 
 function initListeners() {
   window.spwashi.onModeChange = (mode, direct = false) => {
+    if (mode) {
+      window.spwashi.setItem('mode', mode);
+    }
     document.querySelector('[data-mode-action] [aria-selected="true"]')?.setAttribute('aria-selected', 'false');
     const button = document.querySelector(`#mode-selector--${mode}`);
     if (button) {
@@ -163,7 +168,6 @@ function initListeners() {
   window.spwashi.onDataIndexChange = (dataindex) => {
   };
 }
-
 
 function initRoot() {
   initCallbacks();
@@ -209,6 +213,6 @@ export function init() {
       .then(nodes => window.spwashi.nodes.push(...nodes))
       .then(nodes => reinitializeSimulation());
   }
-
+  initFocalSquare();
   initializeForceSimulationControls();
 }
