@@ -167,6 +167,9 @@ export function initializeSpwParseField() {
       }
 
       switch (line) {
+        case 'home':
+          window.location.href = '/'
+          return;
         case 'demo':
           nextValue.push('add=10');
           nextValue.push('bonk');
