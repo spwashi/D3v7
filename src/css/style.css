@@ -583,14 +583,12 @@ label[for=mode-selector],
 #mode-selector {
     display: none !important;
 }
+
+
 #mainmenu-shortcuts ol {
     padding: 0;
     display: flex;
     flex-direction: column-reverse;
-    counter-reset: item;
-}
-#mainmenu-shortcuts li {
-    counter-increment: item;
 }
 #mainmenu-shortcuts li:has([aria-selected="true"]):before {
     color: #222222;
@@ -631,6 +629,15 @@ body:not([data-debug=debug]) g.rects {
     display: none;
 }
 
+[data-interface-depth="main-menu"] #mainmenu-shortcuts ol {
+    counter-reset: item;
+}
+[data-interface-depth="main-menu"] #mainmenu-shortcuts li {
+    counter-increment: item;
+}
+[data-interface-depth="standard"] #mainmenu-shortcuts li:before {
+    content: none;
+}
 [data-interface-element="main-menu"], [data-interface-element="hotkey-menu"] {
     display: none;
 }

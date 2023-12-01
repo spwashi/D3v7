@@ -24,21 +24,37 @@ function resetArrows() {
   window.spwashi.callbacks.arrowRight = noop;
 }
 
+let focalSquare;
+
+function initFocalSquare() {
+  if (focalSquare) return focalSquare;
+  focalSquare    = document.createElement('div');
+  focalSquare.id = 'focal-square';
+  focalSquare.classList.add('focal-square');
+  document.documentElement.appendChild(focalSquare);
+  focalSquare.onclick = () => {
+    window.spwashi.boon()
+  }
+  return focalSquare;
+}
+
+function setElementAsFocalSquare(button) {
+  const x = button.getBoundingClientRect().x;
+  const y = button.getBoundingClientRect().y;
+  const w = button.getBoundingClientRect().width;
+  const h = button.getBoundingClientRect().height;
+  document.documentElement.style.setProperty('--focal-x', (x + w) + 'px');
+  document.documentElement.style.setProperty('--focal-y', (y + h) + 'px');
+}
+
 function initListeners() {
   window.spwashi.onModeChange = (mode, direct = false) => {
     document.querySelector('[data-mode-action] [aria-selected="true"]')?.setAttribute('aria-selected', 'false');
     const button = document.querySelector(`#mode-selector--${mode}`);
     if (button) {
       button.setAttribute('aria-selected', 'true');
-      const x = button.getBoundingClientRect().x;
-      const y = button.getBoundingClientRect().y;
-      const w = button.getBoundingClientRect().width;
-      const h = button.getBoundingClientRect().height;
-      document.documentElement.style.setProperty('--focal-x', (x + w) + 'px');
-      document.documentElement.style.setProperty('--focal-y', (y + h) + 'px');
-      // add red square div at focal point
-      const square = document.documentElement.appendChild(document.createElement('div'));
-      square.classList.add('focal-square');
+      initFocalSquare();
+      setElementAsFocalSquare(button);
     }
     resetArrows();
     switch (mode) {
