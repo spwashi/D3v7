@@ -21,6 +21,7 @@
 
     --focal-x: 0;
     --focal-y: 0;
+    --focal-y-basis: 100vh;
 }
 
 html {
@@ -441,7 +442,7 @@ aside > section :has(:focus) {
     height: 5rem;
     width: 5rem;
     outline: thin solid rgba(245, 222, 179, .1);
-    bottom: calc(100vh - var(--focal-y));
+    bottom: calc(var(--focal-y-basis) - var(--focal-y));
     left: var(--focal-x);
 }
 #mode-container > section {

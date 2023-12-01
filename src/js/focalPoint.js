@@ -118,6 +118,8 @@ export function setFocalPoint({x, y}, fix = false) {
   window.spwashi.setItem('focalPoint', {x, y, fx: x, fy: y});
 }
 
+document.documentElement.style.setProperty('--focal-y-basis', document.documentElement.getBoundingClientRect().height + 'px');
+
 export function attachFocalPointToElementPosition(button) {
   const x        = button.getBoundingClientRect().x;
   const y        = button.getBoundingClientRect().y;
