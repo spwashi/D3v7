@@ -1,12 +1,12 @@
 import {reinitializeSimulation} from "../simulation/simulation";
 import {CharacterCursor}        from "../../vendor/spw/core/node/cursor.mjs";
 import {parse}                  from "../../vendor/spw/parser/parse.mjs";
-import {setDocumentMode}        from "./index";
 import {getDocumentDataIndex}   from "./mode-dataindex";
 import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {moreMenuOptionsSpell}   from "./mode-story";
 import {initKeystrokes}         from "../init/keystrokes";
 import {initFocalSquare}        from "../focalPoint";
+import {setDocumentMode}        from "./index";
 
 const parseSpw = (text) => {
   const tokens    = [];
@@ -57,13 +57,25 @@ export function initializeSpwParseField() {
   window.spwashi.spwEditor = spwInput;
   const button             = document.querySelector('#parse-spw');
   button.onclick           = () => {
-    const text = spwInput.value;
-    if (text === moreMenuOptionsSpell) {
-      window.spwashi.keystrokeRevealOrder = 1;
-      initKeystrokes();
-    }
+    const text   = spwInput.value;
     const parsed = parseSpw(text);
     window.spwashi.setItem('parameters.spw-parse-field', text);
+
+    setDocumentMode('');
+
+    switch (text) {
+      case 'clear':
+        window.spwashi.nodes = [];
+        window.spwashi.links = []
+        reinitializeSimulation();
+        initFocalSquare().focus();
+        return;
+      case moreMenuOptionsSpell:
+        window.spwashi.keystrokeRevealOrder = 1;
+        initKeystrokes();
+        break;
+    }
+
     const newNodes = JSON.parse(JSON.stringify(parsed));
     newNodes.forEach(NODE_MANAGER.processNode);
     window.spwashi.nodes.push(...newNodes);
