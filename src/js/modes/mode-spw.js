@@ -87,6 +87,14 @@ function initInputField() {
   return spwInput;
 }
 
+function filterNodeIdLines(text) {
+  window.spwashi.nodes.forEach(node => {
+    text = text.replace(new RegExp(node.id + '\n', 'g'));
+  })
+  console.log(text)
+  return text;
+}
+
 export function initializeSpwParseField() {
   initPageImage();
   window.spwashi.perspectiveMap = new Map();
@@ -102,14 +110,27 @@ export function initializeSpwParseField() {
     let text             = spwInput.value;
     let physicsChange    = false;
     let nextDocumentMode = '';
+    let nodesImpacted    = [];
+    let nodesIgnored     = [];
 
-    const lines = text.split('\n').map(line => {
+    let nodeIdCacheObj = {};
+    window.spwashi.nodes.forEach(node => {
+      nodeIdCacheObj[node.id] = node;
+    });
+    const parserLines = [];
+    const nextValue   = [];
+    const textLines   = text.split('\n');
+    textLines.map(line => {
+      if (nodeIdCacheObj[line]) {
+        nodesIgnored.push(nodeIdCacheObj[line]);
+        return;
+      }
       const at = /@=(.+)/.exec(line)?.[1];
       if (at) {
         const identities = at.split(',');
         identities.map(id => {
           const node = window.spwashi.nodes.find(node => node.id === id || node.identity === id);
-          node.r     = 100;
+          node && nodesImpacted.push(node);
         })
         reinitializeSimulation();
         return;
@@ -146,8 +167,23 @@ export function initializeSpwParseField() {
       }
 
       switch (line) {
+        case 'demo':
+          nextValue.push('add=10');
+          nextValue.push('bonk');
+          nextValue.push('boundingBox=1');
+          nextValue.push('charge=-100');
+          nextValue.push('velocityDecay=0.9');
+          nextValue.push('nodeCount=1');
+          nextValue.push('boon');
+          nextValue.push('bonk');
+          nextValue.push('nodeCount=3');
+          nextValue.push('boon');
+          nextValue.push('bonk');
+          nextDocumentMode = 'spw';
+          return;
         case 'clicked':
-          spwInput.value   = window.spwashi.nodes.clicked.map(node => node.id).join('\n');
+          const clicked = window.spwashi.nodes.clicked.map(node => node.id).join('\n');
+          nextValue.push(clicked);
           nextDocumentMode = 'spw';
           return;
         case 'cluster':
@@ -229,15 +265,19 @@ export function initializeSpwParseField() {
           window.spwashi.keystrokeRevealOrder = 1;
           initKeystrokes();
           break;
+        default:
+          nextValue.push(line)
       }
-
-      return line;
-    })
+      parserLines.push(line);
+    });
+    nodesIgnored.forEach(node => { node.r = 10; });
+    nodesImpacted.forEach(node => { node.r = 100; });
     physicsChange && reinitializeSimulation();
     window.spwashi.setItem('parameters.spw-parse-field', text);
     setDocumentMode(nextDocumentMode, false);
-
-    text           = lines.filter(l => typeof l === 'string').join('\n');
+    text           = parserLines.filter(l => typeof l === 'string').join('\n');
+    text           = filterNodeIdLines(text);
+    spwInput.value = nextValue.join('\n');
     const parsed   = parseSpw(text);
     const newNodes = JSON.parse(JSON.stringify(parsed));
     newNodes.forEach(NODE_MANAGER.processNode);
