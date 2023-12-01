@@ -18,18 +18,7 @@
             <svg id="simulation"></svg>
         </div>
     </main>
-    <aside>
-        <section id="hotkey-container" data-interface-element="hotkey-menu">
-            <section id="keystroke-options"></section>
-        </section>
-        <section id="mainmenu-container"></section>
-    </aside>
-    <button id="hotkey-menu-toggle">[...]</button>
-    <button id="mainmenu-toggle">{ # }</button>
-    <section id="mainmenu-shortcuts" data-interface-element="main-menu">
-        <ol></ol>
-    </section>
-    <section id="mode-container">
+    <aside id="mode-container">
         <section id="spw-mode-container">
             <div id="spw-container">
                 <label>
@@ -39,9 +28,9 @@
                 <button id="parse-spw">parse</button>
             </div>
         </section>
-        <div id="story-mode-container">
+        <section id="story-mode-container">
             <div class="button-container"></div>
-        </div>
+        </section>
         <section id="map-mode-container">
             <div id="node-mapper" class="code-editor"></div>
             <button id="submit-node-mapper">Submit</button>
@@ -115,8 +104,15 @@
                 <output id="output"></output>
             </section>
         </section>
+    </aside>
+    <!--    -->
+    <section id="mainmenu-container"></section>
+    <section id="mainmenu-shortcuts" data-interface-element="main-menu">
+        <ol></ol>
     </section>
-    <section id="main-log">
-        <ul class="events-log"></ul>
+    <button id="mainmenu-toggle">{ # }</button>
+    <section id="hotkey-container" data-interface-element="hotkey-menu">
+        <section id="keystroke-options"></section>
     </section>
+    <button id="hotkey-menu-toggle">[...]</button>
 </body>

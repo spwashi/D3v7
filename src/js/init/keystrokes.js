@@ -18,7 +18,7 @@ function toggleInterfaceDepthOptions(options) {
 }
 
 export function initKeystrokes() {
-  document.querySelector('#mainmenu-toggle').onclick = () => toggleInterfaceDepthOptions();
+  document.querySelector('#mainmenu-toggle').onclick = () => toggleInterfaceDepthOptions(['main-menu', 'standard']);
 
   window.spwashi.keystrokeRevealOrder = window.spwashi.keystrokeRevealOrder || 0;
   window.spwashi.keystrokeOptions     = window.spwashi.keystrokeOptions || initialKeyStrokeOptions;
