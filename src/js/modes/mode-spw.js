@@ -45,14 +45,17 @@ function getTokenObj(identities) {
   return Object.fromEntries(identities.map(identity => [identity, {identity}]));
 }
 
-function setPageImage(url) {
-  window.spwashi.setItem('parameters.page-image', url);
+function setPageImage(base64) {
+  const img = new Image();
+  img.src   = base64;
+  window.spwashi.setItem('parameters.page-image.url', base64);
+  return img;
 }
 
-function initPageImage() {
+function initPageImage(img) {
   const mainImageContainer     = document.querySelector('#main-image-container');
   mainImageContainer.innerHTML = '';
-  const url                    = window.spwashi.getItem('parameters.page-image');
+  const url                    = window.spwashi.getItem('parameters.page-image.url');
   if (url) {
     const img = new Image();
     img.src   = url;
@@ -69,11 +72,14 @@ function initInputField() {
     const items = (e.clipboardData || e.originalEvent.clipboardData).items;
     for (const item of items) {
       if (item.type.indexOf('image') === 0) {
-        const blob = item.getAsFile();
-        const url  = URL.createObjectURL(blob);
-        const img  = new Image();
-        img.src    = url;
-        setPageImage(url);
+        const blob     = item.getAsFile();
+        var fileReader = new FileReader();
+
+        fileReader.onload = function (fileLoadedEvent) {
+          const srcData = fileLoadedEvent.target.result; // <--- data: base64
+          const img     = setPageImage(srcData);
+        };
+        fileReader.readAsDataURL(blob);
         initPageImage();
       }
     }
@@ -93,14 +99,10 @@ export function initializeSpwParseField() {
   window.spwashi.spwEditor = spwInput;
   const button             = document.querySelector('#parse-spw');
   button.onclick           = () => {
-    const text   = spwInput.value;
-    const parsed = parseSpw(text);
-    window.spwashi.setItem('parameters.spw-parse-field', text);
-    setDocumentMode('');
-
+    let text          = spwInput.value;
     let physicsChange = false;
-    text.split('\n').forEach(line => {
 
+    const lines = text.split('\n').map(line => {
       const add = /add=(-?\d+)/.exec(line)?.[1];
       if (add) {
         physicsChange = true;
@@ -133,6 +135,33 @@ export function initializeSpwParseField() {
       }
 
       switch (line) {
+        case 'cluster':
+          const nodeGroups = window.spwashi.nodes.reduce((acc, node) => {
+            const cluster = node.colorindex;
+            acc[cluster]  = acc[cluster] || [];
+            acc[cluster].push(node);
+            return acc;
+          }, {});
+
+          window.spwashi.nodes = window.spwashi.nodes.filter(node => node.kind !== '__cluster');
+          window.spwashi.links = window.spwashi.links.filter(link => link.source.kind !== '__cluster' && link.target.kind !== '__cluster');
+
+          Object.entries(nodeGroups)
+                .forEach(([cluster, nodes]) => {
+                  const clusterNode = {
+                    id:   cluster,
+                    kind: '__cluster',
+                    r:    100,
+                  };
+                  window.spwashi.nodes.push(clusterNode);
+                  // add links
+                  nodes.forEach(node => {
+                    window.spwashi.links.push({source: clusterNode, target: node, strength: 1});
+                  });
+                });
+          reinitializeSimulation();
+          return;
+          break;
         case 'minimalism':
           window.spwashi.minimalism = true;
           toggleInterfaceDepthOptions();
@@ -188,9 +217,14 @@ export function initializeSpwParseField() {
           break;
       }
 
+      return line;
     })
     physicsChange && reinitializeSimulation();
+    window.spwashi.setItem('parameters.spw-parse-field', text);
+    setDocumentMode('');
 
+    text           = lines.filter(l => typeof l === 'string').join('\n');
+    const parsed   = parseSpw(text);
     const newNodes = JSON.parse(JSON.stringify(parsed));
     newNodes.forEach(NODE_MANAGER.processNode);
     window.spwashi.nodes.push(...newNodes);

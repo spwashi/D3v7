@@ -133,6 +133,11 @@ text {
     bottom: 0;
     right: 0;
 }
+#main-image-container img{
+    max-width: 20rem;
+    max-height: 20rem;
+    border: thin solid wheat;
+}
 #focal-square {
     position: absolute;
     top: calc(var(--focal-y) - 1rem);
@@ -482,7 +487,7 @@ aside > section :has(:focus) {
 }
 :is(#map-mode-container, #filter-mode-container) button {
     padding: 1rem;
-    margin: 1rem 0 0 0 ;
+    margin: 1rem 0 0 0;
     font-family: monospace;
     cursor: pointer;
     border: thin solid var(--standard-outline);
@@ -686,6 +691,23 @@ body:not([data-debug=debug]) g.rects {
     display: none;
 }
 
+#main-wonder-button:active,
+#main-wonder-button:focus {
+    outline: thick solid wheat;
+}
+#main-wonder-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #222222;
+    color: wheat;
+    border: thin solid var(--standard-outline);
+    padding: 0rem;
+    width: 6rem;
+    height: 4rem;
+    line-height: 1.5rem;
+    font-family: monospace;
+}
 [data-interface-depth="main-menu"] #mainmenu-shortcuts ol {
     counter-reset: item;
 }

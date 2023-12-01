@@ -104,8 +104,13 @@ function initListeners() {
 function initH1() {
   const h1          = document.querySelector('h1');
   const currentText = h1.innerText;
-  const changeTitleButton = document.querySelector('#change-title');
+  const changeTitleButton = document.querySelector('#main-wonder-button');
   h1.tabIndex  = 0;
+  h1.onclick = (e) => {
+    if (e.target !== h1) return;
+    e.stopPropagation()
+    fillH1()
+  }
   h1.onkeydown = (e) => {
     if (e.ctrlKey || e.metaKey || e.shiftKey) {
       if (e.ctrlKey || e.metaKey) {
@@ -132,8 +137,7 @@ function initH1() {
     h1.innerText = currentText
   }
 
-  changeTitleButton.onclick = (e) => {
-    e.stopPropagation()
+  function fillH1() {
     const form  = document.createElement('form');
     const input = document.createElement('input');
     input.value = currentText;
@@ -165,6 +169,12 @@ function initH1() {
     temporaryDocumentClickHandler = () => { resetH1(); };
     submit.onblur                 = () => { resetH1(); }
     document.addEventListener('click', temporaryDocumentClickHandler)
+  }
+
+  changeTitleButton.onclick = (e) => {
+    e.stopPropagation()
+
+    fillH1();
   }
 }
 
