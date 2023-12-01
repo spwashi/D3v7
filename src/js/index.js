@@ -1,9 +1,9 @@
-import {initializeForceSimulationControls}          from "./simulation/buttons";
-import {initParameters, readParameters}             from "./init/parameters";
-import {initSimulationRoot, reinitializeSimulation} from "./simulation/simulation";
-import {onColorModeStart}                           from "./modes/mode-dataindex";
-import {onReflexModeStart}                          from "./modes/mode-reflex";
-import {setDocumentMode}                            from "./modes";
+import {initializeForceSimulationControls}                                             from "./simulation/buttons";
+import {initParameters, readParameters}                                                from "./init/parameters";
+import {initSimulationRoot, reinitializeSimulation}                                    from "./simulation/simulation";
+import {onColorModeStart}                                                              from "./modes/mode-dataindex";
+import {onReflexModeStart}                                                             from "./modes/mode-reflex";
+import {attachFocalPointToElementPosition, focalPoint, initFocalSquare, setFocalPoint} from "./focalPoint";
 
 const getItemKey = key => window.spwashi.parameterKey + '@' + key;
 
@@ -22,98 +22,6 @@ function resetArrows() {
   window.spwashi.callbacks.arrowDown  = noop;
   window.spwashi.callbacks.arrowLeft  = noop;
   window.spwashi.callbacks.arrowRight = noop;
-}
-
-let focalSquare;
-let focalSquareInteractionLog = {
-  ready: true,
-};
-
-const focalPoint = {
-  x:            0,
-  y:            0,
-  queuedAction: () => {
-    const mode = window.spwashi.getItem('mode');
-    setDocumentMode(mode);
-  }
-};
-
-function initFocalSquare() {
-  if (!focalSquare) {
-    focalSquare          = document.createElement('button');
-    const prevFocalPoint = window.spwashi.getItem('focalPoint');
-    if (prevFocalPoint) {
-      Object.assign(focalPoint, prevFocalPoint);
-      setFocalPoint(focalPoint, true);
-    }
-    focalSquare.id = 'focal-square';
-    focalSquare.classList.add('focal-square');
-    focalSquare.onmousedown  = (e) => {
-      e.preventDefault();
-      focalSquare.classList.add('dragging');
-      document.documentElement.onmousemove = (e) => {
-        e.preventDefault();
-        focalSquareInteractionLog.ready = false;
-        setFocalPoint({x: e.x, y: e.y}, true);
-      }
-      document.documentElement.onmouseup   = (e) => {
-        e.preventDefault();
-        focalSquare.classList.remove('dragging');
-        if (!focalSquareInteractionLog.ready) {
-          setTimeout(() => focalSquareInteractionLog.ready = true, 100);
-        }
-        document.documentElement.onmousemove = null;
-        document.documentElement.onmouseup   = null;
-      }
-    }
-    focalSquare.ontouchstart = (e) => {
-      e.preventDefault();
-      focalSquare.classList.add('dragging');
-      document.documentElement.ontouchmove = (e) => {
-        e.preventDefault();
-        focalSquareInteractionLog.ready = false;
-        setFocalPoint({x: e.touches[0].clientX, y: e.touches[0].clientY}, true);
-      }
-      document.documentElement.ontouchend  = (e) => {
-        e.preventDefault();
-        focalSquare.classList.remove('dragging');
-        if (!focalSquareInteractionLog.ready) {
-          setTimeout(() => focalSquareInteractionLog.ready = true, 100);
-        }
-        document.documentElement.ontouchmove = null;
-        document.documentElement.ontouchend  = null;
-      }
-    }
-    document.documentElement.appendChild(focalSquare);
-  }
-  focalSquare.onclick = (e) => {
-    if (!focalSquareInteractionLog.ready) return;
-    focalPoint.queuedAction();
-  }
-  return focalSquare;
-}
-
-function setFocalPoint({x, y}, fix = false) {
-  focalPoint.x = x;
-  focalPoint.y = y;
-  if (fix) {
-    focalPoint.fx = x;
-    focalPoint.fy = y;
-  }
-  document.documentElement.style.setProperty('--focal-x', x + 'px');
-  document.documentElement.style.setProperty('--focal-y', y + 'px');
-  window.spwashi.setItem('focalPoint', {x, y, fx: x, fy: y});
-}
-
-function attachFocalPointToElementPosition(button) {
-  const x        = button.getBoundingClientRect().x;
-  const y        = button.getBoundingClientRect().y;
-  const w        = button.getBoundingClientRect().width;
-  const h        = button.getBoundingClientRect().height;
-  const focalX   = x + w;
-  const focalY   = y + h;
-  const notFixed = focalPoint.fx === undefined || focalPoint.fy === undefined;
-  notFixed && setFocalPoint({x: focalX, y: focalY});
 }
 
 document.body.addEventListener('mousedown', (e) => {

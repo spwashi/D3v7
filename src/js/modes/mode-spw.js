@@ -6,6 +6,7 @@ import {getDocumentDataIndex}   from "./mode-dataindex";
 import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {moreMenuOptionsSpell}   from "./mode-story";
 import {initKeystrokes}         from "../init/keystrokes";
+import {initFocalSquare}        from "../focalPoint";
 
 const parseSpw = (text) => {
   const tokens    = [];
@@ -67,6 +68,6 @@ export function initializeSpwParseField() {
     newNodes.forEach(NODE_MANAGER.processNode);
     window.spwashi.nodes.push(...newNodes);
     reinitializeSimulation();
-    setDocumentMode('');
+    initFocalSquare().focus();
   }
 }
