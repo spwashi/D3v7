@@ -17,6 +17,31 @@ export const focalPoint =
                  onFocus:      () => {}
                };
 
+function initiateInterest(focalPointElement, timeout = 500) {
+  focalPointElement.classList.add('consent-to-engage');
+
+  const consent = {
+    interested: null,
+    revoke:     revokeEngagement
+  };
+
+  const initiationTimer =
+          setTimeout(() => {
+            focalPointElement.classList.remove('consent-to-engage');
+            focalPointElement.classList.add('consented-to-engage');
+            consent.interested = true;
+          }, timeout);
+
+  function revokeEngagement() {
+    clearTimeout(initiationTimer);
+    focalPointElement.classList.remove('consented-to-engage');
+    focalPointElement.classList.remove('consent-to-engage');
+    consent.interested = false;
+  }
+
+  return consent;
+}
+
 export function initFocalSquare() {
   if (!focalPointElement) {
     focalPointElement    = document.createElement('button');
@@ -29,15 +54,16 @@ export function initFocalSquare() {
     focalPointElement.classList.add('focal-square');
     focalPointElement.onmousedown  = (e) => {
       e.preventDefault();
-      focalPointElement.classList.add('dragging');
+      const consent                        = initiateInterest(focalPointElement, 100);
       document.documentElement.onmousemove = (e) => {
+        if (!consent.interested) return
         e.preventDefault();
         focalPointMeta.ready = false;
         setFocalPoint({x: e.x, y: e.y}, true);
       }
       document.documentElement.onmouseup   = (e) => {
         e.preventDefault();
-        focalPointElement.classList.remove('dragging');
+        consent.revoke()
         if (!focalPointMeta.ready) {
           setTimeout(() => focalPointMeta.ready = true, 100);
         }
@@ -47,26 +73,25 @@ export function initFocalSquare() {
     }
     focalPointElement.ontouchstart = (e) => {
       e.preventDefault();
-      focalPointElement.classList.add('dragging');
-      let i                                = 0;
+      const consent                        = initiateInterest(focalPointElement, 300);
       document.documentElement.ontouchmove = (e) => {
-        i++;
         e.preventDefault();
+        if (!consent.interested) return;
         focalPointMeta.ready = false;
         setFocalPoint({x: e.touches[0].clientX, y: e.touches[0].clientY}, true);
       }
       document.documentElement.ontouchend  = (e) => {
         e.preventDefault();
-        focalPointElement.classList.remove('dragging');
+        if (!consent.interested) {
+          focalPointMeta.ready = true;
+          focalPointElement.onclick(e);
+        }
+        consent.revoke()
         if (!focalPointMeta.ready) {
           setTimeout(() => focalPointMeta.ready = true, 100);
         }
         document.documentElement.ontouchmove = null;
         document.documentElement.ontouchend  = null;
-        if (i < 2) {
-          focalPointMeta.ready = true;
-          focalPointElement.onclick(e);
-        }
       }
     }
     document.documentElement.appendChild(focalPointElement);

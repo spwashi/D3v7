@@ -670,6 +670,13 @@ body[data-interface-depth="hotkey-menu"] [data-interface-element="hotkey-menu"] 
     flex-direction: row;
 }
 
+.consent-to-engage {
+    outline: thick solid #222;
+}
+.consented-to-engage {
+    outline: thick solid #555;
+}
+
 @media (max-width: 600px) {
     #main-log {
         display: none;
