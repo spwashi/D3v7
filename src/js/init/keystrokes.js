@@ -193,6 +193,15 @@ function initHotkeyButtons() {
 
 ;
 const initialKeyStrokeOptions = [
+  {
+    revealOrder: 0, shortcut: ']', categories: ['this'], title: 'toggle focal point', callback: () => {
+      const button               = document.querySelector('#focal-square');
+      const wasActive            = button.dataset.focalStatus !== 'inactive';
+      const nextStatus           = wasActive ? 'inactive' : 'active';
+      button.disabled            = nextStatus === 'inactive';
+      button.dataset.focalStatus = nextStatus;
+    }
+  },
   {revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => { toggleInterfaceDepthOptions(['main-menu', 'standard']); }},
   {revealOrder: 0, shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
   {revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleInterfaceDepthOptions(['hotkey-menu', 'standard'])},

@@ -109,9 +109,16 @@ text {
     width: 2rem;
     height: 2rem;
     border: thin solid wheat;
-    background: rgba(245, 222, 179, .1);
     z-index: 1;
-
+    background: rgba(245, 222, 179, .1);
+}
+#focal-square[data-focal-status=active] {
+    background: rgba(245, 222, 179, .2);
+}
+#focal-square:disabled {
+    animation: none;
+    background: none;
+    border: none;
 }
 
 aside :is(:focus) {
