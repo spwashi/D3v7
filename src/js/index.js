@@ -35,6 +35,7 @@ function initFocalSquare() {
     focalSquare    = document.createElement('button');
     focalSquare.id = 'focal-square';
     focalSquare.classList.add('focal-square');
+    // on mousedown, start dragging
     focalSquare.onmousedown = (e) => {
       e.preventDefault();
       focalSquare.classList.add('dragging');
@@ -51,6 +52,25 @@ function initFocalSquare() {
         }
         document.documentElement.onmousemove = null;
         document.documentElement.onmouseup   = null;
+      }
+    }
+    // on touchstart, start dragging
+    focalSquare.ontouchstart = (e) => {
+      e.preventDefault();
+      focalSquare.classList.add('dragging');
+      document.documentElement.ontouchmove = (e) => {
+        e.preventDefault();
+        focalSquareInteractionLog.ready = false;
+        setFocalPoint({x: e.touches[0].clientX, y: e.touches[0].clientY}, true);
+      }
+      document.documentElement.ontouchend   = (e) => {
+        e.preventDefault();
+        focalSquare.classList.remove('dragging');
+        if (!focalSquareInteractionLog.ready) {
+          setTimeout(() => focalSquareInteractionLog.ready = true, 100);
+        }
+        document.documentElement.ontouchmove = null;
+        document.documentElement.ontouchend   = null;
       }
     }
     document.documentElement.appendChild(focalSquare);
