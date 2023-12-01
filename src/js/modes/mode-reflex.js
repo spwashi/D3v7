@@ -25,19 +25,43 @@ export function initializeReflexMode() {
     }
 
     async function run() {
+      let nodes = [];
       for await (const i of loop()) {
-        window.spwashi.nodes.push({
-                                    name:       '#',
-                                    r:          30,
-                                    color:      'wheat',
-                                    colorindex: getDocumentDataIndex()
-                                  });
+        const node = {
+          name:       '#',
+          r:          30,
+          color:      'wheat',
+          colorindex: getDocumentDataIndex()
+        };
+        window.spwashi.nodes.push(node);
         window.spwashi.reinit();
+        nodes.push(node);
+      }
+      return nodes;
+    }
+
+    return run();
+  };
+  window.spwashi.bane = (data) => {
+    async function* loop(timeout = 10) {
+      for (let i = 100; i--; i > 0) {
+        for (let node of data) {
+          yield node;
+          await new Promise(r => setTimeout(r, timeout));
+        }
       }
     }
 
-    run();
-  };
+    async function run() {
+      let nodes = [];
+      for await (const node of loop()) {
+        node.r = 10 * Math.random() * 2;
+      }
+      return nodes;
+    }
+
+    return run().then(run).then(run);
+  }
   window.spwashi.bone = () => {
     window.spwashi.links = window.spwashi.links || [];
 

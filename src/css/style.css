@@ -101,7 +101,7 @@ text {
     white-space: pre;
 }
 
-.focal-square {
+#focal-square {
     position: absolute;
     top: calc(var(--focal-y) - 1rem);
     left: calc(var(--focal-x) - 1rem);

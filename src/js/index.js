@@ -28,12 +28,17 @@ let focalSquare;
 
 function initFocalSquare() {
   if (focalSquare) return focalSquare;
-  focalSquare    = document.createElement('div');
+  focalSquare    = document.createElement('button');
   focalSquare.id = 'focal-square';
   focalSquare.classList.add('focal-square');
   document.documentElement.appendChild(focalSquare);
   focalSquare.onclick = () => {
-    window.spwashi.boon()
+    window.spwashi.boon().then(result => {
+      focalSquare.onclick = () => {
+        window.spwashi.bane(result);
+      }
+    });
+
   }
   return focalSquare;
 }
