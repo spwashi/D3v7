@@ -101,6 +101,18 @@ text {
     white-space: pre;
 }
 
+.focal-square {
+    position: absolute;
+    top: calc(var(--focal-y) - 1rem);
+    left: calc(var(--focal-x) - 1rem);
+    width: 2rem;
+    height: 2rem;
+    border: thin solid wheat;
+    background: rgba(245, 222, 179, .1);
+    z-index: 1;
+
+}
+
 aside :is(:focus) {
     outline: thin solid var(--is-focus-outline);
 }
@@ -395,7 +407,10 @@ aside > section :has(:focus) {
 [data-mode=debug] [data-mode-action=debug] {
     outline: thick solid #222222;
     background: wheat;
+    display: flex;
 }
+
+
 [data-mode=debug] :is(#debug-mode-container, #main-log) {
     display: flex;
 }

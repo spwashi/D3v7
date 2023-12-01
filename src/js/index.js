@@ -36,6 +36,9 @@ function initListeners() {
       const h = button.getBoundingClientRect().height;
       document.documentElement.style.setProperty('--focal-x', (x + w) + 'px');
       document.documentElement.style.setProperty('--focal-y', (y + h) + 'px');
+      // add red square div at focal point
+      const square = document.documentElement.appendChild(document.createElement('div'));
+      square.classList.add('focal-square');
     }
     resetArrows();
     switch (mode) {
@@ -57,7 +60,7 @@ function initListeners() {
         buttonContainer.onfocus = () => buttonContainer.tabIndex = 0;
         break;
       case 'node':
-        const nodeInputContainer    = document.querySelector('#node-input-container input ');
+        const nodeInputContainer    = document.querySelector('#node-input-container');
         nodeInputContainer.tabIndex = 0;
         nodeInputContainer.focus();
         nodeInputContainer.onfocus = () => nodeInputContainer.tabIndex = 0;

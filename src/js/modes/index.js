@@ -9,15 +9,23 @@ export const setDocumentMode = (mode, doToggle = true, direct = false) => {
 };
 
 export function initializeModeSelection(starterMode) {
-  const liString                 = window.spwashi.modeOrder.map((mode) => { return `<li data-mode-action="${mode}"><button id="mode-selector--${mode}">${mode}</button></li>`; }).join('');
-  const mainmenuShortcutsList = document.querySelector('#mainmenu-shortcuts ol');
+  const menu = document.querySelector('#mainmenu-shortcuts ol');
 
-  mainmenuShortcutsList.innerHTML = liString;
+  window.spwashi.modeOrder.forEach((mode) => {
+    const li                    = document.createElement('li');
+    li.dataset.modeAction       = mode;
+    li.dataset.interfaceElement = 'main-menu';
+    const button                = document.createElement('button');
+    button.id                   = `mode-selector--${mode}`;
+    button.innerText            = mode;
+    li.appendChild(button);
+    menu.appendChild(li);
+  });
+
   window.spwashi.modeOrder.forEach((mode) => {
     const button   = document.querySelector(`#mode-selector--${mode}`);
     button.onclick = () => {
       setDocumentMode(getDocumentMode() === mode ? null : mode);
-
     }
   });
 
