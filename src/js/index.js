@@ -33,6 +33,10 @@ document.body.addEventListener('mousedown', (e) => {
   notFixed && setFocalPoint({x: e.x, y: e.y});
 }, true);
 
+function resetInterfaceDepth() {
+  document.body.dataset.interfaceDepth = 'standard'
+}
+
 function initListeners() {
   window.spwashi.onModeChange = (mode, direct = false) => {
     if (mode) {
@@ -71,6 +75,7 @@ function initListeners() {
         nodeInputContainer.onfocus = () => nodeInputContainer.tabIndex = 0;
         break;
     }
+    resetInterfaceDepth();
   }
 
   window.spwashi.onDataIndexChange = (dataindex) => {

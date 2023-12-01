@@ -163,9 +163,6 @@ aside > section :has(:focus) {
     font-family: monospace;
 }
 
-#mainmenu-container {
-    display: flex;
-}
 #events-log {
     display: flex;
     flex-direction: column;

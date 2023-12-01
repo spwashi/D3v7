@@ -44,14 +44,14 @@ function initiateInterest(focalPointElement, timeout = 500) {
 
 export function initFocalSquare() {
   if (!focalPointElement) {
-    focalPointElement    = document.createElement('button');
+    focalPointElement    = document.querySelector('#focal-square');
     const prevFocalPoint = window.spwashi.getItem('focalPoint');
     if (prevFocalPoint) {
       Object.assign(focalPoint, prevFocalPoint);
-      setFocalPoint(focalPoint, true);
+      focalPoint.fx = undefined;
+      focalPoint.fy = undefined;
+      setFocalPoint(focalPoint);
     }
-    focalPointElement.id = 'focal-square';
-    focalPointElement.classList.add('focal-square');
     focalPointElement.onmousedown  = (e) => {
       e.preventDefault();
       const consent                        = initiateInterest(focalPointElement, 100);
@@ -94,7 +94,6 @@ export function initFocalSquare() {
         document.documentElement.ontouchend  = null;
       }
     }
-    document.documentElement.appendChild(focalPointElement);
   }
   focalPointElement.onclick = (e) => {
     if (!focalPointMeta.ready) return;
