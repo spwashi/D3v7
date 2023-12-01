@@ -48,9 +48,7 @@ export function initFocalSquare() {
     const prevFocalPoint = window.spwashi.getItem('focalPoint');
     if (prevFocalPoint) {
       Object.assign(focalPoint, prevFocalPoint);
-      focalPoint.fx = undefined;
-      focalPoint.fy = undefined;
-      setFocalPoint(focalPoint);
+      setFocalPoint(focalPoint, true);
     }
     focalPointElement.onmousedown  = (e) => {
       e.preventDefault();
