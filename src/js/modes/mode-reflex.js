@@ -43,7 +43,7 @@ export function initializeReflexMode() {
     return run();
   };
   window.spwashi.bane = (data) => {
-    async function* loop(timeout = 10) {
+    async function* timeoutLoop(timeout, iterations) {
       for (let i = 100; i--; i > 0) {
         for (let node of data) {
           yield node;
@@ -54,13 +54,14 @@ export function initializeReflexMode() {
 
     async function run() {
       let nodes = [];
-      for await (const node of loop()) {
-        node.r = 10 * Math.random() * 2;
+      for await (const node of timeoutLoop(10, 13)) {
+        node.r = Math.min(node.r * Math.random(), 100);
+        node.r = Math.max(node.r * Math.random(), 10);
       }
       return nodes;
     }
 
-    return run().then(run).then(run);
+    return run();
   }
   window.spwashi.bone = () => {
     window.spwashi.links = window.spwashi.links || [];
@@ -97,8 +98,11 @@ export function initializeReflexMode() {
     });
     window.spwashi.reinit();
   };
-  window.spwashi.bonk = () => {
-    window.spwashi.nodes.forEach(n => n.colorindex += 1)
+  window.spwashi.bonk = (nodes) => {
+    (nodes || window.spwashi.nodes).forEach(n => {
+      n.color = undefined
+      return n.colorindex += 1;
+    })
     window.spwashi.reinit();
   };
   window.spwashi.honk = () => {

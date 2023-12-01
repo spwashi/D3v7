@@ -25,17 +25,22 @@ function resetArrows() {
 }
 
 let focalSquare;
+let focalSquarePosition = {x: 0, y: 0};
 
 function initFocalSquare() {
-  if (focalSquare) return focalSquare;
-  focalSquare    = document.createElement('button');
-  focalSquare.id = 'focal-square';
-  focalSquare.classList.add('focal-square');
-  document.documentElement.appendChild(focalSquare);
+  if (!focalSquare) {
+    focalSquare    = document.createElement('button');
+    focalSquare.id = 'focal-square';
+    focalSquare.classList.add('focal-square');
+    document.documentElement.appendChild(focalSquare);
+  }
   focalSquare.onclick = () => {
     window.spwashi.boon().then(result => {
       focalSquare.onclick = () => {
         window.spwashi.bane(result);
+        focalSquare.onclick = () => {
+          window.spwashi.bonk(result);
+        };
       }
     });
 
@@ -43,14 +48,27 @@ function initFocalSquare() {
   return focalSquare;
 }
 
-function setElementAsFocalSquare(button) {
-  const x = button.getBoundingClientRect().x;
-  const y = button.getBoundingClientRect().y;
-  const w = button.getBoundingClientRect().width;
-  const h = button.getBoundingClientRect().height;
-  document.documentElement.style.setProperty('--focal-x', (x + w) + 'px');
-  document.documentElement.style.setProperty('--focal-y', (y + h) + 'px');
+function attachFocalPointToElementPosition(button) {
+  const x      = button.getBoundingClientRect().x;
+  const y      = button.getBoundingClientRect().y;
+  const w      = button.getBoundingClientRect().width;
+  const h      = button.getBoundingClientRect().height;
+  const focalX = x + w;
+  const focalY = y + h;
+
+  focalSquarePosition = {x: focalX, y: focalY};
+  document.documentElement.style.setProperty('--focal-x', focalX + 'px');
+  document.documentElement.style.setProperty('--focal-y', focalY + 'px');
 }
+
+document.body.addEventListener('mousedown', (e) => {
+  if (e.target.tagName === 'BUTTON') return;
+  if (e.target.tagName === 'CIRCLE') return;
+  if (document.body.dataset.interfaceDepth !== 'standard') return;
+  initFocalSquare();
+  document.documentElement.style.setProperty('--focal-x', (e.x) + 'px');
+  document.documentElement.style.setProperty('--focal-y', (e.y) + 'px');
+}, true);
 
 function initListeners() {
   window.spwashi.onModeChange = (mode, direct = false) => {
@@ -59,7 +77,7 @@ function initListeners() {
     if (button) {
       button.setAttribute('aria-selected', 'true');
       initFocalSquare();
-      setElementAsFocalSquare(button);
+      attachFocalPointToElementPosition(button);
     }
     resetArrows();
     switch (mode) {

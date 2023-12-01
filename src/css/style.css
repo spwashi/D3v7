@@ -448,6 +448,11 @@ aside > section :has(:focus) {
     bottom: calc(100vh - var(--focal-y));
     left: var(--focal-x);
 }
+#mode-container > section {
+    position: absolute;
+    bottom: 0;
+}
+
 
 #hotkey-container {
     width: 5rem;
