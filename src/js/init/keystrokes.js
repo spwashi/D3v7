@@ -79,7 +79,7 @@ function increaseCharge() {
   reinitializeSimulation();
 }
 
-function saveActiveNodes() {
+export function saveActiveNodes() {
   const nodes = window.spwashi.nodes;
   nodes.map(NODE_MANAGER.cacheNode)
   window.spwashi.setItem('parameters.nodes-input', nodes);

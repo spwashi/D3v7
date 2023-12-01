@@ -1,13 +1,13 @@
-import {reinitializeSimulation}                      from "../simulation/simulation";
-import {CharacterCursor}                             from "../../vendor/spw/core/node/cursor.mjs";
-import {parse}                                       from "../../vendor/spw/parser/parse.mjs";
-import {getDocumentDataIndex}                        from "./mode-dataindex";
-import {NODE_MANAGER}                                from "../simulation/nodes/nodes";
-import {moreMenuOptionsSpell}                        from "./mode-story";
-import {initKeystrokes, toggleInterfaceDepthOptions} from "../init/keystrokes";
-import {initFocalSquare}                             from "../focalPoint";
-import {setDocumentMode}                             from "./index";
-import {generateNodes}                               from "../simulation/nodes/generateNodes";
+import {reinitializeSimulation}                                       from "../simulation/simulation";
+import {CharacterCursor}                                              from "../../vendor/spw/core/node/cursor.mjs";
+import {parse}                                                        from "../../vendor/spw/parser/parse.mjs";
+import {getDocumentDataIndex}                                         from "./mode-dataindex";
+import {NODE_MANAGER}                                                 from "../simulation/nodes/nodes";
+import {moreMenuOptionsSpell}                                         from "./mode-story";
+import {initKeystrokes, saveActiveNodes, toggleInterfaceDepthOptions} from "../init/keystrokes";
+import {initFocalSquare}                                              from "../focalPoint";
+import {setDocumentMode}                                              from "./index";
+import {generateNodes}                                                from "../simulation/nodes/generateNodes";
 
 const parseSpw = (text) => {
   const tokens    = [];
@@ -179,12 +179,16 @@ export function initializeSpwParseField() {
           nextValue.push('nodeCount=3');
           nextValue.push('boon');
           nextValue.push('bonk');
+          nextValue.push('minimalism');
           nextDocumentMode = 'spw';
           return;
         case 'clicked':
           const clicked = window.spwashi.nodes.clicked.map(node => node.id).join('\n');
           nextValue.push(clicked);
           nextDocumentMode = 'spw';
+          return;
+        case 'save':
+          saveActiveNodes();
           return;
         case 'cluster':
           const nodeGroups = window.spwashi.nodes.reduce((acc, node) => {
