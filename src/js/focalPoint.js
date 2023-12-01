@@ -73,7 +73,7 @@ export function initFocalSquare() {
     }
     focalPointElement.ontouchstart = (e) => {
       e.preventDefault();
-      const consent                        = initiateInterest(focalPointElement, 300);
+      const consent                        = initiateInterest(focalPointElement, 100);
       document.documentElement.ontouchmove = (e) => {
         e.preventDefault();
         if (!consent.interested) return;

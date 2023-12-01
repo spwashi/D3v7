@@ -198,7 +198,6 @@ aside > section :has(:focus) {
     background: #222222;
     padding: 1rem;
     position: absolute;
-    top: -5rem;
 }
 #spw-mode-container button {
     padding: 1rem;
@@ -292,7 +291,6 @@ aside > section :has(:focus) {
 #querymod-mode-container {
     display: none;
     position: absolute;
-    top: -5rem;
 }
 #query-parameters {
     width: 20rem;
@@ -303,12 +301,10 @@ aside > section :has(:focus) {
 #node-mode-container {
     display: none;
     position: absolute;
-    top: -5rem;
 }
 #debug-mode-container {
     display: none;
     position: absolute;
-    top: -5rem;
 }
 #main-log {
     display: none;
