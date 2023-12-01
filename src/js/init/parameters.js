@@ -3,9 +3,9 @@ import {initializeDirectMode}                                                 fr
 import {initializeQuerystringMode}                                            from "../modes/mode-querystring";
 import {initializeMapFilterMode}                                              from "../modes/mode-mapfilter";
 import {initializeSpwParseField}                                              from "../modes/mode-spw";
-import {initializeModeSelection, setDocumentMode}                             from "../modes";
-import {initKeystrokes}                                                       from "./keystrokes";
-import {initializeReflexMode}                                                 from "../modes/mode-reflex";
+import {initializeModeSelection, setDocumentMode} from "../modes";
+import {initKeystrokes}                           from "./hotkeys";
+import {initializeReflexMode}                     from "../modes/mode-reflex";
 import {initializeStoryMode}                                                  from "../modes/mode-story";
 
 export const POWER_MODE = ['common', 'dev'][0];

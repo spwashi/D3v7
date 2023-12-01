@@ -133,7 +133,7 @@ text {
     bottom: 0;
     right: 0;
 }
-#main-image-container img{
+#main-image-container img {
     max-width: 20rem;
     max-height: 20rem;
     border: thin solid wheat;
@@ -151,7 +151,8 @@ text {
 #focal-square[data-focal-status=active] {
     background: rgba(245, 222, 179, .2);
 }
-#focal-square:disabled {
+#focal-square:disabled,
+#focal-square[data-focal-status=inactive] {
     animation: none;
     background: none;
     border: none;

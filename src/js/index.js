@@ -6,8 +6,8 @@ import {onReflexModeStart}                                                      
 import {attachFocalPointToElementPosition, focalPoint, initFocalSquare, setFocalPoint} from "./focalPoint";
 import {getIdentityPath}                                                               from "./simulation/nodes/processNode";
 import md5                                                                             from "md5";
-import {parse}                                                                         from "../vendor/spw/parser/parse.mjs";
-import {getNextUrlSearchParams}                                                        from "./init/keystrokes";
+import {parse}                  from "../vendor/spw/parser/parse.mjs";
+import {getNextUrlSearchParams} from "./init/hotkeys";
 
 const getItemKey = (key, category = null) => {
   if (!category) {

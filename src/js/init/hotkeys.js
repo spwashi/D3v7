@@ -222,33 +222,26 @@ function initHotkeyButtons() {
 }
 
 ;
-const toggleFocalPoint        = () => {
+const toggleFocalPoint = () => {
   const button               = document.querySelector('#focal-square');
-  const wasActive            = button.dataset.focalStatus !== 'inactive';
-  const nextStatus           = wasActive ? 'inactive' : 'active';
+  const wasInactive          = button.dataset.focalStatus !== 'active';
+  const nextStatus           = !wasInactive ? 'inactive' : 'active';
   button.disabled            = nextStatus === 'inactive';
   button.dataset.focalStatus = nextStatus;
 };
+
+function toggleMainMenu() {
+  toggleInterfaceDepthOptions([
+                                MAIN_MENU_OPTION,
+                                !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION
+                              ]);
+}
+
 const initialKeyStrokeOptions = [
-  {
-    revealOrder: 0, shortcut: ']', categories: ['this'], title: 'toggle focal point', callback: toggleFocalPoint
-  },
-  {
-    revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => {
-      toggleInterfaceDepthOptions([
-                                    MAIN_MENU_OPTION,
-                                    !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION
-                                  ]);
-    }
-  },
   {revealOrder: 0, shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
-  {
-    revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () =>
-      toggleInterfaceDepthOptions([
-                                    MAIN_MENU_OPTION,
-                                    !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION,
-                                  ])
-  },
+  {revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => { toggleMainMenu(); }},
+  {revealOrder: 0, shortcut: ']', categories: ['this'], title: 'toggle focal point', callback: toggleFocalPoint},
+  {revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleHotkeyMenu()},
   {revealOrder: 1, shortcut: '<space>'},
   {revealOrder: 1, shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},
   // {revealOrder: 1, shortcut: 'ArrowLeft', categories: ['forces', 'charge'], shortcutName: '←', title: 'decrease charge', callback: decreaseCharge,},

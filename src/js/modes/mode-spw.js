@@ -4,7 +4,7 @@ import {parse}                                                        from "../.
 import {getDocumentDataIndex}                                         from "./mode-dataindex";
 import {NODE_MANAGER}                                                 from "../simulation/nodes/nodes";
 import {moreMenuOptionsSpell}                                         from "./mode-story";
-import {initKeystrokes, saveActiveNodes, toggleInterfaceDepthOptions} from "../init/keystrokes";
+import {initKeystrokes, saveActiveNodes, toggleInterfaceDepthOptions} from "../init/hotkeys";
 import {initFocalSquare}                                              from "../focalPoint";
 import {setDocumentMode}                                              from "./index";
 import {generateNodes}                                                from "../simulation/nodes/generateNodes";
