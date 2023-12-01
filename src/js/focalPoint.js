@@ -48,7 +48,9 @@ export function initFocalSquare() {
     focalPointElement.ontouchstart = (e) => {
       e.preventDefault();
       focalPointElement.classList.add('dragging');
+      let i                                = 0;
       document.documentElement.ontouchmove = (e) => {
+        i++;
         e.preventDefault();
         focalPointMeta.ready = false;
         setFocalPoint({x: e.touches[0].clientX, y: e.touches[0].clientY}, true);
@@ -61,6 +63,10 @@ export function initFocalSquare() {
         }
         document.documentElement.ontouchmove = null;
         document.documentElement.ontouchend  = null;
+        if (i < 2) {
+          focalPointMeta.ready = true;
+          focalPointElement.onclick(e);
+        }
       }
     }
     document.documentElement.appendChild(focalPointElement);
