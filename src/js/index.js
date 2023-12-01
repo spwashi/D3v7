@@ -4,6 +4,10 @@ import {initSimulationRoot, reinitializeSimulation}                             
 import {onColorModeStart}                                                              from "./modes/mode-dataindex";
 import {onReflexModeStart}                                                             from "./modes/mode-reflex";
 import {attachFocalPointToElementPosition, focalPoint, initFocalSquare, setFocalPoint} from "./focalPoint";
+import {getIdentityPath}                                                               from "./simulation/nodes/processNode";
+import md5                                                                             from "md5";
+import {parse}                                                                         from "../vendor/spw/parser/parse.mjs";
+import {getNextUrlSearchParams}                                                        from "./init/keystrokes";
 
 const getItemKey = key => window.spwashi.parameterKey + '@' + key;
 
@@ -47,7 +51,16 @@ function initListeners() {
     if (button) {
       button.setAttribute('aria-selected', 'true');
       initFocalSquare();
-      attachFocalPointToElementPosition(button);
+      if (document.body.dataset.interfaceDepth === 'main-menu') {
+        attachFocalPointToElementPosition(button);
+      } else {
+        if (!focalPoint.fx) {
+          setFocalPoint({
+                          x: window.innerWidth * 0.2,
+                          y: window.innerHeight * 0.75,
+                        });
+        }
+      }
     }
     resetArrows();
     switch (mode) {
@@ -80,6 +93,47 @@ function initListeners() {
 
   window.spwashi.onDataIndexChange = (dataindex) => {
   };
+}
+
+function initH1() {
+  const h1          = document.querySelector('h1');
+  const currentText = h1.innerText;
+
+  h1.tabIndex  = 0;
+  h1.onkeydown = (e) => {
+    if (e.target !== h1) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      h1.click();
+    }
+  }
+  h1.onclick   = () => {
+    const form  = document.createElement('form');
+    const input = document.createElement('input');
+    input.value = currentText;
+    input.id    = 'h1-input';
+    form.appendChild(input);
+    const submit     = document.createElement('button');
+    submit.type      = 'submit';
+    submit.innerText = 'Submit';
+    form.appendChild(submit);
+    h1.innerHTML = '';
+    h1.appendChild(form);
+    input.focus();
+    // select all text
+    input.setSelectionRange(0, input.value.length);
+    submit.onclick = (e) => {
+      e.preventDefault();
+      const value = input.value;
+      console.log({value});
+      const parsed = JSON.parse(JSON.stringify(parse(value)));
+      const params = getNextUrlSearchParams();
+      params.set('title', parsed.identity);
+      let href = getIdentityPath(md5(parsed.identity), params);
+      console.log(href);
+      window.location.href = href;
+    }
+  }
 }
 
 function initRootSession() {
@@ -131,6 +185,7 @@ export function init() {
       .then(nodes => window.spwashi.nodes.push(...nodes))
       .then(nodes => reinitializeSimulation());
   }
-  initFocalSquare();
   initializeForceSimulationControls();
+  initFocalSquare();
+  initH1();
 }

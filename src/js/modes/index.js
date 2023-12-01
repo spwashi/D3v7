@@ -9,8 +9,8 @@ export const setDocumentMode = (mode, doToggle = true, direct = false) => {
 };
 
 export function initializeModeSelection(starterMode) {
-  const menu = document.querySelector('#mainmenu-shortcuts ol');
-
+  const menu     = document.querySelector('#mainmenu-shortcuts ol');
+  menu.innerHTML = '';
   window.spwashi.modeOrder.forEach((mode) => {
     const li                    = document.createElement('li');
     li.dataset.modeAction       = mode;

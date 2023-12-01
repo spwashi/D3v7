@@ -14,12 +14,17 @@ function isOperator(node) {
   return node.kind.split(' + ').includes('operator');
 }
 
+export function getIdentityPath(md5, urlParams) {
+  return `/identity/${md5}?${urlParams.toString()}`;
+}
+
 export function processNode(node, i) {
   node.getUrl = () => {
     const urlParams = getNextUrlSearchParams();
     urlParams.set('title', node.identity);
     urlParams.set('superpower', 'hyperlink');
-    return `/identity/${node.md5}?${urlParams.toString()}`;
+    const md5 = node.md5;
+    return getIdentityPath(md5, urlParams);
   };
 
   if (node.processed) return node;

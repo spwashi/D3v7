@@ -64,6 +64,33 @@ h1 {
     font-size: 2rem;
     outline: wheat thin solid;
 }
+h1:focus {
+    outline: thick solid wheat;
+}
+#h1-input {
+    background: #222222;
+    color: wheat;
+    padding: 1rem;
+    margin: 1rem;
+    line-height: 1;
+    font-size: 2rem;
+    outline: wheat thin solid;
+    font-family: monospace;
+}
+#h1-input + button {
+    background: #222222;
+    color: wheat;
+    padding: 1rem;
+    margin: 1rem;
+    line-height: 1;
+    font-size: 2rem;
+    outline: wheat thin solid;
+    font-family: monospace;
+}
+#h1-input:focus,
+#h1-input + button:focus {
+    outline: thick solid wheat;
+}
 body > aside {
     position: absolute;
     bottom: 0;
