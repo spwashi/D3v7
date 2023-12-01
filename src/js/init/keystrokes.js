@@ -5,11 +5,28 @@ import {setDocumentMode}        from "../modes";
 import {getDocumentDataIndex}   from "../modes/mode-dataindex";
 
 function toggleHotkeyMenu() {
+  console.log('toggle hotkey menu');
   toggleInterfaceDepthOptions(['hotkey-menu', 'standard']);
 }
 
-function toggleInterfaceDepthOptions(options = ['main-menu', 'standard']) {
-  document.body.dataset.interfaceDepth = document.body.dataset.interfaceDepth === options[0] ? options[1] : options[0];
+function toggleInterfaceDepthOptions(options) {
+  const currentOption = options.indexOf(document.body.dataset.interfaceDepth);
+  const otherOptions  = options.filter((_, i) => i !== currentOption);
+  const nextOption    = otherOptions[currentOption + 1] || otherOptions[0];
+  console.log({currentOption, otherOptions, nextOption});
+  document.body.dataset.interfaceDepth = nextOption;
+}
+
+export function initKeystrokes() {
+  document.querySelector('#mainmenu-toggle').onclick = () => toggleInterfaceDepthOptions();
+
+  window.spwashi.keystrokeRevealOrder = window.spwashi.keystrokeRevealOrder || 0;
+  window.spwashi.keystrokeOptions     = window.spwashi.keystrokeOptions || initialKeyStrokeOptions;
+  initHotkeyButtons();
+}
+
+function moreNodes() {
+  generateNodes();
 }
 
 function bonkVelocityDecay() {
@@ -17,40 +34,10 @@ function bonkVelocityDecay() {
   reinitializeSimulation();
 }
 
-export function initKeystrokes() {
-  document.querySelector('#mainmenu-toggle').onclick = () => toggleInterfaceDepthOptions();
-  window.spwashi.keystrokeOptions                    = [
-    {shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: toggleInterfaceDepthOptions},
-    {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
-    {shortcut: '<space>'},
-    {shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},
-    {shortcut: 'ArrowLeft', categories: ['forces', 'charge'], shortcutName: '←', title: 'decrease charge', callback: decreaseCharge,},
-    {shortcut: 'ArrowRight', categories: ['forces', 'charge'], shortcutName: '→', title: 'increase charge', callback: increaseCharge},
-    {shortcut: '<space>'},
-    {shortcut: '.', categories: ['nodes'], title: 'fix position', callback: fixPositions},
-    {shortcut: ',', categories: ['nodes'], title: 'unfix position', callback: clearFixedPositions},
-    {shortcut: '<space>'},
-    {shortcut: 'k', categories: ['data'], title: 'clear nodes', callback: clearActiveNodes},
-    {shortcut: '-', categories: ['data', 'cache'], title: 'clear node cache', callback: clearCachedNodes},
-    {shortcut: 'c', categories: ['data'], title: 'copy node ids', callback: copyNodesToClipboard},
-    {shortcut: 's', categories: ['nodes'], title: 'save', callback: saveActiveNodes},
-    {shortcut: '<space>'},
-    {shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},
-    {shortcut: '<space>'},
-    {shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleInterfaceDepthOptions(['hotkey-menu', 'standard'])},
-    {shortcut: '\\', categories: ['data', 'cache'], title: 'reset interface', callback: resetInterface},
-  ]
-  initKeystrokeOptions();
-}
-
 function copyNodesToClipboard() {
   const nodes = window.spwashi.nodes;
   const text  = nodes.map(n => n.id.trim() ? `<${n.id.trim()}>` : '').filter(t => t.length).join('\n');
   navigator.clipboard.writeText(text);
-}
-
-function moreNodes() {
-  generateNodes();
 }
 
 function lessNodes() {
@@ -177,29 +164,52 @@ document.addEventListener('keydown', (e) => {
   plainKeyHandler(key, e);
 })
 
-function initKeystrokeOptions() {
-  const keystrokeOptions            = document.querySelector('#keystroke-options');
-  keystrokeOptions.innerHTML        = '';
-  const showKeystrokeOptionsLabel   = document.querySelector('#hotkey-menu-toggle');
-  showKeystrokeOptionsLabel.onclick = e => {
+function initHotkeyButtons() {
+  const keystrokeOptions     = document.querySelector('#keystroke-options');
+  keystrokeOptions.innerHTML = '';
+  const hotkeyMenuToggle     = document.querySelector('#hotkey-menu-toggle');
+  hotkeyMenuToggle.onclick   = e => {
     toggleHotkeyMenu();
   }
-  const optionList                  = keystrokeOptions.appendChild(document.createElement('UL'));
-  window.spwashi.keystrokeOptions.forEach(({shortcut, categories = [], title, callback, shortcutName}) => {
-    const handler = () => {
-      callback();
-      toggleHotkeyMenu();
-    };
-    const li      = optionList.appendChild(document.createElement('LI'));
-    if (!title) return;
-    const ctg        = li.appendChild(document.createElement('SPAN'));
-    ctg.className    = 'ctg';
-    ctg.innerHTML    = categories.map(c => `<span>[${c}]</span>`).join('');
-    const button     = li.appendChild(document.createElement('BUTTON'));
-    button.onclick   = handler;
-    button.innerHTML = title;
-    const kbd        = li.appendChild(document.createElement('KBD'));
-    kbd.innerHTML    = `ctrl + <strong>${shortcutName || shortcut}</strong>`;
-  });
+  const optionList           = keystrokeOptions.appendChild(document.createElement('UL'));
+  window.spwashi.keystrokeOptions
+        .filter(option => option.revealOrder <= window.spwashi.keystrokeRevealOrder)
+        .forEach(({shortcut, categories = [], title, callback, shortcutName}) => {
+          const handler = () => {
+            callback();
+          };
+          const li      = optionList.appendChild(document.createElement('LI'));
+          if (!title) return;
+          const ctg        = li.appendChild(document.createElement('SPAN'));
+          ctg.className    = 'ctg';
+          ctg.innerHTML    = categories.map(c => `<span>[${c}]</span>`).join('');
+          const button     = li.appendChild(document.createElement('BUTTON'));
+          button.onclick   = handler;
+          button.innerHTML = title;
+          const kbd        = li.appendChild(document.createElement('KBD'));
+          kbd.innerHTML    = `ctrl + <strong>${shortcutName || shortcut}</strong>`;
+        });
 }
 
+;
+const initialKeyStrokeOptions = [
+  {revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => { toggleInterfaceDepthOptions(['main-menu', 'standard']); }},
+  {revealOrder: 0, shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
+  {revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleInterfaceDepthOptions(['hotkey-menu', 'standard'])},
+  {revealOrder: 1, shortcut: '<space>'},
+  {revealOrder: 1, shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},
+  {revealOrder: 1, shortcut: 'ArrowLeft', categories: ['forces', 'charge'], shortcutName: '←', title: 'decrease charge', callback: decreaseCharge,},
+  {revealOrder: 1, shortcut: 'ArrowRight', categories: ['forces', 'charge'], shortcutName: '→', title: 'increase charge', callback: increaseCharge},
+  {revealOrder: 1, shortcut: '<space>'},
+  {revealOrder: 1, shortcut: '.', categories: ['nodes'], title: 'fix position', callback: fixPositions},
+  {revealOrder: 1, shortcut: ',', categories: ['nodes'], title: 'unfix position', callback: clearFixedPositions},
+  {revealOrder: 1, shortcut: '<space>'},
+  {revealOrder: 1, shortcut: 'k', categories: ['data'], title: 'clear nodes', callback: clearActiveNodes},
+  {revealOrder: 1, shortcut: '-', categories: ['data', 'cache'], title: 'clear node cache', callback: clearCachedNodes},
+  {revealOrder: 1, shortcut: 'c', categories: ['data'], title: 'copy node ids', callback: copyNodesToClipboard},
+  {revealOrder: 1, shortcut: 's', categories: ['nodes'], title: 'save', callback: saveActiveNodes},
+  {revealOrder: 1, shortcut: '<space>'},
+  {revealOrder: 1, shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},
+  {revealOrder: 1, shortcut: '<space>'},
+  {revealOrder: 1, shortcut: '\\', categories: ['data', 'cache'], title: 'reset interface', callback: resetInterface},
+];

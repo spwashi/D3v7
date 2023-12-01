@@ -7,6 +7,13 @@ const clearFxFy = d => d.fx = d.fy = undefined;
 const fixX      = (d, i) => d.fy = 75 * (i + 1);
 const fixY      = (d, i) => d.fx = 75;
 
+export const moreMenuOptionsSpell = `
+<nodes> [
+[more, fewer]
+(position){fix, unfix}
+[save, clear, clear cache]&
+]`.trim();
+
 
 async function* loopOverTimeEntries(events) {
   for (let {delay, payload} of events) {
@@ -83,7 +90,7 @@ export function initializeStorySequence(reset = false) {
 
 const stories = {};
 initializeStorySequence();
-stories.demo = {
+stories.demo    = {
   params:   {
     width:         300,
     height:        500,
@@ -112,6 +119,20 @@ stories.demo = {
     executeEvents(events).then(console.log);
   }
 };
+stories.options = {
+  events: [
+    {delay: 300, payload: {params: {mode: 'spw'}}},
+    {delay: 100, payload: {effect: () => setParseField(moreMenuOptionsSpell)}},
+    {
+      delay: 1000, payload: {
+        effect: () => {
+          window.spwashi.keystrokeRevealOrder = 1;
+        }
+      }
+    },
+
+  ]
+}
 
 export function initializeStoryMode() {
   const storyModeContainer     = document.querySelector('#story-mode-container');

@@ -427,6 +427,9 @@ aside > section :has(:focus) {
 #mode-container {
     display: flex;
     position: absolute;
+    height: 5rem;
+    width: 5rem;
+    background-color: #222222;
     bottom: calc(100vh - var(--focal-y));
     left: var(--focal-x);
 }
