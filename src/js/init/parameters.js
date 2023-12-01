@@ -47,7 +47,10 @@ export function readParameters(searchParameters) {
   window.spwashi.values.r             = [];
   window.spwashi.values.text          = window.spwashi.values.text || {}
   window.spwashi.values.text.fontSize = window.spwashi.values.text.fontSize || [];
-  window.spwashi.superpower           = window.spwashi.superpower || {};
+  window.spwashi.superpower           = window.spwashi.superpower || {
+    name:   'hyperlink',
+    intent: 1,
+  };
   window.spwashi.parameters.links     = window.spwashi.parameters.links || {};
   window.spwashi.parameters.forces    = window.spwashi.parameters.forces || {};
   window.spwashi.featuredIdentity     = /\/identity\/([a-zA-Z\d]+)/.exec(window.location.href)?.[1] || searchParameters.get('identity');

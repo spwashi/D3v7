@@ -34,7 +34,7 @@ document.body.addEventListener('mousedown', (e) => {
   if (document.body.dataset.interfaceDepth !== 'standard') return;
   initFocalSquare();
   const notFixed = focalPoint.fx === undefined || focalPoint.fy === undefined;
-  notFixed && setFocalPoint({x: e.x, y: e.y});
+  // notFixed && setFocalPoint({x: e.x, y: e.y});
 }, true);
 
 function resetInterfaceDepth() {
