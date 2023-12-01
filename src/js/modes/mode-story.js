@@ -7,12 +7,7 @@ const clearFxFy = d => d.fx = d.fy = undefined;
 const fixX      = (d, i) => d.fy = 75 * (i + 1);
 const fixY      = (d, i) => d.fx = 75;
 
-export const moreMenuOptionsSpell = `
-<nodes> [
-[more, fewer]
-(position){fix, unfix}
-[save, clear, clear cache]&
-]`.trim();
+export const moreMenuOptionsSpell = `extended menu`.trim();
 
 
 async function* loopOverTimeEntries(events) {
