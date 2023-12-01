@@ -267,7 +267,16 @@ export function initializeReflexMode() {
     reflexes:
       [
         [
+          'v.d.',
+          () => {
+            const options = ['0.1', '0.2', '0.3', '0.4', '0.5'];
+            const i       = window.spwashi.__session.i++;
 
+            window.spwashi.parameters.forces.velocityDecay = options[i % options.length];
+            window.spwashi.reinit();
+          },
+        ],
+        [
           'box',
           () => {
             window.spwashi.parameters.forces.boundingBox = !window.spwashi.parameters.forces.boundingBox;

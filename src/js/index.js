@@ -77,7 +77,12 @@ function initListeners() {
   };
 }
 
+function initRootSession() {
+  window.spwashi.__session = window.spwashi.__session || {i: 0};
+}
+
 function initRoot() {
+  initRootSession();
   initCallbacks();
   initListeners();
   window.spwashi.counter        = 0;
