@@ -20,16 +20,13 @@
     </main>
     <aside>
         <section id="mainmenu-container"></section>
-        <section id="hotkey-container">
-            <label id="show-keystroke-options" tabindex="0" for="hotkey-menu-toggle">
-                <span>[...]</span>
-                <input id="hotkey-menu-toggle" type="checkbox"/>
-            </label>
+        <section id="hotkey-container" data-interface-element="hotkey-menu">
             <section id="keystroke-options"></section>
         </section>
-        <button id="mainmenu-toggle">#</button>
+        <button id="mainmenu-toggle">{ # }</button>
+        <button id="hotkey-menu-toggle">[...]</button>
     </aside>
-    <section id="mainmenu-shortcuts" data-interface-depth="main-menu">
+    <section id="mainmenu-shortcuts" data-interface-element="main-menu">
         <ol></ol>
     </section>
     <section id="mode-container">

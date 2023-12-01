@@ -67,14 +67,6 @@ body > aside {
     position: absolute;
     bottom: 0;
     left: 0;
-    margin: 1rem;
-    background: var(--mainmenu-background);
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: var(--mainmenu-text-color);
-    border: thin solid var(--standard-outline);
 }
 body > aside > * {
     /*padding: 1rem;*/
@@ -432,32 +424,40 @@ aside > section :has(:focus) {
     display: flex;
 }
 
-#show-keystroke-options + #keystroke-options {
-    display: none;
-}
 #mode-container {
     display: flex;
     position: absolute;
     bottom: calc(100vh - var(--focal-y));
     left: var(--focal-x);
 }
-#show-keystroke-options:has(:checked) + #keystroke-options {
-    display: flex;
+
+#hotkey-container {
+    width: 5rem;
+    height: 4rem;
     position: absolute;
     bottom: 0;
-    left: 100%;
-}
-:is(#show-keystroke-options) > [type=checkbox] {
-    display: none
-}
-#show-keystroke-options:focus, #show-keystroke-options:hover {
-    outline: .5rem solid wheat;
-    font-weight: bold;
-}
-#hotkey-container {
+    left: 0;
     margin: 0;
-    padding: 1rem;
+    padding: 0 1rem;
+    line-height: 1.5rem;
+    justify-content: center;
+    align-items: center;
 }
+
+#hotkey-menu-toggle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #222222;
+    color: wheat;
+    border: thin solid var(--standard-outline);
+    padding: 0rem;
+    width: 6rem;
+    height: 4rem;
+    line-height: 1.5rem;
+    font-family: monospace;
+}
+#hotkey-menu-toggle:focus,
 #mainmenu-toggle:focus {
     border: thick solid wheat;
 }
@@ -469,19 +469,12 @@ aside > section :has(:focus) {
     color: wheat;
     border: thin solid var(--standard-outline);
     padding: 0rem;
-    width: 4rem;
+    width: 6rem;
     height: 4rem;
+    line-height: 1.5rem;
+    font-family: monospace;
 }
-#show-keystroke-options {
-    display: inline-flex;
-    flex-direction: column;
-    z-index: 1;
-    color: var(--mainmenu-text-color);
-    cursor: pointer;
-    background: var(--show-keystroke-options-background);
-    border: thin solid var(--keystroke-options-border);
-    padding: 0;
-}
+
 #keystroke-options button {
     padding: .5rem;
     margin: 0;
@@ -491,19 +484,13 @@ aside > section :has(:focus) {
     outline: thin solid var(--standard-outline);
     cursor: pointer;
 }
-#show-keystroke-options span, #show-keystroke-options label {
-    padding: 0;
-}
-#show-keystroke-options input {
-    display: inline-flex;
-}
-#hotkey-container, #mainmenu-container {
-    display: flex;
-    align-items: end;
-}
 #keystroke-options {
     padding: 0 2rem 1rem;
     background: var(--show-keystroke-options-background);
+    position: absolute;
+    bottom: 0;
+    left: 100%;
+    color: rgba(245, 222, 179, 0.3);
 }
 #keystroke-options ul {
     list-style: none;
@@ -531,12 +518,18 @@ aside > section :has(:focus) {
     cursor: pointer;
     padding: .5rem;
 }
+#keystroke-options button {
+    font-weight: bold;
+    transition: background-color .1s;
+}
+#keystroke-options button:hover {
+    background: rgba(245, 222, 179, 0.3);
+}
 #keystroke-options button:focus {
     background: wheat;
     color: #222222;
-    font-weight: bold;
 }
-#keystroke-options li:focus, #keystroke-options li:hover {
+#keystroke-options li:focus, #keystroke-options li:has(button:hover) {
     background: var(--keystroke-options-hover-background);
 }
 #keystroke-options kbd:before {
@@ -571,12 +564,6 @@ aside > section :has(:focus) {
 label[for=mode-selector],
 #mode-selector {
     display: none !important;
-}
-[data-interface-depth="main-menu"] {
-    display: none;
-}
-body[data-interface-depth="all"] [data-interface-depth="main-menu"] {
-    display: flex;
 }
 #mainmenu-shortcuts ol {
     padding: 0;
@@ -624,6 +611,14 @@ body[data-interface-depth="all"] [data-interface-depth="main-menu"] {
 
 body:not([data-debug=debug]) g.rects {
     display: none;
+}
+
+[data-interface-element="main-menu"], [data-interface-element="hotkey-menu"] {
+    display: none;
+}
+body[data-interface-depth="main-menu"] [data-interface-element="main-menu"],
+body[data-interface-depth="hotkey-menu"] [data-interface-element="hotkey-menu"] {
+    display: flex;
 }
 
 .card {

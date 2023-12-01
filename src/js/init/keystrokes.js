@@ -5,15 +5,10 @@ import {setDocumentMode}        from "../modes";
 import {getDocumentDataIndex}   from "../modes/mode-dataindex";
 
 function toggleHotkeyMenu() {
-  const checkbox   = document.querySelector('#hotkey-menu-toggle');
-  checkbox.checked = !checkbox.checked;
-  const isShown    = checkbox.checked;
-  if (!isShown) return;
-  document.querySelector('#keystroke-options button').focus()
+  toggleInterfaceDepthOptions(['hotkey-menu', 'standard']);
 }
 
-function toggleMainMenu() {
-  const options                        = ['all', 'title'];
+function toggleInterfaceDepthOptions(options = ['main-menu', 'standard']) {
   document.body.dataset.interfaceDepth = document.body.dataset.interfaceDepth === options[0] ? options[1] : options[0];
 }
 
@@ -23,9 +18,9 @@ function bonkVelocityDecay() {
 }
 
 export function initKeystrokes() {
-  document.querySelector('#mainmenu-toggle').onclick = () => toggleMainMenu();
+  document.querySelector('#mainmenu-toggle').onclick = () => toggleInterfaceDepthOptions();
   window.spwashi.keystrokeOptions                    = [
-    {shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: toggleMainMenu},
+    {shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: toggleInterfaceDepthOptions},
     {shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
     {shortcut: '<space>'},
     {shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},
@@ -42,7 +37,7 @@ export function initKeystrokes() {
     {shortcut: '<space>'},
     {shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},
     {shortcut: '<space>'},
-    {shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: toggleHotkeyMenu},
+    {shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleInterfaceDepthOptions(['hotkey-menu', 'standard'])},
     {shortcut: '\\', categories: ['data', 'cache'], title: 'reset interface', callback: resetInterface},
   ]
   initKeystrokeOptions();
@@ -183,19 +178,17 @@ document.addEventListener('keydown', (e) => {
 })
 
 function initKeystrokeOptions() {
-  const keystrokeOptions              = document.querySelector('#keystroke-options');
-  keystrokeOptions.innerHTML          = '';
-  const showKeystrokeOptionsLabel     = document.querySelector('#show-keystroke-options');
-  showKeystrokeOptionsLabel.onkeydown = e => {
-    if (e.key === ' ') {
-      toggleHotkeyMenu();
-    }
+  const keystrokeOptions            = document.querySelector('#keystroke-options');
+  keystrokeOptions.innerHTML        = '';
+  const showKeystrokeOptionsLabel   = document.querySelector('#hotkey-menu-toggle');
+  showKeystrokeOptionsLabel.onclick = e => {
+    toggleHotkeyMenu();
   }
-  const optionList                    = keystrokeOptions.appendChild(document.createElement('UL'));
+  const optionList                  = keystrokeOptions.appendChild(document.createElement('UL'));
   window.spwashi.keystrokeOptions.forEach(({shortcut, categories = [], title, callback, shortcutName}) => {
     const handler = () => {
       callback();
-      document.querySelector('#show-keystroke-options input').checked = false;
+      toggleHotkeyMenu();
     };
     const li      = optionList.appendChild(document.createElement('LI'));
     if (!title) return;
