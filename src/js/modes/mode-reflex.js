@@ -44,8 +44,9 @@ export function initializeReflexMode() {
   };
   window.spwashi.bane = (data) => {
     async function* timeoutLoop(timeout, iterations) {
+      let iterable = data || window.spwashi.nodes;
       for (let i = 100; i--; i > 0) {
-        for (let node of data) {
+        for (let node of iterable) {
           yield node;
           await new Promise(r => setTimeout(r, timeout));
         }
@@ -247,9 +248,7 @@ export function initializeReflexMode() {
         [
           'bane',
           () => {
-            let arr                     = window.spwashi.nodes.filter(d => d.id.indexOf('node:') < 0);
-            window.spwashi.nodes.length = 0;
-            window.spwashi.nodes.push(...arr);
+            window.spwashi.bane();
             window.spwashi.reinit()
           },
         ],
