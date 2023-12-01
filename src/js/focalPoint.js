@@ -11,7 +11,7 @@ export const focalPoint =
                  x:            0,
                  y:            0,
                  queuedAction: () => {
-                   const mode = window.spwashi.getItem('mode');
+                   const mode = window.spwashi.getItem('mode', 'focal.root');
                    setDocumentMode(mode);
                  },
                  onFocus:      () => {}
@@ -45,7 +45,7 @@ function initiateInterest(focalPointElement, timeout = 500) {
 export function initFocalSquare() {
   if (!focalPointElement) {
     focalPointElement    = document.querySelector('#focal-square');
-    const prevFocalPoint = window.spwashi.getItem('focalPoint');
+    const prevFocalPoint = window.spwashi.getItem('focalPoint', 'focal.root');
     if (prevFocalPoint) {
       Object.assign(focalPoint, prevFocalPoint);
       setFocalPoint(focalPoint, true);
@@ -113,7 +113,7 @@ export function setFocalPoint({x, y}, fix = false) {
   }
   document.documentElement.style.setProperty('--focal-x', x + 'px');
   document.documentElement.style.setProperty('--focal-y', y + 'px');
-  window.spwashi.setItem('focalPoint', {x, y, fx: x, fy: y});
+  window.spwashi.setItem('focalPoint', {x, y, fx: x, fy: y}, 'focal.root');
 }
 
 document.documentElement.style.setProperty('--focal-y-basis', document.documentElement.getBoundingClientRect().height + 'px');

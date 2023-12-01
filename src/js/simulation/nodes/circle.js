@@ -19,8 +19,11 @@ export function logMainEvent(event, details) {
   }
 }
 
+
 export function makeCircle(g) {
-  const onclick = (e, d) => {
+  window.spwashi.nodes.clicked = window.spwashi.nodes.clicked || [];
+  const onclick                = (e, d) => {
+    window.spwashi.nodes.clicked.push(d);
     console.log(d)
     logMainEvent('clicked: ' + d.id, JSON.stringify(d, null, 3));
     if (e.defaultPrevented) return;

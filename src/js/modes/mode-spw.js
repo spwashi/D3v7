@@ -99,10 +99,21 @@ export function initializeSpwParseField() {
   window.spwashi.spwEditor = spwInput;
   const button             = document.querySelector('#parse-spw');
   button.onclick           = () => {
-    let text          = spwInput.value;
-    let physicsChange = false;
+    let text             = spwInput.value;
+    let physicsChange    = false;
+    let nextDocumentMode = '';
 
     const lines = text.split('\n').map(line => {
+      const at = /@=(.+)/.exec(line)?.[1];
+      if (at) {
+        const identities = at.split(',');
+        identities.map(id => {
+          const node = window.spwashi.nodes.find(node => node.id === id || node.identity === id);
+          node.r     = 100;
+        })
+        reinitializeSimulation();
+        return;
+      }
       const add = /add=(-?\d+)/.exec(line)?.[1];
       if (add) {
         physicsChange = true;
@@ -135,6 +146,10 @@ export function initializeSpwParseField() {
       }
 
       switch (line) {
+        case 'clicked':
+          spwInput.value   = window.spwashi.nodes.clicked.map(node => node.id).join('\n');
+          nextDocumentMode = 'spw';
+          return;
         case 'cluster':
           const nodeGroups = window.spwashi.nodes.reduce((acc, node) => {
             const cluster = node.colorindex;
@@ -161,7 +176,6 @@ export function initializeSpwParseField() {
                 });
           reinitializeSimulation();
           return;
-          break;
         case 'minimalism':
           window.spwashi.minimalism = true;
           toggleInterfaceDepthOptions();
@@ -221,7 +235,7 @@ export function initializeSpwParseField() {
     })
     physicsChange && reinitializeSimulation();
     window.spwashi.setItem('parameters.spw-parse-field', text);
-    setDocumentMode('');
+    setDocumentMode(nextDocumentMode, false);
 
     text           = lines.filter(l => typeof l === 'string').join('\n');
     const parsed   = parseSpw(text);

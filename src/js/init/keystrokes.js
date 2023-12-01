@@ -34,10 +34,15 @@ export function toggleInterfaceDepthOptions(options) {
 }
 
 export function initKeystrokes() {
-  document.querySelector('#mainmenu-toggle').onclick = () => toggleInterfaceDepthOptions([
-                                                                                           MAIN_MENU_OPTION,
-                                                                                           !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION
-                                                                                         ]);
+  const mainMenuToggle = document.querySelector('#mainmenu-toggle');
+  if (mainMenuToggle) {
+    mainMenuToggle.onclick = () => toggleInterfaceDepthOptions(
+      [
+        MAIN_MENU_OPTION,
+        !window.spwashi.minimalism ? STANDARD_OPTION : MINIMALISM_OPTION
+      ]
+    );
+  }
 
   window.spwashi.keystrokeRevealOrder = window.spwashi.keystrokeRevealOrder || 0;
   window.spwashi.keystrokeOptions     = window.spwashi.keystrokeOptions || initialKeyStrokeOptions;
@@ -217,7 +222,7 @@ function initHotkeyButtons() {
 }
 
 ;
-const toggleFocalPoint                      = () => {
+const toggleFocalPoint        = () => {
   const button               = document.querySelector('#focal-square');
   const wasActive            = button.dataset.focalStatus !== 'inactive';
   const nextStatus           = wasActive ? 'inactive' : 'active';

@@ -9,7 +9,13 @@ import md5                                                                      
 import {parse}                                                                         from "../vendor/spw/parser/parse.mjs";
 import {getNextUrlSearchParams}                                                        from "./init/keystrokes";
 
-const getItemKey = key => window.spwashi.parameterKey + '@' + key;
+const getItemKey = (key, category = null) => {
+  if (!category) {
+    category = window.spwashi.parameterKey
+  }
+
+  return category + '@' + key;
+};
 
 function initCallbacks() {
   window.spwashi.callbacks = window.spwashi.callbacks || {};
@@ -44,7 +50,7 @@ function resetInterfaceDepth() {
 function initListeners() {
   window.spwashi.onModeChange = (mode, direct = false) => {
     if (mode) {
-      window.spwashi.setItem('mode', mode);
+      window.spwashi.setItem('mode', mode, 'focal.root');
     }
     document.querySelector('[data-mode-action] [aria-selected="true"]')?.setAttribute('aria-selected', 'false');
     const button = document.querySelector(`#mode-selector--${mode}`);
@@ -102,16 +108,16 @@ function initListeners() {
 }
 
 function initH1() {
-  const h1          = document.querySelector('h1');
-  const currentText = h1.innerText;
+  const h1                = document.querySelector('h1');
+  const currentText       = h1.innerText;
   const changeTitleButton = document.querySelector('#main-wonder-button');
-  h1.tabIndex  = 0;
-  h1.onclick = (e) => {
+  h1.tabIndex             = 0;
+  h1.onclick              = (e) => {
     if (e.target !== h1) return;
     e.stopPropagation()
     fillH1()
   }
-  h1.onkeydown = (e) => {
+  h1.onkeydown            = (e) => {
     if (e.ctrlKey || e.metaKey || e.shiftKey) {
       if (e.ctrlKey || e.metaKey) {
         if (e.key === 'c') {
@@ -199,9 +205,11 @@ function initRoot() {
     'spw',
   ]
   window.spwashi.readParameters = readParameters;
-  window.spwashi.setItem        = (key, item, category = null) => window.localStorage.setItem(getItemKey(key), JSON.stringify(item || null))
+  window.spwashi.setItem        = (key, item, category = null) => {
+    window.localStorage.setItem(getItemKey(key, category), JSON.stringify(item || null));
+  }
   window.spwashi.getItem        = (key, category = null) => {
-    const out = window.localStorage.getItem(getItemKey(key))
+    const out = window.localStorage.getItem(getItemKey(key, category))
     if (out) return JSON.parse(out || '{}')
     return undefined;
   }
