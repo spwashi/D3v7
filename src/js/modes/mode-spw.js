@@ -87,6 +87,23 @@ function initInputField() {
   return spwInput;
 }
 
+export function pushHelpTopics(y) {
+  const topics = [
+    {
+      id:          'help--home',
+      name:        'home',
+      description: 'go to home page',
+      r:           30,
+      url:         '/'
+    },
+  ]
+  window.spwashi.nodes.push(...topics.map(node => {
+    node.fy = y;
+    return node;
+  }));
+  window.spwashi.reinit();
+}
+
 export function processSpwInput(text) {
   let physicsChange    = false;
   let nextDocumentMode = '';
@@ -147,15 +164,7 @@ export function processSpwInput(text) {
 
     switch (line) {
       case 'help':
-        const topics = [
-          {
-            id:          'help--home',
-            name:        'home',
-            description: 'go to home page',
-            r:           30,
-            url:         '/'
-          },
-        ]
+        window.spwashi.setItem('help', 'this is the help menu', 'focal.root')
         window.spwashi.nodes.push(
           {
             fx:              window.spwashi.parameters.startPos.x,
@@ -169,11 +178,10 @@ export function processSpwInput(text) {
             url:             '/help',
             callbacks:       {
               click(e, d) {
-                window.spwashi.nodes.push(...topics.map(node => {
-                  node.fy = d.y;
-                  return node;
-                }));
-                window.spwashi.reinit();
+                d.fx    = d.fy = undefined;
+                const y = d.y;
+                const x = d.x;
+                pushHelpTopics(y);
               }
             }
           }

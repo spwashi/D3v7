@@ -256,7 +256,7 @@ function initSimulationRects() {
   window.spwashi.rects = window.spwashi.rects || getDefaultRects();
 }
 
-export function initSimulationRoot() {
+export async function initSimulationRoot() {
   window.spwashi.reinit     = reinitializeSimulation;
   window.spwashi.simulation = forceSimulation();
   initSimulationNodes();

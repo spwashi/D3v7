@@ -8,7 +8,7 @@ import {getIdentityPath}                                                        
 import md5                                                                             from "md5";
 import {parse}                                                                         from "../vendor/spw/parser/parse.mjs";
 import {getNextUrlSearchParams, processPastedText}                                     from "./init/hotkeys";
-import {processSpwInput}                                                               from "./modes/mode-spw";
+import {processSpwInput, pushHelpTopics}                                               from "./modes/mode-spw";
 import {setDocumentMode}                                                               from "./modes";
 
 const getItemKey = (key, category = null) => {
@@ -172,7 +172,7 @@ function initH1() {
 
       const {liveStrings, nextDocumentMode, valueStrings} = processSpwInput(value);
       if (nextDocumentMode === 'spw') {
-        doFocusH1After = false;
+        doFocusH1After                 = false;
         window.spwashi.spwEditor.value = (valueStrings.join('\n'));
         setDocumentMode('spw', false, true);
         return;
@@ -229,7 +229,14 @@ function initRoot() {
     if (out) return JSON.parse(out || '{}')
     return undefined;
   }
-  initSimulationRoot();
+  initSimulationRoot().then(() => {
+    // if on /help route
+    if (window.location.pathname === '/help') {
+      pushHelpTopics();
+      window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';
+      setDocumentMode('spw', false, true);
+    }
+  });
 }
 
 export function init() {
