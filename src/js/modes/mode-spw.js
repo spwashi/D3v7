@@ -52,7 +52,7 @@ function setPageImage(base64) {
   return img;
 }
 
-function initPageImage(img) {
+function initPageImage() {
   const mainImageContainer     = document.querySelector('#main-image-container');
   mainImageContainer.innerHTML = '';
   const url                    = window.spwashi.getItem('parameters.page-image.url');
@@ -146,6 +146,40 @@ export function processSpwInput(text) {
     }
 
     switch (line) {
+      case 'help':
+        const topics = [
+          {
+            id:          'help--home',
+            name:        'home',
+            description: 'go to home page',
+            r:           30,
+            url:         '/'
+          },
+        ]
+        window.spwashi.nodes.push(
+          {
+            fx:              window.spwashi.parameters.startPos.x,
+            fy:              window.spwashi.parameters.startPos.y,
+            id:              'help',
+            name:            'help',
+            kind:            '__help',
+            r:               30,
+            collisionRadius: 100,
+            charge:          -100,
+            url:             '/help',
+            callbacks:       {
+              click(e, d) {
+                window.spwashi.nodes.push(...topics.map(node => {
+                  node.fy = d.y;
+                  return node;
+                }));
+                window.spwashi.reinit();
+              }
+            }
+          }
+        );
+        physicsChange = true;
+        return;
       case 'home':
         window.location.href = '/'
         return;
@@ -166,6 +200,8 @@ export function processSpwInput(text) {
         return;
       case 'clicked':
         const clicked = window.spwashi.nodes.clicked.map(node => node.id).join('\n');
+
+        window.spwashi.nodes.clicked = [];
         valueStrings.push(clicked);
         nextDocumentMode = 'spw';
         return;

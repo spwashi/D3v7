@@ -20,7 +20,6 @@ export function getIdentityPath(hash, urlParams, title = undefined) {
 }
 
 export function processNode(node, i) {
-
   node.getUrl = () => {
     const urlParams = getNextUrlSearchParams();
     urlParams.set('superpower', 'hyperlink');

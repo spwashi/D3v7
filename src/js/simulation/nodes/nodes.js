@@ -49,6 +49,7 @@ function getNodeRootId(node = {}, i = 0) {
 function normalize(node, readNode, i) {
   const template = {
     image:      {},
+    callbacks:  {},
     charge:     0,
     parts:      {},
     text:       {fontSize: 20},

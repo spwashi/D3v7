@@ -25,8 +25,8 @@ export function makeCircle(g) {
   window.spwashi.nodes.clicked = window.spwashi.nodes.clicked || [];
   const onclick                = (e, d) => {
     window.spwashi.nodes.clicked.push(d);
-    console.log(d)
     logMainEvent('clicked: ' + d.id, JSON.stringify(d, null, 3));
+    d.callbacks?.click?.(e, d);
     if (e.defaultPrevented) return;
     let intent = window.spwashi.superpower.intent;
     if (e.key === 'x') {
@@ -42,11 +42,9 @@ export function makeCircle(g) {
       return;
     }
     if (e.key && e.key !== ' ') return;
-
     if (e.shiftKey) {
       intent *= -1;
     }
-
     switch (window.spwashi.superpower.name) {
       case 'hyperlink':
         const url = d.getUrl?.();
