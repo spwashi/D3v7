@@ -6,8 +6,10 @@ import {onReflexModeStart}                                                      
 import {attachFocalPointToElementPosition, focalPoint, initFocalSquare, setFocalPoint} from "./focalPoint";
 import {getIdentityPath}                                                               from "./simulation/nodes/processNode";
 import md5                                                                             from "md5";
-import {parse}                                     from "../vendor/spw/parser/parse.mjs";
-import {getNextUrlSearchParams, processPastedText} from "./init/hotkeys";
+import {parse}                                                                         from "../vendor/spw/parser/parse.mjs";
+import {getNextUrlSearchParams, processPastedText}                                     from "./init/hotkeys";
+import {processSpwInput}                                                               from "./modes/mode-spw";
+import {setDocumentMode}                                                               from "./modes";
 
 const getItemKey = (key, category = null) => {
   if (!category) {
@@ -138,47 +140,56 @@ function initH1() {
 
   let temporaryDocumentClickHandler;
 
-  function resetH1() {
+  function resetH1(focus = true) {
     document.removeEventListener('click', temporaryDocumentClickHandler);
     h1.innerText = currentText
+    focus && h1.focus();
   }
 
   function fillH1() {
-    const form  = document.createElement('form');
-    const input = document.createElement('input');
+    const form    = document.createElement('form');
+    const input   = document.createElement('input');
     input.onpaste = (e) => {
       e.preventDefault();
       const text = e.clipboardData.getData('text/plain');
       processPastedText(text);
     }
-    input.value = currentText;
-    input.id    = 'h1-input';
+    input.value   = currentText;
+    input.id      = 'h1-input';
     form.appendChild(input);
-    const submit     = document.createElement('button');
-    submit.type      = 'submit';
-    submit.innerText = 'Submit';
+    const submit       = document.createElement('button');
+    submit.type        = 'submit';
+    submit.innerText   = 'Submit';
+    let doFocusH1After = true;
     form.appendChild(submit);
     h1.innerHTML = '';
     h1.appendChild(form);
     input.focus();
-    // select all text
     input.setSelectionRange(0, input.value.length);
     submit.onclick = (e) => {
       e.preventDefault();
       const value = input.value;
-      console.log({value});
-      const parsed         = JSON.parse(JSON.stringify(parse(value)));
+
+      const {liveStrings, nextDocumentMode, valueStrings} = processSpwInput(value);
+      if (nextDocumentMode === 'spw') {
+        doFocusH1After = false;
+        window.spwashi.spwEditor.value = (valueStrings.join('\n'));
+        setDocumentMode('spw', false, true);
+        return;
+      }
+      const processedInput = valueStrings.join('\n');
+      const parsed         = JSON.parse(JSON.stringify(parse(processedInput)));
       const params         = getNextUrlSearchParams();
-      const href           = getIdentityPath(
+
+      window.location.href = getIdentityPath(
         md5(parsed.identity),
         params,
         parsed.identity
       );
-      window.location.href = href;
     }
 
-    temporaryDocumentClickHandler = () => { resetH1(); };
-    submit.onblur                 = () => { resetH1(); }
+    temporaryDocumentClickHandler = () => { resetH1(doFocusH1After); };
+    submit.onblur                 = () => { resetH1(doFocusH1After); }
     document.addEventListener('click', temporaryDocumentClickHandler)
   }
 

@@ -252,6 +252,9 @@ aside > section :has(:focus) {
 }
 
 /* Mode Containers */
+#spw-mode-container:focus {
+    outline: thick solid wheat;
+}
 #spw-mode-container {
     display: none;
     flex-direction: column;
