@@ -1,5 +1,6 @@
 import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {reinitializeSimulation} from "../simulation/simulation";
+import {setDocumentMode}        from "./index";
 
 export function initializeDirectMode() {
   window.spwashi.refreshNodeInputs = (nodes) => {
@@ -22,8 +23,10 @@ export function initializeDirectMode() {
     const mapFn  = eval(mapFnString);
     const parsed = JSON.parse(input);
     const nodes  = mapFn(parsed);
-
     if (!Array.isArray(nodes)) {
+      if (nodes.nodes && Array.isArray(nodes.nodes)) {
+        return nodes.nodes;
+      }
       console.error('not nodes');
       return [];
     }
@@ -43,6 +46,7 @@ export function initializeDirectMode() {
     }
     window.spwashi.nodes.push(...nodes);
     reinitializeSimulation();
+    setDocumentMode('');
   }
 
   document.querySelector('#controls button.read-nodes').onclick = () => _readNodeInputs(true);

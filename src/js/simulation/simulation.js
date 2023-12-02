@@ -1,11 +1,11 @@
-import {logMainEvent}                   from "./nodes/circle";
-import {getNodeImageHref, NODE_MANAGER} from "./nodes/nodes";
-import {EDGE_MANAGER}                   from "./edges/links";
-import {RECT_MANAGER}                   from "./rects/rects";
-import {POWER_MODE}                     from "../init/parameters";
+import {logMainEvent}                                                                                     from "./nodes/circle";
+import {getNodeImageHref, NODE_MANAGER}                                                                   from "./nodes/nodes";
+import {EDGE_MANAGER}                                                                                     from "./edges/links";
+import {RECT_MANAGER}                                                                                     from "./rects/rects";
+import {drag, extent, forceCenter, forceCollide, forceLink, forceManyBody, forceSimulation, select, zoom} from "d3";
 
 
-const simulationSVG   = d3.select("svg#simulation");
+const simulationSVG   = select("svg#simulation");
 const g               = simulationSVG.append('g').attr('id', 'simulation-content');
 const rectsG          = g.append('g').classed('rects', true);
 const linksG          = g.append('g').classed('links', true);
@@ -22,7 +22,7 @@ export function reinitializeSimulation() {
 
   if (window.spwashi.parameters.canzoom) {
     simulationSVG
-      .call(d3.zoom()
+      .call(zoom()
               .on("zoom", (e, d) => {
                 const factor = (e.transform.k - 1) * 10;
 
@@ -41,8 +41,7 @@ export function reinitializeSimulation() {
               }));
   } else if (window.spwashi.parameters.canpan) {
     simulationSVG
-      .call(d3
-              .drag()
+      .call(drag()
               .on('start', (e) => {
                 simulationSVG.attr("cursor", "grabbing");
                 nodeG_offset.x = e.x;
@@ -82,9 +81,9 @@ export function reinitializeSimulation() {
           return node.x > rect.x && node.x < rect.x + rect.width &&
                  node.y > rect.y && node.y < rect.y + rect.height
         });
-        const xRange     = d3.extent(nodes, d => d.x);
+        const xRange     = extent(nodes, d => d.x);
         const xIncrement = (xRange[1] - xRange[0]) / nodes.length;
-        const yRange     = d3.extent(nodes, d => d.y);
+        const yRange     = extent(nodes, d => d.y);
         const yIncrement = (yRange[1] - yRange[0]) / nodes.length;
         logMainEvent(xRange + ' ' + yRange)
         nodes.forEach((node, i) => {
@@ -127,21 +126,21 @@ function initializeForces(simulation, links, nodes) {
   simulation.velocityDecay(window.spwashi.parameters.forces.velocityDecay);
   simulation.force(
     'link',
-    d3.forceLink().links(links).id(d => d.id).strength(l => l.strength || 1)
+    forceLink().links(links).id(d => d.id).strength(l => l.strength || 1)
   );
   simulation.force(
     'collide',
-    d3.forceCollide(d => d.cr || d.r)
+    forceCollide(d => d.cr || d.r)
   );
   simulation.force('charge', null)
   simulation.force(
     'charge',
-    d3.forceManyBody()
+    forceManyBody()
       .strength(d => d.charge || window.spwashi.parameters.forces.charge)
   );
   simulation.force(
     'center',
-    d3.forceCenter(...[
+    forceCenter(...[
       window.spwashi.parameters.forces.centerPos.x,
       window.spwashi.parameters.forces.centerPos.y,
     ]).strength(window.spwashi.parameters.forces.centerStrength)
@@ -257,7 +256,7 @@ function initSimulationRects() {
 
 export function initSimulationRoot() {
   window.spwashi.reinit     = reinitializeSimulation;
-  window.spwashi.simulation = d3.forceSimulation();
+  window.spwashi.simulation = forceSimulation();
   initSimulationNodes();
   initSimulationEdges();
   initSimulationRects();

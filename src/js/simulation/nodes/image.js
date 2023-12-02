@@ -1,5 +1,6 @@
 import {cacheNode}          from "./store";
 import {getNodeStrokeColor} from "./colors";
+import {drag}               from "d3";
 
 export function makeImage(g) {
 	const rect = g.append('rect')
@@ -18,7 +19,7 @@ export function makeImage(g) {
 		.attr('y', d => d.y + d.image.offsetY)
 		.attr('stroke', getNodeStrokeColor)
 		.attr('stroke-width', 2)
-		.call(d3.drag()
+		.call(drag()
 			.on('start', (e, d) => {
 			})
 			.on('drag', (e, d) => {

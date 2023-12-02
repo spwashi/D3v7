@@ -1,5 +1,6 @@
 import {cacheNode} from "./store";
 import {sortNodes} from "./nodes";
+import {drag}      from "d3";
 
 export function logMainEvent(event, details) {
   const mainLog   = document.querySelector('#main-log');
@@ -99,8 +100,7 @@ export function makeCircle(g) {
     .attr('cx', d => d.x || 0)
     .attr('cy', d => d.y || 0)
     .call(
-      d3
-        .drag()
+      drag()
         .on('start', (e, node) => {
           node.x = e.x;
           node.y = e.y;

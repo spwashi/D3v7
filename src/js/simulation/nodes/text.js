@@ -1,5 +1,6 @@
 import {getNodeText}  from "./colors";
 import {logMainEvent} from "./circle";
+import {drag}         from "d3";
 
 export function makeText(g) {
   const a = g.append('a');
@@ -8,7 +9,7 @@ export function makeText(g) {
   text
     .attr('x', d => d.x)
     .attr('font-size', d => d.text.fontSize || d.r)
-    .call(d3.drag()
+    .call(drag()
             .on('start', (e, d) => {
               d.text.fx = d.text.fx || 0;
               d.text.fy = d.text.fy || 0;

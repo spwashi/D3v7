@@ -242,6 +242,51 @@ const initialKeyStrokeOptions = [
   {revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => { toggleMainMenu(); }},
   {revealOrder: 0, shortcut: ']', categories: ['this'], title: 'toggle focal point', callback: toggleFocalPoint},
   {revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleHotkeyMenu()},
+  {
+    revealOrder: 0, shortcut: 'y', categories: ['this'], title: 'yoink', callback: () => {
+      const nodes = window.spwashi.nodes;
+      const links = window.spwashi.links;
+      // unfix all nodes
+      nodes.forEach(node => {
+        node.fx = undefined;
+        node.fy = undefined;
+      });
+      // remove all forces
+      window.spwashi.simulation.force('center', null);
+      window.spwashi.simulation.force('charge', null);
+      window.spwashi.simulation.force('link', null);
+      window.spwashi.simulation.force('collide', null);
+      window.spwashi.simulation.force(
+        'center',
+        (alpha) => {
+          const nodes = window.spwashi.nodes;
+          const n     = nodes.length;
+          let cx      = 0;
+          let cy      = 0;
+          for (let i = 0; i < n; ++i) {
+            cx += nodes[i].x;
+            cy += nodes[i].y;
+          }
+          cx /= n;
+          cy /= n;
+          for (let i = 0; i < n; ++i) {
+            const d = nodes[i];
+            d.x -= cx;
+            d.y -= cy;
+            if (d.x < 10 || d.y < 10) {
+              d.r = 10;
+            }
+          }
+        }
+      );
+      window.navigator.clipboard.writeText(JSON.stringify({nodes, links}, null, 3));
+      setTimeout(() => {
+        window.spwashi.nodes.length = 0;
+        window.spwashi.links.length = 0;
+        window.spwashi.reinit();
+      }, 300);
+    }
+  },
   {revealOrder: 1, shortcut: '<space>'},
   {revealOrder: 1, shortcut: ';', categories: ['forces', 'velocity decay'], shortcutName: ';', title: 'bonk', callback: bonkVelocityDecay,},
   // {revealOrder: 1, shortcut: 'ArrowLeft', categories: ['forces', 'charge'], shortcutName: '←', title: 'decrease charge', callback: decreaseCharge,},
