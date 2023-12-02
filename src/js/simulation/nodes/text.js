@@ -5,6 +5,7 @@ import {drag}         from "d3";
 export function makeText(g) {
   const a = g.append('a');
   a.attr('href', d => d.url || undefined);
+  a.attr('target', d => '_blank');
   const text = a.append('text')
   text
     .attr('x', d => d.x)
