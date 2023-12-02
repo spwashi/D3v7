@@ -1,6 +1,6 @@
-import {setDocumentMode}      from "./index";
-import {getDocumentDataIndex} from "./mode-dataindex";
-import {pushLink}             from "../simulation/edges/links";
+import {setDocumentMode}          from "./index";
+import {getDocumentDataIndex}                   from "./mode-dataindex";
+import {linkBySpwParts, linkToCenter, pushLink} from "../simulation/edges/links";
 
 const dataindexPrefix = 'spwashi-action-';
 
@@ -261,28 +261,36 @@ export function initializeReflexMode() {
       ]
   };
   const forceReflexes       = {
-    title: 'force',
-
+    title: 'Forces',
     reflexes:
-      [
-        [
-          'v.d.',
-          () => {
-            const options = ['0.1', '0.2', '0.3', '0.4', '0.5'];
-            const i       = window.spwashi.__session.i++;
-
-            window.spwashi.parameters.forces.velocityDecay = options[i % options.length];
-            window.spwashi.reinit();
-          },
-        ],
-        [
-          'box',
-          () => {
-            window.spwashi.parameters.forces.boundingBox = !window.spwashi.parameters.forces.boundingBox;
-            window.spwashi.reinit();
-          },
-        ],
-      ]
+           [
+             [
+               'link',
+               () => {
+                 const linkingPatterns = [linkToCenter, linkBySpwParts];
+                 const i               = window.spwashi.__session.i++;
+                 const pattern         = linkingPatterns[i % linkingPatterns.length];
+                 window.spwashi.links  = pattern(window.spwashi.nodes);
+                 window.spwashi.reinit();
+               }
+             ],
+             [
+               'speed decay',
+               () => {
+                 const options                                  = ['0.1', '0.2', '0.3', '0.4', '0.5'];
+                 const i                                        = window.spwashi.__session.i++;
+                 window.spwashi.parameters.forces.velocityDecay = options[i % options.length];
+                 window.spwashi.reinit();
+               },
+             ],
+             [
+               'box',
+               () => {
+                 window.spwashi.parameters.forces.boundingBox = !window.spwashi.parameters.forces.boundingBox;
+                 window.spwashi.reinit();
+               },
+             ],
+           ]
   };
   const reflexes            = [
     loreReflexes,

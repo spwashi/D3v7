@@ -6,8 +6,8 @@ import {onReflexModeStart}                                                      
 import {attachFocalPointToElementPosition, focalPoint, initFocalSquare, setFocalPoint} from "./focalPoint";
 import {getIdentityPath}                                                               from "./simulation/nodes/processNode";
 import md5                                                                             from "md5";
-import {parse}                  from "../vendor/spw/parser/parse.mjs";
-import {getNextUrlSearchParams} from "./init/hotkeys";
+import {parse}                                     from "../vendor/spw/parser/parse.mjs";
+import {getNextUrlSearchParams, processPastedText} from "./init/hotkeys";
 
 const getItemKey = (key, category = null) => {
   if (!category) {
@@ -146,6 +146,11 @@ function initH1() {
   function fillH1() {
     const form  = document.createElement('form');
     const input = document.createElement('input');
+    input.onpaste = (e) => {
+      e.preventDefault();
+      const text = e.clipboardData.getData('text/plain');
+      processPastedText(text);
+    }
     input.value = currentText;
     input.id    = 'h1-input';
     form.appendChild(input);

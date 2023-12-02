@@ -1,8 +1,10 @@
-import {generateNodes}          from "../simulation/nodes/generateNodes";
-import {reinitializeSimulation} from "../simulation/simulation";
-import {NODE_MANAGER}           from "../simulation/nodes/nodes";
-import {setDocumentMode}        from "../modes";
-import {getDocumentDataIndex}   from "../modes/mode-dataindex";
+import {generateNodes}                  from "../simulation/nodes/generateNodes";
+import {reinitializeSimulation}         from "../simulation/simulation";
+import {NODE_MANAGER}                   from "../simulation/nodes/nodes";
+import {setDocumentMode}                from "../modes";
+import {getDocumentDataIndex}           from "../modes/mode-dataindex";
+import {duplicateNode, processRawInput} from "../modes/mode-direct";
+import {EDGE_MANAGER}                   from "../simulation/edges/links";
 
 const MAIN_MENU_OPTION  = 'main-menu';
 const HOTKEY_OPTION     = 'hotkey-menu';
@@ -66,16 +68,6 @@ function copyNodesToClipboard() {
 
 function lessNodes() {
   window.spwashi.nodes.length = Math.max(0, window.spwashi.nodes.length - window.spwashi.parameters.nodes.count);
-  reinitializeSimulation();
-}
-
-function decreaseCharge() {
-  window.spwashi.parameters.forces.charge -= 10;
-  reinitializeSimulation();
-}
-
-function increaseCharge() {
-  window.spwashi.parameters.forces.charge += 10;
   reinitializeSimulation();
 }
 
@@ -172,6 +164,24 @@ function plainKeyHandler(key, e) {
   }
 }
 
+export function processPastedText(clipboardText) {
+  const data = processRawInput(clipboardText);
+  if (data.nodes.length === 0) {
+    return false;
+  }
+  const nodes = data.nodes.filter(NODE_MANAGER.filterNode);
+  nodes.forEach(NODE_MANAGER.processNode);
+  window.spwashi.nodes.push(...nodes);
+  const edges = EDGE_MANAGER.initLinks(data.links, nodes);
+  window.spwashi.links.push(...edges);
+  reinitializeSimulation();
+}
+
+document.addEventListener('paste', (e) => {
+  const clipboardData = e.clipboardData || window.clipboardData;
+  const clipboardText = clipboardData.getData('Text');
+  return processPastedText(clipboardText);
+});
 document.addEventListener('keydown', (e) => {
   const key = e.key;
   if (key === 'Escape') {
@@ -237,6 +247,7 @@ function toggleMainMenu() {
                               ]);
 }
 
+
 const initialKeyStrokeOptions = [
   {revealOrder: 0, shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
   {revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => { toggleMainMenu(); }},
@@ -279,12 +290,13 @@ const initialKeyStrokeOptions = [
           }
         }
       );
-      window.navigator.clipboard.writeText(JSON.stringify({nodes, links}, null, 3));
+      window.navigator.clipboard.writeText(JSON.stringify({nodes: nodes.map(n => duplicateNode(n)), links}));
       setTimeout(() => {
         window.spwashi.nodes.length = 0;
         window.spwashi.links.length = 0;
         window.spwashi.reinit();
       }, 300);
+      setDocumentMode('');
     }
   },
   {revealOrder: 1, shortcut: '<space>'},

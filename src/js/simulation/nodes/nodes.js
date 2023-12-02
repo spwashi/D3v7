@@ -153,15 +153,17 @@ function filterNode(node) {
 
 function getNode(id, perspective) {
   let fallback;
-  return window.spwashi.nodes.find(n => {
+  const node = window.spwashi.nodes.find(n => {
     if (n.identity === id) {
-      fallback = n;
+      fallback = fallback || n;
       if (perspective === undefined) return true;
       return n.colorindex === perspective;
     }
     if (n.id === id) {
-      fallback = n;
+      fallback = fallback || n;
     }
-  }) || fallback;
+  });
+  console.log({id, fallback, nodes: window.spwashi.nodes})
+  return node || fallback;
 }
 

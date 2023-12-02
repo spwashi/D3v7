@@ -2,12 +2,13 @@ export function pushLink(links, link) {
   links.push(link)
 }
 
-function initLinks(linkContainer, nodes) {
+export function linkBySpwParts(nodesFromSpw) {
+  const links        = [];
   const linkStrength = window.spwashi.parameters.links.strength;
-  const doPrevLinks  = window.spwashi.parameters.links.linkPrev;
-  const links        = linkContainer;
   let hasError       = false;
-  for (let targetNode of nodes) {
+  for (let targetNode of nodesFromSpw) {
+    if (!(targetNode.identity && targetNode.parts)) continue;
+
     const {head, body, tail} = targetNode.parts;
 
     const items = [head, body, tail].flat().map(i => i?.identity).filter(Boolean);
@@ -48,17 +49,45 @@ function initLinks(linkContainer, nodes) {
 
       const strength = linkStrength * bondStrength;
       const link     = {
-        source:     sourceNode.id,
-        target:     targetNode.id,
-        strength:   strength
+        source:   sourceNode.id,
+        target:   targetNode.id,
+        strength: strength
       };
       pushLink(links, link);
     })
   }
   if (hasError) {
-    console.error(nodes);
+    console.error(nodesFromSpw);
   }
   return links;
+}
+
+export function linkToCenter(nodes) {
+  const center                    = 'center';
+  window.spwashi.nodes.centerNode = window.spwashi.nodes.centerNode || {
+    identity:        center,
+    r:               0,
+    collisionRadius: 100,
+    x:               window.spwashi.parameters.width / 2,
+    y:               window.spwashi.parameters.height / 2,
+  };
+  window.spwashi.nodes.push(window.spwashi.nodes.centerNode);
+  window.spwashi.reinit();
+  const links = [];
+  for (let node of nodes) {
+    const link = {
+      source:   node.id,
+      target:   window.spwashi.getNode(center).id,
+      strength: 0.1
+    };
+    pushLink(links, link);
+  }
+  return links;
+}
+
+function initLinks(linkContainer, nodes) {
+  linkContainer.push(...linkBySpwParts(nodes))
+  return linkContainer;
 }
 
 function updateLinks(g, links) {

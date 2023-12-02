@@ -2,39 +2,61 @@ import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {reinitializeSimulation} from "../simulation/simulation";
 import {setDocumentMode}        from "./index";
 
+export function duplicateNode(d) {
+  return {
+    identity:   d.identity,
+    name:       d.name,
+    x:          d.x,
+    y:          d.y,
+    fx:         d.fx,
+    fy:         d.fy,
+    r:          d.r,
+    id:         d.id,
+    image:      d.image.href ? d.image : undefined,
+    md5:        d.md5,
+    colorindex: d.colorindex
+  };
+}
+
+export function processRawInput(input) {
+  const data = JSON.parse(input);
+  if (!Array.isArray(data)) {
+    if (data.nodes && Array.isArray(data.nodes)) {
+      return {
+        nodes: data.nodes,
+        links: data.links || [],
+      };
+    }
+    console.error('not nodes');
+    return {
+      nodes: [],
+      links: []
+    };
+  }
+  return {
+    nodes: data || [],
+    links: [],
+  };
+}
+
 export function initializeDirectMode() {
   window.spwashi.refreshNodeInputs = (nodes) => {
-    const nodesSelectorFn   = (window.spwashi.getItem('parameters.nodes-input-map-fn-string') || 'data => data');
     const nodesInputElement = document.querySelector('#nodes-input');
     const nodesInputText    = window.spwashi.getItem('parameters.nodes-input') || [];
     nodesInputElement.value = JSON.stringify(nodesInputText, null, 2);
-
-    document.querySelector('#nodes-selector-fn').value = nodesSelectorFn;
   };
-  window.spwashi.readNodeInputs    = () => {
-    const input = document.querySelector('#nodes-input')?.value;
-    if (!input) {
-      window.spwashi.setItem('parameters.nodes-input', null);
-      return reject();
-    }
-    const mapFnInput  = document.querySelector('#nodes-selector-fn');
-    const mapFnString = mapFnInput?.value || 'data => data';
-
-    const mapFn  = eval(mapFnString);
-    const parsed = JSON.parse(input);
-    const nodes  = mapFn(parsed);
-    if (!Array.isArray(nodes)) {
-      if (nodes.nodes && Array.isArray(nodes.nodes)) {
-        return nodes.nodes;
+  window.spwashi.readNodeInputs    =
+    () => {
+      const input = document.querySelector('#nodes-input')?.value;
+      if (!input) {
+        window.spwashi.setItem('parameters.nodes-input', null);
+        return reject();
       }
-      console.error('not nodes');
-      return [];
-    }
 
-    return nodes || [];
-  }
+      return processRawInput(input);
+    }
   window.spwashi.refreshNodeInputs();
-  window.spwashi.nodes.push(...window.spwashi.readNodeInputs().filter(NODE_MANAGER.filterNode));
+  window.spwashi.nodes.push(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
   window.spwashi.nodes.forEach(NODE_MANAGER.processNode);
   reinitializeSimulation();
 
@@ -59,7 +81,6 @@ export function initializeDirectMode() {
     const nodes = window.spwashi.nodes;
     nodes.map(NODE_MANAGER.cacheNode)
     window.spwashi.setItem('parameters.nodes-input', nodes);
-    window.spwashi.setItem('parameters.nodes-input-map-fn-string', 'data => data');
     window.spwashi.refreshNodeInputs();
   }
 
@@ -75,5 +96,6 @@ export function initializeDirectMode() {
     });
     nodes.length = 0;
     reinitializeSimulation();
+    setDocumentMode('');
   }
 }

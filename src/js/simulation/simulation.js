@@ -98,7 +98,9 @@ export function reinitializeSimulation() {
       });
   }
   const nodes = NODE_MANAGER.initNodes(window.spwashi.nodes);
-  const links = EDGE_MANAGER.initLinks(window.spwashi.links, nodes);
+  const edges = EDGE_MANAGER.initLinks([], nodes);
+  window.spwashi.links.push(...edges);
+  const links = window.spwashi.links;
   const rects = RECT_MANAGER.initRects(window.spwashi.rects)
 
   const simulation = window.spwashi.simulation;
@@ -130,7 +132,7 @@ function initializeForces(simulation, links, nodes) {
   );
   simulation.force(
     'collide',
-    forceCollide(d => d.cr || d.r)
+    forceCollide(d => d.collisionRadius || d.r)
   );
   simulation.force('charge', null)
   simulation.force(
