@@ -3,7 +3,7 @@ import {reinitializeSimulation}         from "../simulation/simulation";
 import {NODE_MANAGER}                   from "../simulation/nodes/nodes";
 import {setDocumentMode}                from "../modes";
 import {getDocumentDataIndex}           from "../modes/mode-dataindex";
-import {duplicateNode, processRawInput} from "../modes/mode-direct";
+import {duplicateNode, convertRawInput} from "../modes/mode-direct";
 import {EDGE_MANAGER}                   from "../simulation/edges/links";
 
 const MAIN_MENU_OPTION  = 'main-menu';
@@ -165,7 +165,7 @@ function plainKeyHandler(key, e) {
 }
 
 export function processPastedText(clipboardText) {
-  const data = processRawInput(clipboardText);
+  const data = convertRawInput(clipboardText);
   if (data.nodes.length === 0) {
     return false;
   }
@@ -178,6 +178,8 @@ export function processPastedText(clipboardText) {
 }
 
 document.addEventListener('paste', (e) => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.target.tagName === 'TEXTAREA') return;
   const clipboardData = e.clipboardData || window.clipboardData;
   const clipboardText = clipboardData.getData('Text');
   return processPastedText(clipboardText);

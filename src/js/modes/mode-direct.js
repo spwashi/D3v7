@@ -18,7 +18,7 @@ export function duplicateNode(d) {
   };
 }
 
-export function processRawInput(input) {
+export function convertRawInput(input) {
   const data = JSON.parse(input);
   if (!Array.isArray(data)) {
     if (data.nodes && Array.isArray(data.nodes)) {
@@ -43,25 +43,23 @@ export function initializeDirectMode() {
   window.spwashi.refreshNodeInputs = (nodes) => {
     const nodesInputElement = document.querySelector('#nodes-input');
     const nodesInputText    = window.spwashi.getItem('parameters.nodes-input') || [];
-    nodesInputElement.value = JSON.stringify(nodesInputText, null, 2);
+    nodesInputElement.value = JSON.stringify(nodesInputText);
   };
-  window.spwashi.readNodeInputs    =
-    () => {
-      const input = document.querySelector('#nodes-input')?.value;
-      if (!input) {
-        window.spwashi.setItem('parameters.nodes-input', null);
-        return reject();
-      }
-
-      return processRawInput(input);
+  window.spwashi.readNodeInputs    = () => {
+    const input = document.querySelector('#nodes-input')?.value;
+    if (!input) {
+      window.spwashi.setItem('parameters.nodes-input', null);
+      return reject();
     }
+    return convertRawInput(input);
+  }
   window.spwashi.refreshNodeInputs();
   window.spwashi.nodes.push(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
   window.spwashi.nodes.forEach(NODE_MANAGER.processNode);
   reinitializeSimulation();
 
   const _readNodeInputs = (append = true) => {
-    const nodes = window.spwashi.readNodeInputs();
+    const nodes = window.spwashi.readNodeInputs().nodes;
     if (!append) {
       window.spwashi.nodes.length = 0;
       reinitializeSimulation();
