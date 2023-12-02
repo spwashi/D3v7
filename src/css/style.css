@@ -179,7 +179,6 @@ aside > section :has(:focus) {
 #node-input-container button {
     padding: .5rem;
     margin: 0;
-    margin-right: .5rem;
 }
 #node-input-container label {
     color: var(--mainmenu-text-color);
@@ -192,6 +191,7 @@ aside > section :has(:focus) {
     color: wheat;
     padding: 1rem;
     /*margin: 1rem;*/
+    width: 10rem;
     line-height: 1;
     font-size: 1rem;
     outline: wheat thin solid;
@@ -200,6 +200,7 @@ aside > section :has(:focus) {
 #node-input-container .button-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 #node-input-container button:focus {
     outline: thick solid wheat;
