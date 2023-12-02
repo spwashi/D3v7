@@ -104,6 +104,11 @@ export function pushHelpTopics(y) {
   window.spwashi.reinit();
 }
 
+const helptext = [
+  'thoughts are nodes',
+  'text can be linked'
+];
+
 export function processSpwInput(text) {
   let physicsChange    = false;
   let nextDocumentMode = '';
@@ -163,8 +168,12 @@ export function processSpwInput(text) {
     }
 
     switch (line) {
+      case helptext[0]:
+      case helptext[1]:
+        return;
+        break;
       case 'help':
-        window.spwashi.setItem('help', 'this is the help menu', 'focal.root')
+        window.spwashi.setItem('help', helptext.join('\n'), 'focal.root')
         window.spwashi.nodes.push(
           {
             fx:              window.spwashi.parameters.startPos.x,
