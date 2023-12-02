@@ -162,7 +162,7 @@ aside :is(:focus) {
     outline: thin solid var(--is-focus-outline);
 }
 aside > section :has(:focus) {
-    outline: thin solid var(--has-focus-outline);
+    /*outline: thin solid var(--has-focus-outline);*/
 }
 
 
@@ -178,21 +178,41 @@ aside > section :has(:focus) {
 }
 #node-input-container button {
     padding: .5rem;
-    margin: .5rem 0;
+    margin: 0;
+    margin-right: .5rem;
 }
 #node-input-container label {
     color: var(--mainmenu-text-color);
-    margin-bottom: 1rem;
 }
 #node-input-container label span {
-    padding: 0;
+    padding: 1rem 0;
+}
+#node-input-container input {
+    background: #222222;
+    color: wheat;
+    padding: 1rem;
+    /*margin: 1rem;*/
+    line-height: 1;
+    font-size: 1rem;
+    outline: wheat thin solid;
+    font-family: monospace;
+}
+#node-input-container .button-container {
+    display: flex;
+    flex-direction: row;
+}
+#node-input-container button:focus {
+    outline: thick solid wheat;
 }
 #controls {
     margin-left: 1rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+#controls > section {
+    margin-right: 1rem;
 }
 #controls label {
     color: var(--mainmenu-text-color);
@@ -463,8 +483,15 @@ aside > section :has(:focus) {
 }
 [data-mode=node] #node-mode-container {
     display: flex;
-    align-items: start;
     margin-left: 1rem;
+}
+#node-mode-container button {
+    padding: 1rem;
+    font-family: monospace;
+    cursor: pointer;
+    border: thin solid var(--standard-outline);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
 }
 [data-mode=spw] :is(#spw-mode-container) {
     display: flex;

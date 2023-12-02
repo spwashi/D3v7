@@ -58,6 +58,10 @@ export function initializeDirectMode() {
   window.spwashi.nodes.forEach(NODE_MANAGER.processNode);
   reinitializeSimulation();
 
+  const nodesInput = document.querySelector('#nodes-input');
+  // select all on focus
+  nodesInput.onfocus = () => nodesInput.select();
+
   const _readNodeInputs = (append = true) => {
     const nodes = window.spwashi.readNodeInputs().nodes;
     if (!append) {
