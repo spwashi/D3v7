@@ -3,8 +3,9 @@ import {reinitializeSimulation}         from "../simulation/simulation";
 import {NODE_MANAGER}                   from "../simulation/nodes/nodes";
 import {setDocumentMode}                from "../modes";
 import {getDocumentDataIndex}           from "../modes/mode-dataindex";
-import {duplicateNode, convertRawInput} from "../modes/mode-direct";
-import {EDGE_MANAGER}                   from "../simulation/edges/links";
+import {convertRawInput, duplicateNode} from "../modes/mode-direct";
+import {EDGE_MANAGER}                from "../simulation/edges/links";
+import {removeAllNodes, removeNodes} from "../simulation/nodes/set";
 
 const MAIN_MENU_OPTION  = 'main-menu';
 const HOTKEY_OPTION     = 'hotkey-menu';
@@ -67,7 +68,8 @@ function copyNodesToClipboard() {
 }
 
 function lessNodes() {
-  window.spwashi.nodes.length = Math.max(0, window.spwashi.nodes.length - window.spwashi.parameters.nodes.count);
+  const amountToRemove = window.spwashi.parameters.nodes.count;
+  removeNodes(amountToRemove);
   reinitializeSimulation();
 }
 
@@ -80,7 +82,7 @@ export function saveActiveNodes() {
 }
 
 export function clearActiveNodes() {
-  window.spwashi.nodes.length = 0;
+  removeAllNodes();
   window.spwashi.links.length = 0;
   window.spwashi.perspectiveMap.delete(getDocumentDataIndex())
   reinitializeSimulation();
@@ -143,10 +145,6 @@ function plainKeyHandler(key, e) {
   }
   if (key === ' ') {
     // generateNodes(e.shiftKey ? window.spwashi.parameters.nodes.count : 1);
-  }
-  if (key === 'Backspace') {
-    // window.spwashi.nodes.length = window.spwashi.nodes.length - 1;
-    // reinitializeSimulation();
   }
   switch (key) {
     case 'ArrowRight':
@@ -294,7 +292,7 @@ const initialKeyStrokeOptions = [
       );
       window.navigator.clipboard.writeText(JSON.stringify({nodes: nodes.map(n => duplicateNode(n)), links}));
       setTimeout(() => {
-        window.spwashi.nodes.length = 0;
+        removeAllNodes();
         window.spwashi.links.length = 0;
         window.spwashi.reinit();
       }, 300);

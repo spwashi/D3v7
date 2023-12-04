@@ -1,6 +1,7 @@
 import {NODE_MANAGER}           from "../simulation/nodes/nodes";
 import {reinitializeSimulation} from "../simulation/simulation";
 import {setDocumentMode}        from "./index";
+import {removeAllNodes}         from "../simulation/nodes/set";
 
 export function duplicateNode(d) {
   return {
@@ -65,7 +66,7 @@ export function initializeDirectMode() {
   const _readNodeInputs = (append = true) => {
     const nodes = window.spwashi.readNodeInputs().nodes;
     if (!append) {
-      window.spwashi.nodes.length = 0;
+      removeAllNodes();
       reinitializeSimulation();
     }
     window.spwashi.nodes.push(...nodes);

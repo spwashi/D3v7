@@ -3,10 +3,11 @@ import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/mode-javascript';
 import {reinitializeSimulation} from "../simulation/simulation";
 import {setDocumentMode}        from "./index";
+import {removeAllNodes}         from "../simulation/nodes/set";
 
 export function initializeMapFilterMode() {
   function hardResetNodes(nodes) {
-    window.spwashi.nodes.length = 0;
+    removeAllNodes();
     window.spwashi.nodes.push(...nodes);
     window.spwashi.links = window.spwashi.links.filter(link => nodes.includes(link.source) && nodes.includes(link.target));
     reinitializeSimulation();

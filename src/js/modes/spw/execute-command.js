@@ -3,6 +3,7 @@ import {initializeForces, reinitializeSimulation}                     from "../.
 import {initFocalSquare}                                              from "../../focalPoint";
 import {initPageImage}                                                from "../../ui/page-image";
 import {scaleOrdinal, scaleSequential, schemeCategory10}              from "d3";
+import {removeAllNodes, removeClusterNodes}                           from "../../simulation/nodes/set";
 
 export const moreMenuOptionsSpell = `extended menu`.trim();
 
@@ -122,13 +123,13 @@ function getCluster(node) {
 }
 
 function runClusterCommand(sideEffects) {
-  const nodeGroups     = window.spwashi.nodes.reduce((acc, node) => {
+  const nodeGroups = window.spwashi.nodes.reduce((acc, node) => {
     const cluster = getCluster(node);
     acc[cluster]  = acc[cluster] || [];
     acc[cluster].push(node);
     return acc;
   }, {});
-  window.spwashi.nodes = window.spwashi.nodes.filter(node => node.kind !== '__cluster');
+  removeClusterNodes();
   window.spwashi.links = window.spwashi.links.filter(link => link.source.kind !== '__cluster' && link.target.kind !== '__cluster');
   Object.entries(nodeGroups)
         .forEach(([cluster, nodes]) => {
@@ -218,13 +219,10 @@ function runClearPageImageCommand() {
 }
 
 function runClearCommand() {
-  {
-    window.spwashi.nodes = [];
-    window.spwashi.links = [];
-    reinitializeSimulation();
-    initFocalSquare().focus();
-    return;
-  }
+  removeAllNodes();
+  window.spwashi.links = [];
+  reinitializeSimulation();
+  initFocalSquare().focus();
 }
 
 function runMoreMenuOptionsCommand() {
@@ -249,7 +247,6 @@ function runCollisionRadiusCommand(sideEffects) {
   window.spwashi.nodes.forEach(node => node.collisionRadius = parseInt(valueString));
   sideEffects.physicsChange = true;
 }
-
 
 function runSpwashiCommand(sideEffects) {
   sideEffects.valueStrings.push(...[
@@ -280,14 +277,16 @@ function runScaleCommand(sideEffects) {
 }
 
 const commands = {
+  'home':  () => runHomeCommand(),
+  'clear': () => runClearCommand(),
+  'save':  () => runSaveCommand(),
+  'help':  sideEffects => runHelpCommand(sideEffects),
+
   'spwashi':  sideEffects => runSpwashiCommand(sideEffects),
   'color':    sideEffects => runScaleCommand(sideEffects),
-  'save':     () => runSaveCommand(),
-  'home':     () => runHomeCommand(),
   'freeze':   () => runFreezeCommand(),
   'unfreeze': () => runUnfreezeCommand(),
   'unfix':    () => runUnfreezeCommand(),
-  'clear':    () => runClearCommand(),
   'forces':   sideEffects => runForcesCommand(sideEffects),
   'cr':       sideEffects => runCollisionRadiusCommand(sideEffects),
 
@@ -297,7 +296,6 @@ const commands = {
   'scatter': sideEffects => runScatterCommand(sideEffects),
   'link':    sideEffects => runLinkCommand(sideEffects),
 
-  'help':       sideEffects => runHelpCommand(sideEffects),
   'demo':       sideEffects => runDemoCommand(sideEffects),
   'minimalism': () => runMinimalismCommand(),
 
@@ -309,7 +307,17 @@ const commands = {
   // not convinced these are useful
   'display=nodes':        () => runDisplayNodesCommand(),
   'clear page image':     () => runClearPageImageCommand(),
-  [moreMenuOptionsSpell]: () => runMoreMenuOptionsCommand()
+  [moreMenuOptionsSpell]: () => runMoreMenuOptionsCommand(),
+  'options':              sideEffects => {
+    sideEffects.valueStrings.push(...Object.keys(commands).filter(key => ![
+      'options',
+      'clear',
+      'save',
+      'home',
+      'help',
+    ].includes(key)).map(key => key + '\n'));
+    sideEffects.nextDocumentMode = 'spw';
+  }
 };
 
 export function executeCommand(command, sideEffects) {

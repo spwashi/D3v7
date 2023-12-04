@@ -6,12 +6,13 @@ import {makeCircle, updateCircle}         from "./circle";
 import {makeImage, updateNodeImage}       from "./image";
 import {getNodeColor, getNodeStrokeColor} from "./colors";
 import {getDocumentDataIndex}             from "../../modes/mode-dataindex";
+import {setNodeData}                      from "./set";
 
 export const NODE_MANAGER = {
   getNode:     getNode,
   initNodes:   initNodes,
   normalize:   normalize,
-  updateNodes: updateNodes,
+  updateNodes: updateNodeSimulation,
   filterNode:  filterNode,
   processNode: processNode,
   cacheNode:   cacheNode,
@@ -91,12 +92,12 @@ function initNodes(nodes) {
       i
     );
   }
-
   const activeNodes = sortNodes(nodes);
-  return window.spwashi.nodes = activeNodes;
+  setNodeData(activeNodes);
+  return activeNodes;
 }
 
-function updateNodes(g, nodes) {
+function updateNodeSimulation(g, nodes) {
   const wrapperSelection =
           g
             .select('.nodes')
