@@ -24,10 +24,8 @@ export function reinitializeSimulation() {
     simulationSVG
       .call(zoom()
               .on("zoom", (e, d) => {
-                const factor = (e.transform.k - 1) * 10;
-
+                const factor                 = (e.transform.k - 1) * 10;
                 window.spwashi.zoomTransform = {k: factor};
-
                 if (e.sourceEvent.shiftKey) {
                   window.spwashi.parameters.forces._charge = window.spwashi.parameters.forces._charge || window.spwashi.parameters.forces.charge;
                   window.spwashi.parameters.forces.charge  = window.spwashi.parameters.forces._charge * factor;
@@ -38,7 +36,9 @@ export function reinitializeSimulation() {
                     node.r          = node.private._r * e.transform.k;
                   })
                 }
-              }));
+              })
+      )
+      .on("dblclick.zoom", null)
   } else if (window.spwashi.parameters.canpan) {
     simulationSVG
       .call(drag()
@@ -105,7 +105,7 @@ export function reinitializeSimulation() {
 
   const simulation = window.spwashi.simulation;
   simulation.nodes(nodes);
-  initializeForces(simulation, links, nodes);
+  initializeForces();
   window.spwashi.tick           = () => {
     simulation.tick(1);
     window.spwashi.internalTicker();
@@ -121,7 +121,10 @@ export function reinitializeSimulation() {
   document.querySelector('#output').innerHTML = JSON.stringify(window.spwashi.parameters, null, 2);
 }
 
-function initializeForces(simulation, links, nodes) {
+export function initializeForces() {
+  const simulation = window.spwashi.simulation;
+  const links      = window.spwashi.links;
+  const nodes      = window.spwashi.nodes;
   simulation.alpha(window.spwashi.parameters.forces.alpha);
   simulation.alphaTarget(window.spwashi.parameters.forces.alphaTarget);
   simulation.alphaDecay(window.spwashi.parameters.forces.alphaDecay);

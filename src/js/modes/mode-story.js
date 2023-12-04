@@ -2,12 +2,12 @@ import {readParameters}   from "../init/parameters";
 import {processNode}      from "../simulation/nodes/processNode";
 import {NODE_MANAGER}     from "../simulation/nodes/nodes";
 import {clearActiveNodes} from "../init/hotkeys";
+import {moreMenuOptionsSpell} from "./spw/execute-command";
 
 const clearFxFy = d => d.fx = d.fy = undefined;
 const fixX      = (d, i) => d.fy = 75 * (i + 1);
 const fixY      = (d, i) => d.fx = 75;
 
-export const moreMenuOptionsSpell = `extended menu`.trim();
 
 
 async function* loopOverTimeEntries(events) {

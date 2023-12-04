@@ -48,7 +48,7 @@ export function makeCircle(g) {
     console.log(d)
     switch (window.spwashi.superpower.name) {
       case 'hyperlink':
-        const url = d.getUrl?.();
+        const url = d.url || d.getUrl?.();
         d.url     = url;
         if (!url) break;
         logMainEvent('hyperlink: ' + url)
@@ -122,6 +122,8 @@ export function makeCircle(g) {
 export function updateCircle(update) {
   update
     .select('circle')
+    .attr('stroke', d => d.stroke)
+    .attr('stroke-width', d => d.strokeWidth || 1)
     .attr('fill', d => d.color || undefined)
     .attr('data-colorindex', d => !d.color ? 'spwashi-datum-' + (d.colorindex % 13) : undefined)
     .attr('cx', d => d.x || 0)

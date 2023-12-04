@@ -9,7 +9,8 @@ import md5                                                                      
 import {parse}                                                                         from "../vendor/spw/parser/parse.mjs";
 import {getNextUrlSearchParams, processPastedText}                                     from "./init/hotkeys";
 import {setDocumentMode}                 from "./modes";
-import {processSpwInput, pushHelpTopics} from "./modes/spw/process-spw-input";
+import {processSpwInput} from "./modes/spw/process-spw-input";
+import {pushHelpTopics}                                                                from "./modes/spw/execute-command";
 
 const getItemKey = (key, category = null) => {
   if (!category) {
@@ -177,6 +178,7 @@ function initH1() {
         return;
       }
       const processedInput = valueStrings.join('\n');
+      if (!processedInput) return;
       const parsed         = JSON.parse(JSON.stringify(parse(processedInput)));
       const params         = getNextUrlSearchParams();
 
