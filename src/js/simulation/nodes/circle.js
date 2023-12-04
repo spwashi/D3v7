@@ -122,7 +122,7 @@ export function updateCircle(update) {
   update
     .select('circle')
     .attr('stroke', d => d.stroke)
-    .attr('stroke-width', d => d.strokeWidth || 1)
+    .attr('stroke-width', d => d.strokeWidth || 5)
     .attr('fill', d => d.color || undefined)
     .attr('data-colorindex', d => !d.color ? 'spwashi-datum-' + (d.colorindex % 13) : undefined)
     .attr('cx', d => d.x || 0)

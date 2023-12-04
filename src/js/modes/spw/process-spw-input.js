@@ -64,7 +64,11 @@ export function processSpwInput(text) {
     processNode(node);
   });
   sideEffects.nodesIgnored.forEach(node => { node.r = 10; });
-  sideEffects.nodesImpacted.forEach(node => { node.r = 100; });
+  sideEffects.nodesImpacted.forEach(node => {
+    // dark wheat
+    node.stroke      = 'rgb(222,184,135)';
+    node.strokeWidth = 5;
+  });
 
   if (sideEffects.physicsChange) {
     reinitializeSimulation();

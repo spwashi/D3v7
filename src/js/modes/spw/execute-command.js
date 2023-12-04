@@ -276,6 +276,18 @@ function runScaleCommand(sideEffects) {
   });
 }
 
+function runArrangeCommand(sideEffects) {
+  const nodes  = window.spwashi.nodes;
+  const width  = window.spwashi.parameters.width;
+  const height = window.spwashi.parameters.height;
+  nodes.forEach((node, i) => {
+    node.x = (i % 5) * width / 5;
+    node.y = Math.floor(i / 5) * height / 5;
+  });
+  sideEffects.nodesImpacted = nodes;
+  sideEffects.physicsChange = true;
+}
+
 const commands = {
   'home':  () => runHomeCommand(),
   'clear': () => runClearCommand(),
@@ -294,10 +306,12 @@ const commands = {
   'clicked': sideEffects => runClickedCommand(sideEffects),
   'cluster': sideEffects => runClusterCommand(sideEffects),
   'scatter': sideEffects => runScatterCommand(sideEffects),
-  'link':    sideEffects => runLinkCommand(sideEffects),
+  'arrange': sideEffects => runArrangeCommand(sideEffects),
 
   'demo':       sideEffects => runDemoCommand(sideEffects),
   'minimalism': () => runMinimalismCommand(),
+
+  'link': sideEffects => runLinkCommand(sideEffects),
 
   'boon': () => runBoonCommand(),
   'bone': () => runBoneCommand(),
