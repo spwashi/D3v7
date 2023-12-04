@@ -52,7 +52,7 @@ export function makeImage(g) {
 					d.image.r -= intent;
 					break;
 				}
-				case 'changecolor': {
+				case 'colorindex': {
 					if (isNaN(d.colorindex)) d.colorindex = 1;
 					d.colorindex += intent;
 					break;

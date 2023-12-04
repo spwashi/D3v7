@@ -1,8 +1,8 @@
 import {getDataIndexForNumber, initializeDataindexMode, setDocumentDataIndex} from "../modes/mode-dataindex";
 import {initializeDirectMode}                                                 from "../modes/mode-direct";
 import {initializeQuerystringMode}                                            from "../modes/mode-querystring";
-import {initializeMapFilterMode}                                              from "../modes/mode-mapfilter";
-import {initializeSpwParseField}                                              from "../modes/mode-spw";
+import {initializeMapFilterMode}                  from "../modes/mode-mapfilter";
+import {initializeSpwParseField}                  from "../modes/spw/mode-spw";
 import {initializeModeSelection, setDocumentMode} from "../modes";
 import {initKeystrokes}                           from "./hotkeys";
 import {initializeReflexMode}                     from "../modes/mode-reflex";

@@ -45,14 +45,14 @@ export function makeCircle(g) {
     if (e.shiftKey) {
       intent *= -1;
     }
+    console.log(d)
     switch (window.spwashi.superpower.name) {
       case 'hyperlink':
         const url = d.getUrl?.();
         d.url     = url;
-        console.log(url)
         if (!url) break;
         logMainEvent('hyperlink: ' + url)
-        // window.open(url, '_blank');
+        window.open(url, '_blank');
         break
       case 'prune':
         window.spwashi.nodes.splice(window.spwashi.nodes.indexOf(d), 1);
@@ -75,7 +75,8 @@ export function makeCircle(g) {
         d.r -= intent;
         break;
       }
-      case 'changecolor': {
+      case 'colorindex': {
+        d.color = undefined;
         if (isNaN(d.colorindex)) d.colorindex = 1;
         d.colorindex += intent;
         break;
@@ -83,7 +84,7 @@ export function makeCircle(g) {
       case 'z': {
         d.z = d.z || 0;
         d.z += intent;
-        sortNodes(ACTIVE_NODES);
+        sortNodes(window.spwashi.nodes);
         break;
       }
     }

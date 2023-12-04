@@ -8,8 +8,8 @@ import {getIdentityPath}                                                        
 import md5                                                                             from "md5";
 import {parse}                                                                         from "../vendor/spw/parser/parse.mjs";
 import {getNextUrlSearchParams, processPastedText}                                     from "./init/hotkeys";
-import {processSpwInput, pushHelpTopics}                                               from "./modes/mode-spw";
-import {setDocumentMode}                                                               from "./modes";
+import {setDocumentMode}                 from "./modes";
+import {processSpwInput, pushHelpTopics} from "./modes/spw/process-spw-input";
 
 const getItemKey = (key, category = null) => {
   if (!category) {
@@ -120,14 +120,13 @@ function initH1() {
     fillH1()
   }
   h1.onkeydown            = (e) => {
-    if (e.ctrlKey || e.metaKey || e.shiftKey) {
-      if (e.ctrlKey || e.metaKey) {
-        if (e.key === 'c') {
-          navigator.clipboard.writeText(currentText);
-        }
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === 'c') {
+        navigator.clipboard.writeText(currentText);
       }
       return;
     }
+    if (e.key === 'Shift') return;
     if (e.target !== h1) return;
     if (e.key === 'Tab') return;
     if (e.key === ' ') {
@@ -159,7 +158,7 @@ function initH1() {
     form.appendChild(input);
     const submit       = document.createElement('button');
     submit.type        = 'submit';
-    submit.innerText   = 'Submit';
+    submit.innerText   = 'submit';
     let doFocusH1After = true;
     form.appendChild(submit);
     h1.innerHTML = '';

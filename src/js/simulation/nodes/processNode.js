@@ -46,20 +46,20 @@ export function processNode(node, i) {
   const r        = window.spwashi.values.r?.[i] || node.r || window.spwashi.parameters.nodes.radiusMultiplier || undefined;
   const fontSize = window.spwashi.values.text?.fontSize?.[i] || node.text?.fontSize || undefined;
 
-  node.colorindex    = getDocumentDataIndex();
-  node.fx            = fx;
-  node.fy            = fy;
-  node.r             = r;
-  node.collisionRadius            = r * 2;
-  node.text          = node.text || {};
-  node.text.fontSize = fontSize;
-  node.image         = node.image || {};
-  node.image.r       = 100;
-  node.image.offsetX = 0;
-  node.image.offsetY = 0;
-  node.md5           = node.identity && md5(node.identity);
-  const urlParams    = getNextUrlSearchParams();
-  node.url           = getIdentityPath(node.md5, urlParams, node.identity)
+  node.colorindex      = getDocumentDataIndex();
+  node.fx              = fx;
+  node.fy              = fy;
+  node.r               = r;
+  node.collisionRadius = r * 2;
+  node.text            = node.text || {};
+  node.text.fontSize   = fontSize;
+  node.image           = node.image || {};
+  node.image.r         = 100;
+  node.image.offsetX   = 0;
+  node.image.offsetY   = 0;
+  node.md5             = node.identity && md5(node.identity);
+  const urlParams      = getNextUrlSearchParams();
+  node.url             = getIdentityPath(node.md5, urlParams, node.identity)
 
   const edgeLeft   = 50;
   const edgeRight  = window.spwashi.parameters.width - 50;
