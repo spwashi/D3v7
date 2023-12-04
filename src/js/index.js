@@ -10,7 +10,8 @@ import {parse}                                                                  
 import {getNextUrlSearchParams, processPastedText}                                     from "./init/hotkeys";
 import {setDocumentMode}                 from "./modes";
 import {processSpwInput} from "./modes/spw/process-spw-input";
-import {pushHelpTopics}                                                                from "./modes/spw/execute-command";
+
+import {pushHelpTopics}                                                                from "./modes/spw/commands";
 
 const getItemKey = (key, category = null) => {
   if (!category) {
