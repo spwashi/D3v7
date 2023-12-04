@@ -26,7 +26,7 @@ import {runSpwashiCommand}                     from "./spwashi";
 import {runScaleCommand}                       from "./scale";
 import {runArrangeCommand}                     from "./arrange";
 
-export const optionsCommand = sideEffects => {
+const optionsCommand = sideEffects => {
   sideEffects.valueStrings.push(...Object.keys(commands).filter(key => ![
     'options',
     'clear',
@@ -35,7 +35,8 @@ export const optionsCommand = sideEffects => {
     'help',
   ].includes(key)).map(key => key + '\n'));
   sideEffects.nextDocumentMode = 'spw';
-}, commands                 = {
+};
+export const commands       = {
   'home':       () => runHomeCommand(),
   'clear':      () => runClearCommand(),
   'save':       () => runSaveCommand(),
