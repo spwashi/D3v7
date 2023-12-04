@@ -15,6 +15,7 @@ import {runBaneCommand}                        from "./bane";
 import {runBoonCommand}                        from "./boon";
 import {runHonkCommand}                        from "./honk";
 import {runBonkCommand}                        from "./bonk";
+import {runTitleCommand}                       from "./title";
 import {runDisplayNodesCommand}                from "./display-nodes";
 import {runClearPageImageCommand}              from "./clear-page-image";
 import {runClearCommand}                       from "./clear";
@@ -53,6 +54,7 @@ export const optionsCommand = sideEffects => {
   'arrange':    sideEffects => runArrangeCommand(sideEffects),
   'demo':       sideEffects => runDemoCommand(sideEffects),
   'link':       sideEffects => runLinkCommand(sideEffects),
+  'title':      sideEffects => runTitleCommand(sideEffects),
   'minimalism': () => runMinimalismCommand(),
   'boon':       () => runBoonCommand(),
   'bane':       () => runBaneCommand(),
