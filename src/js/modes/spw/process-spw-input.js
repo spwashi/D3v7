@@ -1,6 +1,8 @@
 import {reinitializeSimulation}      from "../../simulation/simulation";
 import {initPageImage, setPageImage} from "../../ui/page-image";
 import {processLine}                 from "./process-line";
+import {processNode}                 from "../../simulation/nodes/processNode";
+import {NODE_MANAGER}                from "../../simulation/nodes/nodes";
 
 export function initSpwParseField() {
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
@@ -56,7 +58,11 @@ export function processSpwInput(text) {
     processLine(line, sideEffects);
   });
 
-  sideEffects.nodesAdded.forEach(node => { node.stroke = 'red'; });
+  sideEffects.nodesAdded.forEach(node => {
+    node.stroke = 'red';
+    NODE_MANAGER.normalize(node);
+    processNode(node);
+  });
   sideEffects.nodesIgnored.forEach(node => { node.r = 10; });
   sideEffects.nodesImpacted.forEach(node => { node.r = 100; });
 

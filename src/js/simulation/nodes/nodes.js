@@ -52,6 +52,7 @@ function normalize(node, readNode, i) {
     callbacks:  {},
     charge:     0,
     parts:      {},
+    private:    {},
     text:       {fontSize: 20},
     r:          1 * window.spwashi.parameters.nodes.radiusMultiplier,
     z:          0,
@@ -59,15 +60,10 @@ function normalize(node, readNode, i) {
     y:          window.spwashi.parameters.startPos.y,
     colorindex: getDocumentDataIndex(),
   };
-  const fixedPos = {
-    fx: null && window.spwashi.parameters.startPos.x + i * 20,
-    fy: null && window.spwashi.parameters.startPos.y + (node.identity?.length ? (node.identity?.length * 2) : 0),
-  }
   Object.assign(
     node,
     template,
     readNode,
-    // fixedPos,
     {
       name: node.identity || ('node:' + i),
       idx:  i,
@@ -77,7 +73,6 @@ function normalize(node, readNode, i) {
     }
   );
   node.r             = Math.max(node.r, 1)
-  node.private       = {};
   node.image.r       = isNaN(node.image.r) ? node.r : Math.max(10, node.image.r);
   node.image.offsetX = !isNaN(node.image.offsetX) ? node.image.offsetX : 0;
   node.image.offsetY = !isNaN(node.image.offsetY) ? node.image.offsetY : node.r;
@@ -164,7 +159,6 @@ function getNode(id, perspective) {
       fallback = fallback || n;
     }
   });
-  console.log({id, fallback, nodes: window.spwashi.nodes})
   return node || fallback;
 }
 

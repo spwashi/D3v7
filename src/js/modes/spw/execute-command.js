@@ -2,6 +2,7 @@ import {initKeystrokes, saveActiveNodes, toggleInterfaceDepthOptions} from "../.
 import {initializeForces, reinitializeSimulation}                     from "../../simulation/simulation";
 import {initFocalSquare}                                              from "../../focalPoint";
 import {initPageImage}                                                from "../../ui/page-image";
+import {scaleOrdinal, scaleSequential, schemeCategory10}              from "d3";
 
 export const moreMenuOptionsSpell = `extended menu`.trim();
 
@@ -116,31 +117,32 @@ function runFreezeCommand() {
   });
 }
 
+function getCluster(node) {
+  return 'cluster:' + node.colorindex;
+}
+
 function runClusterCommand(sideEffects) {
-  {
-    const nodeGroups     = window.spwashi.nodes.reduce((acc, node) => {
-      const cluster = node.colorindex;
-      acc[cluster]  = acc[cluster] || [];
-      acc[cluster].push(node);
-      return acc;
-    }, {});
-    window.spwashi.nodes = window.spwashi.nodes.filter(node => node.kind !== '__cluster');
-    window.spwashi.links = window.spwashi.links.filter(link => link.source.kind !== '__cluster' && link.target.kind !== '__cluster');
-    Object.entries(nodeGroups)
-          .forEach(([cluster, nodes]) => {
-            const clusterNode = {
-              id:   cluster,
-              kind: '__cluster',
-              r:    100,
-            };
-            window.spwashi.nodes.push(clusterNode);
-            nodes.forEach(node => {
-              window.spwashi.links.push({source: clusterNode, target: node, strength: 1});
-            });
+  const nodeGroups     = window.spwashi.nodes.reduce((acc, node) => {
+    const cluster = getCluster(node);
+    acc[cluster]  = acc[cluster] || [];
+    acc[cluster].push(node);
+    return acc;
+  }, {});
+  window.spwashi.nodes = window.spwashi.nodes.filter(node => node.kind !== '__cluster');
+  window.spwashi.links = window.spwashi.links.filter(link => link.source.kind !== '__cluster' && link.target.kind !== '__cluster');
+  Object.entries(nodeGroups)
+        .forEach(([cluster, nodes]) => {
+          const clusterNode = {
+            identity: cluster,
+            kind:     '__cluster',
+            r:        100,
+          };
+          window.spwashi.nodes.push(clusterNode);
+          nodes.forEach(node => {
+            window.spwashi.links.push({source: clusterNode, target: node, strength: 1});
           });
-    sideEffects.physicsChange = true;
-    return;
-  }
+        });
+  sideEffects.physicsChange = true;
 }
 
 function runMinimalismCommand() {
@@ -258,14 +260,30 @@ function runSpwashiCommand(sideEffects) {
     'https://bone.land',
     'https://bonk.land',
     'https://honk.land',
+    'https://boof.land',
+    'https://factshift.com',
+    '',
   ]);
   sideEffects.nextDocumentMode = 'spw';
 }
 
+function runScaleCommand(sideEffects) {
+  // set node color according to scale
+  const nodes = window.spwashi.nodes;
+  const scale = [
+    scaleOrdinal(schemeCategory10),
+    scaleSequential([0, nodes.length], t => `hsl(${t * 360}, 100%, 50%)`),
+  ][1];
+  nodes.forEach((node, i) => {
+    node.color = scale(i);
+  });
+}
+
 const commands = {
   'spwashi':  sideEffects => runSpwashiCommand(sideEffects),
-  'home':     () => runHomeCommand(),
+  'color':    sideEffects => runScaleCommand(sideEffects),
   'save':     () => runSaveCommand(),
+  'home':     () => runHomeCommand(),
   'freeze':   () => runFreezeCommand(),
   'unfreeze': () => runUnfreezeCommand(),
   'unfix':    () => runUnfreezeCommand(),

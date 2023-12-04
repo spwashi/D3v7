@@ -19,6 +19,10 @@ export function getIdentityPath(hash, urlParams, title = undefined) {
   return `/identity/${hash}?${urlParams.toString()}`;
 }
 
+export function setNodeHash(node) {
+  return node.md5 = node.md5 || (node.identity && md5(node.identity));
+}
+
 export function processNode(node, i) {
   node.getUrl = () => {
     const urlParams = getNextUrlSearchParams();
@@ -57,7 +61,7 @@ export function processNode(node, i) {
   node.image.r         = 100;
   node.image.offsetX   = 0;
   node.image.offsetY   = 0;
-  node.md5             = node.identity && md5(node.identity);
+  setNodeHash(node);
   const urlParams      = getNextUrlSearchParams();
   node.url             = getIdentityPath(node.md5, urlParams, node.identity)
 

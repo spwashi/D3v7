@@ -52,7 +52,6 @@ export function makeCircle(g) {
         d.url     = url;
         if (!url) break;
         logMainEvent('hyperlink: ' + url)
-        window.open(url, '_blank');
         break
       case 'prune':
         window.spwashi.nodes.splice(window.spwashi.nodes.indexOf(d), 1);
