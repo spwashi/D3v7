@@ -1,9 +1,10 @@
-import {commands, runDefaultCommand} from "./commands";
+import {commands} from "./commands/_";
+import {runDefaultCommand} from "./commands/default";
 
 export function executeCommand(command, sideEffects) {
   if (commands[command]) {
     return commands[command](sideEffects);
   } else {
-    return runDefaultCommand(command, sideEffects);
+    return runDefaultCommand(sideEffects, command);
   }
 }

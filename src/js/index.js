@@ -11,7 +11,8 @@ import {getNextUrlSearchParams, processPastedText}                              
 import {setDocumentMode}                 from "./modes";
 import {processSpwInput} from "./modes/spw/process-spw-input";
 
-import {pushHelpTopics}                                                                from "./modes/spw/commands";
+
+import {pushHelpTopics} from "./modes/spw/commands/help";
 
 const getItemKey = (key, category = null) => {
   if (!category) {
