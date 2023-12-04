@@ -1,6 +1,6 @@
 import md5                      from "md5";
-import {getDocumentDataIndex}   from "../../modes/mode-dataindex";
-import {getNextUrlSearchParams} from "../../init/hotkeys";
+import {getDocumentDataIndex}   from "../../modes/dataindex/mode-dataindex";
+import {getNextUrlSearchParams} from "../../init/hotkeys/hotkeys";
 
 function getLastKind(node) {
   return node.kind?.trim().split(' + ').reverse()[0];

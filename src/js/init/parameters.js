@@ -1,12 +1,12 @@
-import {getDataIndexForNumber, initializeDataindexMode, setDocumentDataIndex} from "../modes/mode-dataindex";
-import {initializeDirectMode}                                                 from "../modes/mode-direct";
-import {initializeQuerystringMode}                                            from "../modes/mode-querystring";
-import {initializeMapFilterMode}                  from "../modes/mode-mapfilter";
-import {initializeSpwParseField}                  from "../modes/spw/mode-spw";
+import {getDataIndexForNumber, initializeDataindexMode, setDocumentDataIndex} from "../modes/dataindex/mode-dataindex";
+import {initializeDirectMode}      from "../modes/direct/mode-direct";
+import {initializeQuerystringMode} from "../modes/querystring/mode-querystring";
+import {initializeMapFilterMode}   from "../modes/mapfilter/mode-mapfilter";
+import {initializeSpwParseField}   from "../modes/spw/mode-spw";
 import {initializeModeSelection, setDocumentMode} from "../modes";
-import {initKeystrokes}                           from "./hotkeys";
-import {initializeReflexMode}                     from "../modes/mode-reflex";
-import {initializeStoryMode}                                                  from "../modes/mode-story";
+import {initKeystrokes}                           from "./hotkeys/hotkeys";
+import {initializeReflexMode}                     from "../modes/reflex/mode-reflex";
+import {initializeStoryMode}  from "../modes/story/mode-story";
 
 export const POWER_MODE = ['common', 'dev'][0];
 

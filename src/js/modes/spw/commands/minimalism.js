@@ -1,4 +1,4 @@
-import {toggleInterfaceDepthOptions} from "../../../init/hotkeys";
+import {toggleInterfaceDepthOptions} from "../../../init/hotkeys/hotkeys";
 
 export function runMinimalismCommand() {
   {

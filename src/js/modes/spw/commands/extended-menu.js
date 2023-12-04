@@ -1,4 +1,4 @@
-import {initKeystrokes} from "../../../init/hotkeys";
+import {initKeystrokes} from "../../../init/hotkeys/hotkeys";
 
 export const extendMenu = `extended menu`.trim();
 

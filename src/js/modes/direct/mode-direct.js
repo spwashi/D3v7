@@ -1,7 +1,7 @@
-import {NODE_MANAGER}           from "../simulation/nodes/nodes";
-import {reinitializeSimulation} from "../simulation/simulation";
-import {setDocumentMode}        from "./index";
-import {removeAllNodes}         from "../simulation/nodes/set";
+import {NODE_MANAGER}           from "../../simulation/nodes/nodes";
+import {reinitializeSimulation} from "../../simulation/simulation";
+import {setDocumentMode}        from "../index";
+import {removeAllNodes}         from "../../simulation/nodes/set";
 
 export function duplicateNode(d) {
   return {

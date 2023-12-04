@@ -1,9 +1,9 @@
 import ace, {createEditSession} from 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/mode-javascript';
-import {reinitializeSimulation} from "../simulation/simulation";
-import {setDocumentMode}        from "./index";
-import {removeAllNodes}         from "../simulation/nodes/set";
+import {reinitializeSimulation} from "../../simulation/simulation";
+import {setDocumentMode}        from "../index";
+import {removeAllNodes}         from "../../simulation/nodes/set";
 
 export function initializeMapFilterMode() {
   function hardResetNodes(nodes) {

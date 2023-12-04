@@ -1,11 +1,11 @@
-import {generateNodes}                  from "../simulation/nodes/generateNodes";
-import {reinitializeSimulation}         from "../simulation/simulation";
-import {NODE_MANAGER}                   from "../simulation/nodes/nodes";
-import {setDocumentMode}                from "../modes";
-import {getDocumentDataIndex}           from "../modes/mode-dataindex";
-import {convertRawInput, duplicateNode} from "../modes/mode-direct";
-import {EDGE_MANAGER}                from "../simulation/edges/links";
-import {removeAllNodes, removeNodes} from "../simulation/nodes/set";
+import {generateNodes}                  from "../../simulation/nodes/generateNodes";
+import {reinitializeSimulation}         from "../../simulation/simulation";
+import {NODE_MANAGER}                   from "../../simulation/nodes/nodes";
+import {setDocumentMode}                from "../../modes";
+import {getDocumentDataIndex}           from "../../modes/dataindex/mode-dataindex";
+import {convertRawInput, duplicateNode} from "../../modes/direct/mode-direct";
+import {EDGE_MANAGER}                   from "../../simulation/edges/links";
+import {removeAllNodes, removeNodes}    from "../../simulation/nodes/set";
 
 const MAIN_MENU_OPTION  = 'main-menu';
 const HOTKEY_OPTION     = 'hotkey-menu';

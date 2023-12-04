@@ -1,5 +1,5 @@
-import {setDocumentMode}         from "./index";
-import {initializeStorySequence} from "./mode-story";
+import {setDocumentMode}         from "../index";
+import {initializeStorySequence} from "../story/mode-story";
 
 export function setDocumentDataIndex(index) {
   document.body.dataset.dataindex = index;

@@ -1,4 +1,4 @@
-import {setDocumentMode} from "./modes";
+import {setDocumentMode} from "../modes";
 
 let focalPointElement;
 

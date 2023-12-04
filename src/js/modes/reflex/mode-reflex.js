@@ -1,6 +1,6 @@
-import {setDocumentMode}          from "./index";
-import {getDocumentDataIndex}                   from "./mode-dataindex";
-import {linkBySpwParts, linkToCenter, pushLink} from "../simulation/edges/links";
+import {setDocumentMode}                        from "../index";
+import {getDocumentDataIndex}                   from "../dataindex/mode-dataindex";
+import {linkBySpwParts, linkToCenter, pushLink} from "../../simulation/edges/links";
 
 const dataindexPrefix = 'spwashi-action-';
 

@@ -1,6 +1,6 @@
 import {removeAllNodes}         from "../../../simulation/nodes/set";
 import {reinitializeSimulation} from "../../../simulation/simulation";
-import {initFocalSquare}        from "../../../focalPoint";
+import {initFocalSquare}        from "../../../ui/focal-point";
 
 export function runClearCommand() {
   removeAllNodes();

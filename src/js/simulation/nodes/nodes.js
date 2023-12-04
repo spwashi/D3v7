@@ -5,7 +5,7 @@ import {makeRect}                         from "./rect";
 import {makeCircle, updateCircle}         from "./circle";
 import {makeImage, updateNodeImage}       from "./image";
 import {getNodeColor, getNodeStrokeColor} from "./colors";
-import {getDocumentDataIndex}             from "../../modes/mode-dataindex";
+import {getDocumentDataIndex}             from "../../modes/dataindex/mode-dataindex";
 import {setNodeData}                      from "./set";
 
 export const NODE_MANAGER = {

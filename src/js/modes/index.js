@@ -32,4 +32,4 @@ export function initializeModeSelection(starterMode) {
   setDocumentMode(starterMode)
 }
 
-export {getDataIndexForNumber} from "./mode-dataindex";
+export {getDataIndexForNumber} from "./dataindex/mode-dataindex";
