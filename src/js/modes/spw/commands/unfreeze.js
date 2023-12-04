@@ -1,5 +1,7 @@
+import {forEachNode} from "../../../simulation/nodes/data/operate";
+
 export function runUnfreezeCommand() {
-  window.spwashi.nodes.forEach(node => {
+  forEachNode(node => {
     node.fx = node.fy = undefined;
   });
 }

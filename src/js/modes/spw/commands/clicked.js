@@ -1,9 +1,10 @@
+export let CLICKED_NODES = [];
+
 export function runClickedCommand(sideEffects) {
   {
-    const clicked                = window.spwashi.nodes.clicked.map(node => node.id).join('\n');
+    const clicked                = CLICKED_NODES.map(node => node.id).join('\n');
     sideEffects.nextDocumentMode = 'spw';
     sideEffects.valueStrings.push(clicked);
-    window.spwashi.nodes.clicked = [];
-    return;
+    CLICKED_NODES = [];
   }
 }

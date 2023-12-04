@@ -1,11 +1,13 @@
-import {generateNodes}                  from "../../simulation/nodes/generateNodes";
+import {generateNodes}                  from "../../simulation/nodes/data/generate";
 import {reinitializeSimulation}         from "../../simulation/simulation";
 import {NODE_MANAGER}                   from "../../simulation/nodes/nodes";
 import {setDocumentMode}                from "../../modes";
 import {getDocumentDataIndex}           from "../../modes/dataindex/mode-dataindex";
 import {convertRawInput, duplicateNode} from "../../modes/direct/mode-direct";
-import {EDGE_MANAGER}                   from "../../simulation/edges/links";
-import {removeAllNodes, removeNodes}    from "../../simulation/nodes/set";
+import {EDGE_MANAGER}                   from "../../simulation/edges/edges";
+import {removeAllNodes, removeNodes}    from "../../simulation/nodes/data/set";
+import {forEachNode, pushNodes}         from "../../simulation/nodes/data/operate";
+import {getAllNodes}                    from "../../simulation/nodes/data/select";
 
 const MAIN_MENU_OPTION  = 'main-menu';
 const HOTKEY_OPTION     = 'hotkey-menu';
@@ -61,12 +63,6 @@ function bonkVelocityDecay() {
   reinitializeSimulation();
 }
 
-function copyNodesToClipboard() {
-  const nodes = window.spwashi.nodes;
-  const text  = nodes.map(n => n.id.trim() ? `<${n.id.trim()}>` : '').filter(t => t.length).join('\n');
-  navigator.clipboard.writeText(text);
-}
-
 function lessNodes() {
   const amountToRemove = window.spwashi.parameters.nodes.count;
   removeNodes(amountToRemove);
@@ -74,8 +70,8 @@ function lessNodes() {
 }
 
 export function saveActiveNodes() {
-  const nodes = window.spwashi.nodes;
-  nodes.map(NODE_MANAGER.cacheNode)
+  const nodes = getAllNodes();
+  forEachNode(NODE_MANAGER.cacheNode)
   window.spwashi.setItem('parameters.nodes-input', nodes);
   window.spwashi.setItem('parameters.nodes-input-map-fn-string', 'data => data');
   window.spwashi.refreshNodeInputs();
@@ -89,7 +85,7 @@ export function clearActiveNodes() {
 }
 
 function fixPositions() {
-  window.spwashi.nodes.forEach(node => {
+  forEachNode(node => {
     node.fx = node.x;
     node.fy = node.y;
   });
@@ -100,7 +96,7 @@ function clearCachedNodes() {
 }
 
 function clearFixedPositions() {
-  window.spwashi.nodes.forEach(node => {
+  forEachNode(node => {
     node.fx = undefined;
     node.fy = undefined;
   });
@@ -169,7 +165,7 @@ export function processPastedText(clipboardText) {
   }
   const nodes = data.nodes.filter(NODE_MANAGER.filterNode);
   nodes.forEach(NODE_MANAGER.processNode);
-  window.spwashi.nodes.push(...nodes);
+  pushNodes(...nodes);
   const edges = EDGE_MANAGER.initLinks(data.links, nodes);
   window.spwashi.links.push(...edges);
   reinitializeSimulation();
@@ -255,7 +251,7 @@ const initialKeyStrokeOptions = [
   {revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleHotkeyMenu()},
   {
     revealOrder: 0, shortcut: 'y', categories: ['this'], title: 'yoink', callback: () => {
-      const nodes = window.spwashi.nodes;
+      const nodes = getAllNodes();
       const links = window.spwashi.links;
       // unfix all nodes
       nodes.forEach(node => {
@@ -270,7 +266,7 @@ const initialKeyStrokeOptions = [
       window.spwashi.simulation.force(
         'center',
         (alpha) => {
-          const nodes = window.spwashi.nodes;
+          const nodes = getAllNodes();
           const n     = nodes.length;
           let cx      = 0;
           let cy      = 0;

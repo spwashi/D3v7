@@ -1,5 +1,7 @@
+import {forEachNode} from "../../../simulation/nodes/data/operate";
+
 export function runBaneCommand() {
-  window.spwashi.nodes.forEach(node => {
+  forEachNode(node => {
     node.stroke = 'red';
   });
 }

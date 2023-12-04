@@ -1,7 +1,10 @@
 import {NODE_MANAGER}           from "../../simulation/nodes/nodes";
 import {reinitializeSimulation} from "../../simulation/simulation";
-import {setDocumentMode}        from "../index";
-import {removeAllNodes}         from "../../simulation/nodes/set";
+import {setDocumentMode} from "../index";
+import {removeAllNodes}         from "../../simulation/nodes/data/set";
+import {forEachNode, pushNodes} from "../../simulation/nodes/data/operate";
+import {processNode}            from "../../simulation/nodes/data/process";
+import {getAllNodes}            from "../../simulation/nodes/data/select";
 
 export function duplicateNode(d) {
   return {
@@ -55,8 +58,8 @@ export function initializeDirectMode() {
     return convertRawInput(input);
   }
   window.spwashi.refreshNodeInputs();
-  window.spwashi.nodes.push(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
-  window.spwashi.nodes.forEach(NODE_MANAGER.processNode);
+  pushNodes(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
+  forEachNode(processNode);
   reinitializeSimulation();
 
   const nodesInput = document.querySelector('#nodes-input');
@@ -69,7 +72,7 @@ export function initializeDirectMode() {
       removeAllNodes();
       reinitializeSimulation();
     }
-    window.spwashi.nodes.push(...nodes);
+    pushNodes(...nodes);
     reinitializeSimulation();
     setDocumentMode('');
   }
@@ -81,14 +84,14 @@ export function initializeDirectMode() {
   document.querySelector('#node-input-container button.replace').onclick = () => _readNodeInputs(false);
 
   document.querySelector('#controls button.save-nodes').onclick = () => {
-    const nodes = window.spwashi.nodes;
+    const nodes = getAllNodes();
     nodes.map(NODE_MANAGER.cacheNode)
     window.spwashi.setItem('parameters.nodes-input', nodes);
     window.spwashi.refreshNodeInputs();
   }
 
   document.querySelector('#controls button.clear-saved-nodes').onclick = () => {
-    const nodes = window.spwashi.nodes;
+    const nodes = getAllNodes();
     nodes.map(node => {
       const id = node.id;
       for (let prop in node) {

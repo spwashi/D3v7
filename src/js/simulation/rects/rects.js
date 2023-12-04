@@ -39,7 +39,7 @@ function updateRects(g, rects) {
 
 }
 
-export const RECT_MANAGER   = {
+export const RECT_MANAGER = {
   initRects:   rects => rects,
   updateRects: updateRects
 };

@@ -1,3 +1,5 @@
+import {pushNodes} from "../../../simulation/nodes/data/operate";
+
 export const urlHandler = {
   regex:   /^https:\/\/(.+)/,
   handler: (sideEffects, value) => {
@@ -9,7 +11,7 @@ export const urlHandler = {
       charge:          -1000,
       fx:              window.spwashi.parameters.width / 2,
     };
-    window.spwashi.nodes.push(node);
+    pushNodes(node);
     sideEffects.nodesAdded.push(node);
     sideEffects.valueStrings.push(node.url);
   }

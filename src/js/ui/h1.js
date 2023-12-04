@@ -1,9 +1,9 @@
 import {getNextUrlSearchParams, processPastedText} from "../init/hotkeys/hotkeys";
 import {processSpwInput}                           from "../modes/spw/process-spw-input";
 import {setDocumentMode}                           from "../modes";
-import {parse}                                     from "../../vendor/spw/parser/parse.mjs";
-import {getIdentityPath}                           from "../simulation/nodes/processNode";
-import md5                                         from "md5";
+import {parse}           from "../../vendor/spw/parser/parse.mjs";
+import {getIdentityPath} from "../simulation/nodes/data/process";
+import md5               from "md5";
 
 export function initH1() {
   const h1                = document.querySelector('h1');

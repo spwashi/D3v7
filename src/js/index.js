@@ -1,12 +1,13 @@
-import {initializeForceSimulationControls}          from "./simulation/buttons";
-import {initParameters, readParameters}             from "./init/parameters";
+import {initializeForceSimulationControls} from "./ui/simulation-controls";
+import {initParameters, readParameters}    from "./init/parameters";
 import {initSimulationRoot, reinitializeSimulation} from "./simulation/simulation";
 import {initFocalSquare}                            from "./ui/focal-point";
 import {setDocumentMode}                            from "./modes";
 import {pushHelpTopics}                             from "./modes/spw/commands/help";
 import {initCallbacks}                              from "./init/callbacks/initCallbacks";
-import {initListeners} from "./init/listeners/initListeners";
-import {initH1}        from "./ui/h1";
+import {initListeners}                              from "./init/listeners/initListeners";
+import {initH1}    from "./ui/h1";
+import {pushNodes} from "./simulation/nodes/data/operate";
 
 const getItemKey = (key, category = null) => {
   if (!category) {
@@ -18,6 +19,14 @@ const getItemKey = (key, category = null) => {
 
 function initRootSession() {
   window.spwashi.__session = window.spwashi.__session || {i: 0};
+  window.spwashi.setItem   = (key, item, category = null) => {
+    window.localStorage.setItem(getItemKey(key, category), JSON.stringify(item || null));
+  }
+  window.spwashi.getItem   = (key, category = null) => {
+    const out = window.localStorage.getItem(getItemKey(key, category))
+    if (out) return JSON.parse(out || '{}')
+    return undefined;
+  }
 }
 
 function initRoot() {
@@ -25,8 +34,8 @@ function initRoot() {
   initCallbacks();
   initListeners();
 
-  window.spwashi.counter        = 0;
-  window.spwashi.modeOrder      = [
+  window.spwashi.counter   = 0;
+  window.spwashi.modeOrder = [
     'reflex',
     'color',
     'map',
@@ -36,16 +45,7 @@ function initRoot() {
     'debug',
     'story',
     'spw',
-  ]
-  window.spwashi.readParameters = readParameters;
-  window.spwashi.setItem        = (key, item, category = null) => {
-    window.localStorage.setItem(getItemKey(key, category), JSON.stringify(item || null));
-  }
-  window.spwashi.getItem        = (key, category = null) => {
-    const out = window.localStorage.getItem(getItemKey(key, category))
-    if (out) return JSON.parse(out || '{}')
-    return undefined;
-  }
+  ];
 
   initSimulationRoot().then(() => {
     if (window.location.pathname === '/help') {
@@ -62,6 +62,7 @@ export function init() {
   initRoot();
   initParameters();
 
+  window.spwashi.readParameters = readParameters;
   window.spwashi.readParameters(new URLSearchParams(window.location.search));
 
   if (window.spwashi.doFetchNodes) {
@@ -74,7 +75,7 @@ export function init() {
       return ret.tokens;
     }
     fetchThing()
-      .then(nodes => window.spwashi.nodes.push(...nodes))
+      .then(nodes => pushNodes(...nodes))
       .then(nodes => reinitializeSimulation());
   }
 

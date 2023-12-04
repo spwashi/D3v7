@@ -1,8 +1,10 @@
-import {logMainEvent}                                                                                     from "./nodes/circle";
+import {logMainEvent}                                                                                     from "./nodes/ui/circle";
 import {getNodeImageHref, NODE_MANAGER}                                                                   from "./nodes/nodes";
-import {EDGE_MANAGER}                                                                                     from "./edges/links";
+import {EDGE_MANAGER}                                                                                     from "./edges/edges";
 import {RECT_MANAGER}                                                                                     from "./rects/rects";
 import {drag, extent, forceCenter, forceCollide, forceLink, forceManyBody, forceSimulation, select, zoom} from "d3";
+import {forEachNode}                                                                                      from "./nodes/data/operate";
+import {getAllNodes, selectNodesInRect}                                                                   from "./nodes/data/select";
 
 
 const simulationSVG   = select("svg#simulation");
@@ -31,7 +33,7 @@ export function reinitializeSimulation() {
                   window.spwashi.parameters.forces.charge  = window.spwashi.parameters.forces._charge * factor;
                   reinitializeSimulation();
                 } else {
-                  window.spwashi.nodes.forEach(node => {
+                  forEachNode(node => {
                     node.private._r = node.private._r || node.r
                     node.r          = node.private._r * e.transform.k;
                   })
@@ -77,10 +79,7 @@ export function reinitializeSimulation() {
         rect.height = e.offsetY - rect.y;
       })
       .on('mouseup', (e) => {
-        const nodes      = window.spwashi.nodes.filter(node => {
-          return node.x > rect.x && node.x < rect.x + rect.width &&
-                 node.y > rect.y && node.y < rect.y + rect.height
-        });
+        const nodes      = selectNodesInRect(rect);
         const xRange     = extent(nodes, d => d.x);
         const xIncrement = (xRange[1] - xRange[0]) / nodes.length;
         const yRange     = extent(nodes, d => d.y);
@@ -124,7 +123,7 @@ export function reinitializeSimulation() {
 export function initializeForces() {
   const simulation = window.spwashi.simulation;
   const links      = window.spwashi.links;
-  const nodes      = window.spwashi.nodes;
+  const nodes      = getAllNodes();
   simulation.alpha(window.spwashi.parameters.forces.alpha);
   simulation.alphaTarget(window.spwashi.parameters.forces.alphaTarget);
   simulation.alphaDecay(window.spwashi.parameters.forces.alphaDecay);

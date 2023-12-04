@@ -1,3 +1,5 @@
+import {pushNodes} from "../../../simulation/nodes/data/operate";
+
 const helpText = [
   'thoughts are nodes',
   'text can be linked'
@@ -13,7 +15,7 @@ export function pushHelpTopics(yPos) {
       url:         '/'
     },
   ]
-  window.spwashi.nodes.push(...topics.map(node => {
+  pushNodes(...topics.map(node => {
     node.fy = yPos;
     return node;
   }));
@@ -23,7 +25,7 @@ export function pushHelpTopics(yPos) {
 export function runHelpCommand(sideEffects) {
   {
     window.spwashi.setItem('help', helpText.join('\n'), 'focal.root')
-    window.spwashi.nodes.push(
+    pushNodes(
       {
         fx:              window.spwashi.parameters.startPos.x,
         fy:              window.spwashi.parameters.startPos.y,

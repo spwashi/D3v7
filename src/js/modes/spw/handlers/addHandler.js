@@ -1,5 +1,6 @@
 import {NODE_MANAGER} from "../../../simulation/nodes/nodes";
-import {processNode}  from "../../../simulation/nodes/processNode";
+import {processNode}  from "../../../simulation/nodes/data/process";
+import {pushNodes}    from "../../../simulation/nodes/data/operate";
 
 export const addHandler = {
   regex:   /^add=(-?\d+)/,
@@ -9,7 +10,7 @@ export const addHandler = {
       name: i + '',
       id:   Date.now() + Math.random(),
     }));
-    window.spwashi.nodes.push(...nodes.map(NODE_MANAGER.normalize).map(processNode));
+    pushNodes(...nodes.map(NODE_MANAGER.normalize).map(processNode));
     sideEffects.nodesAdded.push(...nodes);
     sideEffects.physicsChange = true;
   }

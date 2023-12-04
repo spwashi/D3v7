@@ -1,6 +1,10 @@
 import {setDocumentMode}                        from "../index";
 import {getDocumentDataIndex}                   from "../dataindex/mode-dataindex";
-import {linkBySpwParts, linkToCenter, pushLink} from "../../simulation/edges/links";
+import {linkToCenter} from "../../simulation/edges/edges";
+import {linkBySpwParts} from "../../simulation/edges/data/link-spw";
+import {pushLink}               from "../../simulation/edges/data/pushLink";
+import {forEachNode, pushNodes} from "../../simulation/nodes/data/operate";
+import {getAllNodes}                            from "../../simulation/nodes/data/select";
 
 const dataindexPrefix = 'spwashi-action-';
 
@@ -33,7 +37,7 @@ export function initializeReflexMode() {
           color:      'wheat',
           colorindex: getDocumentDataIndex()
         };
-        window.spwashi.nodes.push(node);
+        pushNodes(node);
         window.spwashi.reinit();
         nodes.push(node);
       }
@@ -44,7 +48,7 @@ export function initializeReflexMode() {
   };
   window.spwashi.bane = (data) => {
     async function* timeoutLoop(timeout, iterations) {
-      let iterable = data || window.spwashi.nodes;
+      let iterable = data || getAllNodes();
       for (let i = 100; i--; i > 0) {
         for (let node of iterable) {
           yield node;
@@ -119,20 +123,20 @@ export function initializeReflexMode() {
         [
           '*=3.2',
           () => {
-            window.spwashi.nodes.forEach(n => n.r *= 3.2);
+            forEachNode(n => n.r *= 3.2);
             window.spwashi.reinit()
           },],
         [
           '/=2.3',
           () => {
-            window.spwashi.nodes.forEach(n => n.r /= 2.3);
+            forEachNode(n => n.r /= 2.3);
             window.spwashi.reinit()
           },
         ],
         [
           '=10',
           () => {
-            window.spwashi.nodes.forEach(n => n.r = 10);
+            forEachNode(n => n.r = 10);
             window.spwashi.reinit()
           },
         ],

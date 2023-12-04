@@ -1,8 +1,9 @@
 import {reinitializeSimulation}      from "../../simulation/simulation";
 import {initPageImage, setPageImage} from "../../ui/page-image";
-import {processLine}                 from "./process-line";
-import {processNode}                 from "../../simulation/nodes/processNode";
-import {NODE_MANAGER}                from "../../simulation/nodes/nodes";
+import {processLine}  from "./process-line";
+import {processNode}  from "../../simulation/nodes/data/process";
+import {NODE_MANAGER} from "../../simulation/nodes/nodes";
+import {forEachNode}                 from "../../simulation/nodes/data/operate";
 
 export function initSpwParseField() {
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
@@ -43,7 +44,7 @@ export function processSpwInput(text) {
   }
 
   const nodeIdCacheObj = {};
-  window.spwashi.nodes.forEach(node => {
+  forEachNode(node => {
     node.stroke = undefined;
 
     nodeIdCacheObj[node.id] = node;

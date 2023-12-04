@@ -1,6 +1,8 @@
+import {mapNodes} from "../../../simulation/nodes/data/operate";
+
 export function runAllCommand(sideEffects) {
   {
-    const all = window.spwashi.nodes.map(node => node.id).join('\n');
+    const all = mapNodes(node => node.id).join('\n');
     sideEffects.valueStrings.push(all);
     sideEffects.nextDocumentMode = 'spw';
     return;

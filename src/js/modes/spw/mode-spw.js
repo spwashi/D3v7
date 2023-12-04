@@ -1,12 +1,13 @@
-import {reinitializeSimulation}                         from "../../simulation/simulation";
-import {CharacterCursor}                                from "../../../vendor/spw/core/node/cursor.mjs";
-import {parse}                from "../../../vendor/spw/parser/parse.mjs";
-import {getDocumentDataIndex} from "../dataindex/mode-dataindex";
-import {NODE_MANAGER}    from "../../simulation/nodes/nodes";
-import {initFocalSquare} from "../../ui/focal-point";
-import {setDocumentMode} from "../index";
+import {reinitializeSimulation}             from "../../simulation/simulation";
+import {CharacterCursor}                    from "../../../vendor/spw/core/node/cursor.mjs";
+import {parse}                              from "../../../vendor/spw/parser/parse.mjs";
+import {getDocumentDataIndex}               from "../dataindex/mode-dataindex";
+import {NODE_MANAGER}                       from "../../simulation/nodes/nodes";
+import {initFocalSquare}                    from "../../ui/focal-point";
+import {setDocumentMode}                    from "../index";
 import {initSpwParseField, processSpwInput} from "./process-spw-input";
-import {initPageImage}                      from "../../ui/page-image";
+import {initPageImage}       from "../../ui/page-image";
+import {mapNodes, pushNodes} from "../../simulation/nodes/data/operate";
 
 const parseSpw = (text) => {
   const tokens    = [];
@@ -48,7 +49,7 @@ export function initializeSpwParseField() {
   initPageImage();
   window.spwashi.perspectiveMap = new Map();
   const perspective             = getDocumentDataIndex();
-  const identities              = window.spwashi.nodes.map(node => node.identity);
+  const identities              = mapNodes(node => node.identity);
   appendIdentities(perspective, identities, getTokenObj(identities));
 
   const spwInput = initSpwParseField();
@@ -64,7 +65,7 @@ export function initializeSpwParseField() {
     const parsed   = parseSpw(textToParse);
     const newNodes = JSON.parse(JSON.stringify(parsed));
     newNodes.forEach(NODE_MANAGER.processNode);
-    window.spwashi.nodes.push(...newNodes);
+    pushNodes(...newNodes);
     reinitializeSimulation();
     initFocalSquare().focus();
   }

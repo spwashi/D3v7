@@ -1,5 +1,5 @@
-import {generateNodes} from "./nodes/generateNodes";
-import {reinitializeSimulation} from "./simulation";
+import {generateNodes} from "../simulation/nodes/data/generate";
+import {forEachNode}   from "../simulation/nodes/data/operate";
 
 export function initializeForceSimulationControls() {
   const forceSimulation = window.spwashi.simulation;
@@ -26,12 +26,12 @@ export function initializeForceSimulationControls() {
 
   const reinitButton   = document.querySelector('#controls .reinit');
   reinitButton.onclick = () => {
-    reinitializeSimulatirectsManageron();
+    window.spwashi.reinit();
   };
 
   const clearFixedButton   = document.querySelector('#controls .clear-fixed-positions');
   clearFixedButton.onclick = () => {
-    window.spwashi.nodes.forEach(node => {
+    forEachNode(node => {
       node.fx = undefined;
       node.fy = undefined;
     });

@@ -1,12 +1,12 @@
-import {processNode}                      from "./processNode.js";
-import {cacheNode, readNodePosition}      from "./store";
-import {makeText, updateNodeTextSvg}      from "./text";
-import {makeRect}                         from "./rect";
-import {makeCircle, updateCircle}         from "./circle";
-import {makeImage, updateNodeImage}       from "./image";
-import {getNodeColor, getNodeStrokeColor} from "./colors";
+import {processNode}                      from "./data/process.js";
+import {cacheNode, readNodePosition}      from "./data/store";
+import {makeText, updateNodeTextSvg}      from "./ui/text";
+import {makeRect}                         from "./ui/rect";
+import {makeCircle, updateCircle}         from "./ui/circle";
+import {makeImage, updateNodeImage}       from "./ui/image";
+import {getNodeColor, getNodeStrokeColor} from "./attr/colors";
 import {getDocumentDataIndex}             from "../../modes/dataindex/mode-dataindex";
-import {setNodeData}                      from "./set";
+import {setNodeData}                      from "./data/set";
 
 export const NODE_MANAGER = {
   getNode:     getNode,
@@ -148,7 +148,7 @@ function filterNode(node) {
   return true;
 }
 
-function getNode(id, perspective) {
+function getNode(id, perspective = undefined) {
   let fallback;
   const node = window.spwashi.nodes.find(n => {
     if (n.identity === id) {

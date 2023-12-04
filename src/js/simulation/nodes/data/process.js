@@ -1,6 +1,6 @@
 import md5                      from "md5";
-import {getDocumentDataIndex}   from "../../modes/dataindex/mode-dataindex";
-import {getNextUrlSearchParams} from "../../init/hotkeys/hotkeys";
+import {getDocumentDataIndex}   from "../../../modes/dataindex/mode-dataindex";
+import {getNextUrlSearchParams} from "../../../init/hotkeys/hotkeys";
 
 function getLastKind(node) {
   return node.kind?.trim().split(' + ').reverse()[0];
@@ -62,8 +62,8 @@ export function processNode(node, i) {
   node.image.offsetX   = 0;
   node.image.offsetY   = 0;
   setNodeHash(node);
-  const urlParams      = getNextUrlSearchParams();
-  node.url             = getIdentityPath(node.md5, urlParams, node.identity)
+  const urlParams = getNextUrlSearchParams();
+  node.url        = getIdentityPath(node.md5, urlParams, node.identity)
 
   const edgeLeft   = 50;
   const edgeRight  = window.spwashi.parameters.width - 50;

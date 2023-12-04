@@ -1,4 +1,5 @@
-import {removeClusterNodes} from "../../../simulation/nodes/set";
+import {removeClusterNodes} from "../../../simulation/nodes/data/set";
+import {pushNodes}          from "../../../simulation/nodes/data/operate";
 
 function getCluster(node) {
   return 'cluster:' + node.colorindex;
@@ -20,7 +21,7 @@ export function runClusterCommand(sideEffects) {
             kind:     '__cluster',
             r:        100,
           };
-          window.spwashi.nodes.push(clusterNode);
+          pushNodes(clusterNode);
           nodes.forEach(node => {
             window.spwashi.links.push({source: clusterNode, target: node, strength: 1});
           });

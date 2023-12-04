@@ -1,10 +1,11 @@
 import {scaleSequential} from "d3";
+import {getAllNodes}     from "../../../simulation/nodes/data/select";
 
 export const sizeHandler = {
   regex:   /^size=(\d+)/,
   handler: (sideEffects, value) => {
     const choice  = parseInt(value);
-    const nodes   = window.spwashi.nodes;
+    const nodes   = getAllNodes();
     const options = [
       scaleSequential([0, nodes.length], t => t * 30),
       scaleSequential([0, nodes.length], t => t * 60),

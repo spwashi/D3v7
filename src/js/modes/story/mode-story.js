@@ -1,10 +1,11 @@
-import {readParameters}   from "../../init/parameters";
-import {processNode}      from "../../simulation/nodes/processNode";
-import {NODE_MANAGER}     from "../../simulation/nodes/nodes";
+import {readParameters} from "../../init/parameters";
+import {processNode}    from "../../simulation/nodes/data/process";
+import {NODE_MANAGER}   from "../../simulation/nodes/nodes";
 import {clearActiveNodes} from "../../init/hotkeys/hotkeys";
 
 
-import {extendMenu} from "../spw/commands/extended-menu";
+import {extendMenu}             from "../spw/commands/extended-menu";
+import {forEachNode, pushNodes} from "../../simulation/nodes/data/operate";
 
 const clearFxFy = d => d.fx = d.fy = undefined;
 const fixX      = (d, i) => d.fy = 75 * (i + 1);
@@ -29,7 +30,7 @@ async function executeEvents(events) {
     }
     if (payload.nodes) {
       const nodes = payload.nodes.map(processNode).map(NODE_MANAGER.normalize);
-      window.spwashi.nodes.push(...nodes);
+      pushNodes(...nodes);
     }
     window.window.spwashi.reinit();
   }
@@ -108,7 +109,7 @@ stories.demo    = {
               {delay: delay1, payload: {nodes: [{r: 10, x: 30, y: 300, text: {fx: 75, fontSize: 30}, name: 'today'}]},},
               {delay: delay2, payload: {params: {charge: 500}},},
               {delay: delay1, payload: {params: {charge: 0}},},
-              {delay: delay1, payload: {effect: () => window.spwashi.nodes.forEach((d, i) => (fixY(d, i), fixX(d, i)))},},
+              {delay: delay1, payload: {effect: () => forEachNode((d, i) => (fixY(d, i), fixX(d, i)))},},
               {delay: 300, payload: {effect: () => clearActiveNodes()},},
               {delay: 100, payload: {params: {mode: 'spw'}}},
               {delay: 300, payload: {effect: () => setParseField('i am doing & today')}},

@@ -1,5 +1,7 @@
+import {getAllNodes} from "../../../simulation/nodes/data/select";
+
 export function runArrangeCommand(sideEffects) {
-  const nodes  = window.spwashi.nodes;
+  const nodes  = getAllNodes();
   const width  = window.spwashi.parameters.width;
   const height = window.spwashi.parameters.height;
   nodes.forEach((node, i) => {

@@ -1,4 +1,4 @@
-import {getNodeText}  from "./colors";
+import {getNodeText}  from "../attr/colors";
 import {logMainEvent} from "./circle";
 import {drag}         from "d3";
 

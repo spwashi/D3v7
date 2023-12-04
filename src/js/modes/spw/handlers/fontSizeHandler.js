@@ -1,8 +1,10 @@
+import {getAllNodes} from "../../../simulation/nodes/data/select";
+
 export const fontSizeHandler = {
   regex:   /^fontSize=(\d+)/,
   handler: (sideEffects, value) => {
     const choice = parseInt(value);
-    const nodes  = window.spwashi.nodes;
+    const nodes  = getAllNodes();
     nodes.forEach((node, i) => {
       node.text.fontSize = choice;
     });

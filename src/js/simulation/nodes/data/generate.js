@@ -1,4 +1,5 @@
-import {reinitializeSimulation} from "../simulation";
+import {reinitializeSimulation} from "../../simulation";
+import {pushNodes}              from "./operate";
 
 export const generateNodes = (n) => {
   const count = n || window.spwashi.parameters.nodes.count;
@@ -6,7 +7,7 @@ export const generateNodes = (n) => {
     name:     'boon',
     identity: Date.now() + Math.random(),
   }));
-  window.spwashi.nodes.push(...nodes);
+  pushNodes(...nodes);
   reinitializeSimulation();
   return nodes;
 }

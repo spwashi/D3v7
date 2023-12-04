@@ -1,10 +1,11 @@
-import {setNodeHash} from "../../../simulation/nodes/processNode";
+import {setNodeHash} from "../../../simulation/nodes/data/process";
+import {getAllNodes} from "../../../simulation/nodes/data/select";
 
 export const nameHandler = {
   regex:   /^name=(.+)/,
   handler: (sideEffects, value) => {
     const choice        = value;
-    const nodes         = window.spwashi.nodes;
+    const nodes         = getAllNodes();
     const namingOptions = {
       "identity": (node) => node.identity,
       "name":     (node) => node.private.name || node.name,

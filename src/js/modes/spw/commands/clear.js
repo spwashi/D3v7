@@ -1,4 +1,4 @@
-import {removeAllNodes}         from "../../../simulation/nodes/set";
+import {removeAllNodes}         from "../../../simulation/nodes/data/set";
 import {reinitializeSimulation} from "../../../simulation/simulation";
 import {initFocalSquare}        from "../../../ui/focal-point";
 

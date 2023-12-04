@@ -1,14 +1,16 @@
-import ace, {createEditSession} from 'ace-builds/src-noconflict/ace';
+import ace, {createEditSession}                   from 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/mode-javascript';
-import {reinitializeSimulation} from "../../simulation/simulation";
-import {setDocumentMode}        from "../index";
-import {removeAllNodes}         from "../../simulation/nodes/set";
+import {reinitializeSimulation}                   from "../../simulation/simulation";
+import {setDocumentMode}                          from "../index";
+import {removeAllNodes}                           from "../../simulation/nodes/data/set";
+import {mapNodes, pushNodes} from "../../simulation/nodes/data/operate";
+import {selectOppositeNodes}                      from "../../simulation/nodes/data/select";
 
 export function initializeMapFilterMode() {
   function hardResetNodes(nodes) {
     removeAllNodes();
-    window.spwashi.nodes.push(...nodes);
+    pushNodes(...nodes);
     window.spwashi.links = window.spwashi.links.filter(link => nodes.includes(link.source) && nodes.includes(link.target));
     reinitializeSimulation();
   }
@@ -54,7 +56,7 @@ export function initializeMapFilterMode() {
   function submitMapper() {
     const mapFnString = mapEditor.getValue();
     const mapFunction = mapFnString ? eval(mapFnString) : d => d;
-    const nodes       = window.spwashi.nodes.map(mapFunction);
+    const nodes       = mapNodes(mapFunction);
     hardResetNodes(nodes);
     window.spwashi.setItem(mapKey, mapFnString);
     setDocumentMode('')
@@ -62,8 +64,9 @@ export function initializeMapFilterMode() {
 
   function submitFilter() {
     const filterFnString = filterEditor.getValue();
-    const filterFunction = filterFnString ? eval(filterFnString) : d => true;
-    const nodes          = window.spwashi.nodes.filter((node, i) => !filterFunction(node, i));
+    const fn             = filterFnString ? eval(filterFnString) : d => true;
+
+    const nodes = selectOppositeNodes(fn);
 
     hardResetNodes(nodes);
     window.spwashi.setItem(filterKey, filterFnString);

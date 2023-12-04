@@ -1,6 +1,7 @@
-import {cacheNode} from "./store";
-import {sortNodes} from "./nodes";
-import {drag}      from "d3";
+import {cacheNode}     from "../data/store";
+import {sortNodes}     from "../nodes";
+import {drag}          from "d3";
+import {CLICKED_NODES} from "../../../modes/spw/commands/clicked";
 
 export function logMainEvent(event, details) {
   const mainLog   = document.querySelector('#main-log');
@@ -22,9 +23,8 @@ export function logMainEvent(event, details) {
 
 
 export function makeCircle(g) {
-  window.spwashi.nodes.clicked = window.spwashi.nodes.clicked || [];
-  const onclick                = (e, d) => {
-    window.spwashi.nodes.clicked.push(d);
+  const onclick = (e, d) => {
+    CLICKED_NODES.push(d);
     logMainEvent('clicked: ' + d.id, JSON.stringify(d, null, 3));
     d.callbacks?.click?.(e, d);
     if (e.defaultPrevented) return;

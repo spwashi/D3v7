@@ -1,8 +1,10 @@
+import {getAllNodes} from "../../../simulation/nodes/data/select";
+
 export const sortHandler = {
   regex:   /^sort=(.+)/,
   handler: (sideEffects, value) => {
     const choice  = value;
-    const nodes   = window.spwashi.nodes;
+    const nodes   = getAllNodes();
     const options = {
       "name":     (a, b) => a.name.localeCompare(b.name),
       "name+":    (a, b) => a.name.localeCompare(b.name),
