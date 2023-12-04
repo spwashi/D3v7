@@ -4,7 +4,7 @@ import {NODE_MANAGER}     from "../simulation/nodes/nodes";
 import {clearActiveNodes}     from "../init/hotkeys";
 
 
-import {moreMenuOptionsSpell} from "./spw/commands/extended-menu";
+import {extendMenu} from "./spw/commands/extended-menu";
 
 const clearFxFy = d => d.fx = d.fy = undefined;
 const fixX      = (d, i) => d.fy = 75 * (i + 1);
@@ -119,7 +119,7 @@ stories.demo    = {
 stories.options = {
   events: [
     {delay: 300, payload: {params: {mode: 'spw'}}},
-    {delay: 100, payload: {effect: () => setParseField(moreMenuOptionsSpell)}},
+    {delay: 100, payload: {effect: () => setParseField(extendMenu)}},
     {
       delay: 1000, payload: {
         effect: () => {

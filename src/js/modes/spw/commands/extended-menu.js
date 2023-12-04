@@ -1,6 +1,6 @@
 import {initKeystrokes} from "../../../init/hotkeys";
 
-export const moreMenuOptionsSpell = `extended menu`.trim();
+export const extendMenu = `extended menu`.trim();
 
 export function runMoreMenuOptionsCommand() {
   {
