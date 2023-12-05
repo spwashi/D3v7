@@ -1,65 +1,43 @@
 import {initParameters, readParameters} from "./init/parameters";
 import {initFocalSquare}                from "./ui/focal-point";
-import {setDocumentMode}                from "./modes";
-import {pushHelpTopics}                 from "./modes/spw/commands/help";
-import {initCallbacks}                  from "./init/callbacks/initCallbacks";
-import {initListeners}                  from "./init/listeners/initListeners";
 import {initH1}                         from "./ui/h1";
-import {initSimulationRoot}             from "./simulation/simulation";
 import {initUi}                         from "./init/ui";
+import {initRoot}                       from "./init/root";
 
+const versions = {
+  'v0.0.1': {
+    assetPath: 'v0.0.1',
+  }
+}
 
-export function init() {
+async function registerServiceWorker(version = 'v0.0.1') {
+  if (!('serviceWorker' in navigator)) { return; }
+
+  const {assetPath} = versions[version];
+
+  try {
+    const registration = await navigator.serviceWorker.register(`/${assetPath}/service-worker.js`);
+    console.log('Service Worker registered with scope:', registration.scope);
+  } catch (e) {
+    console.log('Service Worker registration failed:', e);
+  }
+}
+
+export function app() {
+  registerServiceWorker();
   window.spwashi = {};
+
+  // aim to prevent FOUC
   initParameters();
   initRoot();
+
+  // initialize context-sensitive parameters
   readParameters(new URLSearchParams(window.location.search));
+
+  // primary interactive elements
   initFocalSquare();
   initH1();
+
+  // progressive enhancement
   initUi(window.spwashi.initialMode)
-}
-
-function initRoot() {
-  initSimulationRoot();
-  initRootSession();
-  initCallbacks();
-  initListeners();
-  window.spwashi.counter   = 0;
-  window.spwashi.modeOrder = [
-    'reflex',
-    'color',
-    'map',
-    'filter',
-    'node',
-    'query',
-    'debug',
-    'story',
-    'spw',
-  ];
-
-  if (window.location.pathname === '/help') {
-    pushHelpTopics();
-    window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';
-    setDocumentMode('spw', false, true);
-  }
-}
-
-function initRootSession() {
-  window.spwashi.__session = window.spwashi.__session || {i: 0};
-  window.spwashi.setItem   = (key, item, category = null) => {
-    window.localStorage.setItem(getItemKey(key, category), JSON.stringify(item || null));
-  }
-  window.spwashi.getItem   = (key, category = null) => {
-    const out = window.localStorage.getItem(getItemKey(key, category))
-    if (out) return JSON.parse(out || '{}')
-    return undefined;
-  }
-}
-
-function getItemKey(key, category = null) {
-  if (!category) {
-    category = window.spwashi.parameterKey
-  }
-
-  return category + '@' + key;
 }

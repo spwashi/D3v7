@@ -79,7 +79,7 @@ export const initialKeyStrokeOptions = [
   {revealOrder: 1, shortcut: 'k', categories: ['data'], title: 'clear nodes', callback: clearActiveNodes},
   {revealOrder: 1, shortcut: '-', categories: ['data', 'cache'], title: 'clear node cache', callback: clearCachedNodes},
   // {revealOrder: 1, shortcut: 'c', categories: ['data'], title: 'copy node ids', callback: copyNodesToClipboard},
-  {revealOrder: 1, shortcut: 's', categories: ['nodes'], title: 'save', callback: saveActiveNodes},
+  {revealOrder: 0, shortcut: 's', categories: ['nodes'], title: 'save', callback: saveActiveNodes},
   {revealOrder: 1, shortcut: '<space>'},
   {revealOrder: 1, shortcut: 'ArrowDown', categories: ['nodes'], shortcutName: '↓', title: 'fewer', callback: lessNodes},
   {revealOrder: 1, shortcut: '<space>'},
