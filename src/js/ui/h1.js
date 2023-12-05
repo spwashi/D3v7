@@ -6,13 +6,41 @@ import md5                      from "md5";
 import {processPastedText}      from "../init/hotkeys/handlers/pasted-text";
 import {getNextUrlSearchParams} from "../util/next-url";
 
+function getHeaderSideEffects(input, sideEffects = {}) {
+  const text                                          = input.value;
+  const {liveStrings, nextDocumentMode, valueStrings} = processSpwInput(text);
+  if (nextDocumentMode === 'spw') {
+    sideEffects.doFocusH1After     = false;
+    sideEffects.href               = null;
+    window.spwashi.spwEditor.value = (valueStrings.join('\n'));
+    setDocumentMode('spw', false, true);
+    return;
+  }
+
+  const processedInput = valueStrings.join('\n');
+  if (!processedInput) return;
+  const parsed = JSON.parse(JSON.stringify(parse(processedInput)));
+  const params = getNextUrlSearchParams();
+
+  const identity = parsed.identity || text.trim();
+
+  sideEffects.href =
+    getIdentityPath(
+      md5(identity),
+      params,
+      identity
+    );
+
+  return sideEffects;
+}
+
 export function initH1() {
   const h1                 = document.querySelector('h1');
   const currentText        = h1.innerText;
   const md5Element         = document.querySelector('#title-md5');
   const currentLiteralHash = md5(currentText);
-  md5Element.innerText = `${currentLiteralHash}`.slice(0, 8);
-  md5Element.href      = getIdentityPath(currentLiteralHash);
+  md5Element.innerText     = `${currentLiteralHash}`.slice(0, 8);
+  md5Element.href          = getIdentityPath(currentLiteralHash);
 
   const changeTitleButton = document.querySelector('#main-wonder-button');
   h1.tabIndex             = 0;
@@ -58,10 +86,15 @@ export function initH1() {
     input.value   = currentText;
     input.id      = 'h1-input';
     form.appendChild(input);
-    const submit       = document.createElement('button');
-    submit.type        = 'submit';
-    submit.innerText   = 'submit';
-    let doFocusH1After = true;
+    const submit     = document.createElement('button');
+    submit.type      = 'submit';
+    submit.innerText = 'submit';
+
+    const sideEffects = {
+      doFocusH1After: true,
+      href:           null
+    };
+
     form.appendChild(submit);
     h1.innerHTML = '';
     h1.appendChild(form);
@@ -69,32 +102,15 @@ export function initH1() {
     input.setSelectionRange(0, input.value.length);
     submit.onclick = (e) => {
       e.preventDefault();
-      const value = input.value;
-
-      const {liveStrings, nextDocumentMode, valueStrings} = processSpwInput(value);
-      if (nextDocumentMode === 'spw') {
-        doFocusH1After                 = false;
-        window.spwashi.spwEditor.value = (valueStrings.join('\n'));
-        setDocumentMode('spw', false, true);
-        return;
+      getHeaderSideEffects(input, sideEffects);
+      if (sideEffects.href) {
+        window.location.href = sideEffects.href;
       }
-      const processedInput = valueStrings.join('\n');
-      if (!processedInput) return;
-      const parsed = JSON.parse(JSON.stringify(parse(processedInput)));
-      const params = getNextUrlSearchParams();
-
-      const identity = parsed.identity;
-
-      window.location.href =
-        getIdentityPath(
-          md5(identity),
-          params,
-          identity
-        );
     }
 
-    temporaryDocumentClickHandler = () => { resetH1(doFocusH1After); };
-    submit.onblur                 = () => { resetH1(doFocusH1After); }
+    temporaryDocumentClickHandler = () => { resetH1(sideEffects.doFocusH1After); };
+    submit.onblur                 = () => { resetH1(sideEffects.doFocusH1After); };
+
     document.addEventListener('click', temporaryDocumentClickHandler)
   }
 
