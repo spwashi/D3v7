@@ -16,10 +16,10 @@ function isOperator(node) {
   return node.kind.split(' + ').includes('operator');
 }
 
-export function getIdentityPath(hash, urlParams, title = undefined) {
+export function getIdentityPath(hash, title = undefined, urlParams = new URLSearchParams()) {
   let href = `/identity/${hash}`;
-  if (urlParams) {
-    title && urlParams.set('title', title);
+  title && urlParams.set('title', title);
+  if (urlParams.size) {
     href += '?' + urlParams?.toString();
   }
   return href;
@@ -34,7 +34,7 @@ export function processNode(node, i) {
     const urlParams = getNextUrlSearchParams();
     urlParams.set('superpower', 'hyperlink');
     const hash = node.md5;
-    const url  = getIdentityPath(hash, urlParams, node.identity);
+    const url  = getIdentityPath(hash, node.identity, urlParams);
     node.url   = url;
     return url;
   };
@@ -69,7 +69,7 @@ export function processNode(node, i) {
   node.image.offsetY   = 0;
   setNodeHash(node);
   const urlParams = getNextUrlSearchParams();
-  node.url        = getIdentityPath(node.md5, urlParams, node.identity)
+  node.url        = getIdentityPath(node.md5, node.identity, urlParams)
 
   const edgeLeft   = 50;
   const edgeRight  = window.spwashi.parameters.width - 50;

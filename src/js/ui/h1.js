@@ -24,12 +24,7 @@ function getHeaderSideEffects(input, sideEffects = {}) {
 
   const identity = parsed.identity || text.trim();
 
-  sideEffects.href =
-    getIdentityPath(
-      md5(identity),
-      params,
-      identity
-    );
+  sideEffects.href = getIdentityPath(md5(identity), identity, params);
 
   return sideEffects;
 }
@@ -40,7 +35,7 @@ export function initH1() {
   const md5Element         = document.querySelector('#title-md5');
   const currentLiteralHash = md5(currentText);
   md5Element.innerText     = `${currentLiteralHash}`.slice(0, 8);
-  md5Element.href          = getIdentityPath(currentLiteralHash);
+  md5Element.href          = getIdentityPath(currentLiteralHash, currentText);
 
   const changeTitleButton = document.querySelector('#main-wonder-button');
   h1.tabIndex             = 0;
