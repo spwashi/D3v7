@@ -1,4 +1,4 @@
-import md5                      from "md5";
+import md5 from "md5";
 
 
 import {getNextUrlSearchParams} from "../../../util/next-url";
@@ -17,8 +17,12 @@ function isOperator(node) {
 }
 
 export function getIdentityPath(hash, urlParams, title = undefined) {
-  urlParams.set('title', title);
-  return `/identity/${hash}?${urlParams.toString()}`;
+  let href = `/identity/${hash}`;
+  if (urlParams) {
+    title && urlParams.set('title', title);
+    href += '?' + urlParams?.toString();
+  }
+  return href;
 }
 
 export function setNodeHash(node) {

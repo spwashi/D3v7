@@ -7,10 +7,12 @@ import {processPastedText}      from "../init/hotkeys/handlers/pasted-text";
 import {getNextUrlSearchParams} from "../util/next-url";
 
 export function initH1() {
-  const h1             = document.querySelector('h1');
-  const currentText    = h1.innerText;
-  const md5Element     = document.querySelector('#title-md5');
-  md5Element.innerText = `${md5(currentText)}`.slice(0, 8);
+  const h1                 = document.querySelector('h1');
+  const currentText        = h1.innerText;
+  const md5Element         = document.querySelector('#title-md5');
+  const currentLiteralHash = md5(currentText);
+  md5Element.innerText = `${currentLiteralHash}`.slice(0, 8);
+  md5Element.href      = getIdentityPath(currentLiteralHash);
 
   const changeTitleButton = document.querySelector('#main-wonder-button');
   h1.tabIndex             = 0;
@@ -81,11 +83,14 @@ export function initH1() {
       const parsed = JSON.parse(JSON.stringify(parse(processedInput)));
       const params = getNextUrlSearchParams();
 
-      window.location.href = getIdentityPath(
-        md5(parsed.identity),
-        params,
-        parsed.identity
-      );
+      const identity = parsed.identity;
+
+      window.location.href =
+        getIdentityPath(
+          md5(identity),
+          params,
+          identity
+        );
     }
 
     temporaryDocumentClickHandler = () => { resetH1(doFocusH1After); };
