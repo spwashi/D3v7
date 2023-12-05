@@ -22,7 +22,7 @@ export const initialKeyStrokeOptions = [
   {revealOrder: 0, shortcut: 'ArrowUp', categories: ['nodes'], shortcutName: '↑', title: 'more', callback: moreNodes},
   {revealOrder: 0, shortcut: '[', categories: ['this'], title: 'toggle main menu', callback: () => { toggleMainMenu(); }},
   {revealOrder: 0, shortcut: ']', categories: ['this'], title: 'toggle focal point', callback: toggleFocalPoint},
-  {revealOrder: 0, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleHotkeyMenu()},
+  {revealOrder: 1, shortcut: '/', categories: ['this'], title: 'toggle hotkey menu', callback: () => toggleHotkeyMenu()},
   {
     revealOrder: 0, shortcut: 'y', categories: ['this'], title: 'yoink', callback: () => {
       const nodes = getAllNodes();
