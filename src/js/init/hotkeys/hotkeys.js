@@ -7,7 +7,7 @@ import {convertRawInput, duplicateNode} from "../../modes/direct/mode-direct";
 import {EDGE_MANAGER}                   from "../../simulation/edges/edges";
 import {removeAllNodes, removeNodes}    from "../../simulation/nodes/data/set";
 import {forEachNode, pushNode}          from "../../simulation/nodes/data/operate";
-import {getAllNodes}                    from "../../simulation/nodes/data/select";
+import {getAllNodes}                    from "../../simulation/nodes/data/selectors/multiple";
 import {removeAllLinks}                 from "../../simulation/edges/data/set";
 import {pushLink}                       from "../../simulation/edges/data/pushLink";
 import {getAllLinks}                    from "../../simulation/edges/data/select";

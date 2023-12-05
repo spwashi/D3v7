@@ -1,10 +1,10 @@
 import {NODE_MANAGER}           from "../../simulation/nodes/nodes";
 import {reinitializeSimulation} from "../../simulation/simulation";
-import {setDocumentMode} from "../index";
-import {removeAllNodes}        from "../../simulation/nodes/data/set";
-import {forEachNode, pushNode} from "../../simulation/nodes/data/operate";
-import {processNode}           from "../../simulation/nodes/data/process";
-import {getAllNodes}            from "../../simulation/nodes/data/select";
+import {setDocumentMode}        from "../index";
+import {removeAllNodes}         from "../../simulation/nodes/data/set";
+import {forEachNode, pushNode}  from "../../simulation/nodes/data/operate";
+import {processNode}            from "../../simulation/nodes/data/process";
+import {getAllNodes}            from "../../simulation/nodes/data/selectors/multiple";
 
 export function duplicateNode(d) {
   return {
@@ -62,7 +62,7 @@ export function initializeDirectMode() {
   forEachNode(processNode);
   reinitializeSimulation();
 
-  const nodesInput = document.querySelector('#nodes-input');
+  const nodesInput   = document.querySelector('#nodes-input');
   // select all on focus
   nodesInput.onfocus = () => nodesInput.select();
 

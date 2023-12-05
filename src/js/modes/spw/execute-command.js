@@ -1,4 +1,4 @@
-import {commands} from "./commands/_";
+import {commands}          from "./commands/_";
 import {runDefaultCommand} from "./commands/default";
 
 export function executeCommand(command, sideEffects) {

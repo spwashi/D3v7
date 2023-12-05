@@ -5,82 +5,24 @@ import {makeRect}                         from "./ui/rect";
 import {makeCircle, updateCircle}         from "./ui/circle";
 import {makeImage, updateNodeImage}       from "./ui/image";
 import {getNodeColor, getNodeStrokeColor} from "./attr/colors";
-import {getDocumentDataIndex}             from "../../modes/dataindex/mode-dataindex";
 import {setNodeData}                      from "./data/set";
+import {sortNodes}                        from "./data/sort";
+import {normalize}                        from "./data/normalize";
+import {getNode}                          from "./data/selectors/single";
+import {getNodeId}                        from "./attr/id";
+import {filterNode}                       from "./data/filter";
 
 export const NODE_MANAGER = {
   getNode:     getNode,
-  initNodes:   initNodes,
+  initNodes:   init,
   normalize:   normalize,
-  updateNodes: updateNodeSimulation,
+  updateNodes: update,
   filterNode:  filterNode,
   processNode: processNode,
   cacheNode:   cacheNode,
 };
 
-const idMap = new Map();
-
-export function getNodeImageHref(d) {
-  return null;
-  if (d.image.href === null) return null;
-  return d.image.href || window.spwashi.images[(d.colorindex || 0) % (window.spwashi.images.length)];
-}
-
-export function sortNodes(nodes) {
-  return nodes.sort((a, b) => a.z - b.z);
-}
-
-function getNodeId(node, i) {
-  const root_id = getNodeRootId(node, i);
-  const set     = idMap.get(root_id) || new Set;
-  if (!set.has(node)) {
-    node.id = root_id + (set.size ? '[' + set.size + ']' : '');
-    set.add(node);
-  }
-  node.id = node.id || root_id;
-  idMap.set(node.id, set);
-  return node.id;
-}
-
-function getNodeRootId(node = {}, i = 0) {
-  if (node.identity) return node.identity;
-  return `node:[${i}]`;
-};
-
-function normalize(node, readNode, i) {
-  const template = {
-    image:      {},
-    callbacks:  {},
-    charge:     0,
-    parts:      {},
-    private:    {},
-    text:       {fontSize: 20},
-    r:          1 * window.spwashi.parameters.nodes.radiusMultiplier,
-    z:          0,
-    x:          window.spwashi.parameters.startPos.x + i * 2,
-    y:          window.spwashi.parameters.startPos.y,
-    colorindex: getDocumentDataIndex(),
-  };
-  Object.assign(
-    node,
-    template,
-    readNode,
-    {
-      name: node.identity || ('node:' + i),
-      idx:  i,
-    },
-    {
-      ...node,
-    }
-  );
-  node.r             = Math.max(node.r, 1)
-  node.image.r       = isNaN(node.image.r) ? node.r : Math.max(10, node.image.r);
-  node.image.offsetX = !isNaN(node.image.offsetX) ? node.image.offsetX : 0;
-  node.image.offsetY = !isNaN(node.image.offsetY) ? node.image.offsetY : node.r;
-  return node;
-}
-
-function initNodes(nodes) {
+function init(nodes) {
   const count = nodes.length;
   for (let i = 0; i < count; i++) {
     const node     = {id: getNodeId(nodes[i], i),};
@@ -97,7 +39,7 @@ function initNodes(nodes) {
   return activeNodes;
 }
 
-function updateNodeSimulation(g, nodes) {
+function update(g, nodes) {
   const wrapperSelection =
           g
             .select('.nodes')
@@ -143,23 +85,3 @@ function updateNodeSimulation(g, nodes) {
 
   wrapperSelection.join(enterJoin, updateJoin, removeJoin);
 }
-
-function filterNode(node) {
-  return true;
-}
-
-function getNode(id, perspective = undefined) {
-  let fallback;
-  const node = window.spwashi.nodes.find(n => {
-    if (n.identity === id) {
-      fallback = fallback || n;
-      if (perspective === undefined) return true;
-      return n.colorindex === perspective;
-    }
-    if (n.id === id) {
-      fallback = fallback || n;
-    }
-  });
-  return node || fallback;
-}
-

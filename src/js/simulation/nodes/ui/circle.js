@@ -1,8 +1,8 @@
 import {cacheNode}       from "../data/store";
-import {sortNodes}       from "../nodes";
 import {drag}            from "d3";
 import {CLICKED_NODES}   from "../../../modes/spw/commands/clicked";
 import {removeNodeEdges} from "../../edges/data/set";
+import {sortNodes}       from "../data/sort";
 
 export function logMainEvent(event, details) {
   const mainLog   = document.querySelector('#main-log');

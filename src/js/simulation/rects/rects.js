@@ -1,4 +1,4 @@
-function updateRects(g, rects) {
+function update(g, rects) {
   g.select('.rects')
    .selectAll('g.rect')
    .data(rects, d => d.title)
@@ -41,5 +41,5 @@ function updateRects(g, rects) {
 
 export const RECT_MANAGER = {
   initRects:   rects => rects,
-  updateRects: updateRects
+  updateRects: update
 };

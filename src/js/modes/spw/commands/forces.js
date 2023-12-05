@@ -1,4 +1,4 @@
-import {initializeForces} from "../../../simulation/simulation";
+import {initializeForces} from "../../../simulation/forces";
 
 export function runForcesCommand(sideEffects) {
   initializeForces();

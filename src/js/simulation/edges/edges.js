@@ -1,28 +1,11 @@
 import {linkBySpwParts} from "./data/link-spw";
 import {pushLink}       from "./data/pushLink";
-import {initCenterNode} from "../nodes/data/initCenterNode";
 
-export function linkToCenter(nodes) {
-  const id = initCenterNode();
-  window.spwashi.reinit();
-  const links = [];
-  for (let node of nodes) {
-    const link = {
-      source:   node.id,
-      target:   window.spwashi.getNode(id).id,
-      strength: 0.1
-    };
-    pushLink(links, link);
-  }
-  return links;
+function init(nodes) {
+  return pushLink(window.spwashi.links, ...linkBySpwParts(nodes));
 }
 
-function initLinks(links, nodes) {
-  links.push(...linkBySpwParts(nodes))
-  return links;
-}
-
-function updateLinks(g, links) {
+function update(g, links) {
   const u = g.select('.links')
              .selectAll('line')
              .data(links)
@@ -45,6 +28,6 @@ function updateLinks(g, links) {
 }
 
 export const EDGE_MANAGER = {
-  initLinks:   initLinks,
-  updateLinks: updateLinks,
+  initLinks:   init,
+  updateLinks: update,
 };

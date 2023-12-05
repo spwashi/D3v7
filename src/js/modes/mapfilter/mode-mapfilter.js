@@ -5,7 +5,7 @@ import {reinitializeSimulation} from "../../simulation/simulation";
 import {setDocumentMode}        from "../index";
 import {removeAllNodes}         from "../../simulation/nodes/data/set";
 import {mapNodes, pushNode}     from "../../simulation/nodes/data/operate";
-import {selectOppositeNodes}    from "../../simulation/nodes/data/select";
+import {selectOppositeNodes}    from "../../simulation/nodes/data/selectors/multiple";
 import {removeObsoleteEdges}    from "../../simulation/edges/data/set";
 
 function hardResetNodes(nodes) {

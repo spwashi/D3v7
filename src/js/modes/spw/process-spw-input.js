@@ -1,8 +1,8 @@
 import {reinitializeSimulation}      from "../../simulation/simulation";
 import {initPageImage, setPageImage} from "../../ui/page-image";
-import {processLine}  from "./process-line";
-import {processNode}  from "../../simulation/nodes/data/process";
-import {NODE_MANAGER} from "../../simulation/nodes/nodes";
+import {processLine}                 from "./process-line";
+import {processNode}                 from "../../simulation/nodes/data/process";
+import {NODE_MANAGER}                from "../../simulation/nodes/nodes";
 import {forEachNode}                 from "../../simulation/nodes/data/operate";
 
 export function initSpwParseField() {

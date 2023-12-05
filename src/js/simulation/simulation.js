@@ -1,11 +1,13 @@
-import {logMainEvent}                                                                                     from "./nodes/ui/circle";
-import {getNodeImageHref, NODE_MANAGER}                                                                   from "./nodes/nodes";
-import {EDGE_MANAGER}                                                                                     from "./edges/edges";
-import {RECT_MANAGER}                                                                                     from "./rects/rects";
-import {drag, extent, forceCenter, forceCollide, forceLink, forceManyBody, forceSimulation, select, zoom} from "d3";
-import {forEachNode}                                                                                      from "./nodes/data/operate";
-import {getAllNodes, selectNodesInRect}                                                                   from "./nodes/data/select";
-import {pushLink}                                                                                         from "./edges/data/pushLink";
+import {logMainEvent}                                from "./nodes/ui/circle";
+import {NODE_MANAGER}                                from "./nodes/nodes";
+import {EDGE_MANAGER}                                from "./edges/edges";
+import {RECT_MANAGER}                                from "./rects/rects";
+import {drag, extent, forceSimulation, select, zoom} from "d3";
+import {forEachNode}                                 from "./nodes/data/operate";
+import {selectNodesInRect}                           from "./nodes/data/selectors/multiple";
+import {getNodeImageHref}                            from "./nodes/attr/href";
+import {initializeForces}                            from "./forces";
+import {getDefaultRects}                             from "./rects/data/default";
 
 
 const simulationSVG   = select("svg#simulation");
@@ -97,11 +99,11 @@ export function reinitializeSimulation() {
         logMainEvent('mouseup:' + e.y + ' ' + e.x);
       });
   }
+
   const nodes = NODE_MANAGER.initNodes(window.spwashi.nodes);
-  const edges = EDGE_MANAGER.initLinks([], nodes);
-  pushLink(window.spwashi.links, ...edges);
-  const links = window.spwashi.links;
+  const edges = EDGE_MANAGER.initLinks(nodes);
   const rects = RECT_MANAGER.initRects(window.spwashi.rects)
+
 
   const simulation = window.spwashi.simulation;
   simulation.nodes(nodes);
@@ -113,7 +115,7 @@ export function reinitializeSimulation() {
   window.spwashi.internalTicker = () => {
     window.spwashi.counter += 1;
     rects.forEach(d => d.calc(d));
-    EDGE_MANAGER.updateLinks(g, links);
+    EDGE_MANAGER.updateLinks(g, edges);
     NODE_MANAGER.updateNodes(g, nodes);
     RECT_MANAGER.updateRects(g, rects);
   };
@@ -121,58 +123,7 @@ export function reinitializeSimulation() {
   document.querySelector('#output').innerHTML = JSON.stringify(window.spwashi.parameters, null, 2);
 }
 
-export function initializeForces() {
-  const simulation = window.spwashi.simulation;
-  const links      = window.spwashi.links;
-  const nodes      = getAllNodes();
-  simulation.alpha(window.spwashi.parameters.forces.alpha);
-  simulation.alphaTarget(window.spwashi.parameters.forces.alphaTarget);
-  simulation.alphaDecay(window.spwashi.parameters.forces.alphaDecay);
-  simulation.velocityDecay(window.spwashi.parameters.forces.velocityDecay);
-  simulation.force(
-    'link',
-    forceLink().links(links).id(d => d.id).strength(l => l.strength || 1)
-  );
-  simulation.force(
-    'collide',
-    forceCollide(d => d.collisionRadius || d.r)
-  );
-  simulation.force('charge', null)
-  simulation.force(
-    'charge',
-    forceManyBody()
-      .strength(d => d.charge || window.spwashi.parameters.forces.charge)
-  );
-  simulation.force(
-    'center',
-    forceCenter(...[
-      window.spwashi.parameters.forces.centerPos.x,
-      window.spwashi.parameters.forces.centerPos.y,
-    ]).strength(window.spwashi.parameters.forces.centerStrength)
-  );
-  simulation.force('boundingBox', null);
-  window.spwashi.parameters.forces.boundingBox && simulation.force('boundingBox', (alpha) => {
-    for (let i = 0, n = nodes.length, k = alpha * 0.1; i < n; ++i) {
-      const node = nodes[i];
-      if (node.x > window.spwashi.parameters.width) {
-        node.x = window.spwashi.parameters.width;
-        node.vx *= .9;
-      } else if (node.x < 0) {
-        node.x = 0;
-        node.vx *= .9;
-      }
-      if (node.y > window.spwashi.parameters.height) {
-        node.y = window.spwashi.parameters.height;
-        node.vy *= .9;
-      } else if (node.y < 0) {
-        node.y = 0;
-        node.vy *= .9;
-      }
-    }
-  });
-}
-
-function initSimulationNodes() {
+function initNodes() {
   window.spwashi.clearCachedNodes = () => {
     window.spwashi.setItem('nodes', []);
   }
@@ -181,88 +132,18 @@ function initSimulationNodes() {
   window.spwashi.nodes            = window.spwashi.nodes || [];
 }
 
-function initSimulationEdges() {
+function initEdges() {
   window.spwashi.links = window.spwashi.links || [];
 }
 
-function getDefaultRects() {
-  return [
-    {
-      title: 'Counter',
-      x:     0,
-      width: 0,
-      calc:  d => d.width = window.spwashi.counter * 1
-    },
-    {
-      title: 'Alpha',
-      x:     0,
-      width: 0,
-      calc:  d => d.width = window.spwashi.simulation.alpha() * (window.spwashi.parameters.width || 0)
-    },
-    {
-      title: 'Alpha Decay',
-      x:     0,
-      width: 0,
-      calc:  d => d.width = window.spwashi.simulation.alphaDecay() * (window.spwashi.parameters.width || 0)
-    },
-    {
-      title: 'Charge',
-      x:     0,
-      width: 0,
-      calc:  d => {
-        d.title = 'Charge: ' + window.spwashi.parameters.forces.charge;
-        d.width = window.spwashi.parameters.forces.charge;
-      }
-    },
-    {
-      title: 'Velocity Decay',
-      x:     0,
-      width: 0,
-      calc:  d => d.width = window.spwashi.simulation.velocityDecay() * (window.spwashi.parameters.width || 0)
-    },
-    {
-      title: 'Zoom',
-      x:     0,
-      width: 1,
-      calc:  d => d.title = `Zoom: ${window.spwashi.zoomTransform?.k || 1}`
-    },
-    {
-      title: 'Node Quantity',
-      x:     0,
-      width: 0,
-      calc:  d => {
-        let nodeCount = window.spwashi.nodes.length;
-        d.title       = 'Node Count: ' + nodeCount;
-
-        return d.width = nodeCount;
-      }
-    },
-    {
-      title: 'Node Queue Count',
-      x:     0,
-      width: 0,
-      calc:  d => {
-        const nodeCount = window.spwashi.parameters.nodes.count;
-
-        d.title = 'Node Queue Count: ' + nodeCount;
-        d.width = nodeCount;
-      }
-    },
-  ].map((r, i) => {
-    r.height = 20;
-    r.y      = i * 20;
-    return r;
-  });
-}
-
-function initSimulationRects() {
+function initRects() {
   window.spwashi.rects = window.spwashi.rects || getDefaultRects();
 }
 
 export async function initSimulationRoot() {
   window.spwashi.reinit     = reinitializeSimulation;
   window.spwashi.simulation = forceSimulation();
-  initSimulationNodes();
-  initSimulationEdges();
-  initSimulationRects();
+  initNodes();
+  initEdges();
+  initRects();
 }

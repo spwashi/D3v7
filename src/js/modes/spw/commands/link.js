@@ -1,4 +1,4 @@
-import {getAllNodes} from "../../../simulation/nodes/data/select";
+import {getAllNodes} from "../../../simulation/nodes/data/selectors/multiple";
 import {pushLink}    from "../../../simulation/edges/data/pushLink";
 
 export function runLinkCommand(sideEffects) {

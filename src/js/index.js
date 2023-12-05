@@ -1,13 +1,13 @@
-import {initializeForceSimulationControls} from "./ui/simulation-controls";
-import {initParameters, readParameters}    from "./init/parameters";
+import {initializeForceSimulationControls}          from "./ui/simulation-controls";
+import {initParameters, readParameters}             from "./init/parameters";
 import {initSimulationRoot, reinitializeSimulation} from "./simulation/simulation";
 import {initFocalSquare}                            from "./ui/focal-point";
 import {setDocumentMode}                            from "./modes";
 import {pushHelpTopics}                             from "./modes/spw/commands/help";
 import {initCallbacks}                              from "./init/callbacks/initCallbacks";
 import {initListeners}                              from "./init/listeners/initListeners";
-import {initH1}   from "./ui/h1";
-import {pushNode} from "./simulation/nodes/data/operate";
+import {initH1}                                     from "./ui/h1";
+import {pushNode}                                   from "./simulation/nodes/data/operate";
 
 const getItemKey = (key, category = null) => {
   if (!category) {

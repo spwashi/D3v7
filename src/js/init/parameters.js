@@ -1,14 +1,12 @@
 import {getDataIndexForNumber, initializeDataindexMode, setDocumentDataIndex} from "../modes/dataindex/mode-dataindex";
-import {initializeDirectMode}      from "../modes/direct/mode-direct";
-import {initializeQuerystringMode} from "../modes/querystring/mode-querystring";
-import {initializeMapFilterMode}   from "../modes/mapfilter/mode-mapfilter";
-import {initializeSpwParseField}   from "../modes/spw/mode-spw";
-import {initializeModeSelection, setDocumentMode} from "../modes";
-import {initKeystrokes}                           from "./hotkeys/hotkeys";
-import {initializeReflexMode}                     from "../modes/reflex/mode-reflex";
-import {initializeStoryMode}  from "../modes/story/mode-story";
-
-export const POWER_MODE = ['common', 'dev'][0];
+import {initializeDirectMode}                                                 from "../modes/direct/mode-direct";
+import {initializeQuerystringMode}                                            from "../modes/querystring/mode-querystring";
+import {initializeMapFilterMode}                                              from "../modes/mapfilter/mode-mapfilter";
+import {initializeSpwParseField}                                              from "../modes/spw/mode-spw";
+import {initializeModeSelection, setDocumentMode}                             from "../modes";
+import {initKeystrokes}                                                       from "./hotkeys/hotkeys";
+import {initializeReflexMode}                                                 from "../modes/reflex/mode-reflex";
+import {initializeStoryMode}                                                  from "../modes/story/mode-story";
 
 export function initParameters() {
   window.spwashi.parameters                        = window.spwashi.parameters || {};
