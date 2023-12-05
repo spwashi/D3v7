@@ -25,7 +25,7 @@ function initSvgEvents() {
                 if (e.sourceEvent.shiftKey) {
                   window.spwashi.parameters.forces._charge = window.spwashi.parameters.forces._charge || window.spwashi.parameters.forces.charge;
                   window.spwashi.parameters.forces.charge  = window.spwashi.parameters.forces._charge * factor;
-                  reinit();
+                 window.spwashi.reinit();
                 } else {
                   forEachNode(node => {
                     node.private._r = node.private._r || node.r
@@ -85,7 +85,7 @@ function initSvgEvents() {
           node.charge = -1000;
         });
         window.spwashi.rects.splice(window.spwashi.rects.indexOf(rect), 1);
-        reinit();
+       window.spwashi.reinit();
         rect = null;
         logMainEvent('mouseup:' + e.y + ' ' + e.x);
       });

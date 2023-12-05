@@ -3,7 +3,6 @@ import {processLine}                 from "./process-line";
 import {processNode}                 from "../../simulation/nodes/data/process";
 import {NODE_MANAGER}                from "../../simulation/nodes/nodes";
 import {forEachNode} from "../../simulation/nodes/data/operate";
-import {reinit}      from "../../simulation/reinit";
 
 export function initSpwParseField() {
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
@@ -72,7 +71,7 @@ export function processSpwInput(text) {
   });
 
   if (sideEffects.physicsChange) {
-    reinit();
+   window.spwashi.reinit();
   }
 
   return {

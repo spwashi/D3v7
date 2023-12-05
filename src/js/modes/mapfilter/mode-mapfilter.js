@@ -6,13 +6,12 @@ import {removeAllNodes}         from "../../simulation/nodes/data/set";
 import {mapNodes, pushNode}     from "../../simulation/nodes/data/operate";
 import {selectOppositeNodes}    from "../../simulation/nodes/data/selectors/multiple";
 import {removeObsoleteEdges} from "../../simulation/edges/data/set";
-import {reinit}              from "../../simulation/reinit";
 
 function hardResetNodes(nodes) {
   removeAllNodes();
   pushNode(...nodes);
   removeObsoleteEdges(nodes);
-  reinit();
+ window.spwashi.reinit();
 }
 
 export function initializeMapFilterMode() {

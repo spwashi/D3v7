@@ -7,7 +7,6 @@ import {setDocumentMode}                    from "../index";
 import {initSpwParseField, processSpwInput} from "./process-spw-input";
 import {initPageImage}                      from "../../ui/page-image";
 import {mapNodes, pushNode} from "../../simulation/nodes/data/operate";
-import {reinit}             from "../../simulation/reinit";
 
 const parseSpw = (text) => {
   const tokens    = [];
@@ -66,7 +65,7 @@ export function initializeSpwParseField() {
     const newNodes = JSON.parse(JSON.stringify(parsed));
     newNodes.forEach(NODE_MANAGER.processNode);
     pushNode(...newNodes);
-    reinit();
+   window.spwashi.reinit();
     initFocalSquare().focus();
   }
 }
