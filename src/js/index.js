@@ -3,6 +3,8 @@ import {initFocalSquare}                from "./ui/focal-point";
 import {initH1}                         from "./ui/h1";
 import {initUi}                         from "./init/ui";
 import {initRoot}                       from "./init/root";
+import {initSvgEvents}                  from "./simulation/events";
+import {simulationElements}             from "./simulation/basic";
 
 const versions = {
   'v0.0.1': {
@@ -35,6 +37,7 @@ export function app() {
   readParameters(new URLSearchParams(window.location.search));
 
   // primary interactive elements
+  initSvgEvents(simulationElements.svg);
   initFocalSquare();
   initH1();
 

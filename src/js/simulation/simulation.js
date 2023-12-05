@@ -3,6 +3,7 @@ import {forceSimulation}                       from "d3";
 import {getNodeImageHref}                      from "./nodes/attr/href";
 import {getDefaultRects}                       from "./rects/data/default";
 import {initSvgProperties, simulationElements} from "./basic";
+import {initSvgEvents}                         from "./events";
 
 function initNodes() {
   window.spwashi.clearCachedNodes = () => {
