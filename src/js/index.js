@@ -6,8 +6,8 @@ import {setDocumentMode}                            from "./modes";
 import {pushHelpTopics}                             from "./modes/spw/commands/help";
 import {initCallbacks}                              from "./init/callbacks/initCallbacks";
 import {initListeners}                              from "./init/listeners/initListeners";
-import {initH1}    from "./ui/h1";
-import {pushNodes} from "./simulation/nodes/data/operate";
+import {initH1}   from "./ui/h1";
+import {pushNode} from "./simulation/nodes/data/operate";
 
 const getItemKey = (key, category = null) => {
   if (!category) {
@@ -75,7 +75,7 @@ export function init() {
       return ret.tokens;
     }
     fetchThing()
-      .then(nodes => pushNodes(...nodes))
+      .then(nodes => pushNode(...nodes))
       .then(nodes => reinitializeSimulation());
   }
 

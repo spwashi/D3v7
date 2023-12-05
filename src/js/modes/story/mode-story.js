@@ -4,8 +4,8 @@ import {NODE_MANAGER}   from "../../simulation/nodes/nodes";
 import {clearActiveNodes} from "../../init/hotkeys/hotkeys";
 
 
-import {extendMenu}             from "../spw/commands/extended-menu";
-import {forEachNode, pushNodes} from "../../simulation/nodes/data/operate";
+import {extendMenu}            from "../spw/commands/extended-menu";
+import {forEachNode, pushNode} from "../../simulation/nodes/data/operate";
 
 const clearFxFy = d => d.fx = d.fy = undefined;
 const fixX      = (d, i) => d.fy = 75 * (i + 1);
@@ -30,7 +30,7 @@ async function executeEvents(events) {
     }
     if (payload.nodes) {
       const nodes = payload.nodes.map(processNode).map(NODE_MANAGER.normalize);
-      pushNodes(...nodes);
+      pushNode(...nodes);
     }
     window.window.spwashi.reinit();
   }

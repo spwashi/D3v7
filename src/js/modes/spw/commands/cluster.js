@@ -1,5 +1,6 @@
 import {removeClusterNodes} from "../../../simulation/nodes/data/set";
-import {pushNodes}          from "../../../simulation/nodes/data/operate";
+import {pushNode}           from "../../../simulation/nodes/data/operate";
+import {pushLink}           from "../../../simulation/edges/data/pushLink";
 
 function getCluster(node) {
   return 'cluster:' + node.colorindex;
@@ -13,7 +14,6 @@ export function runClusterCommand(sideEffects) {
     return acc;
   }, {});
   removeClusterNodes();
-  window.spwashi.links = window.spwashi.links.filter(link => link.source.kind !== '__cluster' && link.target.kind !== '__cluster');
   Object.entries(nodeGroups)
         .forEach(([cluster, nodes]) => {
           const clusterNode = {
@@ -21,9 +21,9 @@ export function runClusterCommand(sideEffects) {
             kind:     '__cluster',
             r:        100,
           };
-          pushNodes(clusterNode);
+          pushNode(clusterNode);
           nodes.forEach(node => {
-            window.spwashi.links.push({source: clusterNode, target: node, strength: 1});
+            pushLink(window.spwashi.links, {source: clusterNode, target: node, strength: 1});
           });
         });
   sideEffects.physicsChange = true;

@@ -1,4 +1,4 @@
-import {pushNodes} from "./operate";
+import {pushNode} from "./operate";
 
 const id = 'center';
 
@@ -13,6 +13,6 @@ export function initCenterNode() {
     y:               window.spwashi.parameters.height / 2,
   };
 
-  pushNodes(centerNode);
+  pushNode(centerNode);
   return id;
 }

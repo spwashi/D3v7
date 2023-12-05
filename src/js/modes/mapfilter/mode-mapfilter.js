@@ -1,20 +1,21 @@
-import ace, {createEditSession}                   from 'ace-builds/src-noconflict/ace';
+import ace, {createEditSession} from 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/mode-javascript';
-import {reinitializeSimulation}                   from "../../simulation/simulation";
-import {setDocumentMode}                          from "../index";
-import {removeAllNodes}                           from "../../simulation/nodes/data/set";
-import {mapNodes, pushNodes} from "../../simulation/nodes/data/operate";
-import {selectOppositeNodes}                      from "../../simulation/nodes/data/select";
+import {reinitializeSimulation} from "../../simulation/simulation";
+import {setDocumentMode}        from "../index";
+import {removeAllNodes}         from "../../simulation/nodes/data/set";
+import {mapNodes, pushNode}     from "../../simulation/nodes/data/operate";
+import {selectOppositeNodes}    from "../../simulation/nodes/data/select";
+import {removeObsoleteEdges}    from "../../simulation/edges/data/set";
+
+function hardResetNodes(nodes) {
+  removeAllNodes();
+  pushNode(...nodes);
+  removeObsoleteEdges(nodes);
+  reinitializeSimulation();
+}
 
 export function initializeMapFilterMode() {
-  function hardResetNodes(nodes) {
-    removeAllNodes();
-    pushNodes(...nodes);
-    window.spwashi.links = window.spwashi.links.filter(link => nodes.includes(link.source) && nodes.includes(link.target));
-    reinitializeSimulation();
-  }
-
   const mapEditor = ace.edit('node-mapper');
   const mapKey    = 'map-nodes-fn';
   const mapValue  = window.spwashi.getItem(mapKey) || `d => {

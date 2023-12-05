@@ -1,4 +1,4 @@
-export function pushNodes(...nodes) {
+export function pushNode(...nodes) {
   window.spwashi.nodes.push(...nodes);
 }
 

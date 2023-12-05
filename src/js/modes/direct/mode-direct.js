@@ -1,9 +1,9 @@
 import {NODE_MANAGER}           from "../../simulation/nodes/nodes";
 import {reinitializeSimulation} from "../../simulation/simulation";
 import {setDocumentMode} from "../index";
-import {removeAllNodes}         from "../../simulation/nodes/data/set";
-import {forEachNode, pushNodes} from "../../simulation/nodes/data/operate";
-import {processNode}            from "../../simulation/nodes/data/process";
+import {removeAllNodes}        from "../../simulation/nodes/data/set";
+import {forEachNode, pushNode} from "../../simulation/nodes/data/operate";
+import {processNode}           from "../../simulation/nodes/data/process";
 import {getAllNodes}            from "../../simulation/nodes/data/select";
 
 export function duplicateNode(d) {
@@ -58,7 +58,7 @@ export function initializeDirectMode() {
     return convertRawInput(input);
   }
   window.spwashi.refreshNodeInputs();
-  pushNodes(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
+  pushNode(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
   forEachNode(processNode);
   reinitializeSimulation();
 
@@ -72,7 +72,7 @@ export function initializeDirectMode() {
       removeAllNodes();
       reinitializeSimulation();
     }
-    pushNodes(...nodes);
+    pushNode(...nodes);
     reinitializeSimulation();
     setDocumentMode('');
   }

@@ -1,4 +1,4 @@
-import {pushNodes} from "../../../simulation/nodes/data/operate";
+import {pushNode} from "../../../simulation/nodes/data/operate";
 
 const helpText = [
   'thoughts are nodes',
@@ -15,7 +15,7 @@ export function pushHelpTopics(yPos) {
       url:         '/'
     },
   ]
-  pushNodes(...topics.map(node => {
+  pushNode(...topics.map(node => {
     node.fy = yPos;
     return node;
   }));
@@ -25,7 +25,7 @@ export function pushHelpTopics(yPos) {
 export function runHelpCommand(sideEffects) {
   {
     window.spwashi.setItem('help', helpText.join('\n'), 'focal.root')
-    pushNodes(
+    pushNode(
       {
         fx:              window.spwashi.parameters.startPos.x,
         fy:              window.spwashi.parameters.startPos.y,

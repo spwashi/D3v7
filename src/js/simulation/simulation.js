@@ -5,6 +5,7 @@ import {RECT_MANAGER}                                                           
 import {drag, extent, forceCenter, forceCollide, forceLink, forceManyBody, forceSimulation, select, zoom} from "d3";
 import {forEachNode}                                                                                      from "./nodes/data/operate";
 import {getAllNodes, selectNodesInRect}                                                                   from "./nodes/data/select";
+import {pushLink}                                                                                         from "./edges/data/pushLink";
 
 
 const simulationSVG   = select("svg#simulation");
@@ -98,7 +99,7 @@ export function reinitializeSimulation() {
   }
   const nodes = NODE_MANAGER.initNodes(window.spwashi.nodes);
   const edges = EDGE_MANAGER.initLinks([], nodes);
-  window.spwashi.links.push(...edges);
+  pushLink(window.spwashi.links, ...edges);
   const links = window.spwashi.links;
   const rects = RECT_MANAGER.initRects(window.spwashi.rects)
 

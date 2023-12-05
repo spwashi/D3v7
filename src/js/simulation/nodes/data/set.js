@@ -8,6 +8,7 @@ export function removeAllNodes() {
 
 export function removeClusterNodes() {
   window.spwashi.nodes = window.spwashi.nodes.filter(node => node.kind !== '__cluster');
+  window.spwashi.links = window.spwashi.links.filter(link => link.source.kind !== '__cluster' && link.target.kind !== '__cluster');
 }
 
 export function removeNodes(amountToRemove) {

@@ -6,8 +6,11 @@ import {getDocumentDataIndex}           from "../../modes/dataindex/mode-dataind
 import {convertRawInput, duplicateNode} from "../../modes/direct/mode-direct";
 import {EDGE_MANAGER}                   from "../../simulation/edges/edges";
 import {removeAllNodes, removeNodes}    from "../../simulation/nodes/data/set";
-import {forEachNode, pushNodes}         from "../../simulation/nodes/data/operate";
+import {forEachNode, pushNode}          from "../../simulation/nodes/data/operate";
 import {getAllNodes}                    from "../../simulation/nodes/data/select";
+import {removeAllLinks}                 from "../../simulation/edges/data/set";
+import {pushLink}                       from "../../simulation/edges/data/pushLink";
+import {getAllLinks}                    from "../../simulation/edges/data/select";
 
 const MAIN_MENU_OPTION  = 'main-menu';
 const HOTKEY_OPTION     = 'hotkey-menu';
@@ -79,7 +82,7 @@ export function saveActiveNodes() {
 
 export function clearActiveNodes() {
   removeAllNodes();
-  window.spwashi.links.length = 0;
+  removeAllLinks();
   window.spwashi.perspectiveMap.delete(getDocumentDataIndex())
   reinitializeSimulation();
 }
@@ -165,9 +168,9 @@ export function processPastedText(clipboardText) {
   }
   const nodes = data.nodes.filter(NODE_MANAGER.filterNode);
   nodes.forEach(NODE_MANAGER.processNode);
-  pushNodes(...nodes);
+  pushNode(...nodes);
   const edges = EDGE_MANAGER.initLinks(data.links, nodes);
-  window.spwashi.links.push(...edges);
+  pushLink(window.spwashi.links, ...edges);
   reinitializeSimulation();
 }
 
@@ -252,8 +255,7 @@ const initialKeyStrokeOptions = [
   {
     revealOrder: 0, shortcut: 'y', categories: ['this'], title: 'yoink', callback: () => {
       const nodes = getAllNodes();
-      const links = window.spwashi.links;
-      // unfix all nodes
+      const links = getAllLinks();
       nodes.forEach(node => {
         node.fx = undefined;
         node.fy = undefined;
@@ -289,7 +291,7 @@ const initialKeyStrokeOptions = [
       window.navigator.clipboard.writeText(JSON.stringify({nodes: nodes.map(n => duplicateNode(n)), links}));
       setTimeout(() => {
         removeAllNodes();
-        window.spwashi.links.length = 0;
+        removeAllLinks();
         window.spwashi.reinit();
       }, 300);
       setDocumentMode('');

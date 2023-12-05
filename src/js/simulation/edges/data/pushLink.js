@@ -1,3 +1,3 @@
-export function pushLink(links, link) {
-  links.push(link)
+export function pushLink(links, ...newLinks) {
+  links.push(...newLinks)
 }

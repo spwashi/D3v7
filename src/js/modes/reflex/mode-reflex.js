@@ -2,9 +2,9 @@ import {setDocumentMode}                        from "../index";
 import {getDocumentDataIndex}                   from "../dataindex/mode-dataindex";
 import {linkToCenter} from "../../simulation/edges/edges";
 import {linkBySpwParts} from "../../simulation/edges/data/link-spw";
-import {pushLink}               from "../../simulation/edges/data/pushLink";
-import {forEachNode, pushNodes} from "../../simulation/nodes/data/operate";
-import {getAllNodes}                            from "../../simulation/nodes/data/select";
+import {pushLink}              from "../../simulation/edges/data/pushLink";
+import {forEachNode, pushNode} from "../../simulation/nodes/data/operate";
+import {getAllNodes}           from "../../simulation/nodes/data/select";
 
 const dataindexPrefix = 'spwashi-action-';
 
@@ -37,7 +37,7 @@ export function initializeReflexMode() {
           color:      'wheat',
           colorindex: getDocumentDataIndex()
         };
-        pushNodes(node);
+        pushNode(node);
         window.spwashi.reinit();
         nodes.push(node);
       }
@@ -69,8 +69,6 @@ export function initializeReflexMode() {
     return run();
   }
   window.spwashi.bone = () => {
-    window.spwashi.links = window.spwashi.links || [];
-
     const nodeBuckets = new Map();
     for (let node of window.spwashi.nodes) {
       const bucket = nodeBuckets.get(node.colorindex) || [];

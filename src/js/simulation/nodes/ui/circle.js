@@ -1,7 +1,8 @@
-import {cacheNode}     from "../data/store";
-import {sortNodes}     from "../nodes";
-import {drag}          from "d3";
-import {CLICKED_NODES} from "../../../modes/spw/commands/clicked";
+import {cacheNode}       from "../data/store";
+import {sortNodes}       from "../nodes";
+import {drag}            from "d3";
+import {CLICKED_NODES}   from "../../../modes/spw/commands/clicked";
+import {removeNodeEdges} from "../../edges/data/set";
 
 export function logMainEvent(event, details) {
   const mainLog   = document.querySelector('#main-log');
@@ -55,9 +56,7 @@ export function makeCircle(g) {
         break
       case 'prune':
         window.spwashi.nodes.splice(window.spwashi.nodes.indexOf(d), 1);
-        window.spwashi.links = window.spwashi.links.filter(link => {
-          return link.source !== d && link.target !== d;
-        });
+        removeNodeEdges(d);
         window.spwashi.reinit();
         break;
       case 'alert':
