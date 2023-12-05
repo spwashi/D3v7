@@ -97,7 +97,6 @@ h1:focus {
     position: absolute;
     top: 0;
     left: 0;
-    height: 1rem;
 }
 body > aside {
     position: absolute;
@@ -478,6 +477,13 @@ aside > section :has(:focus) {
     outline: thick solid #222222;
     background: wheat;
     display: flex;
+}
+
+body:not([data-mode=null]) #title-md5 {
+    top: unset;
+    left: unset;
+    bottom: 0;
+    right: 0;
 }
 
 
