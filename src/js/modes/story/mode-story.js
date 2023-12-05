@@ -1,11 +1,12 @@
 import {readParameters}   from "../../init/parameters";
 import {processNode}      from "../../simulation/nodes/data/process";
 import {NODE_MANAGER}     from "../../simulation/nodes/nodes";
-import {clearActiveNodes} from "../../init/hotkeys/hotkeys";
 
 
 import {extendMenu}            from "../spw/commands/extended-menu";
 import {forEachNode, pushNode} from "../../simulation/nodes/data/operate";
+
+import {clearActiveNodes} from "../../init/hotkeys/handlers/clear-active-nodes";
 
 const clearFxFy = d => d.fx = d.fy = undefined;
 const fixX      = (d, i) => d.fy = 75 * (i + 1);

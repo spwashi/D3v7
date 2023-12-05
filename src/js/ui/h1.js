@@ -1,9 +1,10 @@
-import {getNextUrlSearchParams, processPastedText} from "../init/hotkeys/hotkeys";
 import {processSpwInput}                           from "../modes/spw/process-spw-input";
 import {setDocumentMode}                           from "../modes";
 import {parse}                                     from "../../vendor/spw/parser/parse.mjs";
 import {getIdentityPath}                           from "../simulation/nodes/data/process";
-import md5                                         from "md5";
+import md5                      from "md5";
+import {processPastedText}      from "../init/hotkeys/handlers/pasted-text";
+import {getNextUrlSearchParams} from "../util/next-url";
 
 export function initH1() {
   const h1                = document.querySelector('h1');
