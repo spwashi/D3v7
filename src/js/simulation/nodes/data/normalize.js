@@ -1,4 +1,4 @@
-import {getDocumentDataIndex} from "../../../modes/dataindex/mode-dataindex";
+import {getDocumentDataIndex} from "../../../modes/dataindex/util";
 
 export function normalize(node, readNode, i) {
   const template = {

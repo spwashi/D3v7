@@ -1,8 +1,8 @@
 import md5                      from "md5";
-import {getDocumentDataIndex}   from "../../../modes/dataindex/mode-dataindex";
 
 
 import {getNextUrlSearchParams} from "../../../util/next-url";
+import {getDocumentDataIndex}   from "../../../modes/dataindex/util";
 
 function getLastKind(node) {
   return node.kind?.trim().split(' + ').reverse()[0];

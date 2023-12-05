@@ -1,12 +1,12 @@
 import {CharacterCursor}                    from "../../../vendor/spw/core/node/cursor.mjs";
 import {parse}                              from "../../../vendor/spw/parser/parse.mjs";
-import {getDocumentDataIndex}               from "../dataindex/mode-dataindex";
 import {NODE_MANAGER}                       from "../../simulation/nodes/nodes";
 import {initFocalSquare}                    from "../../ui/focal-point";
 import {setDocumentMode}                    from "../index";
 import {initSpwParseField, processSpwInput} from "./process-spw-input";
 import {initPageImage}                      from "../../ui/page-image";
 import {mapNodes, pushNode} from "../../simulation/nodes/data/operate";
+import {getDocumentDataIndex}               from "../dataindex/util";
 
 const parseSpw = (text) => {
   const tokens    = [];

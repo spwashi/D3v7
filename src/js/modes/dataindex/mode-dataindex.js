@@ -1,14 +1,6 @@
-import {setDocumentMode}         from "../index";
-import {initializeStorySequence} from "../story/mode-story";
-
-export function setDocumentDataIndex(index) {
-  document.body.dataset.dataindex = index;
-  window.spwashi.onDataIndexChange(index);
-}
-
-export function getDocumentDataIndex() {
-  return parseInt((document.body.dataset.dataindex || '0').split('-').reverse()[0]);
-}
+import {setDocumentMode}                                                   from "../index";
+import {initializeStorySequence}                                           from "../story/mode-story";
+import {getDataIndexForNumber, getDocumentDataIndex, setDocumentDataIndex} from "./util";
 
 export function initializeDataindexMode() {
   const colorContainer   = document.querySelector('#colors');
@@ -18,12 +10,6 @@ export function initializeDataindexMode() {
     setDocumentDataIndex(color);
     setDocumentMode(null);
   }
-}
-
-const dataindexPrefix = 'spwashi-datum-';
-
-export function getDataIndexForNumber(index) {
-  return dataindexPrefix + (index % 13);
 }
 
 export function onColorModeStart() {

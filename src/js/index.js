@@ -1,38 +1,29 @@
-import {initParameters, readParameters}    from "./init/parameters";
-import {initFocalSquare}                   from "./ui/focal-point";
-import {setDocumentMode}                   from "./modes";
-import {pushHelpTopics}                    from "./modes/spw/commands/help";
-import {initCallbacks}                     from "./init/callbacks/initCallbacks";
-import {initListeners}                     from "./init/listeners/initListeners";
-import {initH1}                            from "./ui/h1";
-import {initializeForceSimulationControls} from "./ui/simulation-controls";
+import {initParameters, readParameters} from "./init/parameters";
+import {initFocalSquare}                from "./ui/focal-point";
+import {setDocumentMode}                from "./modes";
+import {pushHelpTopics}                 from "./modes/spw/commands/help";
+import {initCallbacks}                  from "./init/callbacks/initCallbacks";
+import {initListeners}                  from "./init/listeners/initListeners";
+import {initH1}                         from "./ui/h1";
+import {initSimulationRoot}             from "./simulation/simulation";
+import {initUi}                         from "./init/ui";
 
 
-const getItemKey = (key, category = null) => {
-  if (!category) {
-    category = window.spwashi.parameterKey
-  }
-
-  return category + '@' + key;
-};
-
-function initRootSession() {
-  window.spwashi.__session = window.spwashi.__session || {i: 0};
-  window.spwashi.setItem   = (key, item, category = null) => {
-    window.localStorage.setItem(getItemKey(key, category), JSON.stringify(item || null));
-  }
-  window.spwashi.getItem   = (key, category = null) => {
-    const out = window.localStorage.getItem(getItemKey(key, category))
-    if (out) return JSON.parse(out || '{}')
-    return undefined;
-  }
+export function init() {
+  window.spwashi = {};
+  initParameters();
+  initRoot();
+  readParameters(new URLSearchParams(window.location.search));
+  initFocalSquare();
+  initH1();
+  initUi(window.spwashi.initialMode)
 }
 
 function initRoot() {
+  initSimulationRoot();
   initRootSession();
   initCallbacks();
   initListeners();
-
   window.spwashi.counter   = 0;
   window.spwashi.modeOrder = [
     'reflex',
@@ -46,26 +37,29 @@ function initRoot() {
     'spw',
   ];
 
-  import ("./simulation/simulation")
-    .then(async ({initSimulationRoot}) => {
-      await initSimulationRoot();
-      initializeForceSimulationControls();
-
-      if (window.location.pathname === '/help') {
-        pushHelpTopics();
-        window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';
-        setDocumentMode('spw', false, true);
-      }
-    });
+  if (window.location.pathname === '/help') {
+    pushHelpTopics();
+    window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';
+    setDocumentMode('spw', false, true);
+  }
 }
 
-export function init() {
-  window.spwashi = {};
-  initRoot();
-  initParameters();
-  readParameters(new URLSearchParams(window.location.search));
-  initFocalSquare();
-  initH1();
-  import('./init/ui').then(({initUi}) => initUi(window.spwashi.initialMode));
+function initRootSession() {
+  window.spwashi.__session = window.spwashi.__session || {i: 0};
+  window.spwashi.setItem   = (key, item, category = null) => {
+    window.localStorage.setItem(getItemKey(key, category), JSON.stringify(item || null));
+  }
+  window.spwashi.getItem   = (key, category = null) => {
+    const out = window.localStorage.getItem(getItemKey(key, category))
+    if (out) return JSON.parse(out || '{}')
+    return undefined;
+  }
+}
 
+function getItemKey(key, category = null) {
+  if (!category) {
+    category = window.spwashi.parameterKey
+  }
+
+  return category + '@' + key;
 }

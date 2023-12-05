@@ -1,5 +1,5 @@
-import {getDataIndexForNumber, setDocumentDataIndex} from "../modes/dataindex/mode-dataindex";
-import {setDocumentMode}                             from "../modes";
+import {getDataIndexForNumber, setDocumentMode} from "../modes";
+import {setDocumentDataIndex}                   from "../modes/dataindex/util";
 
 
 export function initParameters() {

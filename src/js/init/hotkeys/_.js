@@ -7,16 +7,10 @@ function initKeystrokeHandlers(options) {
   window.spwashi.keystrokeOptions = options;
 }
 
-import('./keystrokes')
-  .then(({initialKeyStrokeOptions}) => {
-    window.spwashi.keystrokeOptions = initialKeyStrokeOptions;
-    initKeystrokeHandlers(initialKeyStrokeOptions);
-  });
 
 export function initKeystrokes() {
   initMainMenuToggle();
   window.spwashi.keystrokeRevealOrder = window.spwashi.keystrokeRevealOrder || 0;
-  initHotkeyButtons();
 
   function plainKeyHandler(key, e) {
     const shortKeyEntries = window.spwashi.modeOrder.map((reflex, i) => [i + 1, () => setDocumentMode(reflex, true, true)]);
@@ -81,4 +75,11 @@ export function initKeystrokes() {
 
     plainKeyHandler(key, e);
   });
+
+  import('./keystrokes')
+    .then(({initialKeyStrokeOptions}) => {
+      window.spwashi.keystrokeOptions = initialKeyStrokeOptions;
+      initHotkeyButtons();
+      initKeystrokeHandlers(initialKeyStrokeOptions);
+    })
 }
