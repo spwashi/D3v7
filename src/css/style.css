@@ -91,6 +91,14 @@ h1:focus {
 #h1-input + button:focus {
     outline: thick solid wheat;
 }
+#title-md5 {
+    padding: 1rem;
+    color: rgba(245, 222, 179, .3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1rem;
+}
 body > aside {
     position: absolute;
     bottom: 0;
