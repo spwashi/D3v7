@@ -108,7 +108,11 @@ export function initH1() {
       }
     }
 
-    temporaryDocumentClickHandler = () => { resetH1(sideEffects.doFocusH1After); };
+    temporaryDocumentClickHandler = e => {
+      const target = e.target;
+      if (h1.contains(target)) return;
+      resetH1(sideEffects.doFocusH1After);
+    };
     submit.onblur                 = () => { resetH1(sideEffects.doFocusH1After); };
 
     document.addEventListener('click', temporaryDocumentClickHandler)
