@@ -1,5 +1,5 @@
-import {reinitializeSimulation} from "../../simulation";
-import {pushNode}               from "./operate";
+import {pushNode} from "./operate";
+import {reinit}   from "../../reinit";
 
 export const generateNodes = (n) => {
   const count = n || window.spwashi.parameters.nodes.count;
@@ -8,6 +8,6 @@ export const generateNodes = (n) => {
     identity: Date.now() + Math.random(),
   }));
   pushNode(...nodes);
-  reinitializeSimulation();
+  reinit();
   return nodes;
 }

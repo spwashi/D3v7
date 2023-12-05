@@ -1,6 +1,6 @@
-import {reinitializeSimulation} from "../../../simulation/simulation";
+import {reinit} from "../../../simulation/reinit";
 
 export function bonkVelocityDecay() {
   window.spwashi.parameters.forces.velocityDecay = window.spwashi.parameters.forces.velocityDecay === 0.1 ? 0.9 : 0.1;
-  reinitializeSimulation();
+  reinit();
 }

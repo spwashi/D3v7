@@ -1,12 +1,6 @@
-import {getDataIndexForNumber, initializeDataindexMode, setDocumentDataIndex} from "../modes/dataindex/mode-dataindex";
-import {initializeDirectMode}                                                 from "../modes/direct/mode-direct";
-import {initializeQuerystringMode}                                            from "../modes/querystring/mode-querystring";
-import {initializeMapFilterMode}                                              from "../modes/mapfilter/mode-mapfilter";
-import {initializeSpwParseField}                                              from "../modes/spw/mode-spw";
-import {initializeModeSelection, setDocumentMode} from "../modes";
-import {initKeystrokes}                           from "./hotkeys/_";
-import {initializeReflexMode}                     from "../modes/reflex/mode-reflex";
-import {initializeStoryMode}                                                  from "../modes/story/mode-story";
+import {getDataIndexForNumber, setDocumentDataIndex} from "../modes/dataindex/mode-dataindex";
+import {setDocumentMode}                             from "../modes";
+
 
 export function initParameters() {
   window.spwashi.parameters                        = window.spwashi.parameters || {};
@@ -168,13 +162,5 @@ export function readParameters(searchParameters) {
     document.body.dataset.debug     = 'debug'
   }
 
-  initializeDirectMode();
-  initializeQuerystringMode();
-  initializeMapFilterMode();
-  initializeSpwParseField();
-  initializeReflexMode();
-  initializeStoryMode();
-  initializeModeSelection(mode);
-  initializeDataindexMode();
-  initKeystrokes();
+  window.spwashi.initialMode = mode
 }

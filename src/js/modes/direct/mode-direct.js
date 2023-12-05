@@ -1,10 +1,10 @@
 import {NODE_MANAGER}           from "../../simulation/nodes/nodes";
-import {reinitializeSimulation} from "../../simulation/simulation";
 import {setDocumentMode}        from "../index";
 import {removeAllNodes}         from "../../simulation/nodes/data/set";
 import {forEachNode, pushNode}  from "../../simulation/nodes/data/operate";
 import {processNode}            from "../../simulation/nodes/data/process";
-import {getAllNodes}            from "../../simulation/nodes/data/selectors/multiple";
+import {getAllNodes} from "../../simulation/nodes/data/selectors/multiple";
+import {reinit}      from "../../simulation/reinit";
 
 export function duplicateNode(d) {
   return {
@@ -60,7 +60,7 @@ export function initializeDirectMode() {
   window.spwashi.refreshNodeInputs();
   pushNode(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
   forEachNode(processNode);
-  reinitializeSimulation();
+  reinit();
 
   const nodesInput   = document.querySelector('#nodes-input');
   // select all on focus
@@ -70,10 +70,10 @@ export function initializeDirectMode() {
     const nodes = window.spwashi.readNodeInputs().nodes;
     if (!append) {
       removeAllNodes();
-      reinitializeSimulation();
+      reinit();
     }
     pushNode(...nodes);
-    reinitializeSimulation();
+    reinit();
     setDocumentMode('');
   }
 
@@ -101,7 +101,7 @@ export function initializeDirectMode() {
       NODE_MANAGER.cacheNode(node);
     });
     nodes.length = 0;
-    reinitializeSimulation();
+    reinit();
     setDocumentMode('');
   }
 }

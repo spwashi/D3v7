@@ -1,13 +1,21 @@
-import {setDocumentMode}         from "../../modes";
-import {initMainMenuToggle}      from "../../ui/main-menu-toggle";
-import {initHotkeyButtons}       from "../../ui/hotkey-buttons";
-import {processPastedText}       from "./handlers/pasted-text";
-import {initialKeyStrokeOptions} from "./keystrokes";
+import {setDocumentMode}    from "../../modes";
+import {initMainMenuToggle} from "../../ui/main-menu-toggle";
+import {initHotkeyButtons}  from "../../ui/hotkey-buttons";
+import {processPastedText}  from "./handlers/pasted-text";
+
+function initKeystrokeHandlers(options) {
+  window.spwashi.keystrokeOptions = options;
+}
+
+import('./keystrokes')
+  .then(({initialKeyStrokeOptions}) => {
+    window.spwashi.keystrokeOptions = initialKeyStrokeOptions;
+    initKeystrokeHandlers(initialKeyStrokeOptions);
+  });
 
 export function initKeystrokes() {
   initMainMenuToggle();
   window.spwashi.keystrokeRevealOrder = window.spwashi.keystrokeRevealOrder || 0;
-  window.spwashi.keystrokeOptions     = window.spwashi.keystrokeOptions || initialKeyStrokeOptions;
   initHotkeyButtons();
 
   function plainKeyHandler(key, e) {

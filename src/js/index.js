@@ -1,13 +1,12 @@
-import {initializeForceSimulationControls}          from "./ui/simulation-controls";
-import {initParameters, readParameters}             from "./init/parameters";
-import {initSimulationRoot, reinitializeSimulation} from "./simulation/simulation";
-import {initFocalSquare}                            from "./ui/focal-point";
-import {setDocumentMode}                            from "./modes";
-import {pushHelpTopics}                             from "./modes/spw/commands/help";
-import {initCallbacks}                              from "./init/callbacks/initCallbacks";
-import {initListeners}                              from "./init/listeners/initListeners";
-import {initH1}                                     from "./ui/h1";
-import {pushNode}                                   from "./simulation/nodes/data/operate";
+import {initParameters, readParameters}    from "./init/parameters";
+import {initFocalSquare}                   from "./ui/focal-point";
+import {setDocumentMode}                   from "./modes";
+import {pushHelpTopics}                    from "./modes/spw/commands/help";
+import {initCallbacks}                     from "./init/callbacks/initCallbacks";
+import {initListeners}                     from "./init/listeners/initListeners";
+import {initH1}                            from "./ui/h1";
+import {initializeForceSimulationControls} from "./ui/simulation-controls";
+
 
 const getItemKey = (key, category = null) => {
   if (!category) {
@@ -47,39 +46,26 @@ function initRoot() {
     'spw',
   ];
 
-  initSimulationRoot().then(() => {
-    if (window.location.pathname === '/help') {
-      pushHelpTopics();
-      window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';
-      setDocumentMode('spw', false, true);
-    }
-  });
+  import ("./simulation/simulation")
+    .then(async ({initSimulationRoot}) => {
+      await initSimulationRoot();
+      initializeForceSimulationControls();
+
+      if (window.location.pathname === '/help') {
+        pushHelpTopics();
+        window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';
+        setDocumentMode('spw', false, true);
+      }
+    });
 }
 
 export function init() {
   window.spwashi = {};
-
   initRoot();
   initParameters();
-
-  window.spwashi.readParameters = readParameters;
-  window.spwashi.readParameters(new URLSearchParams(window.location.search));
-
-  if (window.spwashi.doFetchNodes) {
-    const fetchThing = async () => {
-      const identities = await fetch('http://localhost:3000/identities').then(r => r.json());
-      const tokens     = await fetch('http://localhost:3000/tokens').then(r => r.json());
-      const els        = {};
-      const ret        = {identities, tokens: tokens.filter(el => els[el.identity] ? false : (els[el.identity] = true))};
-
-      return ret.tokens;
-    }
-    fetchThing()
-      .then(nodes => pushNode(...nodes))
-      .then(nodes => reinitializeSimulation());
-  }
-
-  initializeForceSimulationControls();
+  readParameters(new URLSearchParams(window.location.search));
   initFocalSquare();
   initH1();
+  import('./init/ui').then(({initUi}) => initUi(window.spwashi.initialMode));
+
 }

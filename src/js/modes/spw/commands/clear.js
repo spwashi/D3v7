@@ -1,11 +1,11 @@
 import {removeAllNodes}         from "../../../simulation/nodes/data/set";
-import {reinitializeSimulation} from "../../../simulation/simulation";
 import {initFocalSquare}        from "../../../ui/focal-point";
-import {removeAllLinks}         from "../../../simulation/edges/data/set";
+import {removeAllLinks} from "../../../simulation/edges/data/set";
+import {reinit}         from "../../../simulation/reinit";
 
 export function runClearCommand() {
   removeAllNodes();
   removeAllLinks();
-  reinitializeSimulation();
+  reinit();
   initFocalSquare().focus();
 }
