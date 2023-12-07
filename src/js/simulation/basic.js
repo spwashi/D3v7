@@ -1,17 +1,17 @@
 import {select} from "d3";
 
 function initSvg() {
-  const svg      = select("svg#simulation");
-  const g        = svg.append('g').attr('id', 'simulation-content');
-  const rectsG   = g.append('g').classed('rects', true);
-  const linksG   = g.append('g').classed('links', true);
-  const circlesG = g.append('g').classed('nodes', true);
+  const svg    = select("svg#simulation");
+  const g      = svg.select('g.simulation-content');
+  const rectsG = g.select('g.rects');
+  const edges  = g.select('g.edges');
+  const nodes  = g.select('g.nodes');
 
   return {
     svg,
-    wrapper: g,
-    linksG,
-    circlesG
+    wrapper:      g,
+    edgesWrapper: edges,
+    nodesWrapper: nodes
   };
 }
 

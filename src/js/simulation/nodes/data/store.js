@@ -1,8 +1,10 @@
+import {getAllNodes} from "./selectors/multiple";
+
 export const cacheNode        = node => {
-  window.spwashi.setItem('nodes', window.spwashi.nodes);
+  window.spwashi.setItem('nodes', getAllNodes());
 }
 export const readNodePosition = node => {
-  const nodes    = window.spwashi.getItem('nodes', window.spwashi.nodes) || [];
+  const nodes    = window.spwashi.getItem('nodes') || [];
   const readNode = nodes.find(n => n.id === node.id);
   if (readNode) return readNode;
   return {};

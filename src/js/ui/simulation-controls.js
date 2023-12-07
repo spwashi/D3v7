@@ -9,27 +9,33 @@ export function initializeForceSimulationControls() {
     throw new Error(error);
   }
 
-  const tickButton   = document.querySelector('#controls .tick');
+  const controls = document.querySelector('#controls');
+  if (!controls) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about controls');
+    return;
+  }
+
+  const tickButton   = controls.querySelector('.tick');
   tickButton.onclick = () => {
     window.spwashi.tick();
   };
 
-  const startButton   = document.querySelector('#controls .start');
+  const startButton   = controls.querySelector('.start');
   startButton.onclick = () => {
     forceSimulation.restart();
   };
 
-  const stopButton   = document.querySelector('#controls .stop');
+  const stopButton   = controls.querySelector('.stop');
   stopButton.onclick = () => {
     forceSimulation.stop();
   };
 
-  const reinitButton   = document.querySelector('#controls .reinit');
+  const reinitButton   = controls.querySelector('.reinit');
   reinitButton.onclick = () => {
     window.spwashi.reinit();
   };
 
-  const clearFixedButton   = document.querySelector('#controls .clear-fixed-positions');
+  const clearFixedButton   = controls.querySelector('.clear-fixed-positions');
   clearFixedButton.onclick = () => {
     forEachNode(node => {
       node.fx = undefined;
@@ -37,6 +43,6 @@ export function initializeForceSimulationControls() {
     });
   }
 
-  const generateNodesButton   = document.querySelector('#controls .generate-nodes');
+  const generateNodesButton   = controls.querySelector('.generate-nodes');
   generateNodesButton.onclick = generateNodes;
 }

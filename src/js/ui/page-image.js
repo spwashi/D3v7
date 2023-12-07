@@ -6,7 +6,11 @@ export function setPageImage(base64) {
 }
 
 export function initPageImage() {
-  const mainImageContainer     = document.querySelector('#main-image-container');
+  const mainImageContainer = document.querySelector('#main-image-container');
+  if (!mainImageContainer) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about main image container');
+    return;
+  }
   mainImageContainer.innerHTML = '';
   const url                    = window.spwashi.getItem('parameters.page-image.url');
   if (url) {

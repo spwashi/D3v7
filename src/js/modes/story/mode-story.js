@@ -1,6 +1,6 @@
-import {readParameters}   from "../../init/parameters";
-import {processNode}      from "../../simulation/nodes/data/process";
-import {NODE_MANAGER}     from "../../simulation/nodes/nodes";
+import {readParameters} from "../../init/parameters";
+import {processNode}    from "../../simulation/nodes/data/process";
+import {NODE_MANAGER}   from "../../simulation/nodes/nodes";
 
 
 import {extendMenu}            from "../spw/commands/extended-menu";
@@ -133,7 +133,8 @@ stories.options = {
 }
 
 export function initializeStoryMode() {
-  const storyModeContainer     = document.querySelector('#story-mode-container');
+  const storyModeContainer = document.querySelector('#story-mode-container');
+  if (!storyModeContainer) return;
   storyModeContainer.innerHTML = '';
   const buttonContainer        = document.createElement('div');
   buttonContainer.classList.add('button-container');

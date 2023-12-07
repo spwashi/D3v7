@@ -2,6 +2,10 @@ import {toggleHotkeyMenu} from "../init/hotkeys/handlers/toggle-hotkey-menu";
 
 export function initHotkeyButtons() {
   const keystrokeOptions     = document.querySelector('#keystroke-options');
+  if (!keystrokeOptions) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about keystroke options')
+    return;
+  }
   keystrokeOptions.innerHTML = '';
   const hotkeyMenuToggle     = document.querySelector('#hotkey-menu-toggle');
   hotkeyMenuToggle.onclick   = e => {

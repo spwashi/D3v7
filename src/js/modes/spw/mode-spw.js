@@ -5,7 +5,7 @@ import {initFocalSquare}                    from "../../ui/focal-point";
 import {setDocumentMode}                    from "../index";
 import {initSpwParseField, processSpwInput} from "./process-spw-input";
 import {initPageImage}                      from "../../ui/page-image";
-import {mapNodes, pushNode} from "../../simulation/nodes/data/operate";
+import {mapNodes, pushNode}                 from "../../simulation/nodes/data/operate";
 import {getDocumentDataIndex}               from "../dataindex/util";
 
 const parseSpw = (text) => {
@@ -51,11 +51,17 @@ export function initializeSpwParseField() {
   const identities              = mapNodes(node => node.identity);
   appendIdentities(perspective, identities, getTokenObj(identities));
 
-  const spwInput = initSpwParseField();
-
+  const spwInput           = initSpwParseField();
   window.spwashi.spwEditor = spwInput;
-  const button             = document.querySelector('#parse-spw');
-  button.onclick           = () => {
+  if (!spwInput) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about spw input')
+    return;
+  }
+  const button = document.querySelector('#parse-spw');
+  if (!button) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about button');
+  }
+  button.onclick = () => {
     const {nextDocumentMode, liveStrings, valueStrings} = processSpwInput(spwInput.value);
     setDocumentMode(nextDocumentMode, false);
     spwInput.value    = valueStrings.join('\n');
@@ -65,7 +71,7 @@ export function initializeSpwParseField() {
     const newNodes = JSON.parse(JSON.stringify(parsed));
     newNodes.forEach(NODE_MANAGER.processNode);
     pushNode(...newNodes);
-   window.spwashi.reinit();
+    window.spwashi.reinit();
     initFocalSquare().focus();
   }
 }

@@ -1,17 +1,38 @@
 import {getAllNodes}                                         from "./nodes/data/selectors/multiple";
 import {forceCenter, forceCollide, forceLink, forceManyBody} from "d3";
 
+function getAlpha() {
+  return window.spwashi.parameters.forces.alpha;
+}
+
+function getAlphaTarget() {
+  return window.spwashi.parameters.forces.alphaTarget;
+}
+
+function getDecay() {
+  return window.spwashi.parameters.forces.alphaDecay;
+}
+
+function getVelocityDecay() {
+  return window.spwashi.parameters.forces.velocityDecay;
+}
+
 export function initializeForces() {
   const simulation = window.spwashi.simulation;
   const links      = window.spwashi.links;
   const nodes      = getAllNodes();
-  simulation.alpha(window.spwashi.parameters.forces.alpha);
-  simulation.alphaTarget(window.spwashi.parameters.forces.alphaTarget);
-  simulation.alphaDecay(window.spwashi.parameters.forces.alphaDecay);
-  simulation.velocityDecay(window.spwashi.parameters.forces.velocityDecay);
+
+  simulation.alpha(getAlpha());
+  simulation.alphaTarget(getAlphaTarget());
+  simulation.alphaDecay(getDecay());
+  simulation.velocityDecay(getVelocityDecay());
+
   simulation.force(
     'link',
-    forceLink().links(links).id(d => d.id).strength(l => l.strength || 1)
+    forceLink()
+      .links(links)
+      .id(d => d.id)
+      .strength(l => l.strength || 1)
   );
   simulation.force(
     'collide',

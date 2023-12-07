@@ -10,6 +10,10 @@ export const setDocumentMode = (mode, doToggle = true, direct = false) => {
 
 export function initializeModeSelection(starterMode) {
   const menu     = document.querySelector('#mainmenu-shortcuts ol');
+  if (!menu) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about menu')
+    return;
+  }
   menu.innerHTML = '';
   window.spwashi.modeOrder.forEach((mode) => {
     const li                    = document.createElement('li');

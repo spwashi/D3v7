@@ -5,19 +5,32 @@ import {setDocumentMode}        from "../index";
 import {removeAllNodes}         from "../../simulation/nodes/data/set";
 import {mapNodes, pushNode}     from "../../simulation/nodes/data/operate";
 import {selectOppositeNodes}    from "../../simulation/nodes/data/selectors/multiple";
-import {removeObsoleteEdges} from "../../simulation/edges/data/set";
+import {removeObsoleteEdges}    from "../../simulation/edges/data/set";
 
 function hardResetNodes(nodes) {
   removeAllNodes();
   pushNode(...nodes);
   removeObsoleteEdges(nodes);
- window.spwashi.reinit();
+  window.spwashi.reinit();
+}
+
+function initMapEditor() {
+  const nodeMapper = document.querySelector('#node-mapper');
+  if (!nodeMapper) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about node mapper');
+    return;
+  }
+  return ace.edit('node-mapper');
 }
 
 export function initializeMapFilterMode() {
-  const mapEditor = ace.edit('node-mapper');
-  const mapKey    = 'map-nodes-fn';
-  const mapValue  = window.spwashi.getItem(mapKey) || `d => {
+  const mapEditor = initMapEditor();
+  if (!mapEditor) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about map editor');
+    return;
+  }
+  const mapKey   = 'map-nodes-fn';
+  const mapValue = window.spwashi.getItem(mapKey) || `d => {
   d.r = (Math.random() * 30) + (Math.random() * 50);
   return d;
 }`;

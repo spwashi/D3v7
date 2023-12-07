@@ -16,8 +16,8 @@ export function reinit() {
   const rects = RECT_MANAGER.initRects(window.spwashi.rects);
 
   const simulation = window.spwashi.simulation;
-
   simulation.nodes(nodes);
+
   initializeForces();
 
   window.spwashi.tick           = () => {
@@ -34,5 +34,10 @@ export function reinit() {
 
   simulation.on('tick', window.spwashi.internalTicker);
 
-  document.querySelector('#output').innerHTML = JSON.stringify(window.spwashi.parameters, null, 2);
+  const outputElement = document.querySelector('#output');
+  if (!outputElement) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about output');
+    return;
+  }
+  outputElement.innerHTML = JSON.stringify(window.spwashi.parameters, null, 2);
 }

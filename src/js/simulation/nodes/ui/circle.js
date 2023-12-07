@@ -3,6 +3,7 @@ import {drag}            from "d3";
 import {CLICKED_NODES}   from "../../../modes/spw/commands/clicked";
 import {removeNodeEdges} from "../../edges/data/set";
 import {sortNodes}       from "../data/sort";
+import {getAllNodes}     from "../data/selectors/multiple";
 
 export function logMainEvent(event, details) {
   const mainLog   = document.querySelector('#main-log');
@@ -82,7 +83,7 @@ export function makeCircle(g) {
       case 'z': {
         d.z = d.z || 0;
         d.z += intent;
-        sortNodes(window.spwashi.nodes);
+        sortNodes(getAllNodes());
         break;
       }
     }

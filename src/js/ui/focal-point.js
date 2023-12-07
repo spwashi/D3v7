@@ -44,7 +44,8 @@ function initiateInterest(focalPointElement, timeout = 500) {
 
 export function initFocalSquare() {
   if (!focalPointElement) {
-    focalPointElement    = document.querySelector('#focal-square');
+    focalPointElement = document.querySelector('#focal-square');
+    if (!focalPointElement) return;
     const prevFocalPoint = window.spwashi.getItem('focalPoint', 'focal.root');
     if (prevFocalPoint) {
       Object.assign(focalPoint, prevFocalPoint);

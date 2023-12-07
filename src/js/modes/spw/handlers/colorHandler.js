@@ -1,11 +1,12 @@
 import {scaleOrdinal, scaleSequential, schemeCategory10} from "d3";
+import {getAllNodes}                                     from "../../../simulation/nodes/data/selectors/multiple";
 
 export const colorHandler = {
   regex:   /^color=(-?\d+)/,
   handler: (sideEffects, value) => {
     const choice  = parseInt(value);
     const reverse = Math.sign(choice) !== -1 || Object.is(choice, -0);
-    const nodes   = [...window.spwashi.nodes];
+    const nodes   = [...getAllNodes()];
     if (reverse) {
       nodes.reverse();
     }

@@ -42,8 +42,8 @@ export function initSvgEvents(svg) {
                 nodeG_transform.x += dx / 10;
                 nodeG_transform.y += dy / 10;
 
-                simulationElements.circlesG.attr("transform", `translate(${nodeG_transform.x}, ${nodeG_transform.y})`);
-                simulationElements.linksG.attr("transform", `translate(${nodeG_transform.x}, ${nodeG_transform.y})`);
+                simulationElements.nodesWrapper.attr("transform", `translate(${nodeG_transform.x}, ${nodeG_transform.y})`);
+                simulationElements.edgesWrapper.attr("transform", `translate(${nodeG_transform.x}, ${nodeG_transform.y})`);
               })
               .on('end', (e) => {
                 svg.attr("cursor", "grab");

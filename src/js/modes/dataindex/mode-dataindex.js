@@ -4,6 +4,10 @@ import {getDataIndexForNumber, getDocumentDataIndex, setDocumentDataIndex} from 
 
 export function initializeDataindexMode() {
   const colorContainer   = document.querySelector('#colors');
+  if (!colorContainer) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about color container');
+    return;
+  }
   colorContainer.onclick = function (e) {
     const target = e.target;
     const color  = target.dataset.dataindex;

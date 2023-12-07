@@ -29,22 +29,53 @@ function getHeaderSideEffects(input, sideEffects = {}) {
   return sideEffects;
 }
 
+function initMainWonderButton(fillH1) {
+  let mainWonderButton = document.querySelector('#main-wonder-button');
+  if (!mainWonderButton) {
+    const target     = {
+      click: () => {
+        fillH1()
+      }
+    };
+    const handler    = {
+      get: (target, prop) => {
+        if (prop === 'onclick') {
+          return target.click;
+        }
+        return target[prop];
+      }
+    };
+    mainWonderButton = new Proxy(target, handler)
+  }
+  mainWonderButton.onclick = (e) => {
+    e.stopPropagation()
+    fillH1();
+  }
+
+  return mainWonderButton;
+}
+
 export function initH1() {
   const h1                 = document.querySelector('h1');
   const currentText        = h1.innerText;
   const md5Element         = document.querySelector('#title-md5');
   const currentLiteralHash = md5(currentText);
-  md5Element.innerText     = `${currentLiteralHash}`.slice(0, 8);
-  md5Element.href          = getIdentityPath(currentLiteralHash, currentText);
+  if (!md5Element) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about md5 element')
+    return;
+  }
+  md5Element.innerText = `${currentLiteralHash}`.slice(0, 8);
+  md5Element.href      = getIdentityPath(currentLiteralHash, currentText);
 
-  const changeTitleButton = document.querySelector('#main-wonder-button');
-  h1.tabIndex             = 0;
-  h1.onclick              = (e) => {
+  const changeTitleButton = initMainWonderButton(fillH1);
+
+  h1.tabIndex  = 0;
+  h1.onclick   = (e) => {
     if (e.target !== h1) return;
     e.stopPropagation()
     fillH1()
   }
-  h1.onkeydown            = (e) => {
+  h1.onkeydown = (e) => {
     if (e.ctrlKey || e.metaKey) {
       if (e.key === 'c') {
         navigator.clipboard.writeText(currentText);
@@ -71,15 +102,16 @@ export function initH1() {
   }
 
   function fillH1() {
-    const form    = document.createElement('form');
-    const input   = document.createElement('input');
-    input.onpaste = (e) => {
+    const form         = document.createElement('form');
+    const input        = document.createElement('input');
+    input.onpaste      = (e) => {
       e.preventDefault();
       const text = e.clipboardData.getData('text/plain');
       processPastedText(text);
     }
-    input.value   = currentText;
-    input.id      = 'h1-input';
+    input.value        = currentText;
+    input.id           = 'h1-input';
+    input.autocomplete = 'off';
     form.appendChild(input);
     const submit     = document.createElement('button');
     submit.type      = 'submit';
@@ -101,6 +133,7 @@ export function initH1() {
       if (sideEffects.href) {
         window.location.href = sideEffects.href;
       }
+      resetH1(sideEffects.doFocusH1After)
     }
 
     temporaryDocumentClickHandler = e => {
@@ -111,11 +144,5 @@ export function initH1() {
     submit.onblur                 = () => { resetH1(sideEffects.doFocusH1After); };
 
     document.addEventListener('click', temporaryDocumentClickHandler)
-  }
-
-  changeTitleButton.onclick = (e) => {
-    e.stopPropagation()
-
-    fillH1();
   }
 }

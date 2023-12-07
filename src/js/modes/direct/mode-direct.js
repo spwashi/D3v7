@@ -1,9 +1,9 @@
-import {NODE_MANAGER}           from "../../simulation/nodes/nodes";
-import {setDocumentMode}        from "../index";
-import {removeAllNodes}         from "../../simulation/nodes/data/set";
-import {forEachNode, pushNode}  from "../../simulation/nodes/data/operate";
-import {processNode}            from "../../simulation/nodes/data/process";
-import {getAllNodes} from "../../simulation/nodes/data/selectors/multiple";
+import {NODE_MANAGER}          from "../../simulation/nodes/nodes";
+import {setDocumentMode}       from "../index";
+import {removeAllNodes}        from "../../simulation/nodes/data/set";
+import {forEachNode, pushNode} from "../../simulation/nodes/data/operate";
+import {processNode}           from "../../simulation/nodes/data/process";
+import {getAllNodes}           from "../../simulation/nodes/data/selectors/multiple";
 
 export function duplicateNode(d) {
   return {
@@ -45,6 +45,10 @@ export function convertRawInput(input) {
 export function initializeDirectMode() {
   window.spwashi.refreshNodeInputs = (nodes) => {
     const nodesInputElement = document.querySelector('#nodes-input');
+    if (!nodesInputElement) {
+      window.spwashi.callbacks.acknowledgeLonging('wondering about nodes input');
+      return;
+    }
     const nodesInputText    = window.spwashi.getItem('parameters.nodes-input') || [];
     nodesInputElement.value = JSON.stringify(nodesInputText);
   };
@@ -52,16 +56,25 @@ export function initializeDirectMode() {
     const input = document.querySelector('#nodes-input')?.value;
     if (!input) {
       window.spwashi.setItem('parameters.nodes-input', null);
-      return reject();
+      console.log('no input')
+      return {
+        nodes: [],
+        links: [],
+      };
     }
     return convertRawInput(input);
   }
   window.spwashi.refreshNodeInputs();
   pushNode(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
   forEachNode(processNode);
- window.spwashi.reinit();
+  window.spwashi.reinit();
 
   const nodesInput   = document.querySelector('#nodes-input');
+  if (!nodesInput) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about nodes input');
+    return;
+  }
+
   // select all on focus
   nodesInput.onfocus = () => nodesInput.select();
 
@@ -69,10 +82,10 @@ export function initializeDirectMode() {
     const nodes = window.spwashi.readNodeInputs().nodes;
     if (!append) {
       removeAllNodes();
-     window.spwashi.reinit();
+      window.spwashi.reinit();
     }
     pushNode(...nodes);
-   window.spwashi.reinit();
+    window.spwashi.reinit();
     setDocumentMode('');
   }
 
@@ -100,7 +113,7 @@ export function initializeDirectMode() {
       NODE_MANAGER.cacheNode(node);
     });
     nodes.length = 0;
-   window.spwashi.reinit();
+    window.spwashi.reinit();
     setDocumentMode('');
   }
 }

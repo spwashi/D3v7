@@ -25,6 +25,7 @@ import {runCollisionRadiusCommand}             from "./collision-radius";
 import {runSpwashiCommand}                     from "./spwashi";
 import {runScaleCommand}                       from "./scale";
 import {runArrangeCommand}                     from "./arrange";
+import {runPruneCommand}                       from "./prune";
 
 const optionsCommand  = sideEffects => {
   sideEffects.valueStrings.push(...Object.keys(commands).filter(key => ![
@@ -43,6 +44,7 @@ export const commands = {
   'freeze':     () => runFreezeCommand(),
   'unfreeze':   () => runUnfreezeCommand(),
   'unfix':      () => runUnfreezeCommand(),
+  'prune':      () => runPruneCommand(),
   'help':       sideEffects => runHelpCommand(sideEffects),
   'spwashi':    sideEffects => runSpwashiCommand(sideEffects),
   'color':      sideEffects => runScaleCommand(sideEffects),

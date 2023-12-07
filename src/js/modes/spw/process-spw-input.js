@@ -7,6 +7,10 @@ import {forEachNode} from "../../simulation/nodes/data/operate";
 export function initSpwParseField() {
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
   const spwInput = document.querySelector('#spw-parse-field');
+  if (!spwInput){
+    window.spwashi.callbacks.acknowledgeLonging('wondering about spw input')
+    return;
+  }
   spwInput.value = value;
   // listen for image paste events
   spwInput.addEventListener('paste', (e) => {

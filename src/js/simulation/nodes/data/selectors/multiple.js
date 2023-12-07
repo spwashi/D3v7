@@ -1,9 +1,9 @@
 export function selectOppositeNodes(fn) {
-  return window.spwashi.nodes.filter((node, i) => !fn(node, i));
+  return getAllNodes().filter((node, i) => !fn(node, i));
 }
 
 export function selectNodesInRect(rect) {
-  return window.spwashi.nodes.filter(node => {
+  return getAllNodes().filter(node => {
     return node.x > rect.x && node.x < rect.x + rect.width &&
            node.y > rect.y && node.y < rect.y + rect.height
   });

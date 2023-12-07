@@ -109,7 +109,12 @@ export function initializeReflexMode() {
     window.spwashi.reinit();
   };
   window.spwashi.honk = () => {
-    window.spwashi.links.forEach(link => link.strength *= 1.5)
+    window.spwashi.links.forEach(link => {
+      link.colorindex = link.colorindex ? link.colorindex + 1 : getDocumentDataIndex();
+
+
+      return link.strength *= 1.5;
+    })
     window.spwashi.reinit();
   };
 
@@ -302,6 +307,10 @@ export function initializeReflexMode() {
     forceReflexes,
   ];
   const reflexContainer     = document.querySelector('#reflexes');
+  if (!reflexContainer) {
+    window.spwashi.callbacks.acknowledgeLonging('wondering about reflex container');
+    return;
+  }
 
   let i = 0;
   reflexes.forEach(({title, reflexes}) => {

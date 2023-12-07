@@ -18,6 +18,7 @@ function update(g, links) {
                              .attr('y2', d => d.target.y),
                update => update
                  .attr('x1', d => d.source.x)
+                 .attr('stroke-width', d => (d.strength || 1) * 13)
                  .attr('data-colorindex', d => 'spwashi-stroke-' + d.colorindex)
                  .attr('y1', d => d.source.y)
                  .attr('x2', d => d.target.x)

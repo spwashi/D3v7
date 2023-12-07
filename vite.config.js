@@ -7,9 +7,16 @@ export default defineConfig(
     base:      '/',
     publicDir: path.resolve(__dirname, 'public'),
     build:     {
-      outDir:      path.resolve(__dirname, '_site'),
-      emptyOutDir: true,
-      sourcemap:   true,
+      outDir:        path.resolve(__dirname, '_site'),
+      emptyOutDir:   true,
+      sourcemap:     true,
+      rollupOptions: {
+        input: {
+          main:       path.resolve(__dirname, 'src/index.html'),
+          // language=file-reference
+          'spwashi@': path.resolve(__dirname, 'src/_spwashi@/index.html'),
+        }
+      }
     },
     server:    {
       host: 'localhost',

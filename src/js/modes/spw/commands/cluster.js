@@ -1,13 +1,14 @@
 import {removeClusterNodes} from "../../../simulation/nodes/data/set";
 import {pushNode}           from "../../../simulation/nodes/data/operate";
 import {pushLink}           from "../../../simulation/edges/data/pushLink";
+import {getAllNodes}        from "../../../simulation/nodes/data/selectors/multiple";
 
 function getCluster(node) {
   return 'cluster:' + node.colorindex;
 }
 
 export function runClusterCommand(sideEffects) {
-  const nodeGroups = window.spwashi.nodes.reduce((acc, node) => {
+  const nodeGroups = getAllNodes().reduce((acc, node) => {
     const cluster = getCluster(node);
     acc[cluster]  = acc[cluster] || [];
     acc[cluster].push(node);

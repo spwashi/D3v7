@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>spwashi@</title>
+    <script type="module">
+      import {app} from '../js'
+
+      app()
+    </script>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link href="../css/dataindex.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --html-bg-start: #008080;
+            --html-bg-end: #67bdb0;
+        }
+
+        @keyframes html-background {
+            from { background-color: var(--html-bg-start); }
+            to { background-color: var(--html-bg-end); }
+        }
+
+        html {
+            animation-name: html-background;
+            animation-duration: 2s;
+            animation-fill-mode: forwards;
+        }
+
+        body{
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <h1>spwashi</h1>
+    <a id="title-md5" tabindex="-1"></a>
+    <svg id="simulation">
+        <g class="simulation-content">
+            <g class="rects"></g>
+            <g class="edges"></g>
+            <g class="nodes"></g>
+        </g>
+    </svg>
+</body>
+</html>
