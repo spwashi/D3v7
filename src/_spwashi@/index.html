@@ -8,21 +8,19 @@
     <script type="module">
       import {app}             from '../js'
       import {processSpwInput} from "../js/modes/spw/process-spw-input";
-      import {runClearCommand} from "../js/modes/spw/commands/clear";
 
       app()
 
       let i = 0;
 
-      function mainLoop(time = 1000, {charge = 1000}) {
+      function mainLoop(speed = 1000, {charge = 1000}) {
         i += 1;
         const run = (res = () => {}) => {
           processSpwInput(
             [
-              'add=5',
-              // 'bane',
-              // 'bonk',
-              'color=' + ((i % 2) + 1),
+              `add=${i % 5}`,
+              `r=${10 * ((i + 1) % 5)}`,
+              // `color=${(i % 2) + 1}`,
               'arrange',
               `charge=${charge}`
             ].filter(Boolean)
@@ -30,17 +28,17 @@
           );
 
           res();
-          mainLoop(time, {charge: -charge});
+          mainLoop(speed, {charge: -charge});
         };
         return (new Promise((res, rej) => {
-          setTimeout(() => run(res), time);
+          setTimeout(() => run(res), speed);
         })).then(() => {
-          if (i % 3 === 0) {
-            setTimeout(() => runClearCommand(), 1200);
+          if (i % 6 === 0) {
+            // setTimeout(() => runClearCommand(), (speed * 4));
           }
-          if (i % 3 === 0) {
+          if (i % 5 === 0) {
             // runClearCommand()
-            window.spwashi.boon(300, 3);
+            window.spwashi.boon(speed / 2, 5);
           }
         })
       }
@@ -56,7 +54,7 @@
             'charge=-1000'
           ].join('\n')
         );
-        mainLoop(1000, {charge: 1000});
+        mainLoop(500, {charge: 100});
       }, 1000);
     </script>
     <link href="../css/style.css" rel="stylesheet"/>
