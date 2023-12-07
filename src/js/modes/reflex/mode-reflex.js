@@ -35,10 +35,11 @@ export function initializeReflexMode() {
         const node  = {
           name:       '#',
           kind:       '__boon',
-          r:          100,
+          r:          50,
           fx:         (slice * (i)) + (slice / 2),
           fy:         window.spwashi.parameters.height / 2,
-          color:      'wheat',
+          color:      'turquoise',
+          stroke:     '#222',
           colorindex: getDocumentDataIndex()
         };
         pushNode(node);

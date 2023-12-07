@@ -8,6 +8,7 @@
     <script type="module">
       import {app}             from '../js'
       import {processSpwInput} from "../js/modes/spw/process-spw-input";
+      import {runClearCommand} from "../js/modes/spw/commands/clear";
 
       app()
 
@@ -15,11 +16,12 @@
 
       function mainLoop(speed = 1000, {charge = 1000}) {
         i += 1;
-        const run = (res = () => {}) => {
+        const nodeCount = 4;
+        const run       = (res = () => {}) => {
           processSpwInput(
             [
-              `add=${i % 5}`,
-              `r=${10 * ((i + 1) % 5)}`,
+              `add=2`,
+              `r=${50}`,
               // `color=${(i % 2) + 1}`,
               'arrange',
               `charge=${charge}`
@@ -33,12 +35,12 @@
         return (new Promise((res, rej) => {
           setTimeout(() => run(res), speed);
         })).then(() => {
-          if (i % 6 === 0) {
-            // setTimeout(() => runClearCommand(), (speed * 4));
+          if (i % nodeCount === 0) {
+            setTimeout(() => runClearCommand(), (speed * 3));
           }
-          if (i % 5 === 0) {
+          if (i % nodeCount === 0) {
             // runClearCommand()
-            window.spwashi.boon(speed / 2, 5);
+            window.spwashi.boon(speed / 2, nodeCount);
           }
         })
       }
@@ -46,7 +48,7 @@
       setTimeout(() => {
         processSpwInput(
           [
-            'add=10',
+            'add=1',
             'minimalism',
             'velocityDecay=.4',
             'bane',

@@ -2,12 +2,12 @@ import {initPageImage, setPageImage} from "../../ui/page-image";
 import {processLine}                 from "./process-line";
 import {processNode}                 from "../../simulation/nodes/data/process";
 import {NODE_MANAGER}                from "../../simulation/nodes/nodes";
-import {forEachNode} from "../../simulation/nodes/data/operate";
+import {forEachNode}                 from "../../simulation/nodes/data/operate";
 
 export function initSpwParseField() {
   const value    = window.spwashi.getItem('parameters.spw-parse-field') || '';
   const spwInput = document.querySelector('#spw-parse-field');
-  if (!spwInput){
+  if (!spwInput) {
     window.spwashi.callbacks.acknowledgeLonging('wondering about spw input')
     return;
   }
@@ -63,7 +63,8 @@ export function processSpwInput(text) {
   });
 
   sideEffects.nodesAdded.forEach(node => {
-    node.stroke = 'grey';
+    node.stroke      = 'turquoise';
+    node.strokeWidth = 10;
     NODE_MANAGER.normalize(node);
     processNode(node);
   });
@@ -71,11 +72,11 @@ export function processSpwInput(text) {
   sideEffects.nodesImpacted.forEach(node => {
     // dark wheat
     // node.stroke      = 'rgb(222,184,135)';
-    node.strokeWidth = 5;
+    node.strokeWidth = 10;
   });
 
   if (sideEffects.physicsChange) {
-   window.spwashi.reinit();
+    window.spwashi.reinit();
   }
 
   return {
