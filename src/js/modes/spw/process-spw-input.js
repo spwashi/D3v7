@@ -70,7 +70,7 @@ export function processSpwInput(text) {
   sideEffects.nodesIgnored.forEach(node => { node.r = 10; });
   sideEffects.nodesImpacted.forEach(node => {
     // dark wheat
-    node.stroke      = 'rgb(222,184,135)';
+    // node.stroke      = 'rgb(222,184,135)';
     node.strokeWidth = 5;
   });
 

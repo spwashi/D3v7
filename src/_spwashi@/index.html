@@ -8,6 +8,7 @@
     <script type="module">
       import {app}             from '../js'
       import {processSpwInput} from "../js/modes/spw/process-spw-input";
+      import {runClearCommand} from "../js/modes/spw/commands/clear";
 
       app()
 
@@ -17,14 +18,17 @@
         i += 1;
         return new Promise((res, rej) => {
           setTimeout(() => {
-            window.spwashi.boon(1000, 3);
+            if (i % 3 === 0) {
+              window.spwashi.boon(300, 3);
+              runClearCommand()
+            }
             processSpwInput(
               [
-                i % 3 === 0 ? 'clear' : null,
                 'add=5',
                 'minimalism',
                 'bane',
-                'bonk',
+                // 'bonk',
+                'color=' + ((i % 2) + 1),
                 'arrange',
                 `charge=${charge}`
               ].filter(Boolean)
@@ -38,7 +42,16 @@
       }
 
       setTimeout(() => {
-        processSpwInput(['add=10', 'minimalism', 'velocityDecay=.4', 'bane', 'bonk', 'charge=-1000'].join('\n'));
+        processSpwInput(
+          [
+            'add=10',
+            'minimalism',
+            'velocityDecay=.4',
+            'bane',
+            'bonk',
+            'charge=-1000'
+          ].join('\n')
+        );
         mainLoop(1000, {charge: 1000});
       }, 1000);
     </script>

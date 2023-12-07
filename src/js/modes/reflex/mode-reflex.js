@@ -20,7 +20,7 @@ export function getModifiedActionIndex(index, modifier = 1) {
 }
 
 export function initializeReflexMode() {
-  window.spwashi.boon = (T, C) => {
+  window.spwashi.boon = (nodeTimeout, nodeCount = window.spwashi.parameters.nodes.count) => {
     async function* loop(timeout = 100, count = window.spwashi.parameters.nodes.count) {
       for (let i = 0; i < count; i++) {
         yield i;
@@ -30,10 +30,12 @@ export function initializeReflexMode() {
 
     async function run() {
       let nodes = [];
-      for await (const i of loop(T, C)) {
+      for await (const i of loop(nodeTimeout, nodeCount)) {
         const node = {
           name:       '#',
-          r:          30,
+          r:          100,
+          fx:         (((window.spwashi.parameters.width - 50) / nodeCount) * i) + 25,
+          fy:         window.spwashi.parameters.height / 2,
           color:      'wheat',
           colorindex: getDocumentDataIndex()
         };
