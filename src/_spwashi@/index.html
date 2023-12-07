@@ -9,18 +9,21 @@
       import {app} from '../js'
 
       app()
+      setTimeout(() => {
+        window.spwashi.boon();
+      }, 1000);
     </script>
     <link href="../css/style.css" rel="stylesheet"/>
     <link href="../css/dataindex.css" rel="stylesheet"/>
     <style>
         :root {
-            --html-bg-start: #008080;
-            --html-bg-end: #67bdb0;
+            --bg-start: #008080;
+            --bg-end: #67bdb0;
         }
 
         @keyframes html-background {
-            from { background-color: var(--html-bg-start); }
-            to { background-color: var(--html-bg-end); }
+            from { background-color: var(--bg-start); }
+            to { background-color: var(--bg-end); }
         }
 
         html {
@@ -29,13 +32,17 @@
             animation-fill-mode: forwards;
         }
 
-        body{
-            background-color: transparent;
+        body {
+            animation-name: html-background;
+            animation-duration: 2s;
+            animation-fill-mode: forwards;
+            --bg-end: #008080;
+            --bg-start: rgba(239, 239, 239, .3);
         }
     </style>
 </head>
 <body>
-    <h1>spwashi</h1>
+    <h1>_spwashi@</h1>
     <a id="title-md5" tabindex="-1"></a>
     <svg id="simulation">
         <g class="simulation-content">
