@@ -1,4 +1,5 @@
 import {pushNode} from "./operate";
+import {processNode} from "./process";
 
 export const generateNodes = (n) => {
   const count = n || window.spwashi.parameters.nodes.count;
@@ -6,7 +7,7 @@ export const generateNodes = (n) => {
     name:     'boon',
     identity: Date.now() + Math.random(),
   }));
-  pushNode(...nodes);
+  pushNode(...nodes.map(processNode));
   window.spwashi.reinit();
   return nodes;
 }

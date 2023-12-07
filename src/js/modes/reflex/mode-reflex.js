@@ -20,7 +20,7 @@ export function getModifiedActionIndex(index, modifier = 1) {
 }
 
 export function initializeReflexMode() {
-  window.spwashi.boon = () => {
+  window.spwashi.boon = (T, C) => {
     async function* loop(timeout = 100, count = window.spwashi.parameters.nodes.count) {
       for (let i = 0; i < count; i++) {
         yield i;
@@ -30,7 +30,7 @@ export function initializeReflexMode() {
 
     async function run() {
       let nodes = [];
-      for await (const i of loop()) {
+      for await (const i of loop(T, C)) {
         const node = {
           name:       '#',
           r:          30,

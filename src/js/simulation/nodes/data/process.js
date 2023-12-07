@@ -41,15 +41,16 @@ export function processNode(node, i) {
 
   if (node.processed) return node;
   node.processed = Date.now();
-  if (!node.identity) return node;
-  const head = node.head;
-  const body = node.body;
-  const tail = node.tail;
-  delete node.head;
-  delete node.body;
-  delete node.tail;
-  node.parts = {head, body, tail};
 
+  if (node.head) {
+    const head = node.head;
+    const body = node.body;
+    const tail = node.tail;
+    delete node.head;
+    delete node.body;
+    delete node.tail;
+    node.parts = {head, body, tail};
+  }
 
   const fx       = window.spwashi.values.fx?.[i] || node.fx || undefined;
   const fy       = window.spwashi.values.fy?.[i] || node.fy || undefined;
