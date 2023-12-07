@@ -63,7 +63,7 @@ export function processSpwInput(text) {
   });
 
   sideEffects.nodesAdded.forEach(node => {
-    node.stroke = 'red';
+    node.stroke = 'grey';
     NODE_MANAGER.normalize(node);
     processNode(node);
   });

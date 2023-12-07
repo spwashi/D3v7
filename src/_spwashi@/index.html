@@ -7,10 +7,12 @@
     <title>spwashi@</title>
     <script type="module">
       import {app} from '../js'
+      import {processSpwInput} from "../js/modes/spw/process-spw-input";
 
       app()
       setTimeout(() => {
         window.spwashi.boon();
+        processSpwInput(['add=10',, 'minimalism',  'bane', 'bonk', 'charge=-1000'].join('\n'))
       }, 1000);
     </script>
     <link href="../css/style.css" rel="stylesheet"/>
