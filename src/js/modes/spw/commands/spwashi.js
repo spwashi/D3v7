@@ -1,4 +1,5 @@
 export function runSpwashiCommand(sideEffects) {
+  window.location.href = '/_spwashi@';
   sideEffects.valueStrings.push(...[
     'https://spwashi.com',
     'https://lore.land',

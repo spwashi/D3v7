@@ -1,0 +1,1 @@
+{"version":3,"file":"main-CmnNz2C7.js","sources":["../../src/index.html?html-proxy&index=0.js"],"sourcesContent":["\n      import {app} from \"./js\";\n\n      app()\n    "],"names":["app"],"mappings":"mCAGMA,EAAG"}
