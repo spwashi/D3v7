@@ -16,28 +16,32 @@
 
       function mainLoop(time = 1000, {charge = 1000}) {
         i += 1;
-        return new Promise((res, rej) => {
-          setTimeout(() => {
-            if (i % 3 === 0) {
-              window.spwashi.boon(300, 3);
-              runClearCommand()
-            }
-            processSpwInput(
-              [
-                'add=5',
-                'minimalism',
-                'bane',
-                // 'bonk',
-                'color=' + ((i % 2) + 1),
-                'arrange',
-                `charge=${charge}`
-              ].filter(Boolean)
-               .join('\n')
-            );
-            res();
-            console.log('runNextBunch', time, charge);
-            mainLoop(time, {charge: -charge});
-          }, time);
+        const run = (res = () => {}) => {
+          processSpwInput(
+            [
+              'add=5',
+              // 'bane',
+              // 'bonk',
+              'color=' + ((i % 2) + 1),
+              'arrange',
+              `charge=${charge}`
+            ].filter(Boolean)
+             .join('\n')
+          );
+
+          res();
+          mainLoop(time, {charge: -charge});
+        };
+        return (new Promise((res, rej) => {
+          setTimeout(() => run(res), time);
+        })).then(() => {
+          if (i % 3 === 0) {
+            setTimeout(() => runClearCommand(), 1200);
+          }
+          if (i % 3 === 0) {
+            // runClearCommand()
+            window.spwashi.boon(300, 3);
+          }
         })
       }
 
