@@ -83,7 +83,6 @@
         const currentDayIndex = (new Date()).getDay();
         return {
           ...boonNode(index, batchSize),
-          color:     `var(--node-color-${currentDayIndex % 13})`,
           callbacks: {
             ondrag: (e, node) => {
               const width  = window.spwashi.parameters.width;
