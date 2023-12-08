@@ -5,6 +5,7 @@ import {forEachNode, pushNode} from "../../simulation/nodes/data/operate";
 import {getAllNodes}           from "../../simulation/nodes/data/selectors/multiple";
 import {linkToCenter}          from "../../simulation/edges/data/link-center";
 import {getDocumentDataIndex}  from "../dataindex/util";
+import {boonConcept, boonNode} from "../spw/commands/boon";
 
 const dataindexPrefix = 'spwashi-action-';
 
@@ -19,6 +20,7 @@ export function getModifiedActionIndex(index, modifier = 1) {
   return getActionIndexForNumber(modifiedNumber >= 0 ? modifiedNumber % count : count - 1);
 }
 
+
 export function initializeReflexMode() {
   window.spwashi.boon = (nodeTimeout, nodeCount = window.spwashi.parameters.nodes.count) => {
     async function* loop(timeout = 100, count = window.spwashi.parameters.nodes.count) {
@@ -31,17 +33,7 @@ export function initializeReflexMode() {
     async function run() {
       let nodes = [];
       for await (const i of loop(nodeTimeout, nodeCount)) {
-        const slice = (window.spwashi.parameters.width * .9) / nodeCount;
-        const node  = {
-          name:       '#',
-          kind:       '__boon',
-          r:          50,
-          fx:         (slice * (i)) + (slice * (nodeCount - 1) / nodeCount),
-          fy:         window.spwashi.parameters.height / 2,
-          color:      'turquoise',
-          stroke:     '#222222',
-          colorindex: getDocumentDataIndex()
-        };
+        const node       = boonConcept['@node'](i, nodeCount);
         pushNode(node);
         window.spwashi.reinit();
         nodes.push(node);

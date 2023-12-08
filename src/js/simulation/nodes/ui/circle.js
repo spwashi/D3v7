@@ -100,15 +100,18 @@ export function makeCircle(g) {
     .call(
       drag()
         .on('start', (e, node) => {
-          node.x = e.x;
-          node.y = e.y;
+          node.x      = e.x;
+          node.y      = e.y;
+          node.ondrag = node.callbacks.ondrag || (() => {});
         })
         .on('drag', (e, node) => {
           node.fx = e.x;
           node.fy = e.y;
+          node.ondrag(e, node)
         })
         .on('end', (e, node) => {
           window.spwashi.tick();
+          delete node.ondrag;
           cacheNode(node);
         })
     )
