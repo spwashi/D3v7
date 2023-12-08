@@ -17,15 +17,25 @@
       let i = 0;
 
       function mainLoop(speed = 1000, {charge = 1000}) {
-        i += 1;
-        const nodeCount = 3;
+        const nodeCount = 6;
         const run       = (res = () => {}) => {
+          const locale    = 'en-US';
+          const dayName   = (new Date()).toLocaleDateString(locale, {weekday: 'long'});
+          const dayLen    = dayName.length;
+          const heightMod = dayLen;
           pushNode({
                      id:              i,
-                     r:               30,
+                     r:               5,
+                     identity:        dayName.split('')[i % dayLen],
                      collisionRadius: 100,
-                     x:               (i % nodeCount) * (window.spwashi.parameters.width / nodeCount),
-                     fy:              window.spwashi.parameters.height * .75,
+                     text:            {
+                       fontSize: 50,
+                       fy:       100,
+                       color: 'white'
+                     },
+                     fx:              (((i % dayLen) / dayLen) * window.spwashi.parameters.width) + ((1 / (2 * dayLen)) * window.spwashi.parameters.width),
+                     fy:              window.spwashi.parameters.height * ((i % heightMod) / heightMod),
+                     y:               window.spwashi.parameters.height * ((i % heightMod) / heightMod),
                      color:           'var(--bg-start)'
                    })
           // window.spwashi.reinit();
@@ -42,6 +52,7 @@
 
           res();
           mainLoop(speed, {charge: -charge});
+          i += 1;
         };
         return (new Promise((res, rej) => {
           setTimeout(() => run(res), speed);
@@ -58,9 +69,7 @@
           if (i % nodeCount === 0) {
             // runClearCommand()
             window.spwashi.boon(speed / 2, nodeCount).then(nodes => {
-              nodes.forEach(node => {
-                node.fy = 100;
-              });
+              nodes.forEach(node => { node.fy += 50; });
               window.spwashi.reinit();
             });
           }
@@ -68,8 +77,10 @@
       }
 
       boonConcept['@node'] = (index, batchSize) => {
+        const currentDayIndex = (new Date()).getDay();
         return {
           ...boonNode(index, batchSize),
+          color:     `var(--node-color-${currentDayIndex % 13})`,
           callbacks: {
             ondrag: (e, node) => {
               const width  = window.spwashi.parameters.width;
@@ -88,7 +99,7 @@
       setTimeout(() => {
         processSpwInput(
           [
-            'minimalism',
+            // 'minimalism',
             'box=0'
             // 'velocityDecay=.4',
           ].join('\n')
@@ -100,19 +111,19 @@
     <link href="../css/dataindex.css" rel="stylesheet"/>
     <style>
         :root {
-            --node-color-0:  color-mix(in srgb, #0bb1a9 calc(100% * (1/13)), #004646);
-            --node-color-1:  color-mix(in srgb, #0bb1a9 calc(100% * (2/13)), #004646);
-            --node-color-2:  color-mix(in srgb, #0bb1a9 calc(100% * (3/13)), #004646);
-            --node-color-3:  color-mix(in srgb, #0bb1a9 calc(100% * (4/13)), #004646);
-            --node-color-4:  color-mix(in srgb, #0bb1a9 calc(100% * (5/13)), #004646);
-            --node-color-5:  color-mix(in srgb, #0bb1a9 calc(100% * (6/13)), #004646);
-            --node-color-6:  color-mix(in srgb, #0bb1a9 calc(100% * (7/13)), #004646);
-            --node-color-7:  color-mix(in srgb, #0bb1a9 calc(100% * (8/13)), #004646);
-            --node-color-8:  color-mix(in srgb, #0bb1a9 calc(100% * (9/13)), #004646);
-            --node-color-9:  color-mix(in srgb, #0bb1a9 calc(100% * (10/13)), #004646);
-            --node-color-10: color-mix(in srgb, #0bb1a9 calc(100% * (11/13)), #004646);
-            --node-color-11: color-mix(in srgb, #0bb1a9 calc(100% * (12/13)), #004646);
-            --node-color-12: color-mix(in srgb, #0bb1a9 calc(100% * (13/13)), #004646);
+            --node-color-0: #014e4e;
+            --node-color-1: #025655;
+            --node-color-2: #035f5d;
+            --node-color-3: #036764;
+            --node-color-4: #046f6c;
+            --node-color-5: #057774;
+            --node-color-6: #06807b;
+            --node-color-7: #078883;
+            --node-color-8: #08908b;
+            --node-color-9: #089892;
+            --node-color-10: #09a19a;
+            --node-color-11: #0aa9a1;
+            --node-color-12: #0bb1a9;
         }
     </style>
     <style>
