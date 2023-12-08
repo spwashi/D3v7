@@ -6,7 +6,7 @@ function init(nodes) {
 }
 
 function update(g, links) {
-  const u = g.select('.links')
+  const u = g.select('.edges')
              .selectAll('line')
              .data(links)
              .join(
