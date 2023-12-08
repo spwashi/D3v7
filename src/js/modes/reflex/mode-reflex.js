@@ -31,15 +31,15 @@ export function initializeReflexMode() {
     async function run() {
       let nodes = [];
       for await (const i of loop(nodeTimeout, nodeCount)) {
-        const slice = (window.spwashi.parameters.width - 50) / nodeCount;
+        const slice = (window.spwashi.parameters.width * .9) / nodeCount;
         const node  = {
           name:       '#',
           kind:       '__boon',
           r:          50,
-          fx:         (slice * (i)) + (slice / 2),
+          fx:         (slice * (i)) + (slice * (nodeCount - 1) / nodeCount),
           fy:         window.spwashi.parameters.height / 2,
           color:      'turquoise',
-          stroke:     '#222',
+          stroke:     '#222222',
           colorindex: getDocumentDataIndex()
         };
         pushNode(node);

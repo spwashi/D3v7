@@ -9,6 +9,7 @@
       import {app}             from '../js'
       import {processSpwInput} from "../js/modes/spw/process-spw-input";
       import {runClearCommand} from "../js/modes/spw/commands/clear";
+      import {pushNode}        from "../js/simulation/nodes/data/operate";
 
       app()
 
@@ -16,12 +17,20 @@
 
       function mainLoop(speed = 1000, {charge = 1000}) {
         i += 1;
-        const nodeCount = 4;
+        const nodeCount = 3;
         const run       = (res = () => {}) => {
+          pushNode({
+                     id:    i,
+                     r:     10,
+                     x:     (i % nodeCount) * (window.spwashi.parameters.width / nodeCount),
+                     fy:    window.spwashi.parameters.height * .75,
+                     color: 'var(--bg-start)'
+                   })
+          // window.spwashi.reinit();
           processSpwInput(
             [
-              `add=2`,
-              `r=${50}`,
+              // `add=1`,
+              // `r=${50}`,
               // `color=${(i % 2) + 1}`,
               'arrange',
               `charge=${charge}`
@@ -36,7 +45,7 @@
           setTimeout(() => run(res), speed);
         })).then(() => {
           if (i % nodeCount === 0) {
-            setTimeout(() => runClearCommand(), (speed * 3));
+            setTimeout(() => runClearCommand(), (speed * nodeCount * 2 / 3));
           }
           if (i % nodeCount === 0) {
             // runClearCommand()
@@ -48,15 +57,11 @@
       setTimeout(() => {
         processSpwInput(
           [
-            'add=1',
             'minimalism',
-            'velocityDecay=.4',
-            'bane',
-            'bonk',
-            'charge=-1000'
+            // 'velocityDecay=.4',
           ].join('\n')
         );
-        mainLoop(500, {charge: 100});
+        mainLoop(500, {charge: 1000});
       }, 1000);
     </script>
     <link href="../css/style.css" rel="stylesheet"/>
