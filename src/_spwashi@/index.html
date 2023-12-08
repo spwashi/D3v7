@@ -19,16 +19,12 @@
 
       let i = 0;
 
-      function mainLoop(speed = 1000, {charge = 1000}) {
-        const nodeCount = 6;
-        const run       = (res = () => {}) => {
-          const locale    = 'en-US';
-          const dayName   = (new Date()).toLocaleDateString(locale, {weekday: 'long'});
-          const dayLen    = dayName.length;
+      function getLoopRunner(dayLen, nodeCount, dayName, charge, speed) {
+        const run = (res = () => {}) => {
           const heightMod = dayLen;
           pushNode({
                      id:              i,
-                     r:               10,
+                     r:               20,
                      identity:        dayName.split('')[i % dayLen],
                      collisionRadius: 100,
                      text:            {
@@ -37,9 +33,9 @@
                        color:    'white'
                      },
                      fx:              (((i % dayLen) / dayLen) * window.spwashi.parameters.width) + ((1 / (2 * dayLen)) * window.spwashi.parameters.width),
-                     fy:              window.spwashi.parameters.height * ((i % heightMod) / heightMod),
-                     y:               window.spwashi.parameters.height * ((i % heightMod) / heightMod),
-                     color:           'var(--bg-start)'
+                     // fy:              window.spwashi.parameters.height * ((i % heightMod) / heightMod),
+                     y:     window.spwashi.parameters.height * ((i % heightMod) / heightMod),
+                     color: 'var(--bg-start)'
                    })
           // window.spwashi.reinit();
           processSpwInput(
@@ -57,6 +53,16 @@
           mainLoop(speed, {charge: -charge});
           i += 1;
         };
+        return run;
+      }
+
+      function mainLoop(speed = 1000, {charge = 1000}) {
+        const locale    = 'en-US';
+        const dayName   = (new Date()).toLocaleDateString(locale, {weekday: 'long'}).toLowerCase();
+        const dayLen    = dayName.length;
+        const nodeCount = 7;
+        const run       = getLoopRunner(dayLen, nodeCount, dayName, charge, speed);
+
         return (new Promise((res, rej) => {
           setTimeout(() => run(res), speed);
         })).then(() => {
@@ -83,12 +89,12 @@
         const currentDayIndex = (new Date()).getDay();
         return {
           ...boonNode(index, batchSize),
-          text: {
+          text:      {
             fontSize: 50,
             fy:       50,
             color:    'rgba(255, 255, 255, .2)'
           },
-          color : index === currentDayIndex -1 ? 'turquoise' : 'rgba(255, 255, 255, .1)',
+          color:     index === currentDayIndex ? 'turquoise' : 'rgba(255, 255, 255, .1)',
           callbacks: {
             ondrag: (e, node) => {
               const width  = window.spwashi.parameters.width;
