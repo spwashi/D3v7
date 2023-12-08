@@ -34,7 +34,7 @@
               // `add=1`,
               // `r=${50}`,
               // `color=${(i % 2) + 1}`,
-              'arrange',
+              // 'arrange',
               `charge=${charge}`
             ].filter(Boolean)
              .join('\n')
@@ -57,7 +57,12 @@
           }
           if (i % nodeCount === 0) {
             // runClearCommand()
-            window.spwashi.boon(speed / 2, nodeCount);
+            window.spwashi.boon(speed / 2, nodeCount).then(nodes => {
+              nodes.forEach(node => {
+                node.fy = 100;
+              });
+              window.spwashi.reinit();
+            });
           }
         })
       }
