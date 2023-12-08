@@ -8,7 +8,6 @@
     <script type="module">
       import {app}                   from '../js'
       import {processSpwInput}       from "../js/modes/spw/process-spw-input";
-      import {runClearCommand}       from "../js/modes/spw/commands/clear";
       import {mapNodes, pushNode}    from "../js/simulation/nodes/data/operate";
       import {boonConcept, boonNode} from "../js/modes/spw/commands/boon";
       import {filterNodes}           from "../js/simulation/nodes/data/set";
@@ -22,11 +21,12 @@
         const nodeCount = 3;
         const run       = (res = () => {}) => {
           pushNode({
-                     id:    i,
-                     r:     10,
-                     x:     (i % nodeCount) * (window.spwashi.parameters.width / nodeCount),
-                     fy:    window.spwashi.parameters.height * .75,
-                     color: 'var(--bg-start)'
+                     id:              i,
+                     r:               30,
+                     collisionRadius: 100,
+                     x:               (i % nodeCount) * (window.spwashi.parameters.width / nodeCount),
+                     fy:              window.spwashi.parameters.height * .75,
+                     color:           'var(--bg-start)'
                    })
           // window.spwashi.reinit();
           processSpwInput(
@@ -52,7 +52,7 @@
               mapNodes((node) => {
                 node.fy = undefined;
               });
-              processSpwInput('scatter\nbonk')
+              processSpwInput('bonk')
             }, (speed * nodeCount * 2 / 3));
           }
           if (i % nodeCount === 0) {
@@ -89,14 +89,32 @@
         processSpwInput(
           [
             'minimalism',
+            'box=0'
             // 'velocityDecay=.4',
           ].join('\n')
         );
-        mainLoop(1000, {charge: 1000});
+        mainLoop(300, {charge: 1000});
       }, 1000);
     </script>
     <link href="../css/style.css" rel="stylesheet"/>
     <link href="../css/dataindex.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --node-color-0:  color-mix(in srgb, #0bb1a9 calc(100% * (1/13)), #004646);
+            --node-color-1:  color-mix(in srgb, #0bb1a9 calc(100% * (2/13)), #004646);
+            --node-color-2:  color-mix(in srgb, #0bb1a9 calc(100% * (3/13)), #004646);
+            --node-color-3:  color-mix(in srgb, #0bb1a9 calc(100% * (4/13)), #004646);
+            --node-color-4:  color-mix(in srgb, #0bb1a9 calc(100% * (5/13)), #004646);
+            --node-color-5:  color-mix(in srgb, #0bb1a9 calc(100% * (6/13)), #004646);
+            --node-color-6:  color-mix(in srgb, #0bb1a9 calc(100% * (7/13)), #004646);
+            --node-color-7:  color-mix(in srgb, #0bb1a9 calc(100% * (8/13)), #004646);
+            --node-color-8:  color-mix(in srgb, #0bb1a9 calc(100% * (9/13)), #004646);
+            --node-color-9:  color-mix(in srgb, #0bb1a9 calc(100% * (10/13)), #004646);
+            --node-color-10: color-mix(in srgb, #0bb1a9 calc(100% * (11/13)), #004646);
+            --node-color-11: color-mix(in srgb, #0bb1a9 calc(100% * (12/13)), #004646);
+            --node-color-12: color-mix(in srgb, #0bb1a9 calc(100% * (13/13)), #004646);
+        }
+    </style>
     <style>
         :root {
             --bg-start: #008080;
