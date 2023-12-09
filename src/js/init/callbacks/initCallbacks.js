@@ -2,7 +2,7 @@ export function initCallbacks() {
   window.spwashi.callbacks = window.spwashi.callbacks || {};
 
   window.spwashi.callbacks.acknowledgeLonging = (longing) => {
-    console.log('acknowledge longing', longing);
+   // console.log('acknowledge longing', longing);
   }
 
   // arrow keys

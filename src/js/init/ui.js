@@ -7,6 +7,7 @@ import {initializeDataindexMode}           from "../modes/dataindex/mode-dataind
 import {initKeystrokes}                    from "./hotkeys/_";
 import {initializeForceSimulationControls} from "../ui/simulation-controls";
 import {initializeSpwParseField}           from "../modes/spw/mode-spw";
+import {initEnableSoundsButton}            from "../ui/enable-sounds-button";
 
 
 export function initUi(mode) {
@@ -21,6 +22,8 @@ export function initUi(mode) {
   initializeDataindexMode();
   initializeForceSimulationControls();
   initializeStoryMode();
+
+  initEnableSoundsButton();
 
 
   import("../modes/mapfilter/mode-mapfilter")

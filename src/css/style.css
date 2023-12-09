@@ -582,22 +582,8 @@ body:not([data-mode=null]) #title-md5 {
     line-height: 1.5rem;
     font-family: monospace;
 }
-#hotkey-menu-toggle:focus,
-#mainmenu-toggle:focus {
+#hotkey-menu-toggle:focus {
     border: thick solid wheat;
-}
-#mainmenu-toggle {
-    position: absolute;
-    bottom: 5rem;
-    left: 0;
-    background: #222222;
-    color: wheat;
-    border: thin solid var(--standard-outline);
-    padding: 0rem;
-    width: 6rem;
-    height: 4rem;
-    line-height: 1.5rem;
-    font-family: monospace;
 }
 
 #keystroke-options button {
@@ -763,9 +749,6 @@ body:not([data-debug=debug]) g.rects {
 [data-interface-depth="standard"] #mainmenu-shortcuts li:before {
     content: none;
 }
-[data-interface-depth="minimalism"] #mainmenu-toggle {
-    display: none;
-}
 [data-interface-depth="minimalism"] #hotkey-menu-toggle {
     display: none;
 }
@@ -801,6 +784,15 @@ body[data-interface-depth="hotkey-menu"] [data-interface-element="hotkey-menu"] 
 }
 .consented-to-engage {
     outline: thick solid #555555;
+}
+
+button.disable-sounds {
+    display: none;
+}
+body[data-sounds=on] button.disable-sounds {
+    background: #222222;
+    color: wheat;
+    border: thin solid var(--standard-outline);
 }
 
 @media (max-width: 600px) {
