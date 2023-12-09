@@ -6,6 +6,9 @@ export const generateNodes = (n) => {
   const nodes = [...Array(count)].map(n => ({
     name:     'boon',
     identity: Date.now() + Math.random(),
+    text: {
+      color: 'white'
+    }
   }));
   pushNode(...nodes.map(processNode));
   window.spwashi.reinit();

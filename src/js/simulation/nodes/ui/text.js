@@ -55,7 +55,7 @@ export function updateNodeTextSvg(g) {
     .selectAll('tspan')
     .data(d => getNodeText(d).split('\n').map((line, i) => ({node: d, i: i, text: line})))
     .text(d => (d.text))
-    .attr('fill', d => d.node.text.color || undefined)
+    .attr('fill', d => d.node.text.color || 'var(--text-color)')
     .attr('x', d => (d.node.x || 0) + (d.node.text.fx || 0))
   ;
   return g;

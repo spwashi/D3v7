@@ -18,7 +18,6 @@ export const colorHandler = {
     ];
     const scale   = options[Math.abs(choice) % options.length];
     nodes.forEach((node, i) => {
-      console.log(node.name)
       node.color = scale(i);
     });
     sideEffects.physicsChange = true;
