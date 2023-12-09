@@ -14,30 +14,43 @@
       import {mapNodes, pushNode}    from "../js/simulation/nodes/data/operate";
       import {boonConcept, boonNode} from "../js/modes/spw/commands/boon";
       import {filterNodes}           from "../js/simulation/nodes/data/set";
+      import {pushLink}              from "../js/simulation/edges/data/pushLink";
 
       app()
 
       let i = 0;
 
+      let prev;
+
       function getLoopRunner(dayLen, nodeCount, dayName, charge, speed) {
         const run = (res = () => {}) => {
           const heightMod = dayLen;
-          pushNode({
-                     id:              i,
-                     r:               20,
-                     identity:        dayName.split('')[i % dayLen],
-                     collisionRadius: 100,
-                     text:            {
-                       fontSize: 50,
-                       fy:       50,
-                       color:    'white'
-                     },
-                     fx:              (((i % dayLen) / dayLen) * window.spwashi.parameters.width) + ((1 / (2 * dayLen)) * window.spwashi.parameters.width),
-                     // fy:              window.spwashi.parameters.height * ((i % heightMod) / heightMod),
-                     y:     window.spwashi.parameters.height * ((i % heightMod) / heightMod),
-                     color: 'var(--bg-start)'
-                   })
-          // window.spwashi.reinit();
+          if ((i % dayLen) === 0) {
+            prev = undefined;
+          }
+          const curr = {
+            id:              i,
+            r:               20,
+            identity:        dayName.split('')[i % dayLen],
+            collisionRadius: 100,
+            text:            {
+              fontSize: 50,
+              fy:       50,
+              color:    'white'
+            },
+            fx:              (((i % dayLen) / dayLen) * window.spwashi.parameters.width) + ((1 / (2 * dayLen)) * window.spwashi.parameters.width),
+            // fy:              window.spwashi.parameters.height * ((i % heightMod) / heightMod),
+            y:     window.spwashi.parameters.height * ((i % heightMod) / heightMod),
+            color: 'var(--bg-start)'
+          };
+          pushNode(curr);
+          prev && pushLink(window.spwashi.links, {
+            source:   curr,
+            target:   prev,
+            strength: 1
+          });
+          prev = curr;
+          window.spwashi.reinit();
           processSpwInput(
             [
               // `add=1`,

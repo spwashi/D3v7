@@ -7,7 +7,7 @@ export function runEnableSoundsCommand() {
   document.body.dataset.sounds = 'on';
   window.spwashi.soundsEnabled = true;
   window.spwashi.sounds        = {
-    bonk: () => new Audio('/assets/sounds/bonk.mp3'),
+    bonk: () => new Audio(' /assets/sounds/bonk.mp3'),
   };
   document.addEventListener('click', handleSoundEnabler);
 }
