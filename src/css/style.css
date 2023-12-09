@@ -786,12 +786,26 @@ body[data-interface-depth="hotkey-menu"] [data-interface-element="hotkey-menu"] 
     outline: thick solid #555555;
 }
 
+.enable-sounds, .disable-sounds {
+    background: #222222;
+    color: wheat;
+    padding: 1rem;
+    margin: 1rem;
+    line-height: 1;
+    font-size: 2rem;
+    outline: wheat thin solid;
+    font-family: monospace;
+    cursor: pointer;
+    border: thin solid var(--standard-outline);
+}
 button.disable-sounds {
     display: none;
 }
+body[data-sounds=on] button.enable-sounds {
+    display: none;
+}
 body[data-sounds=on] button.disable-sounds {
-    background: #222222;
-    color: wheat;
+    display: block;
     border: thin solid var(--standard-outline);
 }
 
