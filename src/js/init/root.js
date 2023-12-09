@@ -22,6 +22,17 @@ export function initRoot() {
     'spw',
   ];
 
+  window.spwashi.soundsEnabled = false;
+  window.spwashi.sounds        = {};
+  window.spwashi.playSound     = sound => {
+    if (window.spwashi.soundsEnabled) {
+      const getSound = window.spwashi.sounds[sound];
+      if (!getSound) return;
+      const audio = getSound();
+      audio.play();
+    }
+  }
+
   if (window.location.pathname === '/help') {
     pushHelpTopics();
     window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';

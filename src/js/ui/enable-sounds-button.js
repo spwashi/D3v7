@@ -1,3 +1,5 @@
+import {runDisableSoundsCommand, runEnableSoundsCommand} from "../modes/spw/commands/sounds";
+
 export function initEnableSoundsButton() {
   const enableSoundsButton = document.querySelector('.enable-sounds');
   if (!enableSoundsButton) {
@@ -5,12 +7,12 @@ export function initEnableSoundsButton() {
     return;
   }
   const disableSoundsButton = document.querySelector('.disable-sounds');
-  enableSoundsButton.addEventListener('click', () => {
-    document.body.dataset.sounds = 'on';
-    window.spwashi.soundsEnabled = true;
+  enableSoundsButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    runEnableSoundsCommand();
   });
-  disableSoundsButton.addEventListener('click', () => {
-    document.body.dataset.sounds = 'off';
-    window.spwashi.soundsEnabled = false;
+  disableSoundsButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    runDisableSoundsCommand();
   });
 }

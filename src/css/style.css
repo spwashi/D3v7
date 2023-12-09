@@ -786,6 +786,9 @@ body[data-interface-depth="hotkey-menu"] [data-interface-element="hotkey-menu"] 
     outline: thick solid #555555;
 }
 
+:is(.enable-sounds, .disable-sounds):focus {
+    outline: thick solid wheat;
+}
 .enable-sounds, .disable-sounds {
     background: #222222;
     color: wheat;

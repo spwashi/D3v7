@@ -1,5 +1,4 @@
 import {getDocumentDataIndex} from "../../dataindex/util";
-import audioPath              from '../../../../_spwashi@/bonk-sound-effect.mp3'
 
 
 export const boonConcept = {
@@ -9,8 +8,7 @@ export const boonConcept = {
 
 export function boonNode(i, nodeCount) {
   const sliceWidth = (window.spwashi.parameters.width * .9) / nodeCount;
-  const boonSound  = new Audio(audioPath);
-  window.spwashi.soundsEnabled && boonSound.play();
+
   return {
     name:        '#',
     kind:        '__boon',
