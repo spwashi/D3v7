@@ -15,16 +15,20 @@
       import {boonConcept, boonNode} from "../js/modes/spw/commands/boon";
       import {filterNodes}           from "../js/simulation/nodes/data/set";
       import {pushLink}              from "../js/simulation/edges/data/pushLink";
+      import {clearActiveNodes}      from "../js/init/hotkeys/handlers/clear-active-nodes";
 
       app()
 
+      let prev;
       let i = 0;
 
-      let prev;
-
       function getLoopRunner(dayLen, nodeCount, dayName, charge, speed) {
-        const run = (res = () => {}) => {
+        return (res = () => {}) => {
           const heightMod = dayLen;
+          if (i >= (dayLen * 2)) {
+            i = 0;
+            clearActiveNodes();
+          }
           if ((i % dayLen) === 0) {
             prev = undefined;
           }
@@ -40,8 +44,8 @@
             },
             fx:              (((i % dayLen) / dayLen) * window.spwashi.parameters.width) + ((1 / (2 * dayLen)) * window.spwashi.parameters.width),
             fy:              window.spwashi.parameters.height * ((i % heightMod) / heightMod),
-            y:     window.spwashi.parameters.height * ((i % heightMod) / heightMod),
-            color: 'var(--bg-start)'
+            y:               window.spwashi.parameters.height * ((i % heightMod) / heightMod),
+            color:           'var(--bg-start)'
           };
           pushNode(curr);
           prev && pushLink(window.spwashi.links, {
@@ -53,10 +57,10 @@
           window.spwashi.reinit();
           processSpwInput(
             [
-              // `add=1`,
-              // `r=${50}`,
-              // `color=${(i % 2) + 1}`,
-              // 'arrange',
+              `add=1`,
+              `r=${10 + (30 * Math.random())}`,
+              `color=3`,
+              'arrange',
               `charge=${charge}`
             ].filter(Boolean)
              .join('\n')
@@ -66,7 +70,6 @@
           mainLoop(speed, {charge: -charge});
           i += 1;
         };
-        return run;
       }
 
       function mainLoop(speed = 1000, {charge = 1000}) {
@@ -98,37 +101,37 @@
         })
       }
 
-      boonConcept['@node'] = (index, batchSize) => {
-        const currentDayIndex = (new Date()).getDay();
-        return {
-          ...boonNode(index, batchSize),
-          text:      {
-            fontSize: 50,
-            fy:       50,
-            color:    'rgba(255, 255, 255, .2)'
-          },
-          color:     index === currentDayIndex ? 'turquoise' : 'rgba(255, 255, 255, .1)',
-          callbacks: {
-            ondrag: (e, node) => {
-              const width  = window.spwashi.parameters.width;
-              const height = window.spwashi.parameters.height;
-              const r      = 255 * (node.x / width);
-              const y      = 255 * (node.y / height);
-              const b      = 255 * (node.x / width);
+      boonConcept['@node'] =
+        (index, batchSize) => {
+          const currentDayIndex = (new Date()).getDay();
+          return {
+            ...boonNode(index, batchSize),
+            text:      {
+              fontSize: 50,
+              fy:       50,
+              color:    'rgba(255, 255, 255, .2)'
+            },
+            color:     index === currentDayIndex ? 'turquoise' : 'rgba(255, 255, 255, .1)',
+            callbacks: {
+              ondrag: (e, node) => {
+                const width  = window.spwashi.parameters.width;
+                const height = window.spwashi.parameters.height;
+                const r      = 255 * (node.x / width);
+                const y      = 255 * (node.y / height);
+                const b      = 255 * (node.x / width);
 
-              node.color = `rgb(${r}, ${y}, ${b})`;
+                node.color = `rgb(${r}, ${y}, ${b})`;
+              }
             }
-          }
-          // r: 10
-        };
-      }
+            // r: 10
+          };
+        }
 
       setTimeout(() => {
         processSpwInput(
           [
-            // 'minimalism',
-            'box=0'
-            // 'velocityDecay=.4',
+            'box=0',
+            'velocityDecay=.4',
           ].join('\n')
         );
         mainLoop(300, {charge: 1000});
