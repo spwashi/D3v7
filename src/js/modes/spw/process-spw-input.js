@@ -63,8 +63,8 @@ export function processSpwInput(text) {
   });
 
   sideEffects.nodesAdded.forEach(node => {
-    node.stroke      = 'turquoise';
-    node.strokeWidth = 10;
+    // node.stroke      = 'turquoise';
+    // node.strokeWidth = 10;
     NODE_MANAGER.normalize(node);
     processNode(node);
   });

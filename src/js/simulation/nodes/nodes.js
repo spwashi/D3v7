@@ -30,8 +30,8 @@ function init(nodes) {
 
     NODE_MANAGER.normalize(
       nodes[i],
+      i,
       {...node, ...readNode},
-      i
     );
   }
   const activeNodes = sortNodes(nodes);

@@ -1,6 +1,6 @@
 import {getDocumentDataIndex} from "../../../modes/dataindex/util";
 
-export function normalize(node, readNode, i) {
+export function normalize(node, i, override) {
   const template = {
     image:      {},
     callbacks:  {},
@@ -17,7 +17,7 @@ export function normalize(node, readNode, i) {
   Object.assign(
     node,
     template,
-    readNode,
+    override,
     {
       name: node.identity || ('node:' + i),
       idx:  i,

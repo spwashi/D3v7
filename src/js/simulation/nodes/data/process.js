@@ -57,10 +57,10 @@ export function processNode(node, i) {
   const r        = window.spwashi.values.r?.[i] || node.r || window.spwashi.parameters.nodes.radiusMultiplier || undefined;
   const fontSize = window.spwashi.values.text?.fontSize?.[i] || node.text?.fontSize || undefined;
 
-  node.colorindex      = getDocumentDataIndex();
-  node.fx              = fx;
-  node.fy              = fy;
-  node.r               = r;
+  node.colorindex      = node.colorindex || getDocumentDataIndex();
+  node.fx              = node.fx !== undefined ? node.fx :  fx;
+  node.fy              = node.fy !== undefined ? node.fy :  fy;
+  node.r               = node.r || r;
   node.collisionRadius = r * 2;
   node.text            = node.text || {};
   node.text.fontSize   = fontSize;

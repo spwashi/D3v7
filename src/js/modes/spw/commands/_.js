@@ -26,7 +26,11 @@ import {runSpwashiCommand}                     from "./spwashi";
 import {runScaleCommand}                       from "./scale";
 import {runArrangeCommand}                     from "./arrange";
 import {runPruneCommand}                       from "./prune";
+import {runNoCenterCommand}                    from "./no-center";
+import {runCenterCommand}                      from "./center";
+import {runGroupCommand}                       from "./group";
 import * as sounds                             from "./sounds";
+
 
 const optionsCommand = sideEffects => {
   sideEffects.valueStrings.push(...Object.keys(commands).filter(key => ![
@@ -47,8 +51,11 @@ export const commands = {
   'unfreeze':       () => runUnfreezeCommand(),
   'unfix':          () => runUnfreezeCommand(),
   'prune':          () => runPruneCommand(),
+  'center':         () => runCenterCommand(),
+  'no center':      () => runNoCenterCommand(),
   'enable sounds':  () => sounds.runEnableSoundsCommand(),
   'disable sounds': () => sounds.runDisableSoundsCommand(),
+  'group':          sideEffects => runGroupCommand(sideEffects),
   'help':           sideEffects => runHelpCommand(sideEffects),
   'spwashi':        sideEffects => runSpwashiCommand(sideEffects),
   'color':          sideEffects => runScaleCommand(sideEffects),

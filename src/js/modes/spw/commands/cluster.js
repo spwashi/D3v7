@@ -21,6 +21,7 @@ export function runClusterCommand(sideEffects) {
             identity: cluster,
             kind:     '__cluster',
             r:        100,
+            charge:   1000
           };
           pushNode(clusterNode);
           nodes.forEach(node => {

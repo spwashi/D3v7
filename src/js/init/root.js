@@ -3,6 +3,7 @@ import {initCallbacks}      from "./callbacks/initCallbacks";
 import {initListeners}      from "./listeners/initListeners";
 import {pushHelpTopics}     from "../modes/spw/commands/help";
 import {setDocumentMode}    from "../modes";
+import {processSpwInput}    from "../modes/spw/process-spw-input";
 
 export function initRoot() {
   initSimulationRoot();
@@ -33,17 +34,46 @@ export function initRoot() {
     }
   }
 
-  if (window.location.pathname === '/help') {
-    pushHelpTopics();
-    window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';
-    setDocumentMode('spw', false, true);
+  switch (window.location.pathname) {
+    case '/demo':
+      setTimeout(() => {
+        processSpwInput([
+                          'bonk',
+                          'add=3',
+                          'bonk',
+                          'add=50',
+                          'bonk',
+                          'add=10',
+                          'bonk',
+                          'unfix',
+                          'r=10',
+                          'group',
+                          'bane',
+                          'no center',
+                          'charge=-100',
+                          'velocityDecay=.99',
+                          'this is a thought',
+                          'minimalism',
+                        ].join('\n')
+                         .trim())
+      }, 100)
+      break;
+    case '/help':
+      pushHelpTopics();
+      window.spwashi.spwEditor.value = window.spwashi.getItem('help', 'focal.root') || '';
+      setDocumentMode('spw', false, true);
+      break;
   }
 }
 
 function initRootSession() {
   window.spwashi.__session = window.spwashi.__session || {i: 0};
   window.spwashi.setItem   = (key, item, category = null) => {
-    window.localStorage.setItem(getItemKey(key, category), JSON.stringify(item || null));
+    try {
+      window.localStorage.setItem(getItemKey(key, category), JSON.stringify(item || null));
+    } catch (e) {
+      console.error({e, item});
+    }
   }
   window.spwashi.getItem   = (key, category = null) => {
     const out = window.localStorage.getItem(getItemKey(key, category))
