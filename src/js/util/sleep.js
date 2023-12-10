@@ -1,3 +1,3 @@
-export function sleepFn(waitTime, loop, params = {}) {
-  return new Promise((res, rej) => setTimeout(() => loop(params).then(res).catch(rej), waitTime));
+export function runAfterSleep(waitTime, loop) {
+  return new Promise((res, rej) => setTimeout(() => loop().then(res).catch(rej), waitTime));
 }
