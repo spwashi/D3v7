@@ -1,33 +1,33 @@
-import {alphaDecay__get}     from "./alphaDecay";
-import {alphaTarget__get}    from "./alphaTarget";
-import {alpha__get}          from "./alpha";
-import {boundingBox__get}    from "./boundingBox";
-import {centerStrength__get} from "./centerStrength";
-import {center__get}         from "./center";
-import {charge__get}         from "./charge";
-import {dataindex__get}      from "./dataindex";
-import {debug__get}          from "./debug";
-import {defaultRadius__get}  from "./defaultRadius";
-import {display__get}        from "./display";
-import {doFetch__get}        from "./doFetch";
-import {fontSize__get}       from "./fontSize";
-import {fx__get}             from "./fx";
-import {fy__get}             from "./fy";
-import {height__get}         from "./height";
-import {intent__get}         from "./intent";
-import {linkStrength__get}   from "./linkStrength";
-import {linkStyle__get}      from "./linkStyle";
-import {mode__get}           from "./mode";
-import {nodeCount__get}      from "./nodeCount";
-import {perspective__get}    from "./perspective";
-import {r__get}              from "./r";
-import {reset__get}          from "./reset";
-import {size__get}           from "./size";
-import {superpower__get}     from "./superpower";
-import {title__get}          from "./title";
-import {velocityDecay__get}  from "./velocityDecay";
-import {width__get}          from "./width";
-import {zoom__get}           from "./zoom";
+import {alphaDecay}     from "./alphaDecay";
+import {alphaTarget}    from "./alphaTarget";
+import {alpha}          from "./alpha";
+import {boundingBox}    from "./boundingBox";
+import {centerStrength} from "./centerStrength";
+import {center}         from "./center";
+import {charge}         from "./charge";
+import {dataindex}      from "./dataindex";
+import {debug}          from "./debug";
+import {defaultRadius}  from "./defaultRadius";
+import {display}        from "./display";
+import {doFetch}        from "./doFetch";
+import {fontSize}       from "./fontSize";
+import {fx}             from "./fx";
+import {fy}             from "./fy";
+import {height}         from "./height";
+import {intent}         from "./intent";
+import {linkStrength}   from "./linkStrength";
+import {linkStyle}      from "./linkStyle";
+import {mode}           from "./mode";
+import {nodeQueue}      from "./nodeCount";
+import {perspective}    from "./perspective";
+import {r}              from "./r";
+import {reset}          from "./reset";
+import {size}           from "./size";
+import {superpower}     from "./superpower";
+import {title}          from "./title";
+import {velocityDecay}  from "./velocityDecay";
+import {width}          from "./width";
+import {zoom}           from "./zoom";
 
 
 export function initParameters() {
@@ -72,34 +72,37 @@ export function readParameters(searchParameters) {
   window.spwashi.featuredIdentity = /\/identity\/([a-zA-Z\d]+)/.exec(window.location.href)?.[1] || searchParameters.get('identity');
   window.spwashi.parameterKey     = `spwashi.parameters#${window.spwashi.featuredIdentity}`;
 
-  alphaDecay__get(searchParameters);
-  alphaTarget__get(searchParameters);
-  alpha__get(searchParameters);
-  boundingBox__get(searchParameters);
-  centerStrength__get(searchParameters);
-  center__get(searchParameters);
-  charge__get(searchParameters);
-  dataindex__get(searchParameters);
-  debug__get(searchParameters);
-  defaultRadius__get(searchParameters);
-  display__get(searchParameters);
-  doFetch__get(searchParameters);
-  fontSize__get(searchParameters);
-  fx__get(searchParameters);
-  fy__get(searchParameters);
-  height__get(searchParameters);
-  intent__get(searchParameters);
-  linkStrength__get(searchParameters);
-  linkStyle__get(searchParameters);
-  mode__get(searchParameters)
-  nodeCount__get(searchParameters);
-  perspective__get(searchParameters);
-  r__get(searchParameters);
-  reset__get(searchParameters);
-  size__get(searchParameters);
-  superpower__get(searchParameters);
-  title__get(searchParameters);
-  velocityDecay__get(searchParameters);
-  width__get(searchParameters);
-  zoom__get(searchParameters);
+  [
+    alphaDecay,
+    alphaTarget,
+    alpha,
+    boundingBox,
+    centerStrength,
+    center,
+    charge,
+    dataindex,
+    debug,
+    defaultRadius,
+    display,
+    doFetch,
+    fontSize,
+    fx,
+    fy,
+    height,
+    intent,
+    linkStrength,
+    linkStyle,
+    mode,
+    nodeQueue,
+    perspective,
+    r,
+    reset,
+    size,
+    superpower,
+    title,
+    velocityDecay,
+    width,
+    zoom
+  ]
+    .forEach(fn => fn(searchParameters));
 }

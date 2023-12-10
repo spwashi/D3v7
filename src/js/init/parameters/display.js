@@ -1,4 +1,4 @@
-export function display__get(searchParameters) {
+export function display(searchParameters) {
   if (searchParameters.has('display')) {
     document.body.dataset.displaymode = searchParameters.get('display');
   }

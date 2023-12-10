@@ -1,4 +1,4 @@
-export function center__get(searchParameters) {
+export function center(searchParameters) {
   if (searchParameters.has('center')) {
     let [x, y]                                 = (searchParameters.get('center').split(',').map(n => +n));
     y                                          = y || x;

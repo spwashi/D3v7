@@ -1,4 +1,4 @@
-export function zoom__get(searchParameters) {
+export function zoom(searchParameters) {
   if (searchParameters.has('zoom')) {
     window.spwashi.parameters.canzoom = !!(+searchParameters.get('zoom'));
   } else {

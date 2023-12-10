@@ -1,6 +1,6 @@
 import {setDocumentMode} from "../../modes";
 
-export function mode__get(searchParameters) {
+export function mode(searchParameters) {
   let mode;
   if (searchParameters.has('mode')) {
     mode = searchParameters.get('mode');

@@ -1,4 +1,4 @@
-export function reset__get(searchParameters) {
+export function reset(searchParameters) {
   if (searchParameters.has('reset')) {
     window.localStorage.clear();
   }

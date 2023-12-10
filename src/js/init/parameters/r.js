@@ -1,4 +1,4 @@
-export function r__get(searchParameters) {
+export function r(searchParameters) {
   if (searchParameters.has('r')) {
     window.spwashi.values.r = searchParameters.get('r').split(',').map(n => +n);
   }

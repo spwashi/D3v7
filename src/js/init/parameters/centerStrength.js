@@ -1,4 +1,4 @@
-export function centerStrength__get(searchParameters) {
+export function centerStrength(searchParameters) {
   if (searchParameters.has('centerStrength')) {
 
   }

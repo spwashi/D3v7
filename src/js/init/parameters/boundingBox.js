@@ -1,4 +1,4 @@
-export function boundingBox__get(searchParameters) {
+export function boundingBox(searchParameters) {
   if (searchParameters.has('boundingBox')) {
     window.spwashi.parameters.forces.boundingBox = searchParameters.get('boundingBox') === '1'
   }

@@ -1,4 +1,4 @@
-export function linkStrength__get(searchParameters) {
+export function linkStrength(searchParameters) {
   if (searchParameters.has('linkStrength')) {
     window.spwashi.parameters.links.strength = +searchParameters.get('linkStrength');
   }
