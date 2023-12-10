@@ -31,6 +31,16 @@ import {zoom__get}           from "./zoom";
 
 
 export function initParameters() {
+  window.spwashi.initialMode                       = window.spwashi.initialMode || null;
+  window.spwashi.parameters                        = window.spwashi.parameters || {};
+  window.spwashi.values                            = window.spwashi.values || {};
+  window.spwashi.values.fy                         = [];
+  window.spwashi.values.r                          = [];
+  window.spwashi.values.text                       = window.spwashi.values.text || {}
+  window.spwashi.values.text.fontSize              = window.spwashi.values.text.fontSize || [];
+  window.spwashi.superpower                        = window.spwashi.superpower || {name: 'hyperlink', intent: 1};
+  window.spwashi.parameters.links                  = window.spwashi.parameters.links || {};
+  window.spwashi.parameters.forces                 = window.spwashi.parameters.forces || {};
   window.spwashi.parameters                        = window.spwashi.parameters || {};
   window.spwashi.parameters.debug                  = false;
   window.spwashi.parameters.perspective            = window.spwashi.parameters.perspective || undefined;
@@ -59,18 +69,8 @@ export function initParameters() {
 }
 
 export function readParameters(searchParameters) {
-  window.spwashi.featuredIdentity     = /\/identity\/([a-zA-Z\d]+)/.exec(window.location.href)?.[1] || searchParameters.get('identity');
-  window.spwashi.parameterKey         = `spwashi.parameters#${window.spwashi.featuredIdentity}`;
-  window.spwashi.initialMode          = window.spwashi.initialMode || null;
-  window.spwashi.parameters           = window.spwashi.parameters || {};
-  window.spwashi.values               = window.spwashi.values || {};
-  window.spwashi.values.fy            = [];
-  window.spwashi.values.r             = [];
-  window.spwashi.values.text          = window.spwashi.values.text || {}
-  window.spwashi.values.text.fontSize = window.spwashi.values.text.fontSize || [];
-  window.spwashi.superpower           = window.spwashi.superpower || {name: 'hyperlink', intent: 1};
-  window.spwashi.parameters.links     = window.spwashi.parameters.links || {};
-  window.spwashi.parameters.forces    = window.spwashi.parameters.forces || {};
+  window.spwashi.featuredIdentity = /\/identity\/([a-zA-Z\d]+)/.exec(window.location.href)?.[1] || searchParameters.get('identity');
+  window.spwashi.parameterKey     = `spwashi.parameters#${window.spwashi.featuredIdentity}`;
 
   alphaDecay__get(searchParameters);
   alphaTarget__get(searchParameters);
