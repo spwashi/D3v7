@@ -61,7 +61,7 @@ export function processNode(node, i) {
   node.fx              = node.fx !== undefined ? node.fx :  fx;
   node.fy              = node.fy !== undefined ? node.fy :  fy;
   node.r               = node.r || r;
-  node.collisionRadius = r * 2;
+  node.collisionRadius = r * 1.3;
   node.text            = node.text || {};
   node.text.fontSize   = fontSize;
   node.image           = node.image || {};

@@ -50,9 +50,9 @@ export function initRoot() {
                           'group',
                           'bane',
                           'no center',
-                          'charge=-100',
-                          'velocityDecay=.99',
-                          'this is a thought',
+                          // 'charge=-100',
+                          'velocityDecay=.9',
+                          // 'this is a thought',
                           'minimalism',
                         ].join('\n')
                          .trim())
