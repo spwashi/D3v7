@@ -1,4 +1,4 @@
-import {readParameters} from "../../init/parameters/_";
+import {loadParameters} from "../../init/parameters/read";
 
 export function initializeQuerystringMode() {
   const element     = document.querySelector('#query-parameters .value');
@@ -12,7 +12,7 @@ export function initializeQuerystringMode() {
   const button      = document.querySelector('#query-parameters button.go');
   button.onclick    = (e) => {
     const searchParams = new URLSearchParams(element.value.split('\n').map(line => line.split('=')))
-    readParameters(searchParams);
+    loadParameters(searchParams);
     if (e.shiftKey) {
       window.location = '?' + searchParams;
     }

@@ -1,10 +1,11 @@
-import {initParameters, readParameters} from "./init/parameters/_";
 import {initFocalSquare}                from "./ui/focal-point";
 import {initH1}                         from "./ui/h1";
 import {initUi}                         from "./init/ui";
 import {initRoot}                       from "./init/root";
 import {initSvgEvents}                  from "./simulation/events";
-import {simulationElements}             from "./simulation/basic";
+import {simulationElements} from "./simulation/basic";
+import {initParameters}     from "./init/parameters/init";
+import {loadParameters}     from "./init/parameters/read";
 
 const versions = {
   'v0.0.1': {
@@ -34,7 +35,7 @@ export function app() {
   initRoot();
 
   // initialize context-sensitive parameters
-  readParameters(new URLSearchParams(window.location.search));
+  loadParameters(new URLSearchParams(window.location.search));
 
   // primary interactive elements
   initSvgEvents(simulationElements.svg);

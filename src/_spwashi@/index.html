@@ -25,7 +25,11 @@
       function getLoopRunner(dayLen, nodeCount, dayName, charge, speed) {
         return (res = () => {}) => {
           const heightMod = dayLen;
-          if (i >= (dayLen * 2)) {
+          mapNodes((node) => {
+            node.r += 5;
+            node.fy += 5;
+          })
+          if (i >= (dayLen * 5)) {
             i = 0;
             clearActiveNodes();
           }
@@ -57,9 +61,10 @@
           window.spwashi.reinit();
           processSpwInput(
             [
-              `add=1`,
-              `r=${10 + (30 * Math.random())}`,
+              // `add=1`,
+              // `r=${10 + (30 * Math.random())}`,
               `color=3`,
+              'minimalism',
               'arrange',
               `charge=${charge}`
             ].filter(Boolean)
@@ -79,26 +84,23 @@
         const nodeCount = 7;
         const run       = getLoopRunner(dayLen, nodeCount, dayName, charge, speed);
 
-        return (new Promise((res, rej) => {
-          setTimeout(() => run(res), speed);
-        })).then(() => {
+        function onfulfilled() {
           if (i % nodeCount === 0) {
             setTimeout(() => {
               filterNodes((node) => node.kind !== '__boon');
-              mapNodes((node) => {
-                node.fy = undefined;
-              });
-              processSpwInput('bonk')
+              mapNodes((node) => { node.fy = (node.fy || node.y) + 10; });
+              // processSpwInput('bonk')
             }, (speed * nodeCount * 2 / 3));
           }
           if (i % nodeCount === 0) {
-            // runClearCommand()
             window.spwashi.boon(speed / 2, nodeCount).then(nodes => {
               nodes.forEach(node => { node.fy += 50; });
               window.spwashi.reinit();
             });
           }
-        })
+        }
+
+        return (new Promise((res, rej) => setTimeout(() => run(res), speed))).then(onfulfilled)
       }
 
       boonConcept['@node'] =
@@ -131,11 +133,10 @@
         processSpwInput(
           [
             'box=0',
-            'vd=.4',
           ].join('\n')
         );
-        mainLoop(300, {charge: 1000});
-      }, 1000);
+        mainLoop(50, {charge: 1000});
+      }, 300);
     </script>
     <style lang="sass">
 

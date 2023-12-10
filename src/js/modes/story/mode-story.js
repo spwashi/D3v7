@@ -1,4 +1,3 @@
-import {readParameters} from "../../init/parameters/_";
 import {processNode}    from "../../simulation/nodes/data/process";
 import {NODE_MANAGER}   from "../../simulation/nodes/nodes";
 
@@ -7,6 +6,7 @@ import {extendMenu}            from "../spw/commands/extended-menu";
 import {forEachNode, pushNode} from "../../simulation/nodes/data/operate";
 
 import {clearActiveNodes} from "../../init/hotkeys/handlers/clear-active-nodes";
+import {loadParameters}   from "../../init/parameters/read";
 
 const clearFxFy = d => d.fx = d.fy = undefined;
 const fixX      = (d, i) => d.fy = 75 * (i + 1);
@@ -26,7 +26,7 @@ async function executeEvents(events) {
       payload.effect();
     }
     if (payload.params) {
-      readParameters(new URLSearchParams(payload.params));
+      loadParameters(new URLSearchParams(payload.params));
     }
     if (payload.nodes) {
       const nodes = payload.nodes.map(processNode).map(NODE_MANAGER.normalize);
@@ -143,7 +143,7 @@ export function initializeStoryMode() {
     const button     = document.createElement('button');
     button.innerText = title;
     button.onclick   = () => {
-      readParameters(new URLSearchParams(story.params));
+      loadParameters(new URLSearchParams(story.params));
       story.runStory && story.runStory();
       story.events && executeEvents(story.events);
     };

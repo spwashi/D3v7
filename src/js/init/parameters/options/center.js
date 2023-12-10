@@ -13,4 +13,6 @@ export function center(searchParameters) {
     window.spwashi.parameters.forces.centerPos = {x, y};
 
   }
+
+  return ['center', window.spwashi.parameters.startPos];
 }

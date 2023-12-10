@@ -8,7 +8,7 @@ export const addHandler = {
     const quantity = parseInt(value);
     const nodes    = [...Array(quantity)].map((n, i) => ({
       name: i + '',
-      fy:   .75 * window.spwashi.parameters.height,
+      y:   .75 * window.spwashi.parameters.height,
       id:   `(${Date.now()})[${Math.random()}]`,
     }));
     pushNode(...nodes.map(NODE_MANAGER.normalize).map(processNode));

@@ -4,4 +4,5 @@ export function linkStyle(searchParameters) {
   } else {
     window.spwashi.parameters.links.linkPrev = 0;
   }
+  return ['linkStyle', window.spwashi.parameters.links.linkPrev];
 }

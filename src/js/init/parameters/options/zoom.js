@@ -4,4 +4,5 @@ export function zoom(searchParameters) {
   } else {
     window.spwashi.parameters.canzoom = true;
   }
+  return ['zoom', window.spwashi.parameters.canzoom];
 }

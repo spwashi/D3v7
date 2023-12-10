@@ -3,4 +3,5 @@ export function debug(searchParameters) {
     window.spwashi.parameters.debug = true;
     document.body.dataset.debug     = 'debug'
   }
+  return ['debug', window.spwashi.parameters.debug];
 }

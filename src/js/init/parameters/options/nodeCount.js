@@ -3,4 +3,5 @@ export function nodeQueue(searchParameters) {
     window.spwashi.parameters.nodes       = window.spwashi.parameters.nodes || {};
     window.spwashi.parameters.nodes.count = +searchParameters.get('nodeCount');
   }
+  return ['nodeCount', window.spwashi.parameters.nodes.count]
 }

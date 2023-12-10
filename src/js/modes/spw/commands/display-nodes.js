@@ -1,9 +1,9 @@
-import {readParameters} from "../../../init/parameters/_";
+import {loadParameters} from "../../../init/parameters/read";
 
 export function runDisplayNodesCommand() {
   {
     const urlParams = new URLSearchParams()
     urlParams.set('display', 'nodes');
-    readParameters(urlParams);
+    loadParameters(urlParams);
   }
 }

@@ -1,4 +1,4 @@
-import {setDocumentMode} from "../../modes";
+import {setDocumentMode} from "../../../modes";
 
 export function mode(searchParameters) {
   let mode;
@@ -7,5 +7,5 @@ export function mode(searchParameters) {
     setTimeout(() => setDocumentMode(mode, false), 500)
   }
   window.spwashi.initialMode = mode || window.spwashi.initialMode;
-  return mode;
+  return ['mode', mode];
 }
