@@ -5,7 +5,8 @@ export const radiusHandler = {
   handler: (sideEffects, value) => {
     forEachNode(node => {
       // if (node.kind === '__boon') return ;
-      return node.r = parseInt(value);
+      node.r  = parseInt(value);
+      node._r = node.r;
     });
     sideEffects.physicsChange = true;
   }

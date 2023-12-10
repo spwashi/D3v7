@@ -1,4 +1,4 @@
-import {initParameters, readParameters} from "./init/parameters";
+import {initParameters, readParameters} from "./init/parameters/_";
 import {initFocalSquare}                from "./ui/focal-point";
 import {initH1}                         from "./ui/h1";
 import {initUi}                         from "./init/ui";

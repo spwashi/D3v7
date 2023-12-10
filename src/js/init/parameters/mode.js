@@ -1,0 +1,11 @@
+import {setDocumentMode} from "../../modes";
+
+export function mode__get(searchParameters) {
+  let mode;
+  if (searchParameters.has('mode')) {
+    mode = searchParameters.get('mode');
+    setTimeout(() => setDocumentMode(mode, false), 500)
+  }
+  window.spwashi.initialMode = mode || window.spwashi.initialMode;
+  return mode;
+}

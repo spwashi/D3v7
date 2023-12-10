@@ -1,4 +1,4 @@
-import {readParameters} from "../../init/parameters";
+import {readParameters} from "../../init/parameters/_";
 import {processNode}    from "../../simulation/nodes/data/process";
 import {NODE_MANAGER}   from "../../simulation/nodes/nodes";
 

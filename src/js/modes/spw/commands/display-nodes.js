@@ -1,4 +1,4 @@
-import {readParameters} from "../../../init/parameters";
+import {readParameters} from "../../../init/parameters/_";
 
 export function runDisplayNodesCommand() {
   {
