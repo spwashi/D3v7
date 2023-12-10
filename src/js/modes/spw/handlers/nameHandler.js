@@ -7,11 +7,14 @@ export const nameHandler = {
     const choice        = value;
     const nodes         = getAllNodes();
     const namingOptions = {
-      "identity": (node) => node.identity,
-      "name":     (node) => node.private.name || node.name,
-      "url":      (node) => node.url,
-      "hash":     (node) => setNodeHash(node),
-      "pos":      (node, i) => `${i}`,
+      "identity":   (node) => node.identity,
+      "name":       (node) => node.private.name || node.name,
+      "url":        (node) => node.url,
+      "hash":       (node) => setNodeHash(node),
+      "pos":        (node, i) => `${i}`,
+      "r":          (node) => `${node.r}`,
+      "c":          (node) => `${node.colorindex}`,
+      "colorindex": (node) => `${node.colorindex}`,
     };
     const naming        = namingOptions[choice];
     if (!naming) return;

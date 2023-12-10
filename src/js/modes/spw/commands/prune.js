@@ -1,9 +1,11 @@
-import {getAllNodes} from "../../../simulation/nodes/data/selectors/multiple";
+import {filterNodes}      from "../../../simulation/nodes/data/set";
+import {getSelectedNodes} from "../../../simulation/nodes/data/selectors/multiple";
 
-export function runPruneCommand() {
-  getAllNodes()
-    .forEach(node => {
-      node.x = Math.random() * window.spwashi.parameters.width;
-      node.y = Math.random() * window.spwashi.parameters.height;
-    });
+export function runPruneCommand(sideEffects) {
+  sideEffects.nodesImpacted = getSelectedNodes();
+  sideEffects.physicsChange = true;
+  sideEffects.handleNode    = node => {
+    console.log('prune', node);
+    filterNodes(d => d !== node)
+  }
 }

@@ -18,7 +18,7 @@ export function boonNode(i, nodeCount) {
     color:       'turquoise',
     stroke:      '#ffffff',
     strokeWidth: 1,
-    colorindex:  getDocumentDataIndex(),
+    colorindex:  3,
   };
 }
 

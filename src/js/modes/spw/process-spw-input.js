@@ -41,14 +41,20 @@ export function processSpwInput(text) {
     liveStrings:  [],
     valueStrings: [],
 
+    nodesSelected: [],
     nodesAdded:    [],
     nodesImpacted: [],
     nodesIgnored:  [],
+
+    handleNode: node => {
+      console.log('handleNode', node);
+    }
   }
 
   const nodeIdCacheObj = {};
   forEachNode(node => {
-    node.stroke = undefined;
+    node.stroke   = undefined;
+    node.selected = false;
 
     nodeIdCacheObj[node.id] = node;
   });
@@ -62,17 +68,24 @@ export function processSpwInput(text) {
     processLine(line, sideEffects);
   });
 
+  window.spwashi.selectedNodes = [];
+  sideEffects.nodesSelected.forEach(node => {
+    node.selected    = true;
+    node.stroke      = 'wheat';
+    node.strokeWidth = 10;
+    node.r           = 40;
+    window.spwashi.selectedNodes.push(node);
+  })
   sideEffects.nodesAdded.forEach(node => {
-    // node.stroke      = 'turquoise';
-    // node.strokeWidth = 10;
     NODE_MANAGER.normalize(node);
     processNode(node);
   });
-  sideEffects.nodesIgnored.forEach(node => { node.r = 10; });
+  sideEffects.nodesIgnored.forEach(node => {
+    node.stroke      = 'gray';
+    node.strokeWidth = 5;
+  });
   sideEffects.nodesImpacted.forEach(node => {
-    // dark wheat
-    // node.stroke      = 'rgb(222,184,135)';
-    node.strokeWidth = 10;
+    sideEffects.handleNode(node);
   });
 
   if (sideEffects.physicsChange) {

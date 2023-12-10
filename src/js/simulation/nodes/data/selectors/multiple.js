@@ -12,3 +12,7 @@ export function selectNodesInRect(rect) {
 export function getAllNodes() {
   return window.spwashi.nodes;
 }
+
+export function getSelectedNodes() {
+  return window.spwashi.selectedNodes;
+}

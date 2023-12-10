@@ -7,10 +7,10 @@ export const sizeHandler = {
     const choice  = parseInt(value);
     const nodes   = getAllNodes();
     const options = [
-      scaleSequential([0, nodes.length], t => t * 30),
-      scaleSequential([0, nodes.length], t => t * 60),
-      scaleSequential([0, nodes.length], t => t * 90),
-      scaleSequential([0, nodes.length], t => t * 120),
+      scaleSequential([0, nodes.length], t => (t + .2) * 30),
+      scaleSequential([0, nodes.length], t => (t + .2) * 60),
+      scaleSequential([0, nodes.length], t => (t + .2) * 90),
+      scaleSequential([0, nodes.length], t => (t + .2) * 120),
     ];
     const scale   = options[choice % options.length];
     nodes.forEach((node, i) => {

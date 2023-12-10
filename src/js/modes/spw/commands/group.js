@@ -47,7 +47,7 @@ export function runGroupCommand(sideEffects) {
     Object.assign(groupNode, {
       fx:         x,
       fy:         y,
-      colorindex: group,
+      colorindex: +group,
     });
 
     return groupNode;

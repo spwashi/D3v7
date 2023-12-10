@@ -13,6 +13,7 @@ import {sortHandler}            from "./sortHandler";
 import {superpowerHandler}      from "./superpowerHandler";
 import {urlHandler}             from "./urlHandler";
 import {velocityDecayHandler}   from "./velocityDecayHandler";
+import {selectHandler}          from "./selectHandler";
 
 export const patternsAndHandlers = {
   at:              atHandler,
@@ -29,5 +30,6 @@ export const patternsAndHandlers = {
   size:            sizeHandler,
   sort:            sortHandler,
   name:            nameHandler,
-  fontSize:        fontSizeHandler
+  fontSize:        fontSizeHandler,
+  select:          selectHandler
 };

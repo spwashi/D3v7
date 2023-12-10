@@ -1,7 +1,7 @@
-import {removeNodes} from "../../../simulation/nodes/data/set";
+import {removeNodeCount} from "../../../simulation/nodes/data/set";
 
 export function lessNodes() {
   const amountToRemove = window.spwashi.parameters.nodes.count;
-  removeNodes(amountToRemove);
+  removeNodeCount(amountToRemove);
  window.spwashi.reinit();
 }

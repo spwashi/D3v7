@@ -23,6 +23,7 @@ export function initRoot() {
     'spw',
   ];
 
+  window.spwashi.selectedNodes = [];
   window.spwashi.soundsEnabled = false;
   window.spwashi.sounds        = {};
   window.spwashi.playSound     = sound => {
@@ -51,7 +52,7 @@ export function initRoot() {
                           'bane',
                           'no center',
                           // 'charge=-100',
-                          'velocityDecay=.9',
+                          'vd=.9',
                           // 'this is a thought',
                           'minimalism',
                         ].join('\n')

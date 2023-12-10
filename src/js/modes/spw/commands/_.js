@@ -29,6 +29,9 @@ import {runPruneCommand}                       from "./prune";
 import {runNoCenterCommand}                    from "./no-center";
 import {runCenterCommand}                      from "./center";
 import {runGroupCommand}                       from "./group";
+import {runSelectedCommand}                    from "./selected";
+import {runUnlinkCommand}                      from "./unlink";
+import {runSortCommand}                        from "./sort";
 import * as sounds                             from "./sounds";
 
 
@@ -50,17 +53,20 @@ export const commands = {
   'freeze':         () => runFreezeCommand(),
   'unfreeze':       () => runUnfreezeCommand(),
   'unfix':          () => runUnfreezeCommand(),
-  'prune':          () => runPruneCommand(),
   'center':         () => runCenterCommand(),
   'no center':      () => runNoCenterCommand(),
   'enable sounds':  () => sounds.runEnableSoundsCommand(),
   'disable sounds': () => sounds.runDisableSoundsCommand(),
+  'sort':           () => runSortCommand(),
+  'unlink':         sideEffects => runUnlinkCommand(sideEffects),
+  'prune':          sideEffects => runPruneCommand(sideEffects),
   'group':          sideEffects => runGroupCommand(sideEffects),
   'help':           sideEffects => runHelpCommand(sideEffects),
   'spwashi':        sideEffects => runSpwashiCommand(sideEffects),
   'color':          sideEffects => runScaleCommand(sideEffects),
   'forces':         sideEffects => runForcesCommand(sideEffects),
   'cr':             sideEffects => runCollisionRadiusCommand(sideEffects),
+  'selected':       sideEffects => runSelectedCommand(sideEffects),
   'all':            sideEffects => runAllCommand(sideEffects),
   'clicked':        sideEffects => runClickedCommand(sideEffects),
   'cluster':        sideEffects => runClusterCommand(sideEffects),
