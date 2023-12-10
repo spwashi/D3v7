@@ -33,7 +33,7 @@ export function initSpwParseField() {
 }
 
 
-export function processSpwInput(text) {
+export function processSpwInput(inputValue) {
   const sideEffects = {
     physicsChange:    false,
     nextDocumentMode: '',
@@ -47,7 +47,6 @@ export function processSpwInput(text) {
     nodesIgnored:  [],
 
     handleNode: node => {
-      console.log('handleNode', node);
     }
   }
 
@@ -58,7 +57,7 @@ export function processSpwInput(text) {
 
     nodeIdCacheObj[node.id] = node;
   });
-  const textLines = text.split('\n');
+  const textLines = Array.isArray(inputValue) ? inputValue : inputValue.split('\n');
 
   textLines.map(line => {
     if (nodeIdCacheObj[line]) {
