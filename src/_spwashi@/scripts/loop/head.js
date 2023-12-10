@@ -1,5 +1,5 @@
 import {runAfterSleep}  from "../../../js/util/sleep";
-import {midLoop}        from "./body";
+import {bodyLoop}       from "./body";
 import {postLoop}       from "./tail";
 import {resolveSubject} from "../state/subject";
 import {resolveObject}  from "../state/object";
@@ -9,7 +9,7 @@ export async function mainLoop(interval, motion, loopArguments) {
   const subject = resolveSubject();
 
   const run = () => {
-    const callback = midLoop(interval, subject, motion);
+    const callback = bodyLoop(interval, subject, motion);
     return callback(loopArguments)
   };
 

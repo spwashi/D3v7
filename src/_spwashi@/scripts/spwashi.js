@@ -4,15 +4,15 @@ import "../../css/_spwashi@.scss";
 import {app}             from '../../js'
 import {processSpwInput} from "../../js/modes/spw/process-spw-input";
 import {mainLoop}        from "./loop/head";
-
+import {gameState}       from "./state/state";
 import "./env/augmentations";
-import {gameState} from "./state/state";
 
-const MAIN_LOOP_INTERVAL = 50;
+const interval = 50;
+const motion   = {charge: 1000}
+const state    = gameState();
 
 app()
   .then(() => {
-    processSpwInput(['box=0',]);
-    const stateVariables = gameState();
-    mainLoop(MAIN_LOOP_INTERVAL, {charge: 1000}, stateVariables);
+    processSpwInput(['box=0']);
+    mainLoop(interval, motion, state);
   });
