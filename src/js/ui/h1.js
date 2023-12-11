@@ -69,8 +69,8 @@ export function initH1() {
 
   const changeTitleButton = initMainWonderButton(fillH1);
 
-  h1.tabIndex  = 0;
-  h1.onclick   = (e) => {
+  h1.tabIndex = 0;
+  h1.onclick  = (e) => {
     if (e.target !== h1) return;
     e.stopPropagation()
     fillH1()
@@ -80,6 +80,11 @@ export function initH1() {
       if (e.key === 'c') {
         navigator.clipboard.writeText(currentText);
       }
+      if (e.key === 'v') {
+        const input = fillH1();
+        input.focus();
+        input.select();
+      }
       return;
     }
     if (e.key === 'Shift') return;
@@ -88,7 +93,6 @@ export function initH1() {
     if (e.key === ' ') {
       e.preventDefault()
     }
-    // if key is number ignore
     if (e.key.match(/\d/)) return;
     changeTitleButton.click();
   }
@@ -97,7 +101,7 @@ export function initH1() {
 
   function resetH1(focus = true) {
     document.removeEventListener('click', temporaryDocumentClickHandler);
-    h1.innerText = currentText
+    h1.innerText = currentText;
     focus && h1.focus();
   }
 
@@ -109,6 +113,7 @@ export function initH1() {
       const result = processPastedText(text);
       if (result) {
         e.preventDefault();
+        return
       }
     }
     input.value        = currentText;
@@ -146,5 +151,6 @@ export function initH1() {
     submit.onblur                 = () => { resetH1(sideEffects.doFocusH1After); };
 
     document.addEventListener('click', temporaryDocumentClickHandler)
+    return input;
   }
 }
