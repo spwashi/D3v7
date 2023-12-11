@@ -5,7 +5,7 @@ import {processSpwInput}    from "../../../js/modes/spw/process-spw-input";
 import {pushLink}           from "../../../js/simulation/edges/data/pushLink";
 import {mainLoop}           from "./head";
 
-const DO_ADD_NODES = false;
+const DO_ADD_NODES = true;
 
 const conditionalResponses = [
   [
