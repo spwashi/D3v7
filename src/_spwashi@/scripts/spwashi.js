@@ -7,12 +7,20 @@ import {mainLoop}        from "./loop/head";
 import {gameState}       from "./state/state";
 import "./env/augmentations";
 
-const interval = 50;
+const interval = 100;
 const motion   = {charge: 1000}
 const state    = gameState();
 
-app()
-  .then(() => {
-    processSpwInput(['box=0']);
+let canStart = false;
+app().then(() => {
+  processSpwInput(['box=0']);
+  canStart = true;
+});
+
+setInterval(() => {
+  document.getElementById("timer").innerHTML = new Date().toLocaleTimeString();
+  if (canStart) {
     mainLoop(interval, motion, state);
-  });
+    canStart = false;
+  }
+}, 1000);

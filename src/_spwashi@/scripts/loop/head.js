@@ -8,7 +8,7 @@ import {resolveObject}  from "../state/object";
 export async function mainLoop(interval, motion, loopArguments) {
   const subject = resolveSubject();
 
-  const run = () => {
+  const run = async () => {
     const callback = bodyLoop(interval, subject, motion);
     return callback(loopArguments)
   };

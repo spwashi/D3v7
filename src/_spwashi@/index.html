@@ -8,12 +8,17 @@
     <script>
     </script>
     <script type="module">
-        import "./scripts/spwashi.js";
+      import "./scripts/spwashi.js";
+
     </script>
     <style>
         :root {
             --bg-start: #008080;
             --bg-end: #67bdb0;
+        }
+        #timer {
+            position: absolute;
+            top: 0;
         }
 
         @keyframes html-background {
@@ -48,5 +53,6 @@
     </svg>
     <button class="enable-sounds">enable sounds</button>
     <button class="disable-sounds">disable sounds</button>
+    <div id="timer"></div>
 </body>
 </html>

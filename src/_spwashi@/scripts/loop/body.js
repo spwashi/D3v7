@@ -5,13 +5,13 @@ import {processSpwInput}    from "../../../js/modes/spw/process-spw-input";
 import {pushLink}           from "../../../js/simulation/edges/data/pushLink";
 import {mainLoop}           from "./head";
 
-const DO_ADD_NODES = true;
+const DO_ADD_NODES = false;
 
 const conditionalResponses = [
   [
-    ({quantity, counter}) => counter >= (quantity * 5),
+    ({quantity, counter}) => counter >= 10,
     (state) => {
-      DO_ADD_NODES && clearActiveNodes();
+      clearActiveNodes();
       window.spwashi.reinit();
       return {
         ...state,
@@ -31,8 +31,8 @@ const conditionalResponses = [
 
 function tick() {
   mapNodes((node) => {
-    node.fy += 5;
-    node.r += 5;
+    node.fy += 25;
+    // node.r += 5;
   });
 }
 
@@ -48,7 +48,8 @@ export function bodyLoop(speed, subject, {charge = 100}) {
     window.spwashi.reinit();
 
     processSpwInput([
-      `color=3`,
+      'minimalism',
+      `color=2`,
       'arrange',
       `charge=${charge}`
     ]);
