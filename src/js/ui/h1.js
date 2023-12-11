@@ -105,9 +105,11 @@ export function initH1() {
     const form         = document.createElement('form');
     const input        = document.createElement('input');
     input.onpaste      = (e) => {
-      e.preventDefault();
-      const text = e.clipboardData.getData('text/plain');
-      processPastedText(text);
+      const text   = e.clipboardData.getData('text/plain');
+      const result = processPastedText(text);
+      if (result) {
+        e.preventDefault();
+      }
     }
     input.value        = currentText;
     input.id           = 'h1-input';

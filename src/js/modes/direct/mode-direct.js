@@ -21,8 +21,13 @@ export function duplicateNode(d) {
   };
 }
 
-export function convertRawInput(input) {
-  const data = JSON.parse(input);
+export function processRawInputAsJson(input) {
+  let data;
+  try {
+    data = JSON.parse(input);
+  } catch (e) {
+    return null;
+  }
   if (!Array.isArray(data)) {
     if (data.nodes && Array.isArray(data.nodes)) {
       return {
@@ -62,14 +67,18 @@ export function initializeDirectMode() {
         links: [],
       };
     }
-    return convertRawInput(input);
+    const data = processRawInputAsJson(input);
+    if (!data) {
+      return {nodes: [], links: []};
+    }
+    return data
   }
   window.spwashi.refreshNodeInputs();
   pushNode(...window.spwashi.readNodeInputs().nodes.filter(NODE_MANAGER.filterNode));
   forEachNode(processNode);
   window.spwashi.reinit();
 
-  const nodesInput   = document.querySelector('#nodes-input');
+  const nodesInput = document.querySelector('#nodes-input');
   if (!nodesInput) {
     window.spwashi.callbacks.acknowledgeLonging('wondering about nodes input');
     return;
