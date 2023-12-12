@@ -12,9 +12,9 @@ export function boonNode(i, nodeCount) {
   return {
     name:        '#',
     kind:        '__boon',
-    r:           20,
+    r:           1,
     fx:          (sliceWidth * (i)) + (sliceWidth * (nodeCount - 1) / nodeCount),
-    fy:          window.spwashi.parameters.height / 2,
+    fy:          0,
     color:       'turquoise',
     stroke:      '#ffffff',
     strokeWidth: 1,

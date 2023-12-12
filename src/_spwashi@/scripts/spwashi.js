@@ -23,4 +23,4 @@ setInterval(() => {
     mainLoop(interval, motion, state);
     canStart = false;
   }
-}, 1000);
+}, 100);

@@ -5,11 +5,11 @@ import {processSpwInput}    from "../../../js/modes/spw/process-spw-input";
 import {pushLink}           from "../../../js/simulation/edges/data/pushLink";
 import {mainLoop}           from "./head";
 
-const DO_ADD_NODES = false;
+const DO_ADD_NODES = true;
 
 const conditionalResponses = [
   [
-    ({quantity, counter}) => counter >= 10,
+    ({quantity, counter}) => counter > quantity * 3,
     (state) => {
       clearActiveNodes();
       window.spwashi.reinit();
@@ -32,7 +32,7 @@ const conditionalResponses = [
 function tick() {
   mapNodes((node) => {
     node.fy += 25;
-    // node.r += 5;
+    node.r += 5;
   });
 }
 
@@ -48,7 +48,6 @@ export function bodyLoop(speed, subject, {charge = 100}) {
     window.spwashi.reinit();
 
     processSpwInput([
-      'minimalism',
       `color=2`,
       'arrange',
       `charge=${charge}`
@@ -74,7 +73,7 @@ function derivePotential(subject) {
 function deriveNode(potential, subject, currentState) {
   const heightMod         = potential;
   const identity          = subject.__internalword.split('')[currentState.counterVariable % potential];
-  const fy                = window.spwashi.parameters.height * ((currentState.counterVariable % heightMod) / heightMod);
+  const fy                = window.spwashi.parameters.height /2;
   const fx                = (((currentState.counterVariable % potential) / potential) * window.spwashi.parameters.width) + ((1 / (2 * potential)) * window.spwashi.parameters.width);
   const newNode           = {
     id:       currentState.counterVariable,
