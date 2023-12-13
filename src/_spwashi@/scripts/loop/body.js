@@ -9,7 +9,7 @@ const DO_ADD_NODES = true;
 
 const conditionalResponses = [
   [
-    ({quantity, counter}) => counter > quantity * 3,
+    ({quantity, counter}) => counter >= quantity * 2,
     (state) => {
       clearActiveNodes();
       window.spwashi.reinit();
@@ -31,7 +31,7 @@ const conditionalResponses = [
 
 function tick() {
   mapNodes((node) => {
-    node.fy += 25;
+    // node.fy += 25;
     node.r += 5;
   });
 }
@@ -73,7 +73,7 @@ function derivePotential(subject) {
 function deriveNode(potential, subject, currentState) {
   const heightMod         = potential;
   const identity          = subject.__internalword.split('')[currentState.counterVariable % potential];
-  const fy                = window.spwashi.parameters.height /2;
+  const fy                = 100;
   const fx                = (((currentState.counterVariable % potential) / potential) * window.spwashi.parameters.width) + ((1 / (2 * potential)) * window.spwashi.parameters.width);
   const newNode           = {
     id:       currentState.counterVariable,
