@@ -1,6 +1,6 @@
 export function resolveObject(interval) {
   return {
     interval: interval,
-    quantity: 10,
+    quantity: 1,
   }
 }
