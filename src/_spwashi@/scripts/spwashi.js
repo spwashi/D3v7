@@ -1,6 +1,5 @@
-import "../../css/form-factors/style.css";
-import "../../css/aspects/dataindex.css";
-import "../../css/_spwashi@.scss";
+import "../../css/main.scss";
+import "../styles/_spwashi@.scss";
 import {app}             from '../../js'
 import {processSpwInput} from "../../js/modes/spw/process-spw-input";
 import {mainLoop}        from "./loop/head";
