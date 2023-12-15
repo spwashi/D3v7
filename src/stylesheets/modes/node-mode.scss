@@ -45,7 +45,7 @@
     width: 10rem;
     line-height: 1;
     font-size: 1rem;
-    outline: var(--accent-color-main) thin solid;
+    outline: thin solid var(--accent-color-main);
     font-family: monospace;
   }
   .button-container {
