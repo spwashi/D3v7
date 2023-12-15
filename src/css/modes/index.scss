@@ -71,3 +71,12 @@ label[for=mode-selector], #mode-selector {
     }
   }
 }
+@import "./color-mode";
+@import "./data-mode";
+@import "./debug-mode";
+@import "./map-filter-mode";
+@import "./node-mode";
+@import "./query-mode";
+@import "./reflex-mode";
+@import "./spw-mode";
+@import "./story-mode";

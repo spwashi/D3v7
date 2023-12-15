@@ -1,26 +1,15 @@
 @import "aspects/dataindex.css";
-@import "core/card";
-@import "core/form";
-@import "core/main-aside";
-@import "core/root";
-@import "core/svg";
-@import "experience/sounds-enabled";
-@import "interaction/consent";
-@import "interaction/focal-square";
-@import "interaction/interaction-depth";
-@import "modes/color-mode";
-@import "modes/data-mode";
-@import "modes/debug-mode";
+@import "core/index";
+@import "experience/index";
+@import "interaction/index";
 @import "modes/index";
-@import "modes/map-filter-mode";
-@import "modes/node-mode";
-@import "modes/query-mode";
-@import "modes/reflex-mode";
-@import "modes/spw-mode";
-@import "modes/story-mode";
-@import "vendor/ace-edit.scss";
+
+/** widgets **/
 @import "widgets/h1";
 @import "widgets/hotkey-menu";
 @import "widgets/log";
 @import "widgets/title-md5";
 @import "widgets/wonder-button";
+
+/** vendor **/
+@import "vendor/ace-edit.scss";
