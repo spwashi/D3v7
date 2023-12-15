@@ -1,0 +1,28 @@
+#map-mode-container {
+  display: none;
+}
+#filter-mode-container {
+  display: none;
+}
+[data-mode=map] #map-mode-container, [data-mode=filter] #filter-mode-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+:is(#map-mode-container, #filter-mode-container) {
+  background-color: #222;
+  padding: 1rem;
+  margin: 2rem;
+}
+:is(#map-mode-container, #filter-mode-container) button:focus {
+  outline: thick solid var(--mainmenu-text-color);
+}
+:is(#map-mode-container, #filter-mode-container) button {
+  padding: 1rem;
+  margin: 1rem 0 0 0;
+  font-family: monospace;
+  cursor: pointer;
+  border: thin solid var(--standard-outline);
+  background: var(--mainmenu-background);
+  color: var(--mainmenu-text-color);
+}

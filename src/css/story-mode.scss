@@ -1,0 +1,25 @@
+#story-mode-container {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  height: 5rem;
+  .button-container {
+    padding: .5rem;
+    display: flex;
+    flex-direction: row;
+    button {
+      padding: 1rem;
+      margin: .5rem;
+      font-family: monospace;
+      cursor: pointer;
+      border: thin solid var(--standard-outline);
+      background: var(--mainmenu-background);
+      color: var(--mainmenu-text-color);
+    }
+  }
+}
+[data-mode=story] {
+  #story-mode-container {
+    display: flex;
+  }
+}

@@ -1,0 +1,15 @@
+#querymod-mode-container {
+  display: none;
+  position: absolute;
+}
+#query-parameters {
+  width: 20rem;
+  textarea {
+    white-space: nowrap;
+  }
+}
+[data-mode=query] {
+  #querymod-mode-container {
+    display: flex;
+  }
+}

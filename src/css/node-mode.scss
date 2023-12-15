@@ -1,0 +1,78 @@
+#node-mode-container {
+  display: none;
+  position: absolute;
+  button {
+    padding: 1rem;
+    font-family: monospace;
+    cursor: pointer;
+    border: thin solid var(--standard-outline);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
+  }
+}
+[data-mode=node] {
+  #node-mode-container {
+    display: flex;
+    margin-left: 1rem;
+  }
+}
+#node-input-container {
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  background: var(--node-input-container-background);
+  color: var(--mainmenu-text-color);
+  padding: 1rem;
+  &:focus {
+  }
+  button {
+    padding: .5rem;
+    margin: 0;
+    &:focus {
+      outline: thick solid wheat;
+    }
+  }
+  label {
+    color: var(--mainmenu-text-color);
+    span {
+      padding: 1rem 0;
+    }
+  }
+  input {
+    background: #222;
+    color: wheat;
+    padding: 1rem;
+    width: 10rem;
+    line-height: 1;
+    font-size: 1rem;
+    outline: wheat thin solid;
+    font-family: monospace;
+  }
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+#controls {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  & > section {
+    margin-right: 1rem;
+  }
+  label {
+    color: var(--mainmenu-text-color);
+    font-weight: bold;
+  }
+  .button-container {
+    display: flex;
+    flex-direction: column;
+  }
+  button {
+    padding: .5rem;
+    font-family: monospace;
+  }
+}

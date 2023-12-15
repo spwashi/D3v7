@@ -1,0 +1,30 @@
+[data-interface-depth="main-menu"] {
+  #mainmenu-shortcuts {
+    ol {
+      counter-reset: item;
+    }
+    li {
+      counter-increment: item;
+    }
+  }
+}
+[data-interface-depth="standard"] {
+  #mainmenu-shortcuts {
+    li {
+      &:before {
+        content: none;
+      }
+    }
+  }
+}
+[data-interface-depth="minimalism"] {
+  #hotkey-menu-toggle {
+    display: none;
+  }
+}
+[data-interface-element="main-menu"], [data-interface-element="hotkey-menu"] {
+  display: none;
+}
+body[data-interface-depth="main-menu"] [data-interface-element="main-menu"], body[data-interface-depth="hotkey-menu"] [data-interface-element="hotkey-menu"] {
+  display: flex;
+}

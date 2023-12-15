@@ -1,0 +1,22 @@
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0;
+  background: var(--form-background);
+}
+label {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  cursor: pointer;
+  padding-bottom: .5rem;
+  color: var(--spw-container-text-color);
+  font-weight: bold;
+  span {
+    padding: 1rem;
+  }
+  input[type=checkbox] {
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+}

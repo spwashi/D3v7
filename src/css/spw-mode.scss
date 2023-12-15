@@ -1,0 +1,46 @@
+#spw-mode-container {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--spw-container-text-color);
+  background: #222;
+  padding: 1rem;
+  position: absolute;
+  &:focus {
+    outline: thick solid wheat;
+  }
+  button {
+    padding: 1rem;
+    margin: .5rem;
+    font-family: monospace;
+    cursor: pointer;
+    border: thin solid var(--standard-outline);
+    background: var(--mainmenu-background);
+    color: var(--mainmenu-text-color);
+    &:is(:focus) {
+      outline: thick solid var(--mainmenu-text-color);
+    }
+  }
+}
+#spw-parse-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 13rem;
+  font-size: 2rem;
+  overflow: visible;
+  width: 35rem;
+  color: var(--mainmenu-text-color);
+  background: #222;
+  padding: 2rem;
+  &:focus {
+    outline: thin solid wheat;
+  }
+}
+[data-mode=spw] {
+  :is(#spw-mode-container) {
+    display: flex;
+  }
+}

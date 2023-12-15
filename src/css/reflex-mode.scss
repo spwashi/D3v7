@@ -1,0 +1,40 @@
+#reflex-mode-container {
+  display: none;
+}
+#reflexes {
+  margin: 1rem;
+  border: thin solid var(--standard-outline);
+  display: flex;
+  flex-direction: column-reverse;
+  .card-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  button {
+    --outline: var(--standard-outline);
+    cursor: pointer;
+    padding: 1rem;
+    width: 5rem;
+    height: 5rem;
+    margin: .2rem;
+    border: thin solid var(--outline);
+    font-family: monospace;
+    &:before {
+      content: attr(data-reflex);
+    }
+    &:is(:focus) {
+      outline: thick solid var(--mainmenu-text-color);
+    }
+    &:not(:focus) {
+      background: var(--mainmenu-background);
+      color: var(--mainmenu-text-color);
+    }
+  }
+}
+[data-mode=reflex] {
+  #reflex-mode-container {
+    display: flex;
+  }
+}

@@ -1,0 +1,10 @@
+#debug-mode-container {
+  display: none;
+  position: absolute;
+}
+#output {
+  white-space: pre;
+}
+[data-mode=debug] :is(#debug-mode-container, #main-log) {
+  display: flex;
+}

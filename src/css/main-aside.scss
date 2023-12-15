@@ -1,0 +1,14 @@
+body > aside {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+aside {
+  :is(:focus) {
+    outline: thin solid var(--is-focus-outline);
+  }
+  & > section {
+    :has(:focus) {
+    }
+  }
+}

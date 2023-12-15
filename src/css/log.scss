@@ -1,0 +1,22 @@
+#events-log {
+  display: flex;
+  flex-direction: column;
+}
+#main-log {
+  position: absolute;
+  top: 0;
+  right: 10rem;
+  background: rgba(127, 137, 137, .9);
+  display: none;
+  details {
+    max-width: 25rem;
+    overflow: scroll;
+  }
+  summary {
+    cursor: pointer;
+    padding: 1rem;
+    white-space: nowrap;
+    list-style: none;
+    display: inline-block;
+  }
+}

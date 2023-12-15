@@ -1,0 +1,31 @@
+#color-mode-container {
+  display: none;
+}
+#colors {
+  margin: 1rem;
+  border: thin solid var(--standard-outline);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  :nth-child(7) {
+    grid-column: 5 / 3;
+  }
+  .color {
+    width: 5rem;
+    height: 5rem;
+  }
+  :is(:focus) {
+    outline: thick solid var(--mainmenu-text-color);
+  }
+  :is(:focus):before {
+    content: 'X';
+    font-weight: bold;
+    color: white;
+    font-size: 3rem;
+  }
+}
+[data-mode=color] {
+  #color-mode-container {
+    display: flex;
+  }
+}

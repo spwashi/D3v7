@@ -1,0 +1,34 @@
+button {
+  &.disable-sounds {
+    display: none;
+  }
+}
+body[data-sounds=on] {
+  button {
+    &.enable-sounds {
+      display: none;
+    }
+    &.disable-sounds {
+      display: block;
+      border: thin solid var(--standard-outline);
+    }
+  }
+}
+:is(.enable-sounds, .disable-sounds):focus {
+  outline: thick solid wheat;
+}
+.enable-sounds, .disable-sounds {
+  background: #222;
+  color: wheat;
+  padding: 1rem;
+  margin: 1rem;
+  line-height: 1;
+  font-size: 2rem;
+  outline: wheat thin solid;
+  font-family: monospace;
+  cursor: pointer;
+  border: thin solid var(--standard-outline);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
