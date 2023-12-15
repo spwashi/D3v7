@@ -1,8 +1,8 @@
 @import "aspects/shine";
-@import "core/index";
-@import "experience/index";
-@import "interaction/index";
-@import "modes/index";
+@import "core/core";
+@import "experience/experience";
+@import "interaction/interaction";
+@import "modes/modes";
 
 /** widgets **/
 @import "widgets/h1";
