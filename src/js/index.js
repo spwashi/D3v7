@@ -25,15 +25,55 @@ async function registerServiceWorker(version = 'v0.0.1') {
     console.log('Service Worker registration failed:', e);
   }
 }
+function setSite(site) {
+  window.spwashi.site = site;
+  window.spwashi.setItem('site', site);
+  document.body.dataset.siteName = site;
+}
+function initSite(site = null) {
+  const domain = site || window.location.hostname;
+  switch (domain) {
+    case 'factshift.com':
+      setSite("factshift.com")
+      break;
+    case 'boon.land':
+      setSite("boon.land")
+      break;
+      case 'bane.land':
+      setSite("bane.land")
+      break;
+    case 'bone.land':
+      setSite("bone.land")
+      break;
+    case 'bonk.land':
+      setSite("bonk.land")
+      break;
+    case 'honk.land':
+      setSite("honk.land")
+      break;
+    case 'boof.land':
+      setSite("boof.land")
+      break;
+    case 'lore.land':
+      setSite("lore.land")
+      break;
+    case 'spwashi.com':
+      setSite("spwashi.com")
+      break;
+    case 'localhost':
+      setSite("localhost")
+      break;
+  }
+}
 
 export async function app() {
   let serviceWorkerRegistered = registerServiceWorker();
 
   window.spwashi = {};
 
-  // aim to prevent FOUC
   initParameters();
   initRoot();
+  initSite();
 
   // initialize context-sensitive parameters
   loadParameters(new URLSearchParams(window.location.search));

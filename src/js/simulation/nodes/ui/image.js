@@ -31,7 +31,7 @@ export function makeImage(g) {
             })
     )
     .on('error', (e, d) => {
-      d.image.href = null; // 'images/01.webp';
+      d.image.href = null;
       d.image.r    = 0;
     })
     .on('click', (e, d) => {
