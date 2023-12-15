@@ -1,9 +1,9 @@
 body[data-site-name="factshift.com"] {}
-body[data-site-name="boon.land"] { h1 {color: #0bb1a9;} }
-body[data-site-name="bane.land"] { h1 {color: #daa520;} }
-body[data-site-name="bone.land"] { h1 {color: #cccccc;} }
-body[data-site-name="bonk.land"] { h1 {color: #51518b;} }
-body[data-site-name="honk.land"] { h1 {color: #b24343;} }
-body[data-site-name="boof.land"] { h1 {color: #56789a;} }
-body[data-site-name="lore.land"] { h1 {color: #089892;} }
-body[data-site-name="localhost"] { h1 {color: #809980;} }
+body[data-site-name="boon.land"] { --accent-color-main: #0bb1a9; }
+body[data-site-name="bane.land"] { --accent-color-main: #daa520; }
+body[data-site-name="bone.land"] { --accent-color-main: #cccccc; }
+body[data-site-name="bonk.land"] { --accent-color-main: #51518b; }
+body[data-site-name="honk.land"] { --accent-color-main: #b24343; }
+body[data-site-name="boof.land"] { --accent-color-main: #56789a; }
+body[data-site-name="lore.land"] { --accent-color-main: #089892; }
+body[data-site-name="localhost"] { --accent-color-main: #809980; }

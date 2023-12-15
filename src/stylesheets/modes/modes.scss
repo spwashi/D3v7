@@ -9,7 +9,7 @@
 [data-mode=story] [data-mode-action=story],
 [data-mode=debug] [data-mode-action=debug] {
   outline: thick solid #222;
-  background: wheat;
+  background: var(--accent-color-main);
   display: flex;
 }
 #mode-container {
@@ -60,7 +60,7 @@ label[for=mode-selector], #mode-selector {
       color: #222;
     }
     &:before {
-      color: wheat;
+      color: var(--accent-color-main);
       margin: 0 1rem;
       content: counter(item);
       border-radius: 100%;

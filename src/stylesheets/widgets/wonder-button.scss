@@ -1,12 +1,12 @@
 #main-wonder-button:active, #main-wonder-button:focus {
-  outline: thick solid wheat;
+  outline: thick solid var(--accent-color-main);
 }
 #main-wonder-button {
   position: absolute;
   top: 0;
   right: 0;
   background: #222;
-  color: wheat;
+  color: var(--accent-color-main);
   border: thin solid var(--standard-outline);
   padding: 0rem;
   width: 6rem;

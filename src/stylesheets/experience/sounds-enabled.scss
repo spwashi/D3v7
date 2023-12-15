@@ -15,16 +15,16 @@ body[data-sounds=on] {
   }
 }
 :is(.enable-sounds, .disable-sounds):focus {
-  outline: thick solid wheat;
+  outline: thick solid var(--accent-color-main);
 }
 .enable-sounds, .disable-sounds {
   background: #222;
-  color: wheat;
+  color: var(--accent-color-main);
   padding: 1rem;
   margin: 1rem;
   line-height: 1;
   font-size: 2rem;
-  outline: wheat thin solid;
+  outline: var(--accent-color-main) thin solid;
   font-family: monospace;
   cursor: pointer;
   border: thin solid var(--standard-outline);

@@ -29,7 +29,7 @@
     padding: .5rem;
     margin: 0;
     &:focus {
-      outline: thick solid wheat;
+      outline: thick solid var(--accent-color-main);
     }
   }
   label {
@@ -40,12 +40,12 @@
   }
   input {
     background: #222;
-    color: wheat;
+    color: var(--accent-color-main);
     padding: 1rem;
     width: 10rem;
     line-height: 1;
     font-size: 1rem;
-    outline: wheat thin solid;
+    outline: var(--accent-color-main) thin solid;
     font-family: monospace;
   }
   .button-container {

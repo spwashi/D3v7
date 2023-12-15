@@ -4,7 +4,7 @@
   left: calc(var(--focal-x) - 1rem);
   width: 2rem;
   height: 2rem;
-  border: thin solid wheat;
+  border: thin solid var(--accent-color-main);
   z-index: 1;
   background: rgba(245, 222, 179, .1);
 }

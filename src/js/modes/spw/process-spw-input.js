@@ -70,7 +70,7 @@ export function processSpwInput(inputValue) {
   window.spwashi.selectedNodes = [];
   sideEffects.nodesSelected.forEach(node => {
     node.selected    = true;
-    node.stroke      = 'wheat';
+    node.stroke      = 'var(--accent-color-main)';
     node.strokeWidth = 10;
     node.r           = 40;
     window.spwashi.selectedNodes.push(node);

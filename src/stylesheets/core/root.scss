@@ -4,10 +4,11 @@
   --form-background: #222222;
   --mainmenu-background: #222222;
   --mainmenu-text-color: #f5deb3;
+  --accent-color-main: #f5deb3;
 
-  --standard-outline: wheat;
+  --standard-outline: var(--accent-color-main);
 
-  --has-focus-outline: wheat;
+  --has-focus-outline: var(--accent-color-main);
   --is-focus-outline: rgba(33, 33, 33, .3);
 
 

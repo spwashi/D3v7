@@ -8,7 +8,7 @@
   padding: 1rem;
   position: absolute;
   &:focus {
-    outline: thick solid wheat;
+    outline: thick solid var(--accent-color-main);
   }
   button {
     padding: 1rem;
@@ -36,7 +36,7 @@
   background: #222;
   padding: 2rem;
   &:focus {
-    outline: thin solid wheat;
+    outline: thin solid var(--accent-color-main);
   }
 }
 [data-mode=spw] {
