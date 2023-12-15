@@ -1,4 +1,4 @@
-import "../../css/main.scss";
+import "../../stylesheets/main.scss";
 import "../styles/_spwashi@.scss";
 import {app}             from '../../js'
 import {processSpwInput} from "../../js/modes/spw/process-spw-input";
