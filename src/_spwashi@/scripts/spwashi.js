@@ -1,5 +1,5 @@
-import "../../css/style.css";
-import "../../css/dataindex.css";
+import "../../css/form-factors/style.css";
+import "../../css/aspects/dataindex.css";
 import "../../css/_spwashi@.scss";
 import {app}             from '../../js'
 import {processSpwInput} from "../../js/modes/spw/process-spw-input";

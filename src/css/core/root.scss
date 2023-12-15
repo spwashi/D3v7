@@ -1,0 +1,47 @@
+:root {
+  --html-background: #4c1d1d;
+  --body-background: #707070;
+  --form-background: #222222;
+  --mainmenu-background: #222222;
+  --mainmenu-text-color: #f5deb3;
+
+  --standard-outline: wheat;
+
+  --has-focus-outline: wheat;
+  --is-focus-outline: rgba(33, 33, 33, .3);
+
+
+  --link-stroke-color: rgba(127, 255, 255, .3);
+
+  --node-input-container-background: #222222;
+  --show-keystroke-options-background: #222222;
+  --keystroke-options-hover-background: #333333;
+  --keystroke-options-border: #222222;
+  --spw-container-text-color: white;
+
+  --focal-x: 0;
+  --focal-y: 0;
+  --focal-y-basis: 100vh;
+}
+html {
+  font-family: monospace;
+  background: var(--html-background);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--body-background);
+  box-shadow: inset #222 0 0 .5rem;
+}
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
