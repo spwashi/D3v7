@@ -4,7 +4,7 @@ function setSite(site) {
   document.body.dataset.siteName = site;
 }
 
-export function initSite(site) {
+export function initSite(site = "honk.land") {
   const domain = site || window.location.hostname;
   switch (domain) {
     case 'factshift.com':
