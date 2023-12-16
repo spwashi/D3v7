@@ -4,7 +4,7 @@ import {processNode} from "./process";
 export const generateNodes = (n) => {
   const count = n || window.spwashi.parameters.nodes.count;
   const nodes = [...Array(count)].map(n => ({
-    name:     'boon',
+    name:     window.spwashi.parameters.defaultName,
     identity: Date.now() + Math.random(),
     text: {
       color: 'white'
