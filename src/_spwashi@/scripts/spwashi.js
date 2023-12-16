@@ -18,8 +18,8 @@ app().then(() => {
 
 setInterval(() => {
   const str = [
-    new Date().toUTCString(),
-  ];
+    new Date().toLocaleString(),
+  ].join(' ');
 
   document.getElementById("timer").innerHTML = str;
   if (canStart) {
