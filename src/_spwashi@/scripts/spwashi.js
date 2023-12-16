@@ -17,7 +17,11 @@ app().then(() => {
 });
 
 setInterval(() => {
-  document.getElementById("timer").innerHTML = new Date().toLocaleTimeString();
+  const str = [
+    new Date().toUTCString(),
+  ];
+
+  document.getElementById("timer").innerHTML = str;
   if (canStart) {
     mainLoop(interval, motion, state);
     canStart = false;

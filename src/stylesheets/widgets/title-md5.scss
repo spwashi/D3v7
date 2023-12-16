@@ -2,6 +2,14 @@
   padding: 1rem;
   color: rgba(245, 222, 179, .3);
   position: absolute;
-  top: 0;
-  left: 0;
+  top: var(--page-margin-y);
+  left: var(--page-margin-x);
+}
+body:not([data-mode=null]) {
+  #title-md5 {
+    top: unset;
+    left: unset;
+    bottom: var(--page-margin-y);
+    right: var(--page-margin-x);
+  }
 }

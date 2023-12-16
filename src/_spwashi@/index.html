@@ -8,48 +8,20 @@
     <link rel="stylesheet" href="./styles/_spwashi@.scss">
     <script type="module">
       import "./scripts/spwashi.js";
-
     </script>
-    <style>
-        :root {
-            --bg-start: #008080;
-            --bg-end: #67bdb0;
-        }
-        #timer {
-            position: absolute;
-            top: 0;
-        }
-
-        @keyframes html-background {
-            from { background-color: var(--bg-start); }
-            to { background-color: var(--bg-end); }
-        }
-
-        html {
-            animation-name: html-background;
-            animation-duration: 2s;
-            animation-fill-mode: forwards;
-        }
-
-        body {
-            animation-name: html-background;
-            animation-duration: 2s;
-            animation-fill-mode: forwards;
-            --bg-end: #008080;
-            --bg-start: rgba(239, 239, 239, .3);
-        }
-    </style>
 </head>
 <body>
     <h1>_spwashi@</h1>
-    <a id="title-md5" tabindex="-1"></a>
-    <svg id="simulation">
-        <g class="simulation-content">
-            <g class="rects"></g>
-            <g class="edges"></g>
-            <g class="nodes"></g>
-        </g>
-    </svg>
+    <main>
+        <a id="title-md5" tabindex="-1"></a>
+        <svg id="simulation">
+            <g class="simulation-content">
+                <g class="rects"></g>
+                <g class="edges"></g>
+                <g class="nodes"></g>
+            </g>
+        </svg>
+    </main>
     <button class="enable-sounds">enable sounds</button>
     <button class="disable-sounds">disable sounds</button>
     <div id="timer"></div>

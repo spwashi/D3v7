@@ -16,10 +16,18 @@ function initSvg() {
 }
 
 export function initSvgProperties(svg) {
+  const width  = window.spwashi.parameters.width;
+  const height = window.spwashi.parameters.height;
   svg
-    .attr('width', window.spwashi.parameters.width)
-    .attr('height', window.spwashi.parameters.height)
+    .attr('width', width)
+    .attr('height', height)
     .attr("preserveAspectRatio", "xMinYMin meet");
+  const pageWidth = document.documentElement.clientWidth;
+  const pageHeight = document.documentElement.clientHeight;
+  const offsetX = (pageWidth - width) / 2;
+  const offsetY = (pageHeight - height) / 2;
+  document.documentElement.style.setProperty('--page-margin-y', offsetY + 'px');
+  document.documentElement.style.setProperty('--page-margin-x', offsetX + 'px');
 }
 
 export const simulationElements = initSvg();

@@ -1,12 +1,4 @@
 body {
-  &:not([data-mode=null]) {
-    #title-md5 {
-      top: unset;
-      left: unset;
-      bottom: 0;
-      right: 0;
-    }
-  }
   &:not([data-debug=debug]) {
     g {
       &.rects {

@@ -13,7 +13,7 @@ export const colorHandler = {
     const options = [
       scaleOrdinal(schemeCategory10),
       scaleSequential([0, nodes.length], t => `hsl(230, ${t * 100}%, 50%)`),
-      scaleSequential([0, nodes.length], t => `hsl(200, 100%, ${t * (100-nodes.length)}%)`),
+      scaleSequential([0, nodes.length], t => `hsl(150, 70%, ${t * (100-nodes.length)}%)`),
       scaleSequential([0, nodes.length], t => `hsl(${t * 360}, 100%, 50%)`),
     ];
     const scale   = options[Math.abs(choice) % options.length];

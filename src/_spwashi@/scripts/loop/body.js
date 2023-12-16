@@ -9,7 +9,7 @@ const DO_ADD_NODES = true;
 
 const conditionalResponses = [
   [
-    ({quantity, counter}) => counter >= quantity * 2,
+    ({quantity, counter}) => counter >= 26,
     (state) => {
       clearActiveNodes();
       window.spwashi.reinit();
@@ -31,7 +31,7 @@ const conditionalResponses = [
 
 function tick() {
   mapNodes((node) => {
-    // node.fy += 25;
+    node.fy += 25;
     node.r += 5;
   });
 }
