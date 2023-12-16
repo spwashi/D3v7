@@ -41,7 +41,7 @@ body {
   margin: 0;
   padding: 0;
   background: var(--body-background);
-  box-shadow: inset #222 0 0 .5rem;
+  box-shadow: inset rgba(34, 34, 34, .5) 0 0 .5rem;
 }
 main {
   display: flex;

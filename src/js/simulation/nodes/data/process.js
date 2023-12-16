@@ -1,5 +1,6 @@
 import md5 from "md5";
 
+window.md5 = md5;
 
 import {getNextUrlSearchParams} from "../../../util/next-url";
 import {getDocumentDataIndex}   from "../../../modes/dataindex/util";
