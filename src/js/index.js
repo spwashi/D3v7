@@ -7,6 +7,7 @@ import {simulationElements} from "./simulation/basic";
 import {initParameters}     from "./init/parameters/init";
 import {loadParameters}     from "./init/parameters/read";
 import {initSite}           from "./init/site";
+import {initAnalytics}      from "./meta/analytics";
 
 const versions = {
   'v0.0.1': {
@@ -32,6 +33,7 @@ export async function app() {
 
   window.spwashi = {};
 
+  initAnalytics();
   initParameters();
   initRoot();
   initSite();

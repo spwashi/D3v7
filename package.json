@@ -5,7 +5,7 @@
   "repository": "git@github.com:spwashi/D3v7.git",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "serve": "serve -l 5050 _site"
   },
