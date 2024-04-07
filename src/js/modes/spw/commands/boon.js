@@ -12,9 +12,7 @@ export function boonNode(i, nodeCount) {
   return {
     name:        '#',
     kind:        '__boon',
-    r:           1,
-    fx:          (sliceWidth * (i)) + (sliceWidth * (nodeCount - 1) / nodeCount),
-    fy:          0,
+    r:           13,
     color:       'turquoise',
     stroke:      '#ffffff',
     strokeWidth: 1,
