@@ -28,6 +28,7 @@ import {title}          from "./options/title";
 import {velocityDecay}  from "./options/velocityDecay";
 import {width}          from "./options/width";
 import {zoom}           from "./options/zoom";
+import {story}           from "./options/story";
 
 export const parameterList = [
   alphaDecay,
@@ -55,6 +56,7 @@ export const parameterList = [
   r,
   reset,
   size,
+  story,
   superpower,
   title,
   velocityDecay,

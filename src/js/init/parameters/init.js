@@ -11,6 +11,7 @@ export function initParameters() {
   window.spwashi.parameters.forces                 = window.spwashi.parameters.forces || {};
   window.spwashi.parameters                        = window.spwashi.parameters || {};
   window.spwashi.parameters.debug                  = false;
+  window.spwashi.parameters.initialStory           = window.spwashi.parameters.initialStory || undefined;
   window.spwashi.parameters.perspective            = window.spwashi.parameters.perspective || undefined;
   window.spwashi.parameters.dataIndex              = window.spwashi.parameters.dataIndex || null;
   window.spwashi.parameters.width                  = window.spwashi.parameters.width || window.innerWidth * .9;

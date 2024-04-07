@@ -1,5 +1,5 @@
-import {processNode}    from "../../simulation/nodes/data/process";
-import {NODE_MANAGER}   from "../../simulation/nodes/nodes";
+import {processNode}  from "../../simulation/nodes/data/process";
+import {NODE_MANAGER} from "../../simulation/nodes/nodes";
 
 
 import {extendMenu}            from "../spw/commands/extended-menu";
@@ -128,8 +128,19 @@ stories.options = {
         }
       }
     },
-
   ]
+};
+stories.boon    = {
+  events: [
+    {delay: 300, payload: {params: {mode: 'spw'}}},
+    {delay: 300, payload: {effect: () => setParseField('boon')}},
+  ]
+};
+
+function runStory(story) {
+  loadParameters(new URLSearchParams(story.params));
+  story.runStory && story.runStory();
+  story.events && executeEvents(story.events);
 }
 
 export function initializeStoryMode() {
@@ -143,10 +154,13 @@ export function initializeStoryMode() {
     const button     = document.createElement('button');
     button.innerText = title;
     button.onclick   = () => {
-      loadParameters(new URLSearchParams(story.params));
-      story.runStory && story.runStory();
-      story.events && executeEvents(story.events);
+      runStory(story);
     };
     buttonContainer.appendChild(button);
-  })
+  });
+
+  if (!window.spwashi) return;
+  if (stories[window.spwashi.parameters.initialStory]) {
+    runStory(stories[window.spwashi.parameters.initialStory]);
+  }
 }
